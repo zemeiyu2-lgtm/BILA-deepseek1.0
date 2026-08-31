@@ -1,447 +1,682 @@
+```javascript
 // ================================================================
-// BILA Bible Engine V3.0
-// 和合本圣经动态读取
-// 自动识别 JSON 书卷
-// 自动繁体 → 简体
-// 自动清除异常空格
-// 支持单节 / 范围 / 整章
+// BILA Bible Engine V2
+// ------------------------------------------------
+// 功能：
+// 1. 使用在线 API 动态读取「和合本简体字」
+// 2. 不再加载巨大的 zh_cuv.json
+// 3. 按章节读取，速度更快
+// 4. 支持 MOS / BILA 经文引用
+// 5. 自动缓存已经读取过的章节
+// 6. 保留原来的函数接口，尽量不影响现有系统
+//
+// Bible Version:
+// CUS = Union Simplified / 和合本（简体字）
+//
+// API:
+// https://api.getbible.net/v2/cus/{book}/{chapter}.json
 // ================================================================
 
-const BILA_BIBLE_CONFIG = {
-  url: "https://raw.githubusercontent.com/zemeiyu2-lgtm/BILA-deepseek/main/zh_cuv.json",
-  version: "CUV",
-  name: "和合本"
+
+// ================================================================
+// 0. 基础配置
+// ================================================================
+
+const BIBLE_CONFIG = {
+
+  version: "CUS",
+
+  name: "和合本（简体字）",
+
+  apiBase:
+    "https://api.getbible.net/v2/cus",
+
+  // 请求超时时间
+  timeout: 15000,
+
+  // 是否启用缓存
+  cacheEnabled: true
 };
 
 
 // ================================================================
-// 缓存
+// 1. 66卷圣经书卷编号
+//
+// GetBible 使用标准66卷圣经编号：
+// 创世记 = 1
+// 出埃及记 = 2
+// ...
+// 马太福音 = 40
+// ...
+// 启示录 = 66
 // ================================================================
 
-let BILA_BIBLE_DATA = null;
-let BILA_BIBLE_LOADING = null;
+const BOOK_MAP = {
+
+  // ------------------------------------------------
+  // 旧约
+  // ------------------------------------------------
+
+  "创世记": 1,
+  "出埃及记": 2,
+  "利未记": 3,
+  "民数记": 4,
+  "申命记": 5,
+
+  "约书亚记": 6,
+  "士师记": 7,
+  "路得记": 8,
+
+  "撒母耳记上": 9,
+  "撒母耳记下": 10,
+
+  "列王纪上": 11,
+  "列王纪下": 12,
+
+  "历代志上": 13,
+  "历代志下": 14,
+
+  "以斯拉记": 15,
+  "尼希米记": 16,
+  "以斯帖记": 17,
+
+  "约伯记": 18,
+  "诗篇": 19,
+  "箴言": 20,
+  "传道书": 21,
+  "雅歌": 22,
+
+  "以赛亚书": 23,
+  "耶利米书": 24,
+  "耶利米哀歌": 25,
+  "以西结书": 26,
+  "但以理书": 27,
+
+  "何西阿书": 28,
+  "约珥书": 29,
+  "阿摩司书": 30,
+  "俄巴底亚书": 31,
+  "约拿书": 32,
+  "弥迦书": 33,
+  "那鸿书": 34,
+  "哈巴谷书": 35,
+  "西番雅书": 36,
+  "哈该书": 37,
+  "撒迦利亚书": 38,
+  "玛拉基书": 39,
 
 
-// ================================================================
-// 中文繁体 → 简体
-// ================================================================
+  // ------------------------------------------------
+  // 新约
+  // ------------------------------------------------
 
-const BILA_T2S = {
+  "马太福音": 40,
+  "马可福音": 41,
+  "路加福音": 42,
+  "约翰福音": 43,
+  "使徒行传": 44,
 
-  "創":"创","說":"说","靈":"灵","運":"运","開":"开",
-  "稱":"称","晝":"昼","氣":"气","將":"将","諸":"诸",
-  "間":"间","處":"处","為":"为","與":"与","這":"这",
-  "聖":"圣","眾":"众","們":"们","恩":"恩","惠":"惠",
-  "穌":"稣","願":"愿","來":"来","刪":"删","麼":"么",
-  "從":"从","書":"书","寫":"写","樹":"树","證":"证",
-  "國":"国","愛":"爱","義":"义","實":"实","門":"门",
-  "學":"学","習":"习","經":"经","見":"见","聽":"听",
-  "給":"给","問":"问","話":"话","後":"后","無":"无",
-  "萬":"万","個":"个","風":"风","華":"华","東":"东",
-  "西":"西","南":"南","北":"北","長":"长","頭":"头",
-  "體":"体","從":"从","這":"这","還":"还","進":"进",
-  "過":"过","發":"发","應":"应","讓":"让","認":"认",
-  "論":"论","講":"讲","教":"教","義":"义","真":"真",
-  "實":"实","寶":"宝","貴":"贵","賜":"赐","賴":"赖",
-  "憐":"怜","憫":"悯","憂":"忧","患":"患","為":"为",
-  "聖":"圣","潔":"洁","禱":"祷","告":"告","讚":"赞",
-  "頌":"颂","榮":"荣","耀":"耀","國":"国","王":"王",
-  "寶":"宝","貝":"贝","財":"财","錢":"钱","銀":"银",
-  "金":"金","豐":"丰","滿":"满","餅":"饼","飯":"饭",
-  "飲":"饮","食":"食","飢":"饥","渴":"渴","飽":"饱",
-  "醫":"医","藥":"药","病":"病","傷":"伤","死":"死",
-  "復":"复","活":"活","獨":"独","親":"亲","兒":"儿",
-  "婦":"妇","媽":"妈","爺":"爷","師":"师","弟":"弟",
-  "兄":"兄","姊":"姐","妹":"妹","兒":"儿","孫":"孙",
-  "國":"国","軍":"军","爭":"争","戰":"战","勝":"胜",
-  "敗":"败","殺":"杀","敵":"敌","仇":"仇","愛":"爱",
-  "恨":"恨","罪":"罪","赦":"赦","審":"审","判":"判",
-  "義":"义","惡":"恶","善":"善","信":"信","望":"望",
-  "聖":"圣","靈":"灵","魂":"魂","肉":"肉","心":"心",
-  "腦":"脑","眼":"眼","耳":"耳","口":"口","舌":"舌",
-  "手":"手","腳":"脚","身":"身","骨":"骨","血":"血",
-  "氣":"气","聲":"声","夢":"梦","異":"异","蹟":"迹",
-  "奇":"奇","蹟":"迹","約":"约","盟":"盟","律":"律",
-  "法":"法","誡":"诫","命":"命","典":"典","祭":"祭",
-  "獻":"献","壇":"坛","殿":"殿","會":"会","堂":"堂",
-  "會":"会","眾":"众","門":"门","戶":"户","窗":"窗",
-  "牆":"墙","樓":"楼","臺":"台","廳":"厅","處":"处",
-  "鄉":"乡","村":"村","城":"城","國":"国","地":"地",
-  "天":"天","海":"海","河":"河","江":"江","湖":"湖",
-  "山":"山","谷":"谷","島":"岛","曠":"旷","野":"野",
-  "園":"园","樹":"树","果":"果","葉":"叶","花":"花",
-  "鳥":"鸟","魚":"鱼","獸":"兽","羊":"羊","牛":"牛",
-  "馬":"马","驢":"驴","蟲":"虫","蛇":"蛇","龍":"龙"
+  "罗马书": 45,
+  "哥林多前书": 46,
+  "哥林多后书": 47,
+  "加拉太书": 48,
+  "以弗所书": 49,
+  "腓立比书": 50,
+  "歌罗西书": 51,
 
+  "帖撒罗尼迦前书": 52,
+  "帖撒罗尼迦后书": 53,
+
+  "提摩太前书": 54,
+  "提摩太后书": 55,
+  "提多书": 56,
+  "腓利门书": 57,
+
+  "希伯来书": 58,
+  "雅各书": 59,
+
+  "彼得前书": 60,
+  "彼得后书": 61,
+
+  "约翰一书": 62,
+  "约翰二书": 63,
+  "约翰三书": 64,
+
+  "犹大书": 65,
+  "启示录": 66
 };
 
 
 // ================================================================
-// 繁体 → 简体
+// 2. 常用别名
+//
+// 防止 MOS / BILA 数据中书名略有不同导致读取失败
 // ================================================================
 
-function bilaTraditionalToSimplified(text) {
+const BOOK_ALIASES = {
 
-  return String(text || "")
-    .split("")
-    .map(c => BILA_T2S[c] || c)
-    .join("");
+  "创": "创世记",
+  "出": "出埃及记",
+  "利": "利未记",
+  "民": "民数记",
+  "申": "申命记",
 
+  "太": "马太福音",
+  "可": "马可福音",
+  "路": "路加福音",
+  "约": "约翰福音",
+  "徒": "使徒行传",
+
+  "罗": "罗马书",
+  "林前": "哥林多前书",
+  "林后": "哥林多后书",
+  "加": "加拉太书",
+  "弗": "以弗所书",
+  "腓": "腓立比书",
+  "西": "歌罗西书",
+
+  "帖前": "帖撒罗尼迦前书",
+  "帖后": "帖撒罗尼迦后书",
+
+  "提前": "提摩太前书",
+  "提后": "提摩太后书",
+  "多": "提多书",
+  "门": "腓利门书",
+
+  "来": "希伯来书",
+  "雅": "雅各书",
+  "彼前": "彼得前书",
+  "彼后": "彼得后书",
+  "约一": "约翰一书",
+  "约二": "约翰二书",
+  "约三": "约翰三书",
+  "犹": "犹大书",
+  "启": "启示录"
+};
+
+
+// ================================================================
+// 3. 缓存
+//
+// 格式：
+// "43_1" -> 约翰福音第1章
+// ================================================================
+
+const BibleCache = {};
+
+
+// ================================================================
+// 4. 当前正在加载的请求
+//
+// 防止同一章节被同时请求多次
+// ================================================================
+
+const BiblePendingRequests = {};
+
+
+// ================================================================
+// 5. 统一处理书卷名称
+// ================================================================
+
+function normalizeBookName(book) {
+
+  if (!book) {
+    return null;
+  }
+
+  book = String(book).trim();
+
+  // 已经是完整书名
+  if (BOOK_MAP[book]) {
+    return book;
+  }
+
+  // 使用别名
+  if (BOOK_ALIASES[book]) {
+    return BOOK_ALIASES[book];
+  }
+
+  return null;
 }
 
 
 // ================================================================
-// 清理经文
+// 6. 清理经文文本
+//
+// API 正常情况下不会出现：
+// 「起 初 ， 神 創 造 天 地」
+//
+// 如果未来出现中文字符之间的异常空格，自动清理。
 // ================================================================
 
-function bilaCleanText(text) {
+function cleanBibleText(text) {
 
-  if (!text) return "";
+  if (text === null || text === undefined) {
+    return "";
+  }
 
   let result = String(text);
 
-  // 去除换行
-  result = result.replace(/[\r\n\t]/g, "");
+  // Unicode 标准化
+  result = result.normalize("NFC");
 
-  // 删除所有空格
-  result = result.replace(/\s+/g, "");
+  // 去掉 HTML 标签
+  result = result.replace(/<[^>]*>/g, "");
 
-  // 繁体转简体
-  result = bilaTraditionalToSimplified(result);
+  // 去掉多余空白
+  result = result.replace(/\s+/g, " ");
 
-  // 删除 BOM
-  result = result.replace(/\uFEFF/g, "");
+  // 去掉中文字符之间的空格
+  result = result.replace(
+    /([\u4e00-\u9fff])\s+([\u4e00-\u9fff])/g,
+    "$1$2"
+  );
 
   return result.trim();
-
 }
 
 
 // ================================================================
-// 加载圣经
+// 7. 请求超时控制
 // ================================================================
 
-async function bilaLoadBible() {
+async function fetchWithTimeout(url, timeout = 15000) {
 
-  if (BILA_BIBLE_DATA) {
-    return BILA_BIBLE_DATA;
+  const controller = new AbortController();
+
+  const timer = setTimeout(() => {
+    controller.abort();
+  }, timeout);
+
+  try {
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      },
+      signal: controller.signal
+    });
+
+    return response;
+
+  } finally {
+
+    clearTimeout(timer);
+  }
+}
+
+
+// ================================================================
+// 8. 从 API 返回的数据中提取经文
+//
+// GetBible V2 的章节 API 数据结构可能存在少量字段差异。
+// 所以这里做兼容处理。
+//
+// 常见结构：
+//
+// {
+//   "translation": {...},
+//   "book": {...},
+//   "chapter": {...},
+//   "verses": [...]
+// }
+// ================================================================
+
+function extractVerses(data) {
+
+  if (!data) {
+    return [];
   }
 
-  if (BILA_BIBLE_LOADING) {
-    return BILA_BIBLE_LOADING;
+
+  // ------------------------------------------------
+  // 情况 A：data.verses
+  // ------------------------------------------------
+
+  if (Array.isArray(data.verses)) {
+
+    return data.verses.map((item, index) => {
+
+      const verseNumber =
+        Number(
+          item.verse ||
+          item.verse_number ||
+          item.number ||
+          index + 1
+        );
+
+      const text =
+        item.text ||
+        item.content ||
+        item.verse_text ||
+        "";
+
+      return {
+        verse: verseNumber,
+        text: cleanBibleText(text)
+      };
+    });
   }
 
-  BILA_BIBLE_LOADING = fetch(
-    BILA_BIBLE_CONFIG.url,
-    {
-      cache: "force-cache"
-    }
-  )
-    .then(response => {
+
+  // ------------------------------------------------
+  // 情况 B：data.chapter.verses
+  // ------------------------------------------------
+
+  if (
+    data.chapter &&
+    Array.isArray(data.chapter.verses)
+  ) {
+
+    return data.chapter.verses.map((item, index) => {
+
+      const verseNumber =
+        Number(
+          item.verse ||
+          item.verse_number ||
+          item.number ||
+          index + 1
+        );
+
+      const text =
+        item.text ||
+        item.content ||
+        item.verse_text ||
+        "";
+
+      return {
+        verse: verseNumber,
+        text: cleanBibleText(text)
+      };
+    });
+  }
+
+
+  // ------------------------------------------------
+  // 情况 C：返回数组
+  // ------------------------------------------------
+
+  if (Array.isArray(data)) {
+
+    return data.map((item, index) => {
+
+      if (typeof item === "string") {
+
+        return {
+          verse: index + 1,
+          text: cleanBibleText(item)
+        };
+
+      }
+
+      return {
+        verse:
+          Number(
+            item.verse ||
+            item.verse_number ||
+            item.number ||
+            index + 1
+          ),
+
+        text:
+          cleanBibleText(
+            item.text ||
+            item.content ||
+            item.verse_text ||
+            ""
+          )
+      };
+
+    });
+  }
+
+
+  return [];
+}
+
+
+// ================================================================
+// 9. 加载指定章节
+//
+// 例如：
+// getBibleChapter("约翰福音", 1)
+//
+// 实际请求：
+// https://api.getbible.net/v2/cus/43/1.json
+// ================================================================
+
+async function getBibleChapter(book, chapter) {
+
+  const normalizedBook =
+    normalizeBookName(book);
+
+  if (!normalizedBook) {
+
+    throw new Error(
+      "找不到圣经书卷：" + book
+    );
+  }
+
+
+  chapter = Number(chapter);
+
+  if (!Number.isInteger(chapter) || chapter < 1) {
+
+    throw new Error(
+      "无效的章节：" + chapter
+    );
+  }
+
+
+  const bookNumber =
+    BOOK_MAP[normalizedBook];
+
+
+  const cacheKey =
+    `${bookNumber}_${chapter}`;
+
+
+  // ------------------------------------------------
+  // 读取缓存
+  // ------------------------------------------------
+
+  if (
+    BIBLE_CONFIG.cacheEnabled &&
+    BibleCache[cacheKey]
+  ) {
+
+    return BibleCache[cacheKey];
+  }
+
+
+  // ------------------------------------------------
+  // 如果已经有人请求同一章
+  // 就直接等待同一个 Promise
+  // ------------------------------------------------
+
+  if (BiblePendingRequests[cacheKey]) {
+
+    return BiblePendingRequests[cacheKey];
+  }
+
+
+  // ------------------------------------------------
+  // 建立请求
+  // ------------------------------------------------
+
+  const url =
+    `${BIBLE_CONFIG.apiBase}/${bookNumber}/${chapter}.json`;
+
+
+  console.log(
+    `📖 BILA Bible Engine：加载 ${normalizedBook} ${chapter}章`
+  );
+
+  console.log(
+    "API:",
+    url
+  );
+
+
+  const request = (async () => {
+
+    try {
+
+      const response =
+        await fetchWithTimeout(
+          url,
+          BIBLE_CONFIG.timeout
+        );
+
 
       if (!response.ok) {
 
         throw new Error(
-          "圣经文件加载失败：" +
-          response.status
+          `圣经 API 请求失败：HTTP ${response.status}`
         );
-
       }
 
-      return response.json();
 
-    })
-    .then(data => {
+      const data =
+        await response.json();
 
-      if (!Array.isArray(data)) {
+
+      const verses =
+        extractVerses(data);
+
+
+      if (!verses.length) {
+
+        console.error(
+          "API 返回数据：",
+          data
+        );
 
         throw new Error(
-          "zh_cuv.json 格式不是数组"
+          `${normalizedBook} 第 ${chapter} 章没有找到经文数据`
         );
-
       }
 
-      BILA_BIBLE_DATA = data;
+
+      // ------------------------------------------------
+      // 缓存
+      // ------------------------------------------------
+
+      if (BIBLE_CONFIG.cacheEnabled) {
+
+        BibleCache[cacheKey] =
+          verses;
+      }
+
 
       console.log(
-        "📖 BILA 圣经数据库加载成功，共 " +
-        data.length +
-        " 卷"
+        `✅ ${normalizedBook} ${chapter}章加载成功，共 ${verses.length} 节`
       );
 
-      return data;
 
-    })
-    .catch(error => {
+      return verses;
 
-      BILA_BIBLE_LOADING = null;
+
+    } catch (error) {
 
       console.error(
-        "BILA Bible Error:",
+        "❌ Bible Engine Error:",
         error
       );
 
-      throw error;
 
-    });
+      if (error.name === "AbortError") {
 
-  return BILA_BIBLE_LOADING;
-
-}
-
-
-// ================================================================
-// 书卷名称映射
-//
-// 注意：
-// 不再依赖 abbrev。
-// 自动读取 JSON 中的 name。
-// ================================================================
-
-const BILA_BOOK_NAMES = {
-
-  "创世记": ["Genesis", "创世记"],
-  "出埃及记": ["Exodus", "出埃及记"],
-  "利未记": ["Leviticus", "利未记"],
-  "民数记": ["Numbers", "民数记"],
-  "申命记": ["Deuteronomy", "申命记"],
-
-  "约书亚记": ["Joshua", "约书亚记"],
-  "士师记": ["Judges", "士师记"],
-  "路得记": ["Ruth", "路得记"],
-
-  "撒母耳记上": ["1 Samuel", "1Samuel", "撒母耳记上"],
-  "撒母耳记下": ["2 Samuel", "2Samuel", "撒母耳记下"],
-
-  "列王纪上": ["1 Kings", "1Kings", "列王纪上"],
-  "列王纪下": ["2 Kings", "2Kings", "列王纪下"],
-
-  "历代志上": ["1 Chronicles", "1Chronicles", "历代志上"],
-  "历代志下": ["2 Chronicles", "2Chronicles", "历代志下"],
-
-  "以斯拉记": ["Ezra", "以斯拉记"],
-  "尼希米记": ["Nehemiah", "尼希米记"],
-  "以斯帖记": ["Esther", "以斯帖记"],
-
-  "约伯记": ["Job", "约伯记"],
-  "诗篇": ["Psalms", "Psalm", "诗篇"],
-  "箴言": ["Proverbs", "箴言"],
-  "传道书": ["Ecclesiastes", "传道书"],
-  "雅歌": ["Song of Solomon", "Song", "雅歌"],
-
-  "以赛亚书": ["Isaiah", "以赛亚书"],
-  "耶利米书": ["Jeremiah", "耶利米书"],
-  "耶利米哀歌": ["Lamentations", "耶利米哀歌"],
-  "以西结书": ["Ezekiel", "以西结书"],
-  "但以理书": ["Daniel", "但以理书"],
-
-  "何西阿书": ["Hosea", "何西阿书"],
-  "约珥书": ["Joel", "约珥书"],
-  "阿摩司书": ["Amos", "阿摩司书"],
-  "俄巴底亚书": ["Obadiah", "俄巴底亚书"],
-  "约拿书": ["Jonah", "约拿书"],
-  "弥迦书": ["Micah", "弥迦书"],
-  "那鸿书": ["Nahum", "那鸿书"],
-  "哈巴谷书": ["Habakkuk", "哈巴谷书"],
-  "西番雅书": ["Zephaniah", "西番雅书"],
-  "哈该书": ["Haggai", "哈该书"],
-  "撒迦利亚书": ["Zechariah", "撒迦利亚书"],
-  "玛拉基书": ["Malachi", "玛拉基书"],
-
-  "马太福音": ["Matthew", "马太福音"],
-  "马可福音": ["Mark", "马可福音"],
-  "路加福音": ["Luke", "路加福音"],
-  "约翰福音": ["John", "约翰福音"],
-  "使徒行传": ["Acts", "使徒行传"],
-
-  "罗马书": ["Romans", "罗马书"],
-  "哥林多前书": ["1 Corinthians", "1Corinthians", "哥林多前书"],
-  "哥林多后书": ["2 Corinthians", "2Corinthians", "哥林多后书"],
-
-  "加拉太书": ["Galatians", "加拉太书"],
-  "以弗所书": ["Ephesians", "以弗所书"],
-  "腓立比书": ["Philippians", "腓立比书"],
-  "歌罗西书": ["Colossians", "歌罗西书"],
-
-  "帖撒罗尼迦前书": ["1 Thessalonians", "1Thessalonians", "帖撒罗尼迦前书"],
-  "帖撒罗尼迦后书": ["2 Thessalonians", "2Thessalonians", "帖撒罗尼迦后书"],
-
-  "提摩太前书": ["1 Timothy", "1Timothy", "提摩太前书"],
-  "提摩太后书": ["2 Timothy", "2Timothy", "提摩太后书"],
-
-  "提多书": ["Titus", "提多书"],
-  "腓利门书": ["Philemon", "腓利门书"],
-
-  "希伯来书": ["Hebrews", "希伯来书"],
-  "雅各书": ["James", "雅各书"],
-
-  "彼得前书": ["1 Peter", "1Peter", "彼得前书"],
-  "彼得后书": ["2 Peter", "2Peter", "彼得后书"],
-
-  "约翰一书": ["1 John", "1John", "约翰一书"],
-  "约翰二书": ["2 John", "2John", "约翰二书"],
-  "约翰三书": ["3 John", "3John", "约翰三书"],
-
-  "犹大书": ["Jude", "犹大书"],
-  "启示录": ["Revelation", "启示录"]
-
-};
-
-
-// ================================================================
-// 查找书卷
-// ================================================================
-
-function bilaFindBook(bookName, data) {
-
-  const requested =
-    String(bookName || "").trim();
-
-  const candidates =
-    BILA_BOOK_NAMES[requested] || [requested];
-
-  for (const item of data) {
-
-    const name =
-      String(item.name || "").trim();
-
-    const abbrev =
-      String(item.abbrev || "").trim();
-
-    for (const candidate of candidates) {
-
-      if (
-        name.toLowerCase() ===
-        candidate.toLowerCase()
-      ) {
-
-        return item;
-
+        throw new Error(
+          "圣经数据加载超时，请检查网络连接"
+        );
       }
 
-    }
 
-    if (
-      abbrev.toLowerCase() ===
-      requested.toLowerCase()
-    ) {
+      throw error;
 
-      return item;
+    } finally {
+
+      delete BiblePendingRequests[cacheKey];
 
     }
 
-  }
+  })();
 
-  throw new Error(
-    "找不到书卷：" + requested
-  );
 
+  BiblePendingRequests[cacheKey] =
+    request;
+
+
+  return request;
 }
 
 
 // ================================================================
-// 读取单节
+// 10. 读取单节经文
+//
+// 例如：
+// getBibleVerse("约翰福音", 3, 16)
+//
+// 返回：
+// 神爱世人，甚至将他的独生子赐给他们，叫一切信他的，
+// 不至灭亡，反得永生。
 // ================================================================
 
-async function bilaGetVerse(
+async function getBibleVerse(
   book,
   chapter,
   verse
 ) {
 
-  const data =
-    await bilaLoadBible();
-
-  const bookData =
-    bilaFindBook(book, data);
-
-  const chapterNumber =
-    Number(chapter);
-
-  const verseNumber =
-    Number(verse);
-
-  const chapterData =
-    bookData.chapters[
-      chapterNumber - 1
-    ];
-
-  if (!chapterData) {
-
-    throw new Error(
-      `${book} 第 ${chapterNumber} 章不存在`
+  const verses =
+    await getBibleChapter(
+      book,
+      chapter
     );
 
-  }
 
-  const text =
-    chapterData[
-      verseNumber - 1
-    ];
+  verse = Number(verse);
 
-  if (!text) {
 
-    throw new Error(
-      `${book} ${chapterNumber}:${verseNumber} 不存在`
+  const result =
+    verses.find(
+      item =>
+        Number(item.verse) === verse
     );
 
+
+  if (!result) {
+
+    throw new Error(
+      `${book} ${chapter}:${verse} 不存在`
+    );
   }
 
-  return bilaCleanText(text);
 
+  return result.text;
 }
 
 
 // ================================================================
-// 读取整章
+// 11. 读取经文范围
+//
+// 例如：
+// getBiblePassage(
+//   "约翰福音",
+//   1,
+//   1,
+//   18
+// )
+//
+// 返回：
+// 1 起初有道，道与神同在，道就是神。
+// 2 这道太初与神同在。
+// ...
 // ================================================================
 
-async function bilaGetChapter(
-  book,
-  chapter
-) {
-
-  const data =
-    await bilaLoadBible();
-
-  const bookData =
-    bilaFindBook(book, data);
-
-  const chapterNumber =
-    Number(chapter);
-
-  const chapterData =
-    bookData.chapters[
-      chapterNumber - 1
-    ];
-
-  if (!chapterData) {
-
-    throw new Error(
-      `${book} 第 ${chapterNumber} 章不存在`
-    );
-
-  }
-
-  return chapterData.map(
-    (text, index) => ({
-
-      verse: index + 1,
-
-      text:
-        bilaCleanText(text)
-
-    })
-  );
-
-}
-
-
-// ================================================================
-// 读取经文范围
-// ================================================================
-
-async function bilaGetPassage(
+async function getBiblePassage(
   book,
   chapter,
   startVerse,
@@ -449,60 +684,104 @@ async function bilaGetPassage(
 ) {
 
   const verses =
-    await bilaGetChapter(
+    await getBibleChapter(
       book,
       chapter
     );
 
-  const start =
+
+  startVerse =
     Number(startVerse);
 
-  const end =
+  endVerse =
     Number(endVerse);
 
-  return verses
-    .filter(
-      item =>
-        item.verse >= start &&
-        item.verse <= end
-    )
+
+  if (
+    !Number.isInteger(startVerse) ||
+    !Number.isInteger(endVerse)
+  ) {
+
+    throw new Error(
+      "无效的经文范围"
+    );
+  }
+
+
+  const selected =
+    verses.filter(
+      verse =>
+        verse.verse >= startVerse &&
+        verse.verse <= endVerse
+    );
+
+
+  if (!selected.length) {
+
+    throw new Error(
+      `${book} ${chapter}:${startVerse}-${endVerse} 没有找到经文`
+    );
+  }
+
+
+  return selected
     .map(
-      item =>
-        `${item.verse} ${item.text}`
+      verse =>
+        `${verse.verse} ${verse.text}`
     )
     .join("\n");
-
 }
 
 
 // ================================================================
-// 解析引用
+// 12. 解析经文引用
+//
+// 支持：
+//
+// 约翰福音 3:16
+// 约翰福音 3:16-18
+// 太 5:3
+// 罗马书 12:1-2
 // ================================================================
 
-function bilaParseReference(
-  reference
-) {
+function parseBibleReference(reference) {
+
+  if (!reference) {
+    return null;
+  }
+
+
+  reference =
+    String(reference)
+      .trim()
+      .replace(/\s+/g, " ");
+
 
   const match =
-    String(reference || "")
-      .trim()
-      .match(
-        /^(.+?)\s+(\d+):(\d+)(?:-(\d+))?$/
-      );
-
-  if (!match) {
-
-    throw new Error(
-      "无法识别经文：" +
-      reference
+    reference.match(
+      /^(.+?)\s+(\d+):(\d+)(?:-(\d+))?$/
     );
 
+
+  if (!match) {
+    return null;
   }
+
+
+  const book =
+    normalizeBookName(
+      match[1]
+    );
+
+
+  if (!book) {
+    return null;
+  }
+
 
   return {
 
-    book:
-      match[1].trim(),
+    book,
 
     chapter:
       Number(match[2]),
@@ -514,26 +793,40 @@ function bilaParseReference(
       match[4]
         ? Number(match[4])
         : Number(match[3])
-
   };
-
 }
 
 
 // ================================================================
-// 最简单的调用方式
+// 13. 一行调用
+//
+// 例如：
+//
+// getBibleText("约翰福音 3:16")
+//
+// 或：
+//
+// getBibleText("约翰福音 1:1-18")
 // ================================================================
 
-async function bilaGetBibleText(
-  reference
-) {
+async function getBibleText(reference) {
 
   const parsed =
-    bilaParseReference(
+    parseBibleReference(
       reference
     );
 
-  return bilaGetPassage(
+
+  if (!parsed) {
+
+    throw new Error(
+      "无法解析经文引用：" +
+      reference
+    );
+  }
+
+
+  return getBiblePassage(
 
     parsed.book,
 
@@ -544,142 +837,362 @@ async function bilaGetBibleText(
     parsed.endVerse
 
   );
-
 }
 
 
 // ================================================================
-// 数据库检查
+// 14. 获取整章对象
+//
+// 比 getBibleChapter 更适合前端显示
 // ================================================================
 
-async function bilaCheckBible() {
+async function getBibleChapterObject(
+  book,
+  chapter
+) {
 
-  try {
-
-    const data =
-      await bilaLoadBible();
-
-    console.log(
-      "================================"
+  const verses =
+    await getBibleChapter(
+      book,
+      chapter
     );
 
-    console.log(
-      "📖 BILA 和合本 Bible Engine"
-    );
 
-    console.log(
-      "圣经书卷数量：",
-      data.length
-    );
+  return {
 
-    console.log(
-      "================================"
-    );
+    version:
+      BIBLE_CONFIG.version,
 
-    data.forEach(
-      (book, index) => {
+    versionName:
+      BIBLE_CONFIG.name,
 
-        console.log(
-          index + 1,
-          book.name,
-          book.abbrev
-        );
+    book:
+      normalizeBookName(book),
 
-      }
-    );
+    chapter:
+      Number(chapter),
 
-    return data;
+    verses
 
-  } catch (error) {
-
-    console.error(
-      "❌ 圣经数据库检查失败",
-      error
-    );
-
-    throw error;
-
-  }
-
+  };
 }
 
 
 // ================================================================
-// 测试
+// 15. 测试 API
+//
+// 浏览器控制台运行：
+//
+// testBibleEngine()
+//
 // ================================================================
 
-async function bilaTestBible() {
+async function testBibleEngine() {
 
   console.log(
-    "📖 BILA Bible Engine 开始测试..."
+    "========================================"
   );
+
+  console.log(
+    "BILA Bible Engine V2 测试开始"
+  );
+
+  console.log(
+    "版本：和合本（简体字）"
+  );
+
+  console.log(
+    "========================================"
+  );
+
 
   try {
 
-    const text =
-      await bilaGetBibleText(
-        "约翰福音 1:1-18"
+    // ------------------------------------------------
+    // 测试 1
+    // ------------------------------------------------
+
+    const verse =
+      await getBibleVerse(
+        "约翰福音",
+        3,
+        16
       );
 
+
     console.log(
-      "✅ 约翰福音 1:1-18 获取成功"
+      "✅ 测试1：约翰福音 3:16"
     );
 
-    console.log(text);
+    console.log(
+      verse
+    );
+
+
+    // ------------------------------------------------
+    // 测试 2
+    // ------------------------------------------------
+
+    const passage =
+      await getBibleText(
+        "约翰福音 1:1-5"
+      );
+
+
+    console.log(
+      "✅ 测试2：约翰福音 1:1-5"
+    );
+
+    console.log(
+      passage
+    );
+
+
+    // ------------------------------------------------
+    // 测试 3
+    // ------------------------------------------------
+
+    const chapter =
+      await getBibleChapter(
+        "创世记",
+        1
+      );
+
+
+    console.log(
+      "✅ 测试3：创世记第1章"
+    );
+
+    console.log(
+      "共读取：",
+      chapter.length,
+      "节"
+    );
+
+
+    console.log(
+      "========================================"
+    );
+
+    console.log(
+      "🎉 BILA Bible Engine V2 测试成功"
+    );
+
+    console.log(
+      "========================================"
+    );
+
 
     return true;
 
+
   } catch (error) {
 
     console.error(
-      "❌ 测试失败：",
+      "========================================"
+    );
+
+    console.error(
+      "❌ BILA Bible Engine V2 测试失败"
+    );
+
+    console.error(
       error
     );
 
+    console.error(
+      "========================================"
+    );
+
+
     return false;
+  }
+}
+
+
+// ================================================================
+// 16. 获取多个经文
+//
+// 方便以后 MOS 52周系统使用
+//
+// 例如：
+//
+// getBibleReferences([
+//   "约翰福音 3:16",
+//   "罗马书 12:1-2",
+//   "马太福音 28:19-20"
+// ])
+// ================================================================
+
+async function getBibleReferences(
+  references
+) {
+
+  if (!Array.isArray(references)) {
+
+    throw new Error(
+      "references 必须是数组"
+    );
+  }
+
+
+  const results = [];
+
+
+  for (
+    const reference
+    of references
+  ) {
+
+    try {
+
+      const text =
+        await getBibleText(
+          reference
+        );
+
+
+      results.push({
+
+        reference,
+
+        success: true,
+
+        text
+
+      });
+
+
+    } catch (error) {
+
+      results.push({
+
+        reference,
+
+        success: false,
+
+        text: "",
+
+        error:
+          error.message
+
+      });
+
+    }
 
   }
+
+
+  return results;
+}
+
+
+// ================================================================
+// 17. 清除缓存
+//
+// 如果以后需要重新读取圣经数据：
+//
+// clearBibleCache()
+// ================================================================
+
+function clearBibleCache() {
+
+  Object.keys(
+    BibleCache
+  ).forEach(
+    key =>
+      delete BibleCache[key]
+  );
+
+
+  console.log(
+    "🗑️ BILA Bible Cache 已清除"
+  );
+}
+
+
+// ================================================================
+// 18. 查看当前缓存
+// ================================================================
+
+function getBibleCacheInfo() {
+
+  const keys =
+    Object.keys(
+      BibleCache
+    );
+
+
+  return {
+
+    count:
+      keys.length,
+
+    chapters:
+      keys
+
+  };
+}
+
+
+// ================================================================
+// 19. 对外暴露
+//
+// 如果 BILA 使用 module / script 方式加载，
+// 下面这些函数都可以直接使用。
+// ================================================================
+
+if (
+  typeof window !== "undefined"
+) {
+
+  window.BilaBible = {
+
+    config:
+      BIBLE_CONFIG,
+
+    books:
+      BOOK_MAP,
+
+    aliases:
+      BOOK_ALIASES,
+
+    getVerse:
+      getBibleVerse,
+
+    getChapter:
+      getBibleChapter,
+
+    getPassage:
+      getBiblePassage,
+
+    getText:
+      getBibleText,
+
+    getReferences:
+      getBibleReferences,
+
+    getChapterObject:
+      getBibleChapterObject,
+
+    parseReference:
+      parseBibleReference,
+
+    test:
+      testBibleEngine,
+
+    clearCache:
+      clearBibleCache,
+
+    cacheInfo:
+      getBibleCacheInfo
+  };
 
 }
 
 
 // ================================================================
-// 给 index.html 使用
+// BILA Bible Engine V2
+// END
 // ================================================================
-
-window.BilaBible = {
-
-  load:
-    bilaLoadBible,
-
-  verse:
-    bilaGetVerse,
-
-  chapter:
-    bilaGetChapter,
-
-  passage:
-    bilaGetPassage,
-
-  text:
-    bilaGetBibleText,
-
-  parse:
-    bilaParseReference,
-
-  check:
-    bilaCheckBible,
-
-  test:
-    bilaTestBible
-
-};
-
-
-// ================================================================
-// 完成
-// ================================================================
-
-console.log(
-  "📖 BILA Bible Engine V3.0 已加载"
-);
+```
