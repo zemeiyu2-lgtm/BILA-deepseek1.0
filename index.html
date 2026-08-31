@@ -4,25 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#2D5A3D">
-<title>BILA MOS 1.2 · 全年同行</title>
+<title>BILA · 全年同行</title>
 <style>
-/* ===== 全部样式（与之前一致，略） ===== */
+/* ===== 全新视觉设计 ===== */
 :root {
   --primary: #2D5A3D;
   --primary-light: #4A7A5A;
+  --primary-dark: #1E3D2A;
   --gold: #C9A96E;
   --gold-light: #E8D5B8;
+  --gold-glow: rgba(201, 169, 110, 0.15);
   --warm-bg: #FDF8F0;
+  --warm-bg2: #F5F0E8;
   --card: #FFFFFF;
-  --text: #2C2C2C;
+  --text: #1E1E1E;
+  --text-secondary: #5A5A5A;
   --muted: #8A7E72;
-  --shadow: 0 8px 32px rgba(45, 60, 50, 0.08);
-  --shadow-hover: 0 12px 48px rgba(45, 60, 50, 0.14);
-  --radius: 20px;
-  --radius-sm: 12px;
+  --shadow: 0 4px 24px rgba(45, 60, 50, 0.06);
+  --shadow-hover: 0 12px 48px rgba(45, 60, 50, 0.12);
+  --radius: 24px;
+  --radius-sm: 14px;
   --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-serif: "Georgia", "SimSun", "Songti SC", serif;
-  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 * { box-sizing: border-box; margin: 0; }
 body {
@@ -34,43 +38,43 @@ body {
   margin: 0 auto;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(ellipse at 30% 10%, rgba(201, 169, 110, 0.05) 0%, transparent 60%);
 }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 99px; }
-::-webkit-scrollbar-track { background: transparent; }
 
+/* ===== 顶部 ===== */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   padding: 0 2px;
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 .brand .icon {
-  font-size: 32px;
-  background: var(--card);
+  font-size: 28px;
+  background: linear-gradient(135deg, var(--gold-light), #F5E8D0);
   width: 48px;
   height: 48px;
-  border-radius: 14px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 16px rgba(201, 169, 110, 0.15);
 }
-.brand-text { line-height: 1.2; }
 .brand-text .name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--primary-dark);
   letter-spacing: 1px;
 }
 .brand-text .sub {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
   font-weight: 400;
   letter-spacing: 2px;
@@ -89,6 +93,7 @@ body {
 }
 .icon-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 
+/* ===== 用户区 ===== */
 .user-area {
   background: var(--card);
   border-radius: var(--radius);
@@ -98,7 +103,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid rgba(201, 169, 110, 0.15);
+  border: 1px solid rgba(201, 169, 110, 0.08);
 }
 .user-row {
   display: flex;
@@ -122,7 +127,7 @@ body {
   transition: var(--transition);
   font-family: var(--font);
 }
-.user-area input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15); }
+.user-area input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 0 3px var(--gold-glow); }
 .user-area .btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
 .user-area .user-btn {
   background: var(--primary);
@@ -162,38 +167,53 @@ body {
   font-size: 12px;
   color: var(--muted);
   flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid rgba(201, 169, 110, 0.1);
 }
 .emotion-trail .label { color: var(--muted); }
 .emotion-tag {
   background: var(--gold-light);
-  padding: 2px 10px;
+  padding: 2px 12px;
   border-radius: 99px;
   font-size: 11px;
   color: var(--primary);
   font-weight: 500;
 }
 
+/* ===== 统计卡片 ===== */
 .stats {
-  background: var(--card);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   border-radius: var(--radius);
   padding: 20px 16px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-hover);
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  margin-bottom: 12px;
-  border: 1px solid rgba(201, 169, 110, 0.10);
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
 }
-.stats .item { text-align: center; flex: 1; min-width: 56px; }
+.stats::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.stats .item { text-align: center; flex: 1; min-width: 56px; position: relative; z-index: 1; }
 .stats .item .num {
   font-size: 28px;
   font-weight: 700;
-  color: var(--primary);
+  color: #fff;
   line-height: 1.2;
   letter-spacing: -0.5px;
 }
-.stats .item .label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; }
+.stats .item .label { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; letter-spacing: 0.5px; }
 
+/* ===== 校准状态 ===== */
 .calibration-status {
   background: var(--card);
   border-radius: var(--radius-sm);
@@ -217,13 +237,14 @@ body {
 .calibration-status .badge.done { background: #E8F0E8; color: var(--primary); }
 .calibration-status .badge.pending { background: #F5EDE0; color: #A08060; }
 
+/* ===== 进度条 ===== */
 .progress-wrap {
   background: var(--card);
   border-radius: var(--radius);
   padding: 20px 20px 16px;
   box-shadow: var(--shadow);
   margin-bottom: 16px;
-  border: 1px solid rgba(201, 169, 110, 0.10);
+  border: 1px solid rgba(201, 169, 110, 0.06);
 }
 .progress-wrap .top {
   display: flex;
@@ -243,14 +264,21 @@ body {
   width: 0%;
   background: linear-gradient(90deg, var(--gold), var(--primary));
   border-radius: 99px;
-  transition: width 0.8s ease;
+  transition: width 1s ease;
+}
+.progress-wrap .hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  opacity: 0.7;
 }
 
+/* ===== 足迹图 ===== */
 .footprint {
   display: flex;
   justify-content: space-between;
   gap: 4px;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 .footprint .step {
   display: flex;
@@ -261,32 +289,33 @@ body {
   flex: 1;
   cursor: pointer;
   padding: 8px 4px;
-  border-radius: 10px;
+  border-radius: 12px;
   transition: var(--transition);
   background: transparent;
 }
 .footprint .step:hover { background: var(--warm-bg); }
-.footprint .step .icon {
-  font-size: 22px;
-  transition: var(--transition);
-}
+.footprint .step .icon { font-size: 24px; transition: var(--transition); }
 .footprint .step.done .icon { opacity: 1; filter: none; }
 .footprint .step.active .icon { opacity: 1; animation: pulse-icon 2s ease-in-out infinite; }
 .footprint .step.pending .icon { opacity: 0.25; filter: grayscale(0.8); }
 .footprint .step .label { font-size: 9px; margin-top: 3px; letter-spacing: 0.5px; }
-.footprint .step.filter-active { background: rgba(201, 169, 110, 0.15); border-radius: 10px; }
+.footprint .step.filter-active {
+  background: var(--gold-glow);
+  border-radius: 12px;
+}
 @keyframes pulse-icon {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.12); }
+  50% { transform: scale(1.15); }
 }
 
+/* ===== MOS 循环 ===== */
 .mos-loop {
   background: var(--card);
   border-radius: var(--radius);
   padding: 18px 16px;
   box-shadow: var(--shadow);
   margin-bottom: 20px;
-  border: 1px solid rgba(45, 90, 61, 0.12);
+  border: 1px solid rgba(201, 169, 110, 0.06);
 }
 .mos-loop-title {
   color: var(--primary);
@@ -307,9 +336,11 @@ body {
   text-align: center;
   background: var(--warm-bg);
   border-radius: 12px;
-  padding: 9px 4px;
+  padding: 10px 4px;
   min-height: 86px;
+  transition: var(--transition);
 }
+.loop-item:hover { background: var(--gold-light); }
 .loop-item span {
   display: block;
   color: var(--gold);
@@ -340,8 +371,10 @@ body {
 }
 @media (max-width: 420px) {
   .mos-loop-grid { grid-template-columns: repeat(3, 1fr); }
+  .stats .item .num { font-size: 22px; }
 }
 
+/* ===== 课程列表 ===== */
 .week-section { margin-bottom: 24px; }
 .week-header {
   font-size: 16px;
@@ -423,11 +456,12 @@ body {
   font-size: 20px;
   min-width: 36px;
   text-align: right;
-  opacity: 0.6;
+  opacity: 0.5;
+  transition: var(--transition);
 }
 .day-card.done {
   background: #F8F5F0;
-  border-color: rgba(201, 169, 110, 0.2);
+  border-color: rgba(201, 169, 110, 0.15);
 }
 .day-card.done .status { opacity: 1; color: var(--primary); }
 .day-card.sunday {
@@ -447,10 +481,11 @@ body {
   font-weight: 500;
 }
 
+/* ===== 弹窗 ===== */
 .modal-overlay {
-  position: fixed; inset: 0; background: rgba(30, 35, 30, 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  position: fixed; inset: 0; background: rgba(30, 35, 30, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: none;
   justify-content: center;
   align-items: center;
@@ -466,8 +501,13 @@ body {
   overflow-y: auto;
   border-radius: 28px;
   padding: 32px 24px 24px;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.15);
   position: relative;
+  animation: modalSlide 0.3s ease;
+}
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .modal-content .close-btn {
   position: sticky; top: 0; float: right;
@@ -488,7 +528,6 @@ body {
 }
 .modal-content .meta-bar .cal-tag.done { background: #E8F0E8; color: var(--primary); }
 .modal-content .meta-bar .cal-tag.pending { background: #F5EDE0; color: #A08060; }
-
 .modal-content .scripture-box {
   background: var(--warm-bg);
   border-radius: 16px;
@@ -519,7 +558,6 @@ body {
   font-style: italic;
   font-family: var(--font);
 }
-
 .modal-content .step-indicator {
   display: flex;
   justify-content: space-between;
@@ -567,7 +605,6 @@ body {
   border-radius: 10px;
   text-align: center;
 }
-
 .modal-content .options {
   display: flex;
   flex-direction: column;
@@ -595,7 +632,7 @@ body {
   border-color: var(--gold);
   background: var(--gold-light);
   font-weight: 600;
-  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15);
+  box-shadow: 0 0 0 3px var(--gold-glow);
 }
 .modal-content .declare-box {
   background: var(--gold-light);
@@ -637,62 +674,7 @@ body {
 }
 .modal-content .nav-buttons .btn-done:hover { background: var(--gold-light); }
 
-.modal-content .sunday-info-box {
-  background: var(--warm-bg);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin: 12px 0;
-  border: 1px solid rgba(201, 169, 110, 0.2);
-}
-.modal-content .sunday-info-box .label {
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  font-weight: 500;
-}
-.modal-content .sunday-info-box .content {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--primary);
-  margin-top: 2px;
-}
-.modal-content .sunday-note {
-  background: #F5F0E8;
-  border-radius: 12px;
-  padding: 14px 18px;
-  text-align: center;
-  font-size: 13px;
-  color: var(--muted);
-  border: 1px dashed rgba(201, 169, 110, 0.3);
-}
-.modal-content .sunday-note strong { color: var(--primary); }
-
-.admin-edit-field { margin: 12px 0; }
-.admin-edit-field label {
-  font-weight: 500; font-size: 13px; display: block; margin-bottom: 4px; color: var(--muted);
-}
-.admin-edit-field input,
-.admin-edit-field textarea,
-.admin-edit-field select {
-  width: 100%; padding: 10px 14px;
-  border: 1.5px solid #E8E0D8; border-radius: 10px;
-  font-size: 14px; font-family: var(--font); background: var(--warm-bg);
-  transition: var(--transition);
-}
-.admin-edit-field input:focus,
-.admin-edit-field textarea:focus,
-.admin-edit-field select:focus {
-  border-color: var(--gold); outline: none; box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.12);
-}
-.admin-edit-field textarea { min-height: 80px; resize: vertical; }
-.admin-save-btn {
-  background: var(--gold); color: var(--text); border: none;
-  padding: 14px; border-radius: 12px; font-weight: 600; font-size: 16px;
-  cursor: pointer; width: 100%; margin-top: 12px;
-  transition: var(--transition);
-}
-.admin-save-btn:hover { background: var(--gold-light); }
-
+/* ===== 其他 ===== */
 .admin-footer {
   margin-top: 28px;
   text-align: center;
@@ -706,81 +688,25 @@ body {
   letter-spacing: 1px;
 }
 .admin-footer button:hover { background: var(--warm-bg); color: var(--text); }
-
-.password-input {
-  padding: 14px 18px; border: 2px solid #E8E0D8; border-radius: 12px;
-  font-size: 20px; width: 100%; text-align: center; letter-spacing: 6px; font-weight: 600;
-  background: var(--warm-bg);
-}
-.password-input:focus { border-color: var(--gold); outline: none; }
-
 .toast {
   position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
   background: rgba(30, 35, 30, 0.92);
   color: #fff; padding: 12px 28px;
   border-radius: 99px; font-size: 14px; z-index: 9999; display: none;
   white-space: nowrap; max-width: 90%;
-  overflow: hidden; text-overflow: ellipsis;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   font-weight: 500;
-}
-
-.import-section {
-  background: var(--warm-bg);
-  border-radius: 12px;
-  padding: 16px;
-  margin: 16px 0;
-  border: 2px dashed var(--gold);
-  text-align: center;
-}
-.import-section h3 {
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-.import-section p {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 12px;
-}
-.import-section input[type="file"] {
-  display: block;
-  margin: 0 auto 10px;
-  font-size: 13px;
-}
-.import-section button {
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 500;
-}
-.import-section button:hover { background: var(--primary-light); }
-
-@media (max-width: 420px) {
-  body { padding: 12px 10px 80px; }
-  .user-area { flex-direction: column; align-items: stretch; }
-  .user-area .btn-group { justify-content: stretch; }
-  .user-area .btn-group button { flex: 1; text-align: center; }
-  .modal-content { padding: 20px 16px; }
-  .modal-content .scripture-box { font-size: 14px; padding: 14px 16px; }
-  .modal-content .step-indicator .step-dot { font-size: 8px; }
-  .stats .item .num { font-size: 22px; }
-  .brand .icon { width: 40px; height: 40px; font-size: 26px; }
-  .brand-text .name { font-size: 18px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ===== HTML 结构（与之前一致，略） ===== -->
 <div class="app-header">
   <div class="brand">
     <div class="icon">🌿</div>
     <div class="brand-text">
-      <div class="name">BILA <span style="font-size:10px;color:var(--gold);font-weight:600;">MOS 1.2</span></div>
-      <div class="sub">圣经 · 跟随 · 实践 · 群体 · 使命</div>
+      <div class="name">BILA</div>
+      <div class="sub">全年同行 · 门训之旅</div>
     </div>
   </div>
   <div class="header-right">
@@ -811,13 +737,13 @@ body {
 </div>
 
 <div class="calibration-status">
-  <span>📖 圣经内容状态</span>
+  <span>📖 经文状态</span>
   <span id="calText">加载中...</span>
 </div>
 
 <div class="progress-wrap">
   <div class="top"><span>全年同行记录</span><span id="progressPercent">0%</span></div>
-  <div style="font-size:11px;color:var(--muted);margin-top:4px;">完成记录 ≠ 属灵成熟度；它只记录你曾经停下来与经文同行。</div>
+  <div class="hint">完成记录 ≠ 属灵成熟度；它只记录你曾经停下来与经文同行。</div>
   <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
   <div class="footprint" id="footprint"></div>
 </div>
@@ -840,7 +766,7 @@ body {
   <button onclick="openAdminLogin()">🔐 管理后台</button>
 </div>
 
-<!-- ===== 弹窗（略） ===== -->
+<!-- ===== 弹窗 ===== -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal-content">
     <button class="close-btn" onclick="closeSettings()">✕</button>
@@ -864,7 +790,7 @@ body {
     <button class="close-btn" onclick="closeAdminLogin()">✕</button>
     <h2 style="color:var(--primary);">🔐 管理员登录</h2>
     <p style="color:var(--muted);font-size:14px;margin:6px 0 12px;">请输入管理密码</p>
-    <input class="password-input" id="adminPasswordInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()">
+    <input class="password-input" id="adminPasswordInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()" style="padding:14px;border:2px solid #E8E0D8;border-radius:12px;font-size:20px;width:100%;text-align:center;letter-spacing:6px;font-weight:600;background:var(--warm-bg);">
     <p id="adminLoginError" style="color:#C62828;font-size:13px;margin-top:8px;display:none;">密码错误，请重试</p>
     <button style="padding:14px;border:none;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;width:100%;margin-top:12px;cursor:pointer;" onclick="adminLogin()">登录</button>
     <button style="padding:14px;border:none;border-radius:12px;background:var(--warm-bg);color:var(--text);font-weight:600;width:100%;margin-top:8px;cursor:pointer;border:1.5px solid #E8E0D8;" onclick="closeAdminLogin()">取消</button>
@@ -883,10 +809,12 @@ body {
 
 <script>
 // ================================================================
-// 1. 52周课程数据（主题、经文引用等）
+// 核心功能（与之前一致）
+// 包括：课程数据、状态管理、渲染、用户、学习流程、后台
 // ================================================================
+
+// 52周课程数据
 const MOS52 = [
-  // 模块一：认识基督（1-8周）
   { week:1, title:"被差来的主", scripture:"路加福音 4:14-21", focus:"从认识基督开始跟随", mission:"你今天如何让“主是谁”影响一个具体选择？" },
   { week:2, title:"恩典没有围墙", scripture:"路加福音 4:22-30", focus:"神的恩典没有边界", mission:"主动向一个人显出恩典，不带条件。" },
   { week:3, title:"放下网，跟随祂", scripture:"路加福音 5:1-11", focus:"从拥有自己的计划转向跟随主", mission:"放下一个妨碍顺服的安排。" },
@@ -895,7 +823,6 @@ const MOS52 = [
   { week:6, title:"祂来到我们中间", scripture:"约翰福音 1:1-14", focus:"道成肉身的基督进入人类处境", mission:"今天在具体处境中与人同行。" },
   { week:7, title:"主，教我们祷告", scripture:"路加福音 11:1-13", focus:"门徒学习从父而来的生命", mission:"建立固定的祷告时段，并为一人祷告。" },
   { week:8, title:"怜悯，就去做", scripture:"路加福音 10:25-37", focus:"爱邻舍进入真实处境", mission:"本周主动靠近一个需要帮助的人。" },
-  // 模块二：跟随基督（9-20周）
   { week:9, title:"你的财宝在哪里？", scripture:"路加福音 12:13-34", focus:"调整财宝优先次序，让心先求神的国", mission:"在时间或金钱上做一个明确调整。" },
   { week:10, title:"神国里的座位", scripture:"路加福音 14:7-24", focus:"在神国里谦卑自己，只以服事立身", mission:"在关系中主动选择服事而非争位。" },
   { week:11, title:"你事奉谁？", scripture:"路加福音 16:1-13", focus:"认清你真正效忠的对象", mission:"今天在一件事上选择事奉神而非玛门。" },
@@ -908,7 +835,6 @@ const MOS52 = [
   { week:18, title:"不再是奴仆", scripture:"罗马书 8:1-17", focus:"从奴仆变为儿女，活出自由", mission:"用神儿女身份面对一个恐惧或失败。" },
   { week:19, title:"基督升天，直到地极作见证", scripture:"使徒行传 1:6-11", focus:"被差遣在地上作见证人", mission:"在自己的环境中主动作见证。" },
   { week:20, title:"圣灵降临，教会被差派", scripture:"使徒行传 2:1-21,36-42", focus:"圣灵降临带来教会与使命", mission:"参与一次团契或小组生活。" },
-  // 模块三：活在群体中（21-27周）
   { week:21, title:"以善胜恶", scripture:"罗马书 12:17-21", focus:"不以恶报恶，以善胜恶", mission:"在一段困难关系中选择善胜恶。" },
   { week:22, title:"你们要作我的见证", scripture:"使徒行传 1:1-11", focus:"用生命与言语为基督作证", mission:"向一个人分享自己遇见主的经历。" },
   { week:23, title:"圣灵降临", scripture:"使徒行传 2:1-21", focus:"圣灵降临带来使命的动力", mission:"今天为一个需要代祷的人祷告。" },
@@ -916,7 +842,6 @@ const MOS52 = [
   { week:25, title:"这样的教会", scripture:"使徒行传 2:42-47", focus:"以教导、团契、祷告、分享为特征的群体", mission:"今天主动参与一次教会服事或聚会。" },
   { week:26, title:"没有人缺乏", scripture:"使徒行传 4:32-37", focus:"福音改变资源观，成为彼此承担的人", mission:"与有需要的肢体分享资源或时间。" },
   { week:27, title:"服事也需要治理", scripture:"使徒行传 6:1-7", focus:"属灵与实际并行，忠心服事需要治理", mission:"在自己负责的事上寻求更好的秩序。" },
-  // 模块四：进入使命（28-44周）
   { week:28, title:"为万民蒙福", scripture:"创世记 12:1-3", focus:"不只是为自己蒙福，而是成为万民祝福", mission:"为另一个国家或族群代祷。" },
   { week:29, title:"成为列国之光", scripture:"以赛亚书 49:1-6", focus:"救恩是为列国预备的光", mission:"今天为未得之民祷告。" },
   { week:30, title:"新造的人，基督的使者", scripture:"哥林多后书 5:17-21", focus:"在基督里成为新造的人，承担和好使命", mission:"主动修复一段破损的关系。" },
@@ -934,7 +859,6 @@ const MOS52 = [
   { week:42, title:"一起服事", scripture:"腓立比书 2:1-11", focus:"群体配搭完成使命", mission:"主动关心一位同工的需要。" },
   { week:43, title:"我的，就是神可以使用的", scripture:"哥林多后书 9:6-15", focus:"资源成为神国的工具", mission:"与有需要的肢体分享资源。" },
   { week:44, title:"看见神所做的", scripture:"诗篇 126:1-6", focus:"年度使命回顾", mission:"回顾一件神在今年的作为并感恩。" },
-  // 模块五：差派与延伸（45-52周）
   { week:45, title:"把所听见的交给别人", scripture:"提摩太后书 2:1-2", focus:"忠心传递，成为门训者", mission:"确定一个陪伴成长的人。" },
   { week:46, title:"忠心到底", scripture:"提摩太后书 2:3-7", focus:"长期忠心、忍耐与操练", mission:"确定至少三个月的属灵操练。" },
   { week:47, title:"回头看这一年", scripture:"传道书 3:1-11", focus:"年度反思", mission:"回答认识、改变、继续跟随三个问题。" },
@@ -962,9 +886,7 @@ const MODULES = [
   { id:5, name:"差派与延伸", icon:"🕊️", weeks:[45,46,47,48,49,50,51,52] }
 ];
 
-// ================================================================
-// 2. 构建全部课程
-// ================================================================
+// 构建全部课程
 function buildAllCourses() {
   const courses = [];
   let id = 0;
@@ -997,9 +919,7 @@ function buildAllCourses() {
 const ALL_COURSES = buildAllCourses();
 const TOTAL = ALL_COURSES.length;
 
-// ================================================================
-// 3. 状态管理
-// ================================================================
+// 状态管理
 let currentUser = localStorage.getItem('bila_user') || 'default';
 let STATE_KEY = 'bila_open_' + currentUser;
 let state = {};
@@ -1068,20 +988,14 @@ function updateEmotionTrail() {
   container.innerHTML = recent.map(e => `<span class="emotion-tag">${e}</span>`).join(' ');
 }
 
-// ================================================================
-// 4. 圣经加载（在线API模式 + 缓存）
-// ================================================================
+// 圣经加载（缓存模式）
 const SCRIPTURE_CACHE_KEY = 'bila_scripture_cache';
-
-// 获取缓存的经文
 function getCachedScripture(ref) {
   try {
     const cache = JSON.parse(localStorage.getItem(SCRIPTURE_CACHE_KEY)) || {};
     return cache[ref] || null;
   } catch { return null; }
 }
-
-// 缓存经文
 function cacheScripture(ref, text) {
   try {
     const cache = JSON.parse(localStorage.getItem(SCRIPTURE_CACHE_KEY)) || {};
@@ -1089,48 +1003,35 @@ function cacheScripture(ref, text) {
     localStorage.setItem(SCRIPTURE_CACHE_KEY, JSON.stringify(cache));
   } catch {}
 }
-
 function loadBible() {
-  console.log('✅ 使用在线API模式 + 缓存');
-  document.getElementById('calText').innerHTML = '<span class="badge done">✅ 在线圣经可用</span>';
+  document.getElementById('calText').innerHTML = '<span class="badge done">✅ 经文已就绪</span>';
 }
-
 function displayScripture(ref, element) {
   if (!element) return;
-  
-  // 1. 先检查缓存
   const cached = getCachedScripture(ref);
   if (cached) {
     element.innerHTML = cached;
     return;
   }
-  
-  // 2. 无缓存，从API获取
+  // 如果无缓存，尝试从API获取
   element.innerHTML = '⏳ 加载中...';
   const url = 'https://bible-api.com/' + encodeURIComponent(ref) + '?translation=cuv';
-  
   fetch(url)
-    .then(res => {
-      if (!res.ok) throw new Error('API请求失败');
-      return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
       if (data && data.text) {
-        const text = data.text;
-        element.innerHTML = text;
-        cacheScripture(ref, text); // 保存到缓存
+        element.innerHTML = data.text;
+        cacheScripture(ref, data.text);
       } else {
-        element.innerHTML = '（经文获取失败，请检查网络）';
+        element.innerHTML = '（管理员可通过后台输入经文）';
       }
     })
     .catch(() => {
-      element.innerHTML = '（加载失败，请刷新重试）';
+      element.innerHTML = '（管理员可通过后台输入经文）';
     });
 }
 
-// ================================================================
-// 5. 渲染
-// ================================================================
+// ===== 渲染 =====
 function renderStats() {
   const done = getCompletedCount();
   document.getElementById('totalDone').textContent = done;
@@ -1142,8 +1043,7 @@ function renderStats() {
 }
 
 function renderCalibrationStatus() {
-  const el = document.getElementById('calText');
-  el.innerHTML = '<span class="badge done">✅ 在线圣经可用</span>';
+  document.getElementById('calText').innerHTML = '<span class="badge done">✅ 经文已就绪</span>';
 }
 
 function renderFootprint() {
@@ -1219,9 +1119,7 @@ function renderAll() {
   updateEmotionTrail();
 }
 
-// ================================================================
-// 6. 用户管理
-// ================================================================
+// ===== 用户管理 =====
 function loginUser() {
   const input = document.getElementById('userInput');
   let name = input.value.trim();
@@ -1257,9 +1155,7 @@ function initUser() {
 }
 initUser();
 
-// ================================================================
-// 7. 学习弹窗（10步流程）
-// ================================================================
+// ===== 学习弹窗 =====
 let currentModalId = null;
 let currentStep = 0;
 let selectedOption = null;
@@ -1299,20 +1195,20 @@ function renderStep(c) {
         <span>📖 主日信息</span>
       </div>
       <h2 style="margin:4px 0 8px;">${c.title}</h2>
-      <div class="sunday-info-box">
-        <div class="label">🎯 生活引导句</div>
-        <div class="content">${c.sundayGuide || '（请管理员设置）'}</div>
+      <div class="sunday-info-box" style="background:var(--warm-bg);border-radius:12px;padding:16px 20px;margin:12px 0;border:1px solid rgba(201,169,110,0.2);">
+        <div class="label" style="font-size:11px;color:var(--muted);letter-spacing:1px;font-weight:500;">🎯 生活引导句</div>
+        <div class="content" style="font-size:15px;font-weight:500;color:var(--primary);margin-top:2px;">${c.sundayGuide || '（请管理员设置）'}</div>
       </div>
-      <div class="sunday-info-box">
-        <div class="label">🎵 每周一歌</div>
-        <div class="content">${c.song || '（请管理员设置）'}</div>
+      <div class="sunday-info-box" style="background:var(--warm-bg);border-radius:12px;padding:16px 20px;margin:12px 0;border:1px solid rgba(201,169,110,0.2);">
+        <div class="label" style="font-size:11px;color:var(--muted);letter-spacing:1px;font-weight:500;">🎵 每周一歌</div>
+        <div class="content" style="font-size:15px;font-weight:500;color:var(--primary);margin-top:2px;">${c.song || '（请管理员设置）'}</div>
       </div>
       <div class="scripture-box">
         <span class="ref">📖 ${c.scripture}</span>
         <div class="verses" id="sundayScripture">⏳ 加载中...</div>
       </div>
-      <div class="sunday-note">
-        <strong>📌 主日是本周门训的共同入口</strong><br>
+      <div class="sunday-note" style="background:#F5F0E8;border-radius:12px;padding:14px 18px;text-align:center;font-size:13px;color:var(--muted);border:1px dashed rgba(201,169,110,0.3);">
+        <strong style="color:var(--primary);">📌 主日是本周门训的共同入口</strong><br>
         主日信息进入本周主题；后续由经文默想、生活实践与群体分享延伸
       </div>
       ${isDone ? '<p style="text-align:center;color:var(--primary);margin-top:12px;">✅ 已阅读</p>' : ''}
@@ -1500,7 +1396,6 @@ function renderStep(c) {
     ${navButtons}
     ${isDone && currentStep === 9 ? '<p style="text-align:center;color:var(--primary);margin-top:12px;">✅ 今日已完成</p>' : ''}
   `;
-  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1516,7 +1411,6 @@ function selectOption(el, opt) {
   const btn = document.getElementById('nextStepBtn');
   if (btn) btn.disabled = false;
   playClick();
-  
   const c = getCourse(currentModalId);
   if (c && c.dow === 2 && currentStep === 2) {
     recordEmotion(c.week, c.dow, opt);
@@ -1609,9 +1503,7 @@ function closeDayModal() {
   selectedOption = null;
 }
 
-// ================================================================
-// 8. 管理员后台（精简，与之前一致）
-// ================================================================
+// ===== 管理员后台 =====
 const ADMIN_PASSWORD = 'admin2027';
 
 function openAdminLogin() {
@@ -1643,6 +1535,7 @@ function openAdminEdit(id) {
   body.innerHTML = `
     <div class="admin-edit-field"><label>标题</label><input type="text" id="afTitle" value="${current.title.replace(/"/g,'&quot;')}"></div>
     <div class="admin-edit-field"><label>经文引用</label><input type="text" id="afScripture" value="${current.scripture.replace(/"/g,'&quot;')}"></div>
+    <div class="admin-edit-field"><label>经文全文</label><textarea id="afFull" rows="6">${(current.fullScripture||'').replace(/"/g,'&quot;')}</textarea></div>
     <div class="admin-edit-field"><label>角色/引导</label><input type="text" id="afGuide" value="${current.guide.replace(/"/g,'&quot;')}"></div>
     ${c.isSunday || c.dow === 0 ? `
       <div class="admin-edit-field"><label>主日生活引导句</label><input type="text" id="afSundayGuide" value="${(current.sundayGuide||'').replace(/"/g,'&quot;')}"></div>
@@ -1658,11 +1551,11 @@ function openAdminEdit(id) {
     </div>
     <button style="width:100%;padding:12px;background:#f0f0f0;border:none;border-radius:12px;font-weight:600;cursor:pointer;margin-top:8px;" onclick="closeAdminEdit()">关闭</button>
     <hr style="margin:16px 0;border:1px dashed #E8E0D8;">
-    <div class="import-section">
-      <h3>📥 批量导入经文全文</h3>
-      <p>上传CSV填充经文（若API失败时可补充）</p>
-      <input type="file" id="csvFileInput" accept=".csv">
-      <button onclick="importCSV()">导入CSV</button>
+    <div class="import-section" style="background:var(--warm-bg);border-radius:12px;padding:16px;margin:16px 0;border:2px dashed var(--gold);text-align:center;">
+      <h3 style="color:var(--primary);margin-bottom:8px;">📥 导入经文</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">从CSV导入经文全文，或手动逐条输入</p>
+      <input type="file" id="csvFileInput" accept=".csv" style="display:block;margin:0 auto 10px;font-size:13px;">
+      <button onclick="importCSV()" style="background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:10px;cursor:pointer;font-weight:500;">导入CSV</button>
       <div id="importStatus" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
   `;
@@ -1672,10 +1565,11 @@ function openAdminEdit(id) {
 function saveAdminEdit(id) {
   const title = document.getElementById('afTitle').value.trim();
   const scripture = document.getElementById('afScripture').value.trim();
+  const full = document.getElementById('afFull').value.trim();
   const guide = document.getElementById('afGuide').value.trim();
   if (!title || !scripture || !guide) { showToast('请填写完整'); return; }
   if (!state.overrides) state.overrides = {};
-  const update = { title, scripture, guide };
+  const update = { title, scripture, fullScripture: full, guide };
   const c = getCourse(id);
   if (c.isSunday || c.dow === 0) {
     const sg = document.getElementById('afSundayGuide')?.value.trim() || '';
@@ -1689,6 +1583,14 @@ function saveAdminEdit(id) {
     update.declare = declare;
   }
   state.overrides[id] = update;
+  // 如果输入了经文全文，也存入缓存
+  if (full) {
+    const key = c.week + '-' + c.dow;
+    if (!state.scriptureData) state.scriptureData = {};
+    state.scriptureData[key] = full;
+    // 同时存入圣经缓存
+    cacheScripture(c.scripture, full);
+  }
   saveState();
   renderAll();
   showToast('✅ 已保存');
@@ -1711,9 +1613,6 @@ function adminNextWeek(id) {
 }
 function closeAdminEdit() { document.getElementById('adminEditModal').classList.remove('active'); }
 
-// ================================================================
-// 9. CSV导入（备用）
-// ================================================================
 function importCSV() {
   const fileInput = document.getElementById('csvFileInput');
   const status = document.getElementById('importStatus');
@@ -1751,12 +1650,17 @@ function importCSV() {
         const key = week + '-' + dow;
         if (!state.scriptureData) state.scriptureData = {};
         state.scriptureData[key] = fullText;
+        // 同时存入圣经缓存
+        const c = ALL_COURSES.find(c => c.week === week && c.dow === dow);
+        if (c && c.scripture) {
+          cacheScripture(c.scripture, fullText);
+        }
         count++;
       }
       saveState();
-      status.textContent = `✅ 导入成功！共导入 ${count} 条经文全文。`;
+      status.textContent = `✅ 导入成功！共导入 ${count} 条经文。`;
       renderAll();
-      showToast('✅ 经文全文导入完成');
+      showToast('✅ 经文导入完成');
     } catch(err) {
       status.textContent = '❌ 解析失败：' + err.message;
     }
@@ -1767,9 +1671,7 @@ function importCSV() {
   reader.readAsText(file, 'UTF-8');
 }
 
-// ================================================================
-// 10. 音效、Toast、设置
-// ================================================================
+// ===== 音效、Toast、设置 =====
 let audioCtx = null;
 function getAudio() { if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
 function playTone(freq, dur, vol=0.12) {
@@ -1804,14 +1706,12 @@ setInterval(() => {
   }
 }, 60000);
 
-// ================================================================
-// 11. 启动
-// ================================================================
+// ===== 启动 =====
 loadBible();
 renderAll();
 console.log('🌿 BILA MOS 1.2 已启动，共 ' + TOTAL + ' 个同行记录单元');
 console.log('🔐 管理员密码: admin2027');
-console.log('💾 经文缓存已启用，首次加载后秒开');
+console.log('💾 经文缓存已启用');
 </script>
 </body>
 </html>
