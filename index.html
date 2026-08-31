@@ -893,7 +893,6 @@ const MOS52 = [
   { week:6, title:"祂来到我们中间", scripture:"约翰福音 1:1-14", focus:"道成肉身的基督进入人类处境", mission:"今天在具体处境中与人同行。" },
   { week:7, title:"主，教我们祷告", scripture:"路加福音 11:1-13", focus:"门徒学习从父而来的生命", mission:"建立固定的祷告时段，并为一人祷告。" },
   { week:8, title:"怜悯，就去做", scripture:"路加福音 10:25-37", focus:"爱邻舍进入真实处境", mission:"本周主动靠近一个需要帮助的人。" },
-
   // 模块二：跟随基督（9-20周）
   { week:9, title:"你的财宝在哪里？", scripture:"路加福音 12:13-34", focus:"调整财宝优先次序，让心先求神的国", mission:"在时间或金钱上做一个明确调整。" },
   { week:10, title:"神国里的座位", scripture:"路加福音 14:7-24", focus:"在神国里谦卑自己，只以服事立身", mission:"在关系中主动选择服事而非争位。" },
@@ -907,7 +906,6 @@ const MOS52 = [
   { week:18, title:"不再是奴仆", scripture:"罗马书 8:1-17", focus:"从奴仆变为儿女，活出自由", mission:"用神儿女身份面对一个恐惧或失败。" },
   { week:19, title:"基督升天，直到地极作见证", scripture:"使徒行传 1:6-11", focus:"被差遣在地上作见证人", mission:"在自己的环境中主动作见证。" },
   { week:20, title:"圣灵降临，教会被差派", scripture:"使徒行传 2:1-21,36-42", focus:"圣灵降临带来教会与使命", mission:"参与一次团契或小组生活。" },
-
   // 模块三：活在群体中（21-27周）
   { week:21, title:"以善胜恶", scripture:"罗马书 12:17-21", focus:"不以恶报恶，以善胜恶", mission:"在一段困难关系中选择善胜恶。" },
   { week:22, title:"你们要作我的见证", scripture:"使徒行传 1:1-11", focus:"用生命与言语为基督作证", mission:"向一个人分享自己遇见主的经历。" },
@@ -916,7 +914,6 @@ const MOS52 = [
   { week:25, title:"这样的教会", scripture:"使徒行传 2:42-47", focus:"以教导、团契、祷告、分享为特征的群体", mission:"今天主动参与一次教会服事或聚会。" },
   { week:26, title:"没有人缺乏", scripture:"使徒行传 4:32-37", focus:"福音改变资源观，成为彼此承担的人", mission:"与有需要的肢体分享资源或时间。" },
   { week:27, title:"服事也需要治理", scripture:"使徒行传 6:1-7", focus:"属灵与实际并行，忠心服事需要治理", mission:"在自己负责的事上寻求更好的秩序。" },
-
   // 模块四：进入使命（28-44周）
   { week:28, title:"为万民蒙福", scripture:"创世记 12:1-3", focus:"不只是为自己蒙福，而是成为万民祝福", mission:"为另一个国家或族群代祷。" },
   { week:29, title:"成为列国之光", scripture:"以赛亚书 49:1-6", focus:"救恩是为列国预备的光", mission:"今天为未得之民祷告。" },
@@ -935,7 +932,6 @@ const MOS52 = [
   { week:42, title:"一起服事", scripture:"腓立比书 2:1-11", focus:"群体配搭完成使命", mission:"主动关心一位同工的需要。" },
   { week:43, title:"我的，就是神可以使用的", scripture:"哥林多后书 9:6-15", focus:"资源成为神国的工具", mission:"与有需要的肢体分享资源。" },
   { week:44, title:"看见神所做的", scripture:"诗篇 126:1-6", focus:"年度使命回顾", mission:"回顾一件神在今年的作为并感恩。" },
-
   // 模块五：差派与延伸（45-52周）
   { week:45, title:"把所听见的交给别人", scripture:"提摩太后书 2:1-2", focus:"忠心传递，成为门训者", mission:"确定一个陪伴成长的人。" },
   { week:46, title:"忠心到底", scripture:"提摩太后书 2:3-7", focus:"长期忠心、忍耐与操练", mission:"确定至少三个月的属灵操练。" },
@@ -1073,38 +1069,40 @@ function updateEmotionTrail() {
 }
 
 // ================================================================
-// 4. 圣经加载
+// 4. 圣经加载（使用 Gitee 镜像）
 // ================================================================
 let bibleData = null;
 let bibleLoading = false;
 let bibleLoaded = false;
 
 function loadBible() {
-  if (bibleLoading || bibleLoaded) return;
-  bibleLoading = true;
-  const url = 'https://cdn.jsdelivr.net/gh/shendlcode/9bible/zh_cuv.json';
-  fetch(url)
-    .then(response => {
-      if (!response.ok) throw new Error('网络请求失败');
-      return response.json();
-    })
-    .then(data => {
-      bibleData = data;
-      bibleLoaded = true;
-      bibleLoading = false;
-      console.log('✅ 和合本圣经数据加载成功，共 ' + bibleData.length + ' 卷');
-      document.getElementById('calText').innerHTML = '<span class="badge done">✅ 圣经已加载</span>';
-      // 如果当前有打开的课程，刷新显示
-      if (currentModalId !== null) {
-        const c = getCourse(currentModalId);
-        if (c) renderStep(c);
-      }
-    })
-    .catch(err => {
-      bibleLoading = false;
-      console.warn('⚠️ 圣经数据加载失败：', err);
-      document.getElementById('calText').innerHTML = '<span class="badge pending">⚠️ 加载失败，请刷新或检查网络</span>';
-    });
+    if (bibleLoading || bibleLoaded) return;
+    bibleLoading = true;
+
+    // 使用 Gitee 镜像（国内高速，无需翻墙）
+    const url = 'https://gitee.com/zhongchengkai/9bible/raw/main/zh_cuv.json';
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('网络请求失败');
+            return response.json();
+        })
+        .then(data => {
+            bibleData = data;
+            bibleLoaded = true;
+            bibleLoading = false;
+            console.log('✅ 和合本圣经数据加载成功，共 ' + bibleData.length + ' 卷');
+            document.getElementById('calText').innerHTML = '<span class="badge done">✅ 圣经已加载</span>';
+            if (currentModalId !== null) {
+                const c = getCourse(currentModalId);
+                if (c) renderStep(c);
+            }
+        })
+        .catch(err => {
+            bibleLoading = false;
+            console.warn('⚠️ 圣经加载失败：', err);
+            document.getElementById('calText').innerHTML = '<span class="badge pending">⚠️ 加载失败，请刷新或检查网络</span>';
+        });
 }
 
 function parseScriptureRef(ref) {
@@ -1309,7 +1307,6 @@ function openDayModal(id) {
   const c = getCourse(id);
   if (!c) { showToast('课程数据不存在'); return; }
   currentModalId = id;
-  // 检查进度
   const savedStep = state.stepProgress && state.stepProgress[id];
   const isDone = isCompleted(id);
   if (!isDone && savedStep !== undefined && savedStep > 0 && savedStep < 10) {
@@ -1360,7 +1357,6 @@ function renderStep(c) {
       ${isDone ? '<p style="text-align:center;color:var(--primary);margin-top:12px;">✅ 已阅读</p>' : ''}
       <button style="padding:14px;border:none;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;width:100%;margin-top:12px;cursor:pointer;" onclick="markSundayRead(${c.id})">我已阅读</button>
     `;
-    // 加载主日经文
     if (c.scripture) {
       const el = document.getElementById('sundayScripture');
       displayScripture(c.scripture, el);
@@ -1382,7 +1378,6 @@ function renderStep(c) {
       </div>
       <div class="step-action">💡 慢慢读，留意哪个词或短语抓住你的心</div>
     `;
-    // 加载经文
     if (c.scripture) {
       const el = document.getElementById('stepScripture');
       displayScripture(c.scripture, el);
@@ -1561,7 +1556,6 @@ function selectOption(el, opt) {
   if (btn) btn.disabled = false;
   playClick();
   
-  // 如果是周二（dow===2）且是第三步（感受·情绪），记录情绪
   const c = getCourse(currentModalId);
   if (c && c.dow === 2 && currentStep === 2) {
     recordEmotion(c.week, c.dow, opt);
@@ -1794,7 +1788,6 @@ function importCSV() {
         const fullText = cols[fullIdx] ? cols[fullIdx].trim() : '';
         if (isNaN(week) || isNaN(dow) || !fullText) continue;
         const key = week + '-' + dow;
-        // 存入 scriptureData（可被 getCourse 读取）
         if (!state.scriptureData) state.scriptureData = {};
         state.scriptureData[key] = fullText;
         count++;
@@ -1853,9 +1846,7 @@ setInterval(() => {
 // ================================================================
 // 11. 启动
 // ================================================================
-// 加载圣经
 loadBible();
-// 渲染界面
 renderAll();
 console.log('🌿 BILA MOS 1.2 已启动，共 ' + TOTAL + ' 个同行记录单元');
 console.log('🔐 管理员密码: admin2027');
