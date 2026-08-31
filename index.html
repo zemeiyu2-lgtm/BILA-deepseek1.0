@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#2D5A3D">
 <title>BILA MOS 1.2 · 全年同行</title>
 <style>
-/* ===== 全部样式（与之前完全一致） ===== */
+/* ===== 全部样式（与之前一致，略） ===== */
 :root {
   --primary: #2D5A3D;
   --primary-light: #4A7A5A;
@@ -774,6 +774,7 @@ body {
 </head>
 <body>
 
+<!-- ===== HTML 结构（与之前一致，略） ===== -->
 <div class="app-header">
   <div class="brand">
     <div class="icon">🌿</div>
@@ -839,6 +840,7 @@ body {
   <button onclick="openAdminLogin()">🔐 管理后台</button>
 </div>
 
+<!-- ===== 弹窗（略） ===== -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal-content">
     <button class="close-btn" onclick="closeSettings()">✕</button>
@@ -967,7 +969,6 @@ function buildAllCourses() {
   const courses = [];
   let id = 0;
   for (const w of MOS52) {
-    // 主日
     courses.push({
       id:id++, week:w.week, dow:0, title:w.title, scripture:w.scripture,
       fullScripture:"", role:"主日共同入口", guide:w.focus, question:"",
@@ -975,7 +976,6 @@ function buildAllCourses() {
       dayTheme:"主日信息", sundayGuide:w.mission,
       weeklyFocus:w.focus, weeklyMission:w.mission
     });
-    // 周一至周六
     for (const d of MOS_DAILY) {
       courses.push({
         id:id++, week:w.week, dow:d.dow, title:w.title+" · "+d.name,
@@ -1069,35 +1069,63 @@ function updateEmotionTrail() {
 }
 
 // ================================================================
-// 4. 圣经加载（在线API模式）
+// 4. 圣经加载（在线API模式 + 缓存）
 // ================================================================
-let bibleLoaded = true; // 直接标记为已加载，使用API模式
+const SCRIPTURE_CACHE_KEY = 'bila_scripture_cache';
+
+// 获取缓存的经文
+function getCachedScripture(ref) {
+  try {
+    const cache = JSON.parse(localStorage.getItem(SCRIPTURE_CACHE_KEY)) || {};
+    return cache[ref] || null;
+  } catch { return null; }
+}
+
+// 缓存经文
+function cacheScripture(ref, text) {
+  try {
+    const cache = JSON.parse(localStorage.getItem(SCRIPTURE_CACHE_KEY)) || {};
+    cache[ref] = text;
+    localStorage.setItem(SCRIPTURE_CACHE_KEY, JSON.stringify(cache));
+  } catch {}
+}
 
 function loadBible() {
-    console.log('✅ 使用在线API模式');
-    document.getElementById('calText').innerHTML = '<span class="badge done">✅ 在线圣经可用</span>';
+  console.log('✅ 使用在线API模式 + 缓存');
+  document.getElementById('calText').innerHTML = '<span class="badge done">✅ 在线圣经可用</span>';
 }
 
 function displayScripture(ref, element) {
-    if (!element) return;
-    // 从 API 获取经文
-    const url = 'https://bible-api.com/' + encodeURIComponent(ref) + '?translation=cuv';
-    element.innerHTML = '⏳ 加载中...';
-    fetch(url)
-        .then(res => {
-            if (!res.ok) throw new Error('API请求失败');
-            return res.json();
-        })
-        .then(data => {
-            if (data && data.text) {
-                element.innerHTML = data.text;
-            } else {
-                element.innerHTML = '（经文获取失败，请检查网络）';
-            }
-        })
-        .catch(() => {
-            element.innerHTML = '（加载失败，请刷新重试）';
-        });
+  if (!element) return;
+  
+  // 1. 先检查缓存
+  const cached = getCachedScripture(ref);
+  if (cached) {
+    element.innerHTML = cached;
+    return;
+  }
+  
+  // 2. 无缓存，从API获取
+  element.innerHTML = '⏳ 加载中...';
+  const url = 'https://bible-api.com/' + encodeURIComponent(ref) + '?translation=cuv';
+  
+  fetch(url)
+    .then(res => {
+      if (!res.ok) throw new Error('API请求失败');
+      return res.json();
+    })
+    .then(data => {
+      if (data && data.text) {
+        const text = data.text;
+        element.innerHTML = text;
+        cacheScripture(ref, text); // 保存到缓存
+      } else {
+        element.innerHTML = '（经文获取失败，请检查网络）';
+      }
+    })
+    .catch(() => {
+      element.innerHTML = '（加载失败，请刷新重试）';
+    });
 }
 
 // ================================================================
@@ -1114,9 +1142,7 @@ function renderStats() {
 }
 
 function renderCalibrationStatus() {
-  const stats = getCalibrationStats();
   const el = document.getElementById('calText');
-  // API模式直接显示可用
   el.innerHTML = '<span class="badge done">✅ 在线圣经可用</span>';
 }
 
@@ -1584,7 +1610,7 @@ function closeDayModal() {
 }
 
 // ================================================================
-// 8. 管理员后台
+// 8. 管理员后台（精简，与之前一致）
 // ================================================================
 const ADMIN_PASSWORD = 'admin2027';
 
@@ -1785,6 +1811,7 @@ loadBible();
 renderAll();
 console.log('🌿 BILA MOS 1.2 已启动，共 ' + TOTAL + ' 个同行记录单元');
 console.log('🔐 管理员密码: admin2027');
+console.log('💾 经文缓存已启用，首次加载后秒开');
 </script>
 </body>
 </html>
