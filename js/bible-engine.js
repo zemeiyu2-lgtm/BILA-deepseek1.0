@@ -1,4 +1,582 @@
 // ================================================================
+// BILA Bible Engine V2.2
+// 第1段：配置 + 圣经书卷 + CSV读取
+// ================================================================
+
+const BILA_CONFIG = {
+  bibleVersion: "cus",
+  bibleVersionName: "和合本（简体字）",
+
+  // 和合本简体 API
+  bibleApi:
+    "https://api.getbible.net/v2/cus",
+
+  // GitHub 中的全年课程 CSV
+  curriculumUrl:
+    "https://raw.githubusercontent.com/zemeiyu2-lgtm/BILA-deepseek/main/52-weeks.csv",
+
+  timeout: 15000,
+  cache: true
+};
+
+
+// ================================================================
+// 1. 66卷圣经编号
+// ================================================================
+
+const BILA_BOOK_MAP = {
+
+  "创世记": 1,
+  "出埃及记": 2,
+  "利未记": 3,
+  "民数记": 4,
+  "申命记": 5,
+
+  "约书亚记": 6,
+  "士师记": 7,
+  "路得记": 8,
+
+  "撒母耳记上": 9,
+  "撒母耳记下": 10,
+
+  "列王纪上": 11,
+  "列王纪下": 12,
+
+  "历代志上": 13,
+  "历代志下": 14,
+
+  "以斯拉记": 15,
+  "尼希米记": 16,
+  "以斯帖记": 17,
+
+  "约伯记": 18,
+  "诗篇": 19,
+  "箴言": 20,
+  "传道书": 21,
+  "雅歌": 22,
+
+  "以赛亚书": 23,
+  "耶利米书": 24,
+  "耶利米哀歌": 25,
+  "以西结书": 26,
+  "但以理书": 27,
+
+  "何西阿书": 28,
+  "约珥书": 29,
+  "阿摩司书": 30,
+  "俄巴底亚书": 31,
+  "约拿书": 32,
+  "弥迦书": 33,
+  "那鸿书": 34,
+  "哈巴谷书": 35,
+  "西番雅书": 36,
+  "哈该书": 37,
+  "撒迦利亚书": 38,
+  "玛拉基书": 39,
+
+  "马太福音": 40,
+  "马可福音": 41,
+  "路加福音": 42,
+  "约翰福音": 43,
+  "使徒行传": 44,
+
+  "罗马书": 45,
+  "哥林多前书": 46,
+  "哥林多后书": 47,
+  "加拉太书": 48,
+  "以弗所书": 49,
+  "腓立比书": 50,
+  "歌罗西书": 51,
+
+  "帖撒罗尼迦前书": 52,
+  "帖撒罗尼迦后书": 53,
+
+  "提摩太前书": 54,
+  "提摩太后书": 55,
+  "提多书": 56,
+  "腓利门书": 57,
+
+  "希伯来书": 58,
+  "雅各书": 59,
+
+  "彼得前书": 60,
+  "彼得后书": 61,
+
+  "约翰一书": 62,
+  "约翰二书": 63,
+  "约翰三书": 64,
+
+  "犹大书": 65,
+  "启示录": 66
+
+};
+
+
+// ================================================================
+// 2. 圣经简称
+// ================================================================
+
+const BILA_BOOK_ALIASES = {
+
+  "创": "创世记",
+  "出": "出埃及记",
+  "利": "利未记",
+  "民": "民数记",
+  "申": "申命记",
+
+  "书": "约书亚记",
+  "士": "士师记",
+  "得": "路得记",
+
+  "撒上": "撒母耳记上",
+  "撒下": "撒母耳记下",
+
+  "王上": "列王纪上",
+  "王下": "列王纪下",
+
+  "代上": "历代志上",
+  "代下": "历代志下",
+
+  "拉": "以斯拉记",
+  "尼": "尼希米记",
+  "斯": "以斯帖记",
+
+  "伯": "约伯记",
+  "诗": "诗篇",
+  "箴": "箴言",
+  "传": "传道书",
+  "歌": "雅歌",
+
+  "赛": "以赛亚书",
+  "耶": "耶利米书",
+  "哀": "耶利米哀歌",
+  "结": "以西结书",
+  "但": "但以理书",
+
+  "何": "何西阿书",
+  "珥": "约珥书",
+  "摩": "阿摩司书",
+  "俄": "俄巴底亚书",
+  "拿": "约拿书",
+  "弥": "弥迦书",
+  "鸿": "那鸿书",
+  "哈": "哈巴谷书",
+  "番": "西番雅书",
+  "该": "哈该书",
+  "亚": "撒迦利亚书",
+  "玛": "玛拉基书",
+
+  "太": "马太福音",
+  "可": "马可福音",
+  "路": "路加福音",
+  "约": "约翰福音",
+  "徒": "使徒行传",
+
+  "罗": "罗马书",
+  "林前": "哥林多前书",
+  "林后": "哥林多后书",
+
+  "加": "加拉太书",
+  "弗": "以弗所书",
+  "腓": "腓立比书",
+  "西": "歌罗西书",
+
+  "帖前": "帖撒罗尼迦前书",
+  "帖后": "帖撒罗尼迦后书",
+
+  "提前": "提摩太前书",
+  "提后": "提摩太后书",
+
+  "多": "提多书",
+  "门": "腓利门书",
+
+  "来": "希伯来书",
+  "雅": "雅各书",
+
+  "彼前": "彼得前书",
+  "彼后": "彼得后书",
+
+  "约一": "约翰一书",
+  "约二": "约翰二书",
+  "约三": "约翰三书",
+
+  "犹": "犹大书",
+  "启": "启示录"
+
+};
+
+
+// ================================================================
+// 3. 缓存
+// ================================================================
+
+const BILA_BIBLE_CACHE = {};
+const BILA_PENDING = {};
+const BILA_CURRICULUM_CACHE = {};
+
+
+// ================================================================
+// 4. 文本清理
+// ================================================================
+
+function bilaCleanText(text) {
+
+  if (
+    text === null ||
+    text === undefined
+  ) {
+    return "";
+  }
+
+  let result = String(text);
+
+  result = result.replace(/^\uFEFF/, "");
+
+  result = result.replace(
+    /<[^>]*>/g,
+    ""
+  );
+
+  result = result.replace(
+    /[\r\n\t]+/g,
+    " "
+  );
+
+  result = result.replace(
+    /\s+/g,
+    " "
+  );
+
+  // 删除中文字符之间异常空格
+  result = result.replace(
+    /([\u4e00-\u9fff])\s+([\u4e00-\u9fff])/g,
+    "$1$2"
+  );
+
+  return result.trim();
+}
+
+
+// ================================================================
+// 5. 标准化书名
+// ================================================================
+
+function normalizeBookName(book) {
+
+  let name =
+    String(book || "")
+      .trim();
+
+  if (
+    BILA_BOOK_ALIASES[name]
+  ) {
+    name =
+      BILA_BOOK_ALIASES[name];
+  }
+
+  if (
+    !BILA_BOOK_MAP[name]
+  ) {
+    return null;
+  }
+
+  return name;
+}
+
+
+// ================================================================
+// 6. CSV解析器
+// 支持逗号、中文、引号
+// ================================================================
+
+function bilaParseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+  let cell = "";
+  let quoted = false;
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const ch =
+      text[i];
+
+    const next =
+      text[i + 1];
+
+
+    if (ch === '"') {
+
+      if (
+        quoted &&
+        next === '"'
+      ) {
+
+        cell += '"';
+
+        i++;
+
+      } else {
+
+        quoted =
+          !quoted;
+
+      }
+
+      continue;
+    }
+
+
+    if (
+      ch === "," &&
+      !quoted
+    ) {
+
+      row.push(
+        cell.trim()
+      );
+
+      cell = "";
+
+      continue;
+    }
+
+
+    if (
+      (ch === "\n" ||
+       ch === "\r") &&
+      !quoted
+    ) {
+
+      if (
+        ch === "\r" &&
+        next === "\n"
+      ) {
+        i++;
+      }
+
+      row.push(
+        cell.trim()
+      );
+
+      if (
+        row.some(
+          value =>
+            value !== ""
+        )
+      ) {
+        rows.push(row);
+      }
+
+      row = [];
+      cell = "";
+
+      continue;
+    }
+
+
+    cell += ch;
+  }
+
+
+  if (
+    cell !== "" ||
+    row.length
+  ) {
+
+    row.push(
+      cell.trim()
+    );
+
+    if (
+      row.some(
+        value =>
+          value !== ""
+      )
+    ) {
+      rows.push(row);
+    }
+  }
+
+
+  if (
+    rows.length < 2
+  ) {
+    return [];
+  }
+
+
+  const headers =
+    rows[0].map(
+      header =>
+        String(header)
+          .replace(
+            /^\uFEFF/,
+            ""
+          )
+          .trim()
+    );
+
+
+  return rows
+    .slice(1)
+    .map(values => {
+
+      const obj = {};
+
+      headers.forEach(
+        (header,index) => {
+
+          obj[header] =
+            String(
+              values[index] ?? ""
+            ).trim();
+
+        }
+      );
+
+      return obj;
+
+    });
+}
+
+
+// ================================================================
+// 7. 加载52周CSV
+// ================================================================
+
+async function loadCurriculum() {
+
+  if (
+    BILA_CURRICULUM_CACHE.courses
+  ) {
+    return BILA_CURRICULUM_CACHE.courses;
+  }
+
+
+  if (
+    BILA_PENDING.curriculum
+  ) {
+    return BILA_PENDING.curriculum;
+  }
+
+
+  console.log(
+    "📚 正在读取 52-weeks.csv ..."
+  );
+
+
+  BILA_PENDING.curriculum =
+    fetch(
+      BILA_CONFIG.curriculumUrl,
+      {
+        cache: "no-cache"
+      }
+    )
+
+    .then(response => {
+
+      if (!response.ok) {
+
+        throw new Error(
+          "52-weeks.csv 加载失败：HTTP " +
+          response.status
+        );
+
+      }
+
+      return response.text();
+
+    })
+
+    .then(text => {
+
+      const courses =
+        bilaParseCSV(text);
+
+
+      if (
+        courses.length < 52
+      ) {
+
+        throw new Error(
+          "52-weeks.csv 读取失败，只得到 " +
+          courses.length +
+          " 周"
+        );
+
+      }
+
+
+      BILA_CURRICULUM_CACHE.courses =
+        courses;
+
+
+      console.log(
+        "✅ 52周课程读取成功：",
+        courses.length
+      );
+
+
+      return courses;
+
+    })
+
+    .finally(() => {
+
+      delete BILA_PENDING.curriculum;
+
+    });
+
+
+  return BILA_PENDING.curriculum;
+}
+
+
+// ================================================================
+// 8. 获取第N周
+// ================================================================
+
+async function getWeek(weekNumber) {
+
+  const courses =
+    await loadCurriculum();
+
+
+  const week =
+    Number(weekNumber);
+
+
+  const result =
+    courses.find(
+      item =>
+        Number(item.week) === week
+    );
+
+
+  if (!result) {
+
+    throw new Error(
+      "找不到第 " +
+      week +
+      " 周课程"
+    );
+
+  }
+
+
+  return result;
+}
+
+
+// ================================================================
+// 第1段结束
+// ================================================================// ================================================================
 // BILA Bible Engine V2.1
 // MOS 52周课程自动读取引擎
 //
