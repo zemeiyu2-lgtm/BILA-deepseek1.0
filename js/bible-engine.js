@@ -1,20 +1,22 @@
-```javascript
 // ================================================================
-// BILA Bible Engine V2
-// ------------------------------------------------
+// BILA Bible Engine V2.1
+// MOS 52周课程自动读取引擎
+//
 // 功能：
-// 1. 使用在线 API 动态读取「和合本简体字」
-// 2. 不再加载巨大的 zh_cuv.json
-// 3. 按章节读取，速度更快
-// 4. 支持 MOS / BILA 经文引用
-// 5. 自动缓存已经读取过的章节
-// 6. 保留原来的函数接口，尽量不影响现有系统
+// 1. 自动读取 52-weeks.csv
+// 2. 自动识别每周经文引用
+// 3. 自动调用和合本简体 CUS
+// 4. 按章节读取，不下载整本圣经
+// 5. 自动缓存
+// 6. 支持单节 / 经文范围
+// 7. 直接给 BILA / MOS 使用
 //
-// Bible Version:
-// CUS = Union Simplified / 和合本（简体字）
+// GitHub 项目：
+// BILA-deepseek
 //
-// API:
-// https://api.getbible.net/v2/cus/{book}/{chapter}.json
+// 文件：
+// 52-weeks.csv
+// bible-engine.js
 // ================================================================
 
 
@@ -22,40 +24,32 @@
 // 0. 基础配置
 // ================================================================
 
-const BIBLE_CONFIG = {
+const BILA_CONFIG = {
 
-  version: "CUS",
+  bibleVersion: "cus",
 
-  name: "和合本（简体字）",
+  bibleVersionName: "和合本（简体字）",
 
-  apiBase:
+  bibleApi:
     "https://api.getbible.net/v2/cus",
 
-  // 请求超时时间
+  curriculumUrl:
+    "https://raw.githubusercontent.com/zemeiyu2-lgtm/BILA-deepseek/main/52-weeks.csv",
+
   timeout: 15000,
 
-  // 是否启用缓存
-  cacheEnabled: true
+  cache: true
+
 };
 
 
 // ================================================================
-// 1. 66卷圣经书卷编号
+// 1. 66卷圣经编号
 //
-// GetBible 使用标准66卷圣经编号：
-// 创世记 = 1
-// 出埃及记 = 2
-// ...
-// 马太福音 = 40
-// ...
-// 启示录 = 66
+// GetBible V2 使用标准66卷编号。
 // ================================================================
 
-const BOOK_MAP = {
-
-  // ------------------------------------------------
-  // 旧约
-  // ------------------------------------------------
+const BILA_BOOK_MAP = {
 
   "创世记": 1,
   "出埃及记": 2,
@@ -105,11 +99,6 @@ const BOOK_MAP = {
   "撒迦利亚书": 38,
   "玛拉基书": 39,
 
-
-  // ------------------------------------------------
-  // 新约
-  // ------------------------------------------------
-
   "马太福音": 40,
   "马可福音": 41,
   "路加福音": 42,
@@ -144,22 +133,63 @@ const BOOK_MAP = {
 
   "犹大书": 65,
   "启示录": 66
+
 };
 
 
 // ================================================================
-// 2. 常用别名
-//
-// 防止 MOS / BILA 数据中书名略有不同导致读取失败
+// 2. 圣经书卷别名
 // ================================================================
 
-const BOOK_ALIASES = {
+const BILA_BOOK_ALIASES = {
 
   "创": "创世记",
   "出": "出埃及记",
   "利": "利未记",
   "民": "民数记",
   "申": "申命记",
+
+  "书": "约书亚记",
+  "士": "士师记",
+  "得": "路得记",
+
+  "撒上": "撒母耳记上",
+  "撒下": "撒母耳记下",
+
+  "王上": "列王纪上",
+  "王下": "列王纪下",
+
+  "代上": "历代志上",
+  "代下": "历代志下",
+
+  "拉": "以斯拉记",
+  "尼": "尼希米记",
+  "斯": "以斯帖记",
+
+  "伯": "约伯记",
+  "诗": "诗篇",
+  "箴": "箴言",
+  "传": "传道书",
+  "歌": "雅歌",
+
+  "赛": "以赛亚书",
+  "耶": "耶利米书",
+  "哀": "耶利米哀歌",
+  "结": "以西结书",
+  "但": "但以理书",
+
+  "何": "何西阿书",
+  "珥": "约珥书",
+  "摩": "阿摩司书",
+  "俄": "俄巴底亚书",
+  "拿": "约拿书",
+  "弥": "弥迦书",
+  "鸿": "那鸿书",
+  "哈": "哈巴谷书",
+  "番": "西番雅书",
+  "该": "哈该书",
+  "亚": "撒迦利亚书",
+  "玛": "玛拉基书",
 
   "太": "马太福音",
   "可": "马可福音",
@@ -170,6 +200,7 @@ const BOOK_ALIASES = {
   "罗": "罗马书",
   "林前": "哥林多前书",
   "林后": "哥林多后书",
+
   "加": "加拉太书",
   "弗": "以弗所书",
   "腓": "腓立比书",
@@ -180,448 +211,969 @@ const BOOK_ALIASES = {
 
   "提前": "提摩太前书",
   "提后": "提摩太后书",
+
   "多": "提多书",
   "门": "腓利门书",
 
   "来": "希伯来书",
   "雅": "雅各书",
+
   "彼前": "彼得前书",
   "彼后": "彼得后书",
+
   "约一": "约翰一书",
   "约二": "约翰二书",
   "约三": "约翰三书",
+
   "犹": "犹大书",
   "启": "启示录"
+
 };
 
 
 // ================================================================
 // 3. 缓存
-//
-// 格式：
-// "43_1" -> 约翰福音第1章
 // ================================================================
 
-const BibleCache = {};
+const BILA_BIBLE_CACHE = {};
 
+const BILA_CURRICULUM_CACHE = {};
 
-// ================================================================
-// 4. 当前正在加载的请求
-//
-// 防止同一章节被同时请求多次
-// ================================================================
-
-const BiblePendingRequests = {};
+const BILA_PENDING = {};
 
 
 // ================================================================
-// 5. 统一处理书卷名称
+// 4. 清理文本
 // ================================================================
 
-function normalizeBookName(book) {
-
-  if (!book) {
-    return null;
-  }
-
-  book = String(book).trim();
-
-  // 已经是完整书名
-  if (BOOK_MAP[book]) {
-    return book;
-  }
-
-  // 使用别名
-  if (BOOK_ALIASES[book]) {
-    return BOOK_ALIASES[book];
-  }
-
-  return null;
-}
-
-
-// ================================================================
-// 6. 清理经文文本
-//
-// API 正常情况下不会出现：
-// 「起 初 ， 神 創 造 天 地」
-//
-// 如果未来出现中文字符之间的异常空格，自动清理。
-// ================================================================
-
-function cleanBibleText(text) {
-
-  if (text === null || text === undefined) {
-    return "";
-  }
-
-  let result = String(text);
-
-  // Unicode 标准化
-  result = result.normalize("NFC");
-
-  // 去掉 HTML 标签
-  result = result.replace(/<[^>]*>/g, "");
-
-  // 去掉多余空白
-  result = result.replace(/\s+/g, " ");
-
-  // 去掉中文字符之间的空格
-  result = result.replace(
-    /([\u4e00-\u9fff])\s+([\u4e00-\u9fff])/g,
-    "$1$2"
-  );
-
-  return result.trim();
-}
-
-
-// ================================================================
-// 7. 请求超时控制
-// ================================================================
-
-async function fetchWithTimeout(url, timeout = 15000) {
-
-  const controller = new AbortController();
-
-  const timer = setTimeout(() => {
-    controller.abort();
-  }, timeout);
-
-  try {
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json"
-      },
-      signal: controller.signal
-    });
-
-    return response;
-
-  } finally {
-
-    clearTimeout(timer);
-  }
-}
-
-
-// ================================================================
-// 8. 从 API 返回的数据中提取经文
-//
-// GetBible V2 的章节 API 数据结构可能存在少量字段差异。
-// 所以这里做兼容处理。
-//
-// 常见结构：
-//
-// {
-//   "translation": {...},
-//   "book": {...},
-//   "chapter": {...},
-//   "verses": [...]
-// }
-// ================================================================
-
-function extractVerses(data) {
-
-  if (!data) {
-    return [];
-  }
-
-
-  // ------------------------------------------------
-  // 情况 A：data.verses
-  // ------------------------------------------------
-
-  if (Array.isArray(data.verses)) {
-
-    return data.verses.map((item, index) => {
-
-      const verseNumber =
-        Number(
-          item.verse ||
-          item.verse_number ||
-          item.number ||
-          index + 1
-        );
-
-      const text =
-        item.text ||
-        item.content ||
-        item.verse_text ||
-        "";
-
-      return {
-        verse: verseNumber,
-        text: cleanBibleText(text)
-      };
-    });
-  }
-
-
-  // ------------------------------------------------
-  // 情况 B：data.chapter.verses
-  // ------------------------------------------------
+function bilaCleanText(text) {
 
   if (
-    data.chapter &&
-    Array.isArray(data.chapter.verses)
+    text === null ||
+    text === undefined
   ) {
 
-    return data.chapter.verses.map((item, index) => {
+    return "";
 
-      const verseNumber =
-        Number(
-          item.verse ||
-          item.verse_number ||
-          item.number ||
-          index + 1
-        );
-
-      const text =
-        item.text ||
-        item.content ||
-        item.verse_text ||
-        "";
-
-      return {
-        verse: verseNumber,
-        text: cleanBibleText(text)
-      };
-    });
   }
 
 
-  // ------------------------------------------------
-  // 情况 C：返回数组
-  // ------------------------------------------------
+  let result =
+    String(text);
 
-  if (Array.isArray(data)) {
 
-    return data.map((item, index) => {
+  // 去 BOM
+  result =
+    result.replace(
+      /^\uFEFF/,
+      ""
+    );
 
-      if (typeof item === "string") {
 
-        return {
-          verse: index + 1,
-          text: cleanBibleText(item)
-        };
+  // 去 HTML
+  result =
+    result.replace(
+      /<[^>]*>/g,
+      ""
+    );
+
+
+  // 去换行
+  result =
+    result.replace(
+      /[\r\n\t]+/g,
+      " "
+    );
+
+
+  // 多空格
+  result =
+    result.replace(
+      /\s+/g,
+      " "
+    );
+
+
+  // 删除中文之间异常空格
+  result =
+    result.replace(
+      /([\u4e00-\u9fff])\s+([\u4e00-\u9fff])/g,
+      "$1$2"
+    );
+
+
+  return result.trim();
+
+}
+
+
+// ================================================================
+// 5. CSV解析
+//
+// 支持：
+// week,reference,sunday_theme,...
+//
+// 并正确处理字段中的逗号和引号。
+// ================================================================
+
+function bilaParseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+
+  let cell = "";
+
+  let inQuotes = false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char =
+      text[i];
+
+    const next =
+      text[i + 1];
+
+
+    if (char === '"') {
+
+      if (
+        inQuotes &&
+        next === '"'
+      ) {
+
+        cell += '"';
+
+        i++;
+
+      } else {
+
+        inQuotes =
+          !inQuotes;
 
       }
 
-      return {
-        verse:
+      continue;
+
+    }
+
+
+    if (
+      char === "," &&
+      !inQuotes
+    ) {
+
+      row.push(
+        cell.trim()
+      );
+
+      cell = "";
+
+      continue;
+
+    }
+
+
+    if (
+      (char === "\n" || char === "\r") &&
+      !inQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        next === "\n"
+      ) {
+
+        i++;
+
+      }
+
+      row.push(
+        cell.trim()
+      );
+
+      if (
+        row.some(
+          value =>
+            value !== ""
+        )
+      ) {
+
+        rows.push(row);
+
+      }
+
+      row = [];
+
+      cell = "";
+
+      continue;
+
+    }
+
+
+    cell += char;
+
+  }
+
+
+  if (
+    cell !== "" ||
+    row.length
+  ) {
+
+    row.push(
+      cell.trim()
+    );
+
+    if (
+      row.some(
+        value =>
+          value !== ""
+      )
+    ) {
+
+      rows.push(row);
+
+    }
+
+  }
+
+
+  if (
+    rows.length < 2
+  ) {
+
+    return [];
+
+  }
+
+
+  const headers =
+    rows[0].map(
+      header =>
+        bilaCleanText(header)
+    );
+
+
+  return rows
+    .slice(1)
+    .map(
+      values => {
+
+        const obj = {};
+
+        headers.forEach(
+          (header, index) => {
+
+            obj[header] =
+              values[index] || "";
+
+          }
+        );
+
+        return obj;
+
+      }
+    );
+
+}
+
+
+// ================================================================
+// 6. 加载52周课程
+// ================================================================
+
+async function loadCurriculum() {
+
+  if (
+    BILA_CURRICULUM_CACHE.courses
+  ) {
+
+    return BILA_CURRICULUM_CACHE.courses;
+
+  }
+
+
+  if (
+    BILA_PENDING.curriculum
+  ) {
+
+    return BILA_PENDING.curriculum;
+
+  }
+
+
+  console.log(
+    "📚 正在加载 MOS 52 周课程..."
+  );
+
+
+  BILA_PENDING.curriculum =
+    fetch(
+      BILA_CONFIG.curriculumUrl,
+      {
+        cache: "no-cache"
+      }
+    )
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "52-weeks.csv 加载失败：HTTP " +
+              response.status
+            );
+
+          }
+
+          return response.text();
+
+        }
+      )
+      .then(
+        text => {
+
+          const courses =
+            bilaParseCSV(text);
+
+
+          if (
+            !courses.length
+          ) {
+
+            throw new Error(
+              "52-weeks.csv 没有读取到课程"
+            );
+
+          }
+
+
+          BILA_CURRICULUM_CACHE.courses =
+            courses;
+
+
+          console.log(
+            "✅ 52周课程加载成功：" +
+            courses.length +
+            " 周"
+          );
+
+
+          return courses;
+
+        }
+      )
+      .finally(
+        () => {
+
+          delete BILA_PENDING.curriculum;
+
+        }
+      );
+
+
+  return BILA_PENDING.curriculum;
+
+}
+
+
+// ================================================================
+// 7. 获取指定周
+// ================================================================
+
+async function getWeek(weekNumber) {
+
+  const courses =
+    await loadCurriculum();
+
+
+  const week =
+    Number(weekNumber);
+
+
+  const result =
+    courses.find(
+      item =>
+        Number(item.week) === week
+    );
+
+
+  if (!result) {
+
+    throw new Error(
+      "找不到第 " +
+      week +
+      " 周课程"
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+// ================================================================
+// 8. 解析经文引用
+//
+// 支持：
+// 约翰福音1:1-18
+// 约翰福音 1:1-18
+// 罗马书 12:1-2
+// ================================================================
+
+function parseBibleReference(reference) {
+
+  if (!reference) {
+
+    throw new Error(
+      "经文引用为空"
+    );
+
+  }
+
+
+  let value =
+    String(reference)
+      .trim();
+
+
+  value =
+    value.replace(
+      /：/g,
+      ":"
+    );
+
+
+  value =
+    value.replace(
+      /－/g,
+      "-"
+    );
+
+
+  value =
+    value.replace(
+      /\s+/g,
+      " "
+    );
+
+
+  const match =
+    value.match(
+      /^(.+?)\s*(\d+):(\d+)(?:-(\d+))?$/
+    );
+
+
+  if (!match) {
+
+    throw new Error(
+      "无法解析经文引用：" +
+      reference
+    );
+
+  }
+
+
+  let book =
+    match[1].trim();
+
+
+  if (
+    BILA_BOOK_ALIASES[book]
+  ) {
+
+    book =
+      BILA_BOOK_ALIASES[book];
+
+  }
+
+
+  if (
+    !BILA_BOOK_MAP[book]
+  ) {
+
+    throw new Error(
+      "无法识别书卷：" +
+      book
+    );
+
+  }
+
+
+  return {
+
+    book,
+
+    bookNumber:
+      BILA_BOOK_MAP[book],
+
+    chapter:
+      Number(match[2]),
+
+    startVerse:
+      Number(match[3]),
+
+    endVerse:
+      match[4]
+        ? Number(match[4])
+        : Number(match[3])
+
+  };
+
+}
+
+
+// ================================================================
+// 9. 请求章节 API
+// ================================================================
+
+async function fetchBibleChapter(
+  bookNumber,
+  chapter
+) {
+
+  const cacheKey =
+    bookNumber +
+    "_" +
+    chapter;
+
+
+  // 已缓存
+  if (
+    BILA_CONFIG.cache &&
+    BILA_BIBLE_CACHE[cacheKey]
+  ) {
+
+    return BILA_BIBLE_CACHE[cacheKey];
+
+  }
+
+
+  // 同时请求
+  if (
+    BILA_PENDING[cacheKey]
+  ) {
+
+    return BILA_PENDING[cacheKey];
+
+  }
+
+
+  const url =
+    BILA_CONFIG.bibleApi +
+    "/" +
+    bookNumber +
+    "/" +
+    chapter +
+    ".json";
+
+
+  console.log(
+    "📖 加载圣经章节：",
+    url
+  );
+
+
+  BILA_PENDING[cacheKey] =
+    (async () => {
+
+      const controller =
+        new AbortController();
+
+
+      const timer =
+        setTimeout(
+          () =>
+            controller.abort(),
+          BILA_CONFIG.timeout
+        );
+
+
+      try {
+
+        const response =
+          await fetch(
+            url,
+            {
+              method: "GET",
+              cache: "force-cache",
+              signal:
+                controller.signal
+            }
+          );
+
+
+        if (
+          !response.ok
+        ) {
+
+          throw new Error(
+            "圣经 API 请求失败：HTTP " +
+            response.status
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const verses =
+          extractBibleVerses(data);
+
+
+        if (
+          !verses.length
+        ) {
+
+          throw new Error(
+            "圣经 API 没有返回经文"
+          );
+
+        }
+
+
+        if (
+          BILA_CONFIG.cache
+        ) {
+
+          BILA_BIBLE_CACHE[
+            cacheKey
+          ] = verses;
+
+        }
+
+
+        console.log(
+          "✅ 圣经章节读取成功：",
+          bookNumber,
+          chapter,
+          verses.length,
+          "节"
+        );
+
+
+        return verses;
+
+
+      } catch (error) {
+
+        if (
+          error.name ===
+          "AbortError"
+        ) {
+
+          throw new Error(
+            "圣经 API 请求超时，请检查网络"
+          );
+
+        }
+
+
+        throw error;
+
+      } finally {
+
+        clearTimeout(timer);
+
+        delete BILA_PENDING[
+          cacheKey
+        ];
+
+      }
+
+    })();
+
+
+  return BILA_PENDING[cacheKey];
+
+}
+
+
+// ================================================================
+// 10. 兼容不同 API 返回结构
+// ================================================================
+
+function extractBibleVerses(data) {
+
+  const result = [];
+
+
+  // ------------------------------------------------
+  // 情况1：
+  // data.verses
+  // ------------------------------------------------
+
+  if (
+    data &&
+    Array.isArray(
+      data.verses
+    )
+  ) {
+
+    data.verses.forEach(
+      (item, index) => {
+
+        const verse =
           Number(
             item.verse ||
             item.verse_number ||
             item.number ||
             index + 1
-          ),
-
-        text:
-          cleanBibleText(
-            item.text ||
-            item.content ||
-            item.verse_text ||
-            ""
-          )
-      };
-
-    });
-  }
+          );
 
 
-  return [];
-}
+        const text =
+          item.text ||
+          item.content ||
+          "";
 
 
-// ================================================================
-// 9. 加载指定章节
-//
-// 例如：
-// getBibleChapter("约翰福音", 1)
-//
-// 实际请求：
-// https://api.getbible.net/v2/cus/43/1.json
-// ================================================================
+        if (text) {
 
-async function getBibleChapter(book, chapter) {
+          result.push({
 
-  const normalizedBook =
-    normalizeBookName(book);
+            verse,
 
-  if (!normalizedBook) {
+            text:
+              bilaCleanText(text)
 
-    throw new Error(
-      "找不到圣经书卷：" + book
+          });
+
+        }
+
+      }
     );
+
+
+    return result;
+
   }
-
-
-  chapter = Number(chapter);
-
-  if (!Number.isInteger(chapter) || chapter < 1) {
-
-    throw new Error(
-      "无效的章节：" + chapter
-    );
-  }
-
-
-  const bookNumber =
-    BOOK_MAP[normalizedBook];
-
-
-  const cacheKey =
-    `${bookNumber}_${chapter}`;
 
 
   // ------------------------------------------------
-  // 读取缓存
+  // 情况2：
+  // data.chapter.verses
   // ------------------------------------------------
 
   if (
-    BIBLE_CONFIG.cacheEnabled &&
-    BibleCache[cacheKey]
+    data &&
+    data.chapter &&
+    Array.isArray(
+      data.chapter.verses
+    )
   ) {
 
-    return BibleCache[cacheKey];
+    data.chapter.verses.forEach(
+      (item, index) => {
+
+        const verse =
+          Number(
+            item.verse ||
+            item.verse_number ||
+            item.number ||
+            index + 1
+          );
+
+
+        const text =
+          item.text ||
+          item.content ||
+          "";
+
+
+        if (text) {
+
+          result.push({
+
+            verse,
+
+            text:
+              bilaCleanText(text)
+
+          });
+
+        }
+
+      }
+    );
+
+
+    return result;
+
   }
 
 
   // ------------------------------------------------
-  // 如果已经有人请求同一章
-  // 就直接等待同一个 Promise
+  // 情况3：
+  // 直接对象
   // ------------------------------------------------
 
-  if (BiblePendingRequests[cacheKey]) {
+  if (
+    data &&
+    typeof data === "object"
+  ) {
 
-    return BiblePendingRequests[cacheKey];
-  }
-
-
-  // ------------------------------------------------
-  // 建立请求
-  // ------------------------------------------------
-
-  const url =
-    `${BIBLE_CONFIG.apiBase}/${bookNumber}/${chapter}.json`;
+    const possible =
+      data.verses ||
+      data;
 
 
-  console.log(
-    `📖 BILA Bible Engine：加载 ${normalizedBook} ${chapter}章`
-  );
+    if (
+      possible &&
+      typeof possible ===
+      "object"
+    ) {
 
-  console.log(
-    "API:",
-    url
-  );
+      Object.keys(
+        possible
+      ).forEach(
+        key => {
 
-
-  const request = (async () => {
-
-    try {
-
-      const response =
-        await fetchWithTimeout(
-          url,
-          BIBLE_CONFIG.timeout
-        );
+          const item =
+            possible[key];
 
 
-      if (!response.ok) {
+          if (
+            item &&
+            typeof item ===
+            "object"
+          ) {
 
-        throw new Error(
-          `圣经 API 请求失败：HTTP ${response.status}`
-        );
-      }
-
-
-      const data =
-        await response.json();
-
-
-      const verses =
-        extractVerses(data);
+            const verse =
+              Number(
+                item.verse ||
+                item.verse_number ||
+                key
+              );
 
 
-      if (!verses.length) {
-
-        console.error(
-          "API 返回数据：",
-          data
-        );
-
-        throw new Error(
-          `${normalizedBook} 第 ${chapter} 章没有找到经文数据`
-        );
-      }
+            const text =
+              item.text ||
+              item.content ||
+              "";
 
 
-      // ------------------------------------------------
-      // 缓存
-      // ------------------------------------------------
+            if (
+              text &&
+              Number.isFinite(
+                verse
+              )
+            ) {
 
-      if (BIBLE_CONFIG.cacheEnabled) {
+              result.push({
 
-        BibleCache[cacheKey] =
-          verses;
-      }
+                verse,
 
+                text:
+                  bilaCleanText(
+                    text
+                  )
 
-      console.log(
-        `✅ ${normalizedBook} ${chapter}章加载成功，共 ${verses.length} 节`
+              });
+
+            }
+
+          }
+
+        }
       );
-
-
-      return verses;
-
-
-    } catch (error) {
-
-      console.error(
-        "❌ Bible Engine Error:",
-        error
-      );
-
-
-      if (error.name === "AbortError") {
-
-        throw new Error(
-          "圣经数据加载超时，请检查网络连接"
-        );
-      }
-
-
-      throw error;
-
-    } finally {
-
-      delete BiblePendingRequests[cacheKey];
 
     }
 
-  })();
+  }
 
 
-  BiblePendingRequests[cacheKey] =
-    request;
+  result.sort(
+    (a, b) =>
+      a.verse - b.verse
+  );
 
 
-  return request;
+  return result;
+
 }
 
 
 // ================================================================
-// 10. 读取单节经文
-//
-// 例如：
-// getBibleVerse("约翰福音", 3, 16)
-//
-// 返回：
-// 神爱世人，甚至将他的独生子赐给他们，叫一切信他的，
-// 不至灭亡，反得永生。
+// 11. 获取整章
+// ================================================================
+
+async function getBibleChapter(
+  book,
+  chapter
+) {
+
+  const parsedBook =
+    normalizeBookForEngine(book);
+
+
+  return fetchBibleChapter(
+    parsedBook.bookNumber,
+    Number(chapter)
+  );
+
+}
+
+
+// ================================================================
+// 12. 标准化书卷
+// ================================================================
+
+function normalizeBookForEngine(book) {
+
+  let name =
+    String(book || "")
+      .trim();
+
+
+  if (
+    BILA_BOOK_ALIASES[name]
+  ) {
+
+    name =
+      BILA_BOOK_ALIASES[name];
+
+  }
+
+
+  if (
+    !BILA_BOOK_MAP[name]
+  ) {
+
+    throw new Error(
+      "找不到书卷：" +
+      book
+    );
+
+  }
+
+
+  return {
+
+    book:
+      name,
+
+    bookNumber:
+      BILA_BOOK_MAP[name]
+
+  };
+
+}
+
+
+// ================================================================
+// 13. 获取单节
 // ================================================================
 
 async function getBibleVerse(
@@ -637,13 +1189,14 @@ async function getBibleVerse(
     );
 
 
-  verse = Number(verse);
+  const target =
+    Number(verse);
 
 
   const result =
     verses.find(
       item =>
-        Number(item.verse) === verse
+        item.verse === target
     );
 
 
@@ -652,28 +1205,17 @@ async function getBibleVerse(
     throw new Error(
       `${book} ${chapter}:${verse} 不存在`
     );
+
   }
 
 
   return result.text;
+
 }
 
 
 // ================================================================
-// 11. 读取经文范围
-//
-// 例如：
-// getBiblePassage(
-//   "约翰福音",
-//   1,
-//   1,
-//   18
-// )
-//
-// 返回：
-// 1 起初有道，道与神同在，道就是神。
-// 2 这道太初与神同在。
-// ...
+// 14. 获取经文范围
 // ================================================================
 
 async function getBiblePassage(
@@ -690,140 +1232,55 @@ async function getBiblePassage(
     );
 
 
-  startVerse =
+  const start =
     Number(startVerse);
 
-  endVerse =
+
+  const end =
     Number(endVerse);
-
-
-  if (
-    !Number.isInteger(startVerse) ||
-    !Number.isInteger(endVerse)
-  ) {
-
-    throw new Error(
-      "无效的经文范围"
-    );
-  }
 
 
   const selected =
     verses.filter(
-      verse =>
-        verse.verse >= startVerse &&
-        verse.verse <= endVerse
+      item =>
+        item.verse >= start &&
+        item.verse <= end
     );
 
 
-  if (!selected.length) {
+  if (
+    !selected.length
+  ) {
 
     throw new Error(
-      `${book} ${chapter}:${startVerse}-${endVerse} 没有找到经文`
+      `${book} ${chapter}:${start}-${end} 没有找到经文`
     );
+
   }
 
 
   return selected
     .map(
-      verse =>
-        `${verse.verse} ${verse.text}`
+      item =>
+        `${item.verse} ${item.text}`
     )
     .join("\n");
+
 }
 
 
 // ================================================================
-// 12. 解析经文引用
-//
-// 支持：
-//
-// 约翰福音 3:16
-// 约翰福音 3:16-18
-// 太 5:3
-// 罗马书 12:1-2
+// 15. 通过引用读取完整经文
 // ================================================================
 
-function parseBibleReference(reference) {
-
-  if (!reference) {
-    return null;
-  }
-
-
-  reference =
-    String(reference)
-      .trim()
-      .replace(/\s+/g, " ");
-
-
-  const match =
-    reference.match(
-      /^(.+?)\s+(\d+):(\d+)(?:-(\d+))?$/
-    );
-
-
-  if (!match) {
-    return null;
-  }
-
-
-  const book =
-    normalizeBookName(
-      match[1]
-    );
-
-
-  if (!book) {
-    return null;
-  }
-
-
-  return {
-
-    book,
-
-    chapter:
-      Number(match[2]),
-
-    startVerse:
-      Number(match[3]),
-
-    endVerse:
-      match[4]
-        ? Number(match[4])
-        : Number(match[3])
-  };
-}
-
-
-// ================================================================
-// 13. 一行调用
-//
-// 例如：
-//
-// getBibleText("约翰福音 3:16")
-//
-// 或：
-//
-// getBibleText("约翰福音 1:1-18")
-// ================================================================
-
-async function getBibleText(reference) {
+async function getBibleText(
+  reference
+) {
 
   const parsed =
     parseBibleReference(
       reference
     );
-
-
-  if (!parsed) {
-
-    throw new Error(
-      "无法解析经文引用：" +
-      reference
-    );
-  }
 
 
   return getBiblePassage(
@@ -837,362 +1294,461 @@ async function getBibleText(reference) {
     parsed.endVerse
 
   );
+
 }
 
 
 // ================================================================
-// 14. 获取整章对象
-//
-// 比 getBibleChapter 更适合前端显示
+// 16. 返回结构化经文
 // ================================================================
 
-async function getBibleChapterObject(
-  book,
-  chapter
+async function getBibleData(
+  reference
 ) {
+
+  const parsed =
+    parseBibleReference(
+      reference
+    );
+
 
   const verses =
     await getBibleChapter(
-      book,
-      chapter
+      parsed.book,
+      parsed.chapter
     );
 
 
   return {
 
     version:
-      BIBLE_CONFIG.version,
+      BILA_CONFIG.bibleVersion,
 
     versionName:
-      BIBLE_CONFIG.name,
+      BILA_CONFIG.bibleVersionName,
+
+    reference,
 
     book:
-      normalizeBookName(book),
+      parsed.book,
 
     chapter:
-      Number(chapter),
+      parsed.chapter,
 
-    verses
+    startVerse:
+      parsed.startVerse,
+
+    endVerse:
+      parsed.endVerse,
+
+    verses:
+      verses.filter(
+        item =>
+          item.verse >=
+          parsed.startVerse &&
+          item.verse <=
+          parsed.endVerse
+      )
 
   };
+
 }
 
 
 // ================================================================
-// 15. 测试 API
+// 17. 第N周 + 经文
 //
-// 浏览器控制台运行：
+// 这是以后 BILA 最主要的调用接口。
 //
-// testBibleEngine()
-//
+// getWeekBible(1)
 // ================================================================
 
-async function testBibleEngine() {
-
-  console.log(
-    "========================================"
-  );
-
-  console.log(
-    "BILA Bible Engine V2 测试开始"
-  );
-
-  console.log(
-    "版本：和合本（简体字）"
-  );
-
-  console.log(
-    "========================================"
-  );
-
-
-  try {
-
-    // ------------------------------------------------
-    // 测试 1
-    // ------------------------------------------------
-
-    const verse =
-      await getBibleVerse(
-        "约翰福音",
-        3,
-        16
-      );
-
-
-    console.log(
-      "✅ 测试1：约翰福音 3:16"
-    );
-
-    console.log(
-      verse
-    );
-
-
-    // ------------------------------------------------
-    // 测试 2
-    // ------------------------------------------------
-
-    const passage =
-      await getBibleText(
-        "约翰福音 1:1-5"
-      );
-
-
-    console.log(
-      "✅ 测试2：约翰福音 1:1-5"
-    );
-
-    console.log(
-      passage
-    );
-
-
-    // ------------------------------------------------
-    // 测试 3
-    // ------------------------------------------------
-
-    const chapter =
-      await getBibleChapter(
-        "创世记",
-        1
-      );
-
-
-    console.log(
-      "✅ 测试3：创世记第1章"
-    );
-
-    console.log(
-      "共读取：",
-      chapter.length,
-      "节"
-    );
-
-
-    console.log(
-      "========================================"
-    );
-
-    console.log(
-      "🎉 BILA Bible Engine V2 测试成功"
-    );
-
-    console.log(
-      "========================================"
-    );
-
-
-    return true;
-
-
-  } catch (error) {
-
-    console.error(
-      "========================================"
-    );
-
-    console.error(
-      "❌ BILA Bible Engine V2 测试失败"
-    );
-
-    console.error(
-      error
-    );
-
-    console.error(
-      "========================================"
-    );
-
-
-    return false;
-  }
-}
-
-
-// ================================================================
-// 16. 获取多个经文
-//
-// 方便以后 MOS 52周系统使用
-//
-// 例如：
-//
-// getBibleReferences([
-//   "约翰福音 3:16",
-//   "罗马书 12:1-2",
-//   "马太福音 28:19-20"
-// ])
-// ================================================================
-
-async function getBibleReferences(
-  references
+async function getWeekBible(
+  weekNumber
 ) {
 
-  if (!Array.isArray(references)) {
-
-    throw new Error(
-      "references 必须是数组"
+  const course =
+    await getWeek(
+      weekNumber
     );
-  }
 
 
-  const results = [];
-
-
-  for (
-    const reference
-    of references
+  if (
+    !course.reference
   ) {
 
-    try {
-
-      const text =
-        await getBibleText(
-          reference
-        );
-
-
-      results.push({
-
-        reference,
-
-        success: true,
-
-        text
-
-      });
-
-
-    } catch (error) {
-
-      results.push({
-
-        reference,
-
-        success: false,
-
-        text: "",
-
-        error:
-          error.message
-
-      });
-
-    }
+    throw new Error(
+      `第 ${weekNumber} 周没有经文引用`
+    );
 
   }
 
 
-  return results;
-}
-
-
-// ================================================================
-// 17. 清除缓存
-//
-// 如果以后需要重新读取圣经数据：
-//
-// clearBibleCache()
-// ================================================================
-
-function clearBibleCache() {
-
-  Object.keys(
-    BibleCache
-  ).forEach(
-    key =>
-      delete BibleCache[key]
-  );
-
-
-  console.log(
-    "🗑️ BILA Bible Cache 已清除"
-  );
-}
-
-
-// ================================================================
-// 18. 查看当前缓存
-// ================================================================
-
-function getBibleCacheInfo() {
-
-  const keys =
-    Object.keys(
-      BibleCache
+  const bible =
+    await getBibleData(
+      course.reference
     );
 
 
   return {
 
-    count:
-      keys.length,
+    week:
+      Number(
+        course.week
+      ),
 
-    chapters:
-      keys
+    reference:
+      course.reference,
+
+    sundayTheme:
+      course.sunday_theme ||
+      "",
+
+    bilaTheme:
+      course.bila_theme ||
+      "",
+
+    practice:
+      course.practice ||
+      "",
+
+    groupFeedback:
+      course.group_feedback ||
+      "",
+
+    mission:
+      course.mission ||
+      "",
+
+    bible
 
   };
+
 }
 
 
 // ================================================================
-// 19. 对外暴露
+// 18. 批量读取52周
 //
-// 如果 BILA 使用 module / script 方式加载，
-// 下面这些函数都可以直接使用。
+// 注意：
+// 默认不一次性请求52周经文。
+// 这里只读取课程 CSV。
+// 经文仍然按需要加载。
+//
+// getAllWeeks()
+// ================================================================
+
+async function getAllWeeks() {
+
+  return loadCurriculum();
+
+}
+
+
+// ================================================================
+// 19. 清除圣经缓存
+// ================================================================
+
+function clearBibleCache() {
+
+  Object.keys(
+    BILA_BIBLE_CACHE
+  ).forEach(
+    key =>
+      delete BILA_BIBLE_CACHE[key]
+  );
+
+
+  console.log(
+    "🗑️ 圣经缓存已清除"
+  );
+
+}
+
+
+// ================================================================
+// 20. 清除课程缓存
+// ================================================================
+
+function clearCurriculumCache() {
+
+  delete BILA_CURRICULUM_CACHE.courses;
+
+
+  console.log(
+    "🗑️ 52周课程缓存已清除"
+  );
+
+}
+
+
+// ================================================================
+// 21. 查看系统状态
+// ================================================================
+
+function bibleEngineStatus() {
+
+  return {
+
+    version:
+      "BILA Bible Engine V2.1",
+
+    bibleVersion:
+      BILA_CONFIG.bibleVersionName,
+
+    curriculum:
+      BILA_CURRICULUM_CACHE.courses
+        ? "已加载"
+        : "未加载",
+
+    cachedBibleChapters:
+      Object.keys(
+        BILA_BIBLE_CACHE
+      ).length,
+
+    cachedCurriculumRows:
+      BILA_CURRICULUM_CACHE.courses
+        ? BILA_CURRICULUM_CACHE.courses.length
+        : 0
+
+  };
+
+}
+
+
+// ================================================================
+// 22. 测试第1周
+// ================================================================
+
+async function testWeek1() {
+
+  console.log(
+    "======================================"
+  );
+
+  console.log(
+    "🌿 BILA MOS 第1周测试"
+  );
+
+  console.log(
+    "======================================"
+  );
+
+
+  try {
+
+    const data =
+      await getWeekBible(
+        1
+      );
+
+
+    console.log(
+      "第1周：",
+      data
+    );
+
+
+    console.log(
+      "主题：",
+      data.sundayTheme
+    );
+
+
+    console.log(
+      "BILA主题：",
+      data.bilaTheme
+    );
+
+
+    console.log(
+      "经文：",
+      data.reference
+    );
+
+
+    console.log(
+      "完整经文："
+    );
+
+
+    console.log(
+      data.bible.verses
+        .map(
+          item =>
+            `${item.verse} ${item.text}`
+        )
+        .join("\n")
+    );
+
+
+    console.log(
+      "实践：",
+      data.practice
+    );
+
+
+    console.log(
+      "群体反馈：",
+      data.groupFeedback
+    );
+
+
+    console.log(
+      "使命：",
+      data.mission
+    );
+
+
+    console.log(
+      "======================================"
+    );
+
+    console.log(
+      "✅ 第1周测试成功"
+    );
+
+    console.log(
+      "======================================"
+    );
+
+
+    return data;
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ 第1周测试失败",
+      error
+    );
+
+
+    throw error;
+
+  }
+
+}
+
+
+// ================================================================
+// 23. 测试指定周
+// ================================================================
+
+async function testWeek(
+  weekNumber
+) {
+
+  const data =
+    await getWeekBible(
+      weekNumber
+    );
+
+
+  console.log(
+    `✅ 第 ${weekNumber} 周测试成功`
+  );
+
+
+  console.log(
+    data
+  );
+
+
+  return data;
+
+}
+
+
+// ================================================================
+// 24. 对外接口
 // ================================================================
 
 if (
-  typeof window !== "undefined"
+  typeof window !==
+  "undefined"
 ) {
 
   window.BilaBible = {
 
+    // 配置
     config:
-      BIBLE_CONFIG,
+      BILA_CONFIG,
 
-    books:
-      BOOK_MAP,
+    // 课程
+    loadCurriculum:
+      loadCurriculum,
 
-    aliases:
-      BOOK_ALIASES,
+    getWeek:
+      getWeek,
 
-    getVerse:
+    getAllWeeks:
+      getAllWeeks,
+
+    // 圣经
+    verse:
       getBibleVerse,
 
-    getChapter:
+    chapter:
       getBibleChapter,
 
-    getPassage:
+    passage:
       getBiblePassage,
 
-    getText:
+    text:
       getBibleText,
 
-    getReferences:
-      getBibleReferences,
+    data:
+      getBibleData,
 
-    getChapterObject:
-      getBibleChapterObject,
+    // MOS
+    getWeekBible:
+      getWeekBible,
 
-    parseReference:
+    // 工具
+    parse:
       parseBibleReference,
 
-    test:
-      testBibleEngine,
-
-    clearCache:
+    clearBibleCache:
       clearBibleCache,
 
-    cacheInfo:
-      getBibleCacheInfo
+    clearCurriculumCache:
+      clearCurriculumCache,
+
+    status:
+      bibleEngineStatus,
+
+    testWeek1:
+      testWeek1,
+
+    testWeek:
+      testWeek
+
   };
 
 }
 
 
 // ================================================================
-// BILA Bible Engine V2
+// 25. 启动提示
+// ================================================================
+
+console.log(
+  "🌿 BILA Bible Engine V2.1 已加载"
+);
+
+console.log(
+  "📖 版本：和合本（简体字）"
+);
+
+console.log(
+  "📚 课程：52-weeks.csv"
+);
+
+console.log(
+  "💡 可测试：testWeek1()"
+);
+
+// ================================================================
 // END
 // ================================================================
-```
