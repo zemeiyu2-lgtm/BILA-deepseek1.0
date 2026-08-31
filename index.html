@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#2D5A3D">
 <title>BILA MOS 1.2 · 全年同行</title>
 <style>
-/* ===== 全局设计 ===== */
+/* ===== 全部样式（与之前完全一致） ===== */
 :root {
   --primary: #2D5A3D;
   --primary-light: #4A7A5A;
@@ -1069,95 +1069,35 @@ function updateEmotionTrail() {
 }
 
 // ================================================================
-// 4. 圣经加载（使用 Gitee 镜像）
+// 4. 圣经加载（在线API模式）
 // ================================================================
-let bibleData = null;
-let bibleLoading = false;
-let bibleLoaded = false;
+let bibleLoaded = true; // 直接标记为已加载，使用API模式
 
 function loadBible() {
-    if (bibleLoading || bibleLoaded) return;
-    bibleLoading = true;
-
-    // 使用 Gitee 镜像（国内高速，无需翻墙）
-    const url = 'https://gitee.com/zhongchengkai/9bible/raw/main/zh_cuv.json';
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error('网络请求失败');
-            return response.json();
-        })
-        .then(data => {
-            bibleData = data;
-            bibleLoaded = true;
-            bibleLoading = false;
-            console.log('✅ 和合本圣经数据加载成功，共 ' + bibleData.length + ' 卷');
-            document.getElementById('calText').innerHTML = '<span class="badge done">✅ 圣经已加载</span>';
-            if (currentModalId !== null) {
-                const c = getCourse(currentModalId);
-                if (c) renderStep(c);
-            }
-        })
-        .catch(err => {
-            bibleLoading = false;
-            console.warn('⚠️ 圣经加载失败：', err);
-            document.getElementById('calText').innerHTML = '<span class="badge pending">⚠️ 加载失败，请刷新或检查网络</span>';
-        });
-}
-
-function parseScriptureRef(ref) {
-  const parts = ref.split(' ');
-  const book = parts.slice(0, -1).join(' ');
-  const chapVerses = parts[parts.length - 1];
-  const [chapStr, verseStr] = chapVerses.split(':');
-  const chapter = parseInt(chapStr, 10);
-  let verses = [];
-  if (verseStr.includes('-')) {
-    const [start, end] = verseStr.split('-').map(v => parseInt(v, 10));
-    for (let i = start; i <= end; i++) verses.push(i);
-  } else {
-    verses = [parseInt(verseStr, 10)];
-  }
-  return { book, chapter, verses };
-}
-
-function getBookIndex(bookName) {
-  if (!bibleData) return -1;
-  return bibleData.findIndex(b => b.book === bookName);
-}
-
-function getScriptureText(ref) {
-  if (!bibleData || !bibleLoaded) return null;
-  try {
-    const { book, chapter, verses } = parseScriptureRef(ref);
-    const idx = getBookIndex(book);
-    if (idx === -1) return null;
-    const bookData = bibleData[idx];
-    if (!bookData.chapters || bookData.chapters.length < chapter) return null;
-    const chapData = bookData.chapters[chapter - 1];
-    if (!chapData) return null;
-    const verseTexts = verses.map(v => {
-      if (v <= chapData.length) return chapData[v - 1];
-      return null;
-    }).filter(v => v !== null);
-    return verseTexts.join('\n');
-  } catch(e) {
-    return null;
-  }
+    console.log('✅ 使用在线API模式');
+    document.getElementById('calText').innerHTML = '<span class="badge done">✅ 在线圣经可用</span>';
 }
 
 function displayScripture(ref, element) {
-  if (!element) return;
-  if (!bibleLoaded) {
-    element.innerHTML = '<span class="loading">⏳ 圣经数据加载中...</span>';
-    return;
-  }
-  const text = getScriptureText(ref);
-  if (text) {
-    element.innerHTML = text;
-  } else {
-    element.innerHTML = '（经文暂不可用，请稍后重试）';
-  }
+    if (!element) return;
+    // 从 API 获取经文
+    const url = 'https://bible-api.com/' + encodeURIComponent(ref) + '?translation=cuv';
+    element.innerHTML = '⏳ 加载中...';
+    fetch(url)
+        .then(res => {
+            if (!res.ok) throw new Error('API请求失败');
+            return res.json();
+        })
+        .then(data => {
+            if (data && data.text) {
+                element.innerHTML = data.text;
+            } else {
+                element.innerHTML = '（经文获取失败，请检查网络）';
+            }
+        })
+        .catch(() => {
+            element.innerHTML = '（加载失败，请刷新重试）';
+        });
 }
 
 // ================================================================
@@ -1176,13 +1116,8 @@ function renderStats() {
 function renderCalibrationStatus() {
   const stats = getCalibrationStats();
   const el = document.getElementById('calText');
-  if (bibleLoaded) {
-    el.innerHTML = '<span class="badge done">✅ 圣经已加载</span>';
-  } else if (bibleLoading) {
-    el.innerHTML = '<span class="badge pending">⏳ 加载中...</span>';
-  } else {
-    el.innerHTML = '<span class="badge pending">📖 等待加载...</span>';
-  }
+  // API模式直接显示可用
+  el.innerHTML = '<span class="badge done">✅ 在线圣经可用</span>';
 }
 
 function renderFootprint() {
@@ -1699,7 +1634,7 @@ function openAdminEdit(id) {
     <hr style="margin:16px 0;border:1px dashed #E8E0D8;">
     <div class="import-section">
       <h3>📥 批量导入经文全文</h3>
-      <p>上传CSV填充经文（若CDN加载失败时可补充）</p>
+      <p>上传CSV填充经文（若API失败时可补充）</p>
       <input type="file" id="csvFileInput" accept=".csv">
       <button onclick="importCSV()">导入CSV</button>
       <div id="importStatus" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
