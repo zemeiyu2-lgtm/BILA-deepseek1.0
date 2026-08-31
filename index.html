@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#2D5A3D">
 <title>BILA · 全年同行</title>
 <style>
-/* ===== 全新视觉设计 ===== */
+/* ===== 全部样式（同上，略） ===== */
 :root {
   --primary: #2D5A3D;
   --primary-light: #4A7A5A;
@@ -43,7 +43,6 @@ body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 99px; }
 
-/* ===== 顶部 ===== */
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -93,7 +92,6 @@ body {
 }
 .icon-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 
-/* ===== 用户区 ===== */
 .user-area {
   background: var(--card);
   border-radius: var(--radius);
@@ -179,8 +177,20 @@ body {
   color: var(--primary);
   font-weight: 500;
 }
+.public-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.public-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
 
-/* ===== 统计卡片 ===== */
 .stats {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   border-radius: var(--radius);
@@ -213,7 +223,6 @@ body {
 }
 .stats .item .label { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; letter-spacing: 0.5px; }
 
-/* ===== 校准状态 ===== */
 .calibration-status {
   background: var(--card);
   border-radius: var(--radius-sm);
@@ -237,7 +246,6 @@ body {
 .calibration-status .badge.done { background: #E8F0E8; color: var(--primary); }
 .calibration-status .badge.pending { background: #F5EDE0; color: #A08060; }
 
-/* ===== 进度条 ===== */
 .progress-wrap {
   background: var(--card);
   border-radius: var(--radius);
@@ -273,7 +281,6 @@ body {
   opacity: 0.7;
 }
 
-/* ===== 足迹图 ===== */
 .footprint {
   display: flex;
   justify-content: space-between;
@@ -299,16 +306,12 @@ body {
 .footprint .step.active .icon { opacity: 1; animation: pulse-icon 2s ease-in-out infinite; }
 .footprint .step.pending .icon { opacity: 0.25; filter: grayscale(0.8); }
 .footprint .step .label { font-size: 9px; margin-top: 3px; letter-spacing: 0.5px; }
-.footprint .step.filter-active {
-  background: var(--gold-glow);
-  border-radius: 12px;
-}
+.footprint .step.filter-active { background: var(--gold-glow); border-radius: 12px; }
 @keyframes pulse-icon {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.15); }
 }
 
-/* ===== MOS 循环 ===== */
 .mos-loop {
   background: var(--card);
   border-radius: var(--radius);
@@ -374,7 +377,6 @@ body {
   .stats .item .num { font-size: 22px; }
 }
 
-/* ===== 课程列表 ===== */
 .week-section { margin-bottom: 24px; }
 .week-header {
   font-size: 16px;
@@ -481,7 +483,6 @@ body {
   font-weight: 500;
 }
 
-/* ===== 弹窗 ===== */
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(30, 35, 30, 0.4);
   backdrop-filter: blur(12px);
@@ -674,7 +675,6 @@ body {
 }
 .modal-content .nav-buttons .btn-done:hover { background: var(--gold-light); }
 
-/* ===== 其他 ===== */
 .admin-footer {
   margin-top: 28px;
   text-align: center;
@@ -696,6 +696,82 @@ body {
   white-space: nowrap; max-width: 90%;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   font-weight: 500;
+}
+
+/* ===== 同伴页面 ===== */
+.peer-card {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(201, 169, 110, 0.08);
+}
+.peer-card .peer-info .peer-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+}
+.peer-card .peer-info .peer-progress {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.peer-card .peer-status {
+  font-size: 14px;
+  color: var(--muted);
+}
+.peer-card .peer-status .num {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 18px;
+}
+.peer-card.private .peer-name {
+  color: var(--muted);
+}
+.peer-card .badge-private {
+  font-size: 10px;
+  background: #F0EAE0;
+  padding: 2px 10px;
+  border-radius: 99px;
+  color: var(--muted);
+  margin-left: 8px;
+}
+.empty-peers {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--muted);
+}
+.empty-peers .icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+.empty-peers p {
+  font-size: 14px;
+}
+
+.peers-nav-btn {
+  background: var(--warm-bg);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  transition: var(--transition);
+  font-weight: 500;
+}
+.peers-nav-btn:hover { background: var(--gold-light); }
+.peers-nav-btn .count {
+  background: var(--gold);
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 8px;
+  border-radius: 99px;
+  margin-left: 4px;
 }
 </style>
 </head>
@@ -728,6 +804,11 @@ body {
     <span class="label">❤️ 情绪轨迹</span>
     <span id="emotionTags">（暂无记录）</span>
   </div>
+  <div class="public-toggle">
+    <label for="publicToggle">🌱 公开我的进度</label>
+    <input type="checkbox" id="publicToggle" onchange="togglePublic()">
+    <span style="font-size:11px;color:var(--muted);">（同伴可看到你的完成天数）</span>
+  </div>
 </div>
 
 <div class="stats">
@@ -742,7 +823,10 @@ body {
 </div>
 
 <div class="progress-wrap">
-  <div class="top"><span>全年同行记录</span><span id="progressPercent">0%</span></div>
+  <div class="top">
+    <span>全年同行记录</span>
+    <span id="progressPercent">0%</span>
+  </div>
   <div class="hint">完成记录 ≠ 属灵成熟度；它只记录你曾经停下来与经文同行。</div>
   <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
   <div class="footprint" id="footprint"></div>
@@ -760,7 +844,30 @@ body {
   </div>
 </div>
 
-<div id="courseList"></div>
+<!-- ===== 导航栏 ===== -->
+<div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+  <button class="peers-nav-btn" onclick="showTab('course')" id="tabCourse" style="background:var(--gold-light);">
+    📖 课程
+  </button>
+  <button class="peers-nav-btn" onclick="showTab('peers')" id="tabPeers">
+    👥 同伴
+    <span class="count" id="peerCount">0</span>
+  </button>
+</div>
+
+<!-- ===== 课程列表 ===== -->
+<div id="courseTab">
+  <div id="courseList"></div>
+</div>
+
+<!-- ===== 同伴页面 ===== -->
+<div id="peersTab" style="display:none;">
+  <div class="card" style="background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px;border:1px solid rgba(201,169,110,0.06);">
+    <h3 style="color:var(--primary);font-size:16px;margin-bottom:4px;">👥 同行同伴</h3>
+    <p style="font-size:13px;color:var(--muted);">看到同伴的进度，彼此鼓励、一起前行。</p>
+  </div>
+  <div id="peersList"></div>
+</div>
 
 <div class="admin-footer">
   <button onclick="openAdminLogin()">🔐 管理后台</button>
@@ -809,11 +916,8 @@ body {
 
 <script>
 // ================================================================
-// 核心功能（与之前一致）
-// 包括：课程数据、状态管理、渲染、用户、学习流程、后台
+// 1. 52周课程数据（与之前相同，省略）
 // ================================================================
-
-// 52周课程数据
 const MOS52 = [
   { week:1, title:"被差来的主", scripture:"路加福音 4:14-21", focus:"从认识基督开始跟随", mission:"你今天如何让“主是谁”影响一个具体选择？" },
   { week:2, title:"恩典没有围墙", scripture:"路加福音 4:22-30", focus:"神的恩典没有边界", mission:"主动向一个人显出恩典，不带条件。" },
@@ -886,7 +990,9 @@ const MODULES = [
   { id:5, name:"差派与延伸", icon:"🕊️", weeks:[45,46,47,48,49,50,51,52] }
 ];
 
-// 构建全部课程
+// ================================================================
+// 2. 课程构建
+// ================================================================
 function buildAllCourses() {
   const courses = [];
   let id = 0;
@@ -919,7 +1025,9 @@ function buildAllCourses() {
 const ALL_COURSES = buildAllCourses();
 const TOTAL = ALL_COURSES.length;
 
-// 状态管理
+// ================================================================
+// 3. 状态管理
+// ================================================================
 let currentUser = localStorage.getItem('bila_user') || 'default';
 let STATE_KEY = 'bila_open_' + currentUser;
 let state = {};
@@ -936,12 +1044,88 @@ function loadState() {
 function saveState() { localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
 loadState();
 
+// ================================================================
+// 4. 用户列表管理（用于群体功能）
+// ================================================================
+const USER_LIST_KEY = 'bila_user_list';
+
+function getUserList() {
+  try { return JSON.parse(localStorage.getItem(USER_LIST_KEY)) || {}; } catch { return {}; }
+}
+
+function saveUserList(users) {
+  localStorage.setItem(USER_LIST_KEY, JSON.stringify(users));
+}
+
+function registerUser(username) {
+  const users = getUserList();
+  if (!users[username]) {
+    users[username] = { public: false, lastLogin: new Date().toISOString() };
+    saveUserList(users);
+  }
+}
+
+function toggleUserPublic(username) {
+  const users = getUserList();
+  if (users[username]) {
+    users[username].public = !users[username].public;
+    saveUserList(users);
+  }
+  return users[username]?.public || false;
+}
+
+function isUserPublic(username) {
+  const users = getUserList();
+  return users[username]?.public || false;
+}
+
+function getPublicUsers() {
+  const users = getUserList();
+  const result = [];
+  for (const [name, data] of Object.entries(users)) {
+    if (data.public && name !== currentUser) {
+      result.push(name);
+    }
+  }
+  return result;
+}
+
+function getUserProgress(username) {
+  const key = 'bila_open_' + username;
+  try {
+    const data = JSON.parse(localStorage.getItem(key)) || {};
+    const completed = data.completed || {};
+    return Object.keys(completed).filter(k => completed[k]).length;
+  } catch { return 0; }
+}
+
+function getWeeklyProgress(username) {
+  const now = new Date();
+  const day = now.getDay();
+  const monday = new Date(now);
+  const diff = day === 0 ? -6 : 1 - day;
+  monday.setDate(now.getDate() + diff);
+  monday.setHours(0,0,0,0);
+  const week = Math.min(52, Math.max(1, Math.ceil((((monday - new Date(monday.getFullYear(),0,1)) / 86400000) + 1) / 7)));
+  const key = 'bila_open_' + username;
+  try {
+    const data = JSON.parse(localStorage.getItem(key)) || {};
+    const completed = data.completed || {};
+    const weekCourses = ALL_COURSES.filter(c => c.week === week);
+    return weekCourses.filter(c => completed[c.id]).length;
+  } catch { return 0; }
+}
+
+// ================================================================
+// 5. 渲染
+// ================================================================
 let filterModule = null;
 let isAdmin = false;
 
 function getCourse(id) { return ALL_COURSES[id] || null; }
 function isCompleted(id) { return !!state.completed[id]; }
 function getCompletedCount() { return Object.keys(state.completed).filter(k => state.completed[k]).length; }
+
 function getWeeklyLoopCount() {
   const now = new Date();
   const day = now.getDay();
@@ -953,7 +1137,6 @@ function getWeeklyLoopCount() {
   const weekCourses = ALL_COURSES.filter(c => c.week === week);
   return weekCourses.filter(c => isCompleted(c.id)).length;
 }
-function getPoints() { return 0; }
 
 function getModuleProgress(mod) {
   let done = 0, total = 0;
@@ -962,11 +1145,6 @@ function getModuleProgress(mod) {
     if (c) { total++; if (isCompleted(c.id)) done++; }
   });
   return { done, total };
-}
-function getCalibrationStats() {
-  let calibrated = 0, total = 0;
-  ALL_COURSES.forEach(c => { if (c.dow === 0) { total++; if (c.calibrated) calibrated++; } });
-  return { calibrated, total };
 }
 
 function recordEmotion(week, dow, emotion) {
@@ -988,7 +1166,7 @@ function updateEmotionTrail() {
   container.innerHTML = recent.map(e => `<span class="emotion-tag">${e}</span>`).join(' ');
 }
 
-// 圣经加载（缓存模式）
+// 圣经加载
 const SCRIPTURE_CACHE_KEY = 'bila_scripture_cache';
 function getCachedScripture(ref) {
   try {
@@ -1013,7 +1191,6 @@ function displayScripture(ref, element) {
     element.innerHTML = cached;
     return;
   }
-  // 如果无缓存，尝试从API获取
   element.innerHTML = '⏳ 加载中...';
   const url = 'https://bible-api.com/' + encodeURIComponent(ref) + '?translation=cuv';
   fetch(url)
@@ -1031,7 +1208,6 @@ function displayScripture(ref, element) {
     });
 }
 
-// ===== 渲染 =====
 function renderStats() {
   const done = getCompletedCount();
   document.getElementById('totalDone').textContent = done;
@@ -1111,15 +1287,57 @@ function renderCourseList() {
   });
 }
 
+function renderPeers() {
+  const container = document.getElementById('peersList');
+  const publicUsers = getPublicUsers();
+  const count = publicUsers.length;
+  document.getElementById('peerCount').textContent = count;
+  
+  if (count === 0) {
+    container.innerHTML = `
+      <div class="empty-peers">
+        <div class="icon">🌱</div>
+        <p>暂时没有同伴公开进度</p>
+        <p style="font-size:13px;color:var(--muted);margin-top:4px;">邀请朋友一起使用，或开启“公开我的进度”</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // 按用户名排序
+  publicUsers.sort();
+  let html = '';
+  for (const name of publicUsers) {
+    const done = getUserProgress(name);
+    const weekly = getWeeklyProgress(name);
+    html += `
+      <div class="peer-card">
+        <div class="peer-info">
+          <div class="peer-name">${name}</div>
+          <div class="peer-progress">已完成 ${done} 天 · 本周 ${weekly} 天</div>
+        </div>
+        <div class="peer-status">
+          <span class="num">${done}</span> 天
+        </div>
+      </div>
+    `;
+  }
+  container.innerHTML = html;
+}
+
 function renderAll() {
   renderStats();
   renderCalibrationStatus();
   renderFootprint();
   renderCourseList();
+  renderPeers();
   updateEmotionTrail();
+  updatePublicToggle();
 }
 
-// ===== 用户管理 =====
+// ================================================================
+// 6. 用户管理
+// ================================================================
 function loginUser() {
   const input = document.getElementById('userInput');
   let name = input.value.trim();
@@ -1128,21 +1346,25 @@ function loginUser() {
   localStorage.setItem('bila_user', name);
   STATE_KEY = 'bila_open_' + name;
   loadState();
+  registerUser(name);
   renderAll();
   document.getElementById('userStatus').textContent = '当前: ' + name;
   showToast('已登录');
 }
+
 function guestLogin() {
   const guestId = 'guest_' + Date.now().toString(36);
   currentUser = guestId;
   localStorage.setItem('bila_user', guestId);
   STATE_KEY = 'bila_open_' + guestId;
   loadState();
+  registerUser(guestId);
   renderAll();
   document.getElementById('userInput').value = '';
   document.getElementById('userStatus').textContent = '当前: 游客';
   showToast('游客模式');
 }
+
 function initUser() {
   const stored = localStorage.getItem('bila_user') || 'default';
   if (stored.startsWith('guest_')) {
@@ -1151,11 +1373,48 @@ function initUser() {
   } else {
     document.getElementById('userInput').value = stored;
     document.getElementById('userStatus').textContent = '当前: ' + stored;
+    registerUser(stored);
   }
 }
 initUser();
 
-// ===== 学习弹窗 =====
+function togglePublic() {
+  const checked = document.getElementById('publicToggle').checked;
+  const users = getUserList();
+  if (users[currentUser]) {
+    users[currentUser].public = checked;
+    saveUserList(users);
+    renderPeers();
+    showToast(checked ? '✅ 你的进度已公开' : '🔒 你的进度已隐藏');
+  }
+}
+
+function updatePublicToggle() {
+  const checked = isUserPublic(currentUser);
+  document.getElementById('publicToggle').checked = checked;
+}
+
+// ================================================================
+// 7. Tab切换
+// ================================================================
+function showTab(tab) {
+  if (tab === 'course') {
+    document.getElementById('courseTab').style.display = 'block';
+    document.getElementById('peersTab').style.display = 'none';
+    document.getElementById('tabCourse').style.background = 'var(--gold-light)';
+    document.getElementById('tabPeers').style.background = 'var(--warm-bg)';
+  } else {
+    document.getElementById('courseTab').style.display = 'none';
+    document.getElementById('peersTab').style.display = 'block';
+    document.getElementById('tabCourse').style.background = 'var(--warm-bg)';
+    document.getElementById('tabPeers').style.background = 'var(--gold-light)';
+    renderPeers();
+  }
+}
+
+// ================================================================
+// 8. 学习弹窗（与之前相同，省略重复代码）
+// ================================================================
 let currentModalId = null;
 let currentStep = 0;
 let selectedOption = null;
@@ -1221,7 +1480,6 @@ function renderStep(c) {
     return;
   }
   
-  // 周间10步
   const steps = ['诵读·进入', '观察·经文', '领受·意义', '连接·处境', '省察·生命', '停顿·祷告', '分辨·回应', '实践·行动', '承诺·内化', '交托·跟随'];
   
   let stepContent = '';
@@ -1503,7 +1761,9 @@ function closeDayModal() {
   selectedOption = null;
 }
 
-// ===== 管理员后台 =====
+// ================================================================
+// 9. 管理员后台（与之前相同）
+// ================================================================
 const ADMIN_PASSWORD = 'admin2027';
 
 function openAdminLogin() {
@@ -1583,12 +1843,10 @@ function saveAdminEdit(id) {
     update.declare = declare;
   }
   state.overrides[id] = update;
-  // 如果输入了经文全文，也存入缓存
   if (full) {
     const key = c.week + '-' + c.dow;
     if (!state.scriptureData) state.scriptureData = {};
     state.scriptureData[key] = full;
-    // 同时存入圣经缓存
     cacheScripture(c.scripture, full);
   }
   saveState();
@@ -1650,7 +1908,6 @@ function importCSV() {
         const key = week + '-' + dow;
         if (!state.scriptureData) state.scriptureData = {};
         state.scriptureData[key] = fullText;
-        // 同时存入圣经缓存
         const c = ALL_COURSES.find(c => c.week === week && c.dow === dow);
         if (c && c.scripture) {
           cacheScripture(c.scripture, fullText);
@@ -1671,7 +1928,9 @@ function importCSV() {
   reader.readAsText(file, 'UTF-8');
 }
 
-// ===== 音效、Toast、设置 =====
+// ================================================================
+// 10. 音效、Toast、设置
+// ================================================================
 let audioCtx = null;
 function getAudio() { if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
 function playTone(freq, dur, vol=0.12) {
@@ -1706,12 +1965,16 @@ setInterval(() => {
   }
 }, 60000);
 
-// ===== 启动 =====
+// ================================================================
+// 11. 启动
+// ================================================================
 loadBible();
 renderAll();
+// 默认显示课程Tab
+showTab('course');
 console.log('🌿 BILA MOS 1.2 已启动，共 ' + TOTAL + ' 个同行记录单元');
 console.log('🔐 管理员密码: admin2027');
-console.log('💾 经文缓存已启用');
+console.log('👥 群体功能：公开进度即可被同伴看到');
 </script>
 </body>
 </html>
