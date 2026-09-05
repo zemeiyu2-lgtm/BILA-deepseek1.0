@@ -1,18 +1,35 @@
 /* =========================================================
 GBRM V2.9.2
-基础版稳定版
+Greek Bible Reading Model
+圣经古希腊文基础学习引擎
 
-本版核心修复：
+核心结构：
 
-1. 课程入口完全独立于 MorphGNT
-2. 页面初始化绝不读取网络
-3. Corpus 只有进入原文训练时才加载
-4. 旧 localStorage 损坏不会阻塞课程
-5. MorphGNT 位置码正确解析
-   040101 = Book 04 / Chapter 01 / Verse 01
-6. targetForm 优先，targetLemma 备用
-7. 原文加载失败只影响原文训练
-8. 课程本身仍然可以正常使用
+首页
+ ↓
+教材课程
+ ↓
+教材内容
+ ↓
+练习
+ ↓
+词汇
+ ↓
+真实新约原文
+ ↓
+提示 / 解释 / 完整分析
+ ↓
+课程完成
+
+设计原则：
+
+1. 教材是主轴
+2. 原文训练是真实新约
+3. 原文短而精
+4. 中文帮助为主
+5. 不要求学生分析尚未学习的语法
+6. MorphGNT 只负责原文与形态数据
+7. 网络异常不影响课程进入
 ========================================================= */
 
 
@@ -42,40 +59,44 @@ BOOKS
 
 const BOOKS = [
 
-  ["Mt","马太福音","61-Mt-morphgnt.txt"],
-  ["Mk","马可福音","62-Mk-morphgnt.txt"],
-  ["Lk","路加福音","63-Lk-morphgnt.txt"],
-  ["Jn","约翰福音","64-Jn-morphgnt.txt"],
-  ["Ac","使徒行传","65-Ac-morphgnt.txt"],
-  ["Ro","罗马书","66-Ro-morphgnt.txt"],
-  ["1Co","哥林多前书","67-1Co-morphgnt.txt"],
-  ["2Co","哥林多后书","68-2Co-morphgnt.txt"],
-  ["Ga","加拉太书","69-Ga-morphgnt.txt"],
-  ["Eph","以弗所书","70-Eph-morphgnt.txt"],
-  ["Php","腓立比书","71-Php-morphgnt.txt"],
-  ["Col","歌罗西书","72-Col-morphgnt.txt"],
-  ["1Th","帖撒罗尼迦前书","73-1Th-morphgnt.txt"],
-  ["2Th","帖撒罗尼迦后书","74-2Th-morphgnt.txt"],
-  ["1Ti","提摩太前书","75-1Ti-morphgnt.txt"],
-  ["2Ti","提摩太后书","76-2Ti-morphgnt.txt"],
-  ["Tit","提多书","77-Tit-morphgnt.txt"],
-  ["Phm","腓利门书","78-Phm-morphgnt.txt"],
-  ["Heb","希伯来书","79-Heb-morphgnt.txt"],
-  ["Jas","雅各书","80-Jas-morphgnt.txt"],
-  ["1Pe","彼得前书","81-1Pe-morphgnt.txt"],
-  ["2Pe","彼得后书","82-2Pe-morphgnt.txt"],
-  ["1Jn","约翰一书","83-1Jn-morphgnt.txt"],
-  ["2Jn","约翰二书","84-2Jn-morphgnt.txt"],
-  ["3Jn","约翰三书","85-3Jn-morphgnt.txt"],
-  ["Jud","犹大书","86-Jud-morphgnt.txt"],
-  ["Re","启示录","87-Re-morphgnt.txt"]
+  ["Mt", "马太福音", "61-Mt-morphgnt.txt"],
+  ["Mk", "马可福音", "62-Mk-morphgnt.txt"],
+  ["Lk", "路加福音", "63-Lk-morphgnt.txt"],
+  ["Jn", "约翰福音", "64-Jn-morphgnt.txt"],
+  ["Ac", "使徒行传", "65-Ac-morphgnt.txt"],
+  ["Ro", "罗马书", "66-Ro-morphgnt.txt"],
+  ["1Co", "哥林多前书", "67-1Co-morphgnt.txt"],
+  ["2Co", "哥林多后书", "68-2Co-morphgnt.txt"],
+  ["Ga", "加拉太书", "69-Ga-morphgnt.txt"],
+  ["Eph", "以弗所书", "70-Eph-morphgnt.txt"],
+  ["Php", "腓立比书", "71-Php-morphgnt.txt"],
+  ["Col", "歌罗西书", "72-Col-morphgnt.txt"],
+  ["1Th", "帖撒罗尼迦前书", "73-1Th-morphgnt.txt"],
+  ["2Th", "帖撒罗尼迦后书", "74-2Th-morphgnt.txt"],
+  ["1Ti", "提摩太前书", "75-1Ti-morphgnt.txt"],
+  ["2Ti", "提摩太后书", "76-2Ti-morphgnt.txt"],
+  ["Tit", "提多书", "77-Tit-morphgnt.txt"],
+  ["Phm", "腓利门书", "78-Phm-morphgnt.txt"],
+  ["Heb", "希伯来书", "79-Heb-morphgnt.txt"],
+  ["Jas", "雅各书", "80-Jas-morphgnt.txt"],
+  ["1Pe", "彼得前书", "81-1Pe-morphgnt.txt"],
+  ["2Pe", "彼得后书", "82-2Pe-morphgnt.txt"],
+  ["1Jn", "约翰一书", "83-1Jn-morphgnt.txt"],
+  ["2Jn", "约翰二书", "84-2Jn-morphgnt.txt"],
+  ["3Jn", "约翰三书", "85-3Jn-morphgnt.txt"],
+  ["Jud", "犹大书", "86-Jud-morphgnt.txt"],
+  ["Re", "启示录", "87-Re-morphgnt.txt"]
 
 ].map(function(item){
 
   return {
+
     id: item[0],
+
     name: item[1],
+
     file: item[2]
+
   };
 
 });
@@ -87,75 +108,232 @@ LESSONS
 
 const LESSONS = [
 
-  ["第一部分 · 引言","希腊语","history","认识新约时代的希腊语背景。","知道自己为什么学习新约希腊文。"],
+  {
+    n: 1,
+    group: "第一部分 · 引言",
+    title: "希腊语",
+    kind: "history",
+    objective: "认识新约时代的希腊语背景。",
+    content: "知道自己为什么学习新约希腊文。"
+  },
 
-  ["第一部分 · 引言","学习希腊文","study","建立持续学习的习惯。","学习希腊文需要持续、重复和练习。"],
+  {
+    n: 2,
+    group: "第一部分 · 引言",
+    title: "学习希腊文",
+    kind: "study",
+    objective: "建立持续学习的习惯。",
+    content: "学习希腊文需要持续、重复和练习。"
+  },
 
-  ["第一部分 · 引言","字母与发音","alphabet","认识希腊字母和基本发音。","把字母和声音联系起来。"],
+  {
+    n: 3,
+    group: "第一部分 · 引言",
+    title: "字母与发音",
+    kind: "alphabet",
+    objective: "认识希腊字母和基本发音。",
+    content: "把字母和声音联系起来。"
+  },
 
-  ["第一部分 · 引言","标点符号与音节","syllable","认识标点、重音和音节。","开始准确阅读希腊文。"],
+  {
+    n: 4,
+    group: "第一部分 · 引言",
+    title: "标点符号与音节",
+    kind: "syllable",
+    objective: "认识标点、重音和音节。",
+    content: "开始准确阅读希腊文。"
+  },
 
-  ["第二部分 · 名词系统","英文的名词简介","noun","建立性、数、格的基本概念。","名词形式会随着它在句中的作用发生变化。"],
+  {
+    n: 5,
+    group: "第二部分 · 名词系统",
+    title: "英文的名词简介",
+    kind: "noun",
+    objective: "建立性、数、格的基本概念。",
+    content: "名词形式会随着它在句中的作用发生变化。"
+  },
 
-  ["第二部分 · 名词系统","主格与直接受格；定冠词","case","认识主格、受格和定冠词。","开始通过词尾判断名词在句中的基本作用。"],
+  {
+    n: 6,
+    group: "第二部分 · 名词系统",
+    title: "主格与直接受格；定冠词",
+    kind: "case",
+    objective: "认识主格、受格和定冠词。",
+    content: "开始通过词尾判断名词在句中的基本作用。"
+  },
 
-  ["第二部分 · 名词系统","所有格与间接受格","case2","认识所有格和间接受格。","观察名词和其他词之间的关系。"],
+  {
+    n: 7,
+    group: "第二部分 · 名词系统",
+    title: "所有格与间接受格",
+    kind: "case2",
+    objective: "认识所有格和间接受格。",
+    content: "观察名词和其他词之间的关系。"
+  },
 
-  ["第二部分 · 名词系统","介词与 εἰμί","preposition","认识常见介词与 εἰμί。","介词和它所带的名词一起看。"],
+  {
+    n: 8,
+    group: "第二部分 · 名词系统",
+    title: "介词与 εἰμί",
+    kind: "preposition",
+    objective: "认识常见介词与 εἰμί。",
+    content: "介词和它所带的名词一起看。"
+  },
 
-  ["第二部分 · 名词系统","形容词","adjective","认识形容词和名词的一致。","观察形容词与它所修饰的名词。"],
+  {
+    n: 9,
+    group: "第二部分 · 名词系统",
+    title: "形容词",
+    kind: "adjective",
+    objective: "认识形容词和名词的一致。",
+    content: "观察形容词与它所修饰的名词。"
+  },
 
-  ["第二部分 · 名词系统","第三格变式名词","third","开始识别第三格变式。","练习观察词干和词尾。"],
+  {
+    n: 10,
+    group: "第二部分 · 名词系统",
+    title: "第三格变式名词",
+    kind: "third",
+    objective: "开始识别第三格变式。",
+    content: "练习观察词干和词尾。"
+  },
 
-  ["第二部分 · 名词系统","第一与第二人称代名词","pronoun","掌握第一、第二人称代名词。","观察人称、数和格。"],
+  {
+    n: 11,
+    group: "第二部分 · 名词系统",
+    title: "第一与第二人称代名词",
+    kind: "pronoun",
+    objective: "掌握第一、第二人称代名词。",
+    content: "观察人称、数和格。"
+  },
 
-  ["第二部分 · 名词系统","αὐτός","autos","认识 αὐτός 的基本功能。","先观察上下文，再决定具体功能。"],
+  {
+    n: 12,
+    group: "第二部分 · 名词系统",
+    title: "αὐτός",
+    kind: "autos",
+    objective: "认识 αὐτός 的基本功能。",
+    content: "先观察上下文，再决定具体功能。"
+  },
 
-  ["第二部分 · 名词系统","指示代名词／形容词","demonstrative","认识指示词。","找到“这个、那个”所指向的对象。"],
+  {
+    n: 13,
+    group: "第二部分 · 名词系统",
+    title: "指示代名词／形容词",
+    kind: "demonstrative",
+    objective: "认识指示词。",
+    content: "找到“这个、那个”所指向的对象。"
+  },
 
-  ["第二部分 · 名词系统","关系代名词","relative","认识关系代名词。","观察句子怎样连接更多信息。"],
+  {
+    n: 14,
+    group: "第二部分 · 名词系统",
+    title: "关系代名词",
+    kind: "relative",
+    objective: "认识关系代名词。",
+    content: "观察句子怎样连接更多信息。"
+  },
 
-  ["第三部分 · 直说语气动词系统","动词简介","verb","建立动词分析框架。","面对一个动词，先观察它的形式。"],
+  {
+    n: 15,
+    group: "第三部分 · 直说语气动词系统",
+    title: "动词简介",
+    kind: "verb",
+    objective: "建立动词分析框架。",
+    content: "面对一个动词，先观察它的形式。"
+  },
 
-  ["第三部分 · 直说语气动词系统","现在式主动语态直说语气","present","掌握现在式主动直说。","先认现在式，再看主动、直说、人称和数。"],
+  {
+    n: 16,
+    group: "第三部分 · 直说语气动词系统",
+    title: "现在式主动语态直说语气",
+    kind: "present",
+    objective: "掌握现在式主动直说。",
+    content: "先认现在式，再看主动、直说、人称和数。"
+  },
 
-  ["第三部分 · 直说语气动词系统","缩略动词","contract","认识缩略动词。","建立词典形和实际词形之间的联系。"],
+  {
+    n: 17,
+    group: "第三部分 · 直说语气动词系统",
+    title: "缩略动词",
+    kind: "contract",
+    objective: "认识缩略动词。",
+    content: "建立词典形和实际词形之间的联系。"
+  },
 
-  ["第三部分 · 直说语气动词系统","现在式关身／被动语态直说语气","mp","认识现在式关身／被动形式。","先认形式，再结合上下文判断。"],
+  {
+    n: 18,
+    group: "第三部分 · 直说语气动词系统",
+    title: "现在式关身／被动语态直说语气",
+    kind: "mp",
+    objective: "认识现在式关身／被动形式。",
+    content: "先认形式，再结合上下文判断。"
+  },
 
-  ["第三部分 · 直说语气动词系统","未来式主动／关身语态直说语气","future","认识未来式主动与关身。","先认形式，再观察人称和数。"],
+  {
+    n: 19,
+    group: "第三部分 · 直说语气动词系统",
+    title: "未来式主动／关身语态直说语气",
+    kind: "future",
+    objective: "认识未来式主动与关身。",
+    content: "先认形式，再观察人称和数。"
+  },
 
-  ["第三部分 · 直说语气动词系统","动词字根；未来式其他字形","stems","认识字根、字干与形式变化。","理解为什么一个词会出现不同字干。"],
+  {
+    n: 20,
+    group: "第三部分 · 直说语气动词系统",
+    title: "动词字根；未来式其他字形",
+    kind: "stems",
+    objective: "认识字根、字干与形式变化。",
+    content: "理解为什么一个词会出现不同字干。"
+  },
 
-  ["第三部分 · 直说语气动词系统","不完成式","imperfect","认识过去中的持续观点。","观察过去中的持续、进行或重复。"],
+  {
+    n: 21,
+    group: "第三部分 · 直说语气动词系统",
+    title: "不完成式",
+    kind: "imperfect",
+    objective: "认识过去中的持续观点。",
+    content: "观察过去中的持续、进行或重复。"
+  },
 
-  ["第三部分 · 直说语气动词系统","第二不定过去式","aorist2","认识第二不定过去式。","观察第二字干及其形式。"],
+  {
+    n: 22,
+    group: "第三部分 · 直说语气动词系统",
+    title: "第二不定过去式",
+    kind: "aorist2",
+    objective: "认识第二不定过去式。",
+    content: "观察第二字干及其形式。"
+  },
 
-  ["第三部分 · 直说语气动词系统","第一不定过去式","aorist1","认识第一不定过去式。","观察第一不定过去式的形式。"],
+  {
+    n: 23,
+    group: "第三部分 · 直说语气动词系统",
+    title: "第一不定过去式",
+    kind: "aorist1",
+    objective: "认识第一不定过去式。",
+    content: "观察第一不定过去式的形式。"
+  },
 
-  ["第三部分 · 直说语气动词系统","不定过去式与未来式被动语态","passive","认识被动形式。","观察谁接受了动作。"],
+  {
+    n: 24,
+    group: "第三部分 · 直说语气动词系统",
+    title: "不定过去式与未来式被动语态",
+    kind: "passive",
+    objective: "认识被动形式。",
+    content: "观察谁接受了动作。"
+  },
 
-  ["第三部分 · 直说语气动词系统","现在完成式","perfect","认识完成式。","观察过去动作与现在结果的联系。"]
+  {
+    n: 25,
+    group: "第三部分 · 直说语气动词系统",
+    title: "现在完成式",
+    kind: "perfect",
+    objective: "认识完成式。",
+    content: "观察过去动作与现在结果的联系。"
+  }
 
-].map(function(item,index){
-
-  return {
-
-    n:index + 1,
-
-    group:item[0],
-
-    title:item[1],
-
-    kind:item[2],
-
-    objective:item[3],
-
-    content:item[4]
-
-  };
-
-});
+];
 
 
 /* =========================================================
@@ -316,7 +494,7 @@ const VOCABULARY = [
 
 
 /* =========================================================
-CURATED EXAMPLES
+CURATED NEW TESTAMENT EXAMPLES
 ========================================================= */
 
 const CURATED_EXAMPLES = {
@@ -365,7 +543,7 @@ const CURATED_EXAMPLES = {
     targetLemma:"θεός",
     task:"找到 θεοῦ，然后和 θεός 比较。",
     hint:"只比较词尾。",
-    explanation:"同一个词会因为在句子中的作用不同而采用不同形式。",
+    explanation:"同一个词会因为在句中的作用不同而采用不同形式。",
     analysis:"θεοῦ 来自 θεός，是所有格单数形式。"
   },
 
@@ -397,12 +575,12 @@ const CURATED_EXAMPLES = {
     book:"Jn",
     chapter:1,
     verse:14,
-    targetForm:"σὰρξ",
+    targetForm:"σάρξ",
     targetLemma:"σάρξ",
-    task:"找到 σὰρξ，注意它的形式。",
+    task:"找到 σάρξ，注意它的形式。",
     hint:"先认识这个词。",
     explanation:"第三格变式中，词干和词尾值得特别注意。",
-    analysis:"σὰρξ 是名词。当前先建立第三格变式的形式意识。"
+    analysis:"σάρξ 是名词。当前先建立第三格变式的形式意识。"
   },
 
   11:{
@@ -520,7 +698,7 @@ const CURATED_EXAMPLES = {
     targetForm:"γέγονεν",
     targetLemma:"γίνομαι",
     task:"观察 γέγονεν，并尝试和词典形联系起来。",
-    hint:"不要马上认为这是另一个词。",
+    hint:"不要马上认为它是另一个词。",
     explanation:"动词在不同形式中可能使用不同的时态字干。",
     analysis:"γέγονεν 与 γίνομαι 属于同一词汇系统。当前只学习字干变化。"
   },
@@ -602,43 +780,97 @@ let currentLessonIndex =
   );
 
 
-let currentStep = 0;
+let currentStep =
+  0;
 
-let currentExample = null;
 
-let currentLemma = "";
+let currentExample =
+  null;
 
-let currentReturn = "lesson";
+
+let currentLemma =
+  "";
+
+
+let currentReturn =
+  "lesson";
+
+
+let vocabularyReview =
+  [];
+
+
+let vocabularyReviewIndex =
+  0;
 
 
 /* =========================================================
 CORPUS MEMORY
-
-这里只在需要时建立。
 ========================================================= */
 
 const corpus = {
 
-  books:{},
+  books: {},
 
-  tokens:[],
+  tokens: [],
 
-  verses:{},
+  verses: {},
 
-  lemmas:{},
+  lemmas: {},
 
-  loading:{}
+  loading: {}
 
 };
 
 
 /* =========================================================
-STATE FUNCTIONS
+BASIC HELPERS
 ========================================================= */
 
-function normalizeLessonIndex(
-  value
-){
+function $(id){
+
+  return document.getElementById(
+    id
+  );
+
+}
+
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;")
+  .replace(/'/g, "&#039;");
+
+}
+
+
+function normalize(value){
+
+  return String(
+    value ?? ""
+  )
+  .trim()
+  .normalize("NFD")
+  .replace(
+    /[\u0300-\u036f]/g,
+    ""
+  )
+  .replace(
+    /ς/g,
+    "σ"
+  )
+  .toLowerCase();
+
+}
+
+
+function normalizeLessonIndex(value){
 
   const number =
     Number(
@@ -683,15 +915,19 @@ function normalizeLessonIndex(
 }
 
 
+/* =========================================================
+STATE
+========================================================= */
+
 function loadState(){
 
   const fallback = {
 
-    currentLesson:0,
+    currentLesson: 0,
 
-    lessons:{},
+    lessons: {},
 
-    vocab:{}
+    vocab: {}
 
   };
 
@@ -738,21 +974,21 @@ function loadState(){
         ),
 
       lessons:
-        saved.lessons &&
-        typeof saved.lessons ===
-        "object"
-
+        (
+          saved.lessons &&
+          typeof saved.lessons ===
+          "object"
+        )
           ? saved.lessons
-
           : {},
 
       vocab:
-        saved.vocab &&
-        typeof saved.vocab ===
-        "object"
-
+        (
+          saved.vocab &&
+          typeof saved.vocab ===
+          "object"
+        )
           ? saved.vocab
-
           : {}
 
     };
@@ -763,33 +999,9 @@ function loadState(){
   ){
 
     console.warn(
-      "GBRM local state invalid:",
+      "GBRM state error:",
       error
     );
-
-
-    try{
-
-      /*
-        当前版本使用独立 key。
-        如果这里仍然损坏，只使用内存状态。
-      */
-
-      localStorage.removeItem(
-        CONFIG.STATE_KEY
-      );
-
-    }
-    catch(
-      removeError
-    ){
-
-      console.warn(
-        "GBRM cannot remove old state:",
-        removeError
-      );
-
-    }
 
 
     return fallback;
@@ -816,327 +1028,9 @@ function saveState(){
   ){
 
     console.warn(
-      "GBRM state save failed:",
+      "GBRM save state:",
       error
     );
-
-  }
-
-}
-
-
-/* =========================================================
-DOM
-========================================================= */
-
-function $(
-  id
-){
-
-  return document.getElementById(
-    id
-  );
-
-}
-
-
-/* =========================================================
-ESCAPE
-========================================================= */
-
-function escapeHtml(
-  value
-){
-
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
-
-
-/* =========================================================
-NORMALIZE GREEK
-========================================================= */
-
-function normalize(
-  value
-){
-
-  return String(
-    value ?? ""
-  )
-  .trim()
-  .normalize(
-    "NFD"
-  )
-  .replace(
-    /[\u0300-\u036f]/g,
-    ""
-  )
-  .replace(
-    /ς/g,
-    "σ"
-  )
-  .toLowerCase();
-
-}
-
-
-/* =========================================================
-NAVIGATION
-
-核心：
-课程导航完全不触碰 Corpus。
-========================================================= */
-
-function go(
-  screenId
-){
-
-  const screens =
-    document.querySelectorAll(
-      ".screen"
-    );
-
-
-  screens.forEach(
-    function(
-      screen
-    ){
-
-      screen.classList.remove(
-        "active"
-      );
-
-    }
-  );
-
-
-  const target =
-    $(screenId);
-
-
-  if(
-    !target
-  ){
-
-    console.error(
-      "GBRM screen not found:",
-      screenId
-    );
-
-    return false;
-
-  }
-
-
-  target.classList.add(
-    "active"
-  );
-
-
-  window.scrollTo(
-    0,
-    0
-  );
-
-
-  return true;
-
-}
-
-
-/* =========================================================
-INIT
-
-绝对不读取 Corpus。
-========================================================= */
-
-function init(){
-
-  renderHome();
-
-}
-
-
-/* =========================================================
-HOME
-========================================================= */
-
-function renderHome(){
-
-  renderToday();
-
-  renderCourseProgress();
-
-  renderLessonList();
-
-}
-
-
-function renderToday(){
-
-  const lesson =
-    LESSONS[
-      currentLessonIndex
-    ];
-
-
-  if(
-    !lesson
-  ){
-
-    currentLessonIndex =
-      0;
-
-    return renderToday();
-
-  }
-
-
-  const number =
-    $("todayLessonNumber");
-
-
-  const title =
-    $("todayLessonTitle");
-
-
-  const objective =
-    $("todayLessonObjective");
-
-
-  if(
-    number
-  ){
-
-    number.textContent =
-      "L" +
-      String(
-        lesson.n
-      ).padStart(
-        2,
-        "0"
-      );
-
-  }
-
-
-  if(
-    title
-  ){
-
-    title.textContent =
-      lesson.title;
-
-  }
-
-
-  if(
-    objective
-  ){
-
-    objective.textContent =
-      lesson.objective;
-
-  }
-
-}
-
-
-/* =========================================================
-PROGRESS
-========================================================= */
-
-function renderCourseProgress(){
-
-  let completed =
-    0;
-
-
-  LESSONS.forEach(
-    function(
-      lesson,
-      index
-    ){
-
-      if(
-        getLessonState(
-          index
-        ).completed
-      ){
-
-        completed++;
-
-      }
-
-    }
-  );
-
-
-  const percent =
-    Math.round(
-      completed /
-      LESSONS.length *
-      100
-    );
-
-
-  if(
-    $("coursePercent")
-  ){
-
-    $("coursePercent")
-      .textContent =
-      percent + "%";
-
-  }
-
-
-  if(
-    $("courseProgress")
-  ){
-
-    $("courseProgress")
-      .style.width =
-      percent + "%";
-
-  }
-
-
-  if(
-    $("courseProgressText")
-  ){
-
-    $("courseProgressText")
-      .textContent =
-
-      "已完成 " +
-      completed +
-      " / " +
-      LESSONS.length +
-      " 课";
 
   }
 
@@ -1152,9 +1046,7 @@ function getLessonState(
 ){
 
   const lesson =
-    LESSONS[
-      index
-    ];
+    LESSONS[index];
 
 
   if(
@@ -1163,23 +1055,17 @@ function getLessonState(
 
     return {
 
-      completed:false,
+      completed: false,
 
-      content:false,
+      content: false,
 
-      practice:false,
+      practice: false,
 
-      vocabulary:false,
+      vocabulary: false,
 
-      corpus:false,
+      corpus: false,
 
-      review:false,
-
-      attempts:0,
-
-      correct:0,
-
-      corpusReviewed:0
+      review: false
 
     };
 
@@ -1199,25 +1085,25 @@ function getLessonState(
 
     state.lessons[key] = {
 
-      completed:false,
+      completed: false,
 
-      content:false,
+      content: false,
 
-      practice:false,
+      practice: false,
 
-      vocabulary:false,
+      vocabulary: false,
 
-      corpus:false,
+      corpus: false,
 
-      review:false,
+      review: false,
 
-      attempts:0,
+      attempts: 0,
 
-      correct:0,
+      correct: 0,
 
-      corpusReviewed:0,
+      corpusReviewed: 0,
 
-      updatedAt:null
+      updatedAt: null
 
     };
 
@@ -1265,39 +1151,21 @@ function getLessonState(
 
 
   st.attempts =
-    Number.isFinite(
-      Number(
-        st.attempts
-      )
-    )
-      ? Number(
-          st.attempts
-        )
-      : 0;
+    Number(
+      st.attempts
+    ) || 0;
 
 
   st.correct =
-    Number.isFinite(
-      Number(
-        st.correct
-      )
-    )
-      ? Number(
-          st.correct
-        )
-      : 0;
+    Number(
+      st.correct
+    ) || 0;
 
 
   st.corpusReviewed =
-    Number.isFinite(
-      Number(
-        st.corpusReviewed
-      )
-    )
-      ? Number(
-          st.corpusReviewed
-        )
-      : 0;
+    Number(
+      st.corpusReviewed
+    ) || 0;
 
 
   return st;
@@ -1306,7 +1174,223 @@ function getLessonState(
 
 
 /* =========================================================
+NAVIGATION
+========================================================= */
+
+function go(
+  screenId
+){
+
+  const screens =
+    document.querySelectorAll(
+      ".screen"
+    );
+
+
+  screens.forEach(
+    function(screen){
+
+      screen.classList.remove(
+        "active"
+      );
+
+    }
+  );
+
+
+  const target =
+    $(
+      screenId
+    );
+
+
+  if(
+    !target
+  ){
+
+    console.error(
+      "GBRM screen missing:",
+      screenId
+    );
+
+    return false;
+
+  }
+
+
+  target.classList.add(
+    "active"
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+HOME
+========================================================= */
+
+function renderHome(){
+
+  renderToday();
+
+  renderCourseProgress();
+
+  renderLessonList();
+
+}
+
+
+function renderToday(){
+
+  currentLessonIndex =
+    normalizeLessonIndex(
+      currentLessonIndex
+    );
+
+
+  const lesson =
+    LESSONS[
+      currentLessonIndex
+    ];
+
+
+  if(
+    $("todayLessonNumber")
+  ){
+
+    $("todayLessonNumber")
+      .textContent =
+
+      "L" +
+      String(
+        lesson.n
+      ).padStart(
+        2,
+        "0"
+      );
+
+  }
+
+
+  if(
+    $("todayLessonTitle")
+  ){
+
+    $("todayLessonTitle")
+      .textContent =
+      lesson.title;
+
+  }
+
+
+  if(
+    $("todayLessonObjective")
+  ){
+
+    $("todayLessonObjective")
+      .textContent =
+      lesson.objective;
+
+  }
+
+}
+
+
+function renderCourseProgress(){
+
+  let completed =
+    0;
+
+
+  LESSONS.forEach(
+    function(
+      lesson,
+      index
+    ){
+
+      if(
+        getLessonState(
+          index
+        ).completed
+      ){
+
+        completed++;
+
+      }
+
+    }
+  );
+
+
+  const percent =
+    Math.round(
+      (
+        completed /
+        LESSONS.length
+      ) *
+      100
+    );
+
+
+  if(
+    $("coursePercent")
+  ){
+
+    $("coursePercent")
+      .textContent =
+      percent +
+      "%";
+
+  }
+
+
+  if(
+    $("courseProgress")
+  ){
+
+    $("courseProgress")
+      .style.width =
+      percent +
+      "%";
+
+  }
+
+
+  if(
+    $("courseProgressText")
+  ){
+
+    $("courseProgressText")
+      .textContent =
+
+      "已完成 " +
+      completed +
+      " / " +
+      LESSONS.length +
+      " 课";
+
+  }
+
+}
+
+
+/* =========================================================
 LESSON LIST
+
+这里最重要：
+
+首页“教材课程”点击时直接调用 openLesson()。
+
+lessonPanel 只是备用课程列表。
 ========================================================= */
 
 function renderLessonList(){
@@ -1328,7 +1412,7 @@ function renderLessonList(){
     "";
 
 
-  let group =
+  let currentGroup =
     "";
 
 
@@ -1339,30 +1423,30 @@ function renderLessonList(){
     ){
 
       if(
-        lesson.group !==
-        group
+        currentGroup !==
+        lesson.group
       ){
 
-        const groupElement =
+        const group =
           document.createElement(
             "div"
           );
 
 
-        groupElement.className =
+        group.className =
           "lesson-group";
 
 
-        groupElement.textContent =
+        group.textContent =
           lesson.group;
 
 
         box.appendChild(
-          groupElement
+          group
         );
 
 
-        group =
+        currentGroup =
           lesson.group;
 
       }
@@ -1485,8 +1569,7 @@ function renderLessonList(){
 /* =========================================================
 OPEN LESSON
 
-这里只做课程页面。
-绝不读取网络。
+完全不读取 MorphGNT。
 ========================================================= */
 
 function openLesson(
@@ -1528,6 +1611,10 @@ function openLesson(
     renderLesson();
 
 
+    /*
+      先进入课程页面。
+    */
+
     const success =
       go(
         "lesson"
@@ -1539,7 +1626,7 @@ function openLesson(
     ){
 
       alert(
-        "课程页面不存在，请检查 index.html 中的 lesson 页面。"
+        "课程页面不存在，请检查 index.html。"
       );
 
     }
@@ -1550,13 +1637,13 @@ function openLesson(
   ){
 
     console.error(
-      "GBRM openLesson error:",
+      "GBRM openLesson:",
       error
     );
 
 
     alert(
-      "课程打开失败。请按 Ctrl + F5 刷新后再试。"
+      "课程打开失败，请按 Ctrl + F5 刷新页面。"
     );
 
   }
@@ -1565,7 +1652,7 @@ function openLesson(
 
 
 /* =========================================================
-RENDER LESSON
+LESSON
 ========================================================= */
 
 function renderLesson(){
@@ -1692,60 +1779,114 @@ function renderLessonStep(){
     "";
 
 
-  if(
-    currentStep ===
-    0
-  ){
+  try{
 
-    renderTextbook(
-      area,
-      lesson,
-      st
-    );
+    switch(
+      currentStep
+    ){
+
+      case 0:
+
+        renderTextbook(
+          area,
+          lesson,
+          st
+        );
+
+        break;
+
+
+      case 1:
+
+        renderPractice(
+          area,
+          lesson,
+          st
+        );
+
+        break;
+
+
+      case 2:
+
+        renderVocabulary(
+          area,
+          lesson,
+          st
+        );
+
+        break;
+
+
+      case 3:
+
+        renderCorpusGateway(
+          area,
+          lesson
+        );
+
+        break;
+
+
+      case 4:
+
+        renderReview(
+          area,
+          lesson,
+          st
+        );
+
+        break;
+
+
+      default:
+
+        currentStep =
+          0;
+
+
+        renderTextbook(
+          area,
+          lesson,
+          st
+        );
+
+        break;
+
+    }
 
   }
-  else if(
-    currentStep ===
-    1
+  catch(
+    error
   ){
 
-    renderPractice(
-      area,
-      lesson,
-      st
+    console.error(
+      "GBRM lesson step:",
+      error
     );
 
-  }
-  else if(
-    currentStep ===
-    2
-  ){
 
-    renderVocabulary(
-      area,
-      lesson,
-      st
-    );
+    area.innerHTML =
 
-  }
-  else if(
-    currentStep ===
-    3
-  ){
+      "<div class='notice-box'>" +
 
-    renderCorpusGateway(
-      area,
-      lesson
-    );
+        "<strong>这一学习步骤出现问题。</strong>" +
 
-  }
-  else{
+        "<br><br>" +
 
-    renderReview(
-      area,
-      lesson,
-      st
-    );
+        "可以重新加载这一课。"
+
+        +
+
+        "<button class='secondary wide' onclick='renderLessonStep()'>" +
+
+          "重新加载"
+
+        +
+
+        "</button>" +
+
+      "</div>";
 
   }
 
@@ -1759,8 +1900,7 @@ function renderLessonStep(){
 
       "第 " +
       (
-        currentStep +
-        1
+        currentStep + 1
       ) +
       " 步 / 5";
 
@@ -1771,19 +1911,21 @@ function renderLessonStep(){
     $("lessonStepProgress")
   ){
 
+    const width =
+      currentStep === 4
+
+        ? 100
+
+        : (
+            currentStep /
+            4
+          ) *
+          100;
+
+
     $("lessonStepProgress")
       .style.width =
-
-      (
-        currentStep ===
-        4
-          ? 100
-          : (
-              currentStep /
-              4 *
-              100
-            )
-      ) +
+      width +
       "%";
 
   }
@@ -1795,8 +1937,7 @@ function renderLessonStep(){
 
     $("lessonPrevious")
       .disabled =
-      currentStep ===
-      0;
+      currentStep === 0;
 
   }
 
@@ -1809,15 +1950,19 @@ function renderLessonStep(){
       .textContent =
 
       currentStep === 0
+
         ? "进入练习 →"
 
         : currentStep === 1
+
           ? "进入词汇 →"
 
           : currentStep === 2
+
             ? "进入原文 →"
 
             : currentStep === 3
+
               ? "开始原文训练"
 
               : "完成本课 →";
@@ -1891,62 +2036,90 @@ function getGuide(
 
   const map = {
 
-    history:"先知道为什么学习新约希腊文。",
+    history:
+      "先知道为什么学习新约希腊文。",
 
-    study:"每天学习一点，反复回来。",
+    study:
+      "每天学习一点，反复回来。",
 
-    alphabet:"把字母、声音和单词连起来。",
+    alphabet:
+      "把字母、声音和单词连起来。",
 
-    syllable:"先读准文字，再进入单词。",
+    syllable:
+      "先读准文字，再进入单词。",
 
-    noun:"看到名词，先看性、数、格。",
+    noun:
+      "看到名词，先看性、数、格。",
 
-    case:"先看词尾，再判断功能。",
+    case:
+      "先看词尾，再判断功能。",
 
-    case2:"观察名词之间的关系。",
+    case2:
+      "观察名词之间的关系。",
 
-    preposition:"介词和它带的名词一起看。",
+    preposition:
+      "介词和它带的名词一起看。",
 
-    adjective:"看看形容词修饰哪个名词。",
+    adjective:
+      "看看形容词修饰哪个名词。",
 
-    third:"先找词干，再看词尾。",
+    third:
+      "先找词干，再看词尾。",
 
-    pronoun:"先问代名词指谁。",
+    pronoun:
+      "先问代名词指谁。",
 
-    autos:"αὐτός 要结合上下文。",
+    autos:
+      "αὐτός 要结合上下文。",
 
-    demonstrative:"先找“这个、那个”指什么。",
+    demonstrative:
+      "先找“这个、那个”指什么。",
 
-    relative:"先找关系词，再看它连接什么。",
+    relative:
+      "先找关系词，再看它连接什么。",
 
-    verb:"先找出动词，再逐步分析。",
+    verb:
+      "先找出动词，再逐步分析。",
 
-    present:"先认现在式、主动、直说。",
+    present:
+      "先认现在式、主动、直说。",
 
-    contract:"实际词形可能不同于词典形。",
+    contract:
+      "实际词形可能不同于词典形。",
 
-    mp:"先认形式，再判断功能。",
+    mp:
+      "先认形式，再判断功能。",
 
-    future:"先认未来式形式。",
+    future:
+      "先认未来式形式。",
 
-    stems:"把实际词形和词典形联系起来。",
+    stems:
+      "把实际词形和词典形联系起来。",
 
-    imperfect:"注意过去中的持续。",
+    imperfect:
+      "注意过去中的持续。",
 
-    aorist2:"注意第二字干。",
+    aorist2:
+      "注意第二字干。",
 
-    aorist1:"注意第一不定过去式形式。",
+    aorist1:
+      "注意第一不定过去式形式。",
 
-    passive:"观察谁接受动作。",
+    passive:
+      "观察谁接受动作。",
 
-    perfect:"观察过去动作和现在结果的关系。"
+    perfect:
+      "观察过去动作和现在结果的关系。"
 
   };
 
 
   return (
+
     map[kind] ||
+
     "先掌握今天最重要的一点。"
+
   );
 
 }
@@ -2195,7 +2368,10 @@ function renderPractice(
       button.onclick =
         function(){
 
-          st.attempts++;
+          st.attempts =
+            Number(
+              st.attempts
+            ) + 1;
 
 
           if(
@@ -2203,7 +2379,11 @@ function renderPractice(
             data.answer
           ){
 
-            st.correct++;
+            st.correct =
+              Number(
+                st.correct
+              ) + 1;
+
 
             st.practice =
               true;
@@ -2240,7 +2420,6 @@ function renderPractice(
               +
 
               "</div>";
-
 
           }
           else{
@@ -2301,9 +2480,7 @@ function getLessonVocabulary(
 ){
 
   return VOCABULARY.filter(
-    function(
-      item
-    ){
+    function(item){
 
       return (
         item.lesson ===
@@ -2382,17 +2559,20 @@ function renderVocabulary(
   ){
 
     grid.innerHTML =
+
       "<div class='notice-box'>" +
-        "这一课没有单独词汇。" +
+
+        "这一课没有单独词汇。"
+
+      +
+
       "</div>";
 
   }
 
 
   list.forEach(
-    function(
-      item
-    ){
+    function(item){
 
       const memory =
         getVocabState(
@@ -2474,13 +2654,13 @@ function renderVocabulary(
           ".vocab-speak"
         )
         .onclick =
-          function(){
+        function(){
 
-            speakText(
-              item.word
-            );
+          speakText(
+            item.word
+          );
 
-          };
+        };
 
 
       card
@@ -2488,26 +2668,33 @@ function renderVocabulary(
           ".vocab-memory"
         )
         .onclick =
-          function(){
+        function(){
 
-            memory.remembered++;
-
-            memory.seen++;
-
-
-            card
-              .querySelector(
-                ".vocab-status"
-              )
-              .textContent =
-                vocabStatus(
-                  memory
-                );
+          memory.remembered =
+            Number(
+              memory.remembered
+            ) + 1;
 
 
-            saveState();
+          memory.seen =
+            Number(
+              memory.seen
+            ) + 1;
 
-          };
+
+          card
+            .querySelector(
+              ".vocab-status"
+            )
+            .textContent =
+            vocabStatus(
+              memory
+            );
+
+
+          saveState();
+
+        };
 
 
       card
@@ -2515,17 +2702,17 @@ function renderVocabulary(
           ".vocab-lemma"
         )
         .onclick =
-          function(){
+        function(){
 
-            currentReturn =
-              "lesson";
+          currentReturn =
+            "lesson";
 
 
-            openLemma(
-              item.word
-            );
+          openLemma(
+            item.word
+          );
 
-          };
+        };
 
 
       grid.appendChild(
@@ -2550,7 +2737,9 @@ function vocabStatus(
 ){
 
   if(
-    memory.remembered >=
+    Number(
+      memory.remembered
+    ) >=
     4
   ){
 
@@ -2560,8 +2749,9 @@ function vocabStatus(
 
 
   if(
-    memory.remembered >
-    0
+    Number(
+      memory.remembered
+    ) > 0
   ){
 
     return "学习中";
@@ -2576,8 +2766,6 @@ function vocabStatus(
 
 /* =========================================================
 CORPUS GATEWAY
-
-只有这里才准备进入网络。
 ========================================================= */
 
 function renderCorpusGateway(
@@ -2641,13 +2829,13 @@ function renderCorpusGateway(
 
   $("startCorpus")
     .onclick =
-      function(){
+    function(){
 
-        startCorpusForLesson(
-          lesson
-        );
+      startCorpusForLesson(
+        lesson
+      );
 
-      };
+    };
 
 }
 
@@ -2675,7 +2863,7 @@ async function startCorpusForLesson(
     currentStep =
       4;
 
-    renderLesson();
+    renderLessonStep();
 
     return;
 
@@ -2683,8 +2871,7 @@ async function startCorpusForLesson(
 
 
   /*
-    先显示原文页面。
-    网络与课程完全分开。
+    原文系统从这里开始。
   */
 
   go(
@@ -2692,30 +2879,42 @@ async function startCorpusForLesson(
   );
 
 
-  $("corpusArea")
-    .innerHTML =
+  const area =
+    $("corpusArea");
 
-      "<div class='card'>" +
 
-        "<div class='eyebrow'>" +
+  if(
+    !area
+  ){
 
-          "原文训练"
+    return;
 
-        +
+  }
 
-        "</div>" +
 
-        "<h3>正在准备经文</h3>" +
+  area.innerHTML =
 
-        "<p class='muted'>" +
+    "<div class='card'>" +
 
-          "正在读取这一处新约原文……"
+      "<div class='eyebrow'>" +
 
-        +
+        "原文训练"
 
-        "</p>" +
+      +
 
-      "</div>";
+      "</div>" +
+
+      "<h3>正在准备经文</h3>" +
+
+      "<p class='muted'>" +
+
+        "正在读取这一处新约原文……"
+
+      +
+
+      "</p>" +
+
+    "</div>";
 
 
   const success =
@@ -2741,13 +2940,22 @@ async function startCorpusForLesson(
 
 
 /* =========================================================
-LOAD ERROR
+CORPUS LOAD ERROR
 ========================================================= */
 
 function renderCorpusLoadError(){
 
   const area =
     $("corpusArea");
+
+
+  if(
+    !area
+  ){
+
+    return;
+
+  }
 
 
   area.innerHTML =
@@ -2791,6 +2999,93 @@ function renderCorpusLoadError(){
 
   $("retryCorpus")
     .onclick =
+    function(){
+
+      startCorpusForLesson(
+        LESSONS[
+          currentLessonIndex
+        ]
+      );
+
+    };
+
+
+  $("backToLessonFromCorpus")
+    .onclick =
+    returnFromCorpus;
+
+}
+
+
+/* =========================================================
+CURRENT CORPUS EXAMPLE
+========================================================= */
+
+function renderCurrentCorpusExample(){
+
+  const area =
+    $("corpusArea");
+
+
+  if(
+    !area ||
+    !currentExample
+  ){
+
+    return;
+
+  }
+
+
+  const verseKey =
+    makeVerseKey(
+      currentExample.book,
+      currentExample.chapter,
+      currentExample.verse
+    );
+
+
+  const tokens =
+    corpus.verses[
+      verseKey
+    ] || [];
+
+
+  area.innerHTML =
+    "";
+
+
+  if(
+    !tokens.length
+  ){
+
+    area.innerHTML =
+
+      "<div class='card'>" +
+
+        "<h3>这一节暂时没有读取到</h3>" +
+
+        "<p class='muted'>" +
+
+          "经文文件已经读取，但没有找到指定经节。"
+
+        +
+
+        "</p>" +
+
+        "<button id='retryVerse' class='primary wide' type='button'>" +
+
+          "重新读取"
+
+        +
+
+        "</button>" +
+
+      "</div>";
+
+
+    $("retryVerse")
+      .onclick =
       function(){
 
         startCorpusForLesson(
@@ -2802,50 +3097,9 @@ function renderCorpusLoadError(){
       };
 
 
-  $("backToLessonFromCorpus")
-    .onclick =
-      returnFromCorpus;
-
-}
-
-
-/* =========================================================
-CORPUS RENDER
-========================================================= */
-
-function renderCurrentCorpusExample(){
-
-  const area =
-    $("corpusArea");
-
-
-  if(
-    !currentExample
-  ){
-
-    finishCorpus();
-
     return;
 
   }
-
-
-  const key =
-    makeVerseKey(
-      currentExample.book,
-      currentExample.chapter,
-      currentExample.verse
-    );
-
-
-  const tokens =
-    corpus.verses[
-      key
-    ] || [];
-
-
-  area.innerHTML =
-    "";
 
 
   const card =
@@ -2878,53 +3132,6 @@ function renderCurrentCorpusExample(){
   area.appendChild(
     card
   );
-
-
-  if(
-    !tokens.length
-  ){
-
-    area.innerHTML =
-
-      "<div class='card'>" +
-
-        "<h3>经文读取失败</h3>" +
-
-        "<p class='muted'>" +
-
-          "经文文件已经读取，但没有找到这一节。"
-
-        +
-
-        "</p>" +
-
-        "<button id='retryVerse' class='secondary wide' type='button'>" +
-
-          "重新读取"
-
-        +
-
-        "</button>" +
-
-      "</div>";
-
-
-    $("retryVerse")
-      .onclick =
-        function(){
-
-          startCorpusForLesson(
-            LESSONS[
-              currentLessonIndex
-            ]
-          );
-
-        };
-
-
-    return;
-
-  }
 
 
   renderCuratedPassage(
@@ -3006,6 +3213,29 @@ function renderCurrentCorpusExample(){
 REFERENCE
 ========================================================= */
 
+function makeVerseKey(
+  book,
+  chapter,
+  verse
+){
+
+  return (
+
+    book +
+    "-" +
+    Number(
+      chapter
+    ) +
+    "-" +
+    Number(
+      verse
+    )
+
+  );
+
+}
+
+
 function formatReference(
   example
 ){
@@ -3046,31 +3276,8 @@ function formatReference(
 }
 
 
-function makeVerseKey(
-  book,
-  chapter,
-  verse
-){
-
-  return (
-
-    book +
-    "-" +
-    Number(
-      chapter
-    ) +
-    "-" +
-    Number(
-      verse
-    )
-
-  );
-
-}
-
-
 /* =========================================================
-PASSAGE
+RENDER CURATED PASSAGE
 ========================================================= */
 
 function renderCuratedPassage(
@@ -3100,7 +3307,8 @@ function renderCuratedPassage(
 
 
   /*
-    先找实际词形
+    1.
+    优先实际词形
   */
 
   if(
@@ -3140,7 +3348,8 @@ function renderCuratedPassage(
 
 
   /*
-    再找 Lemma
+    2.
+    找不到再使用 Lemma
   */
 
   if(
@@ -3171,11 +3380,6 @@ function renderCuratedPassage(
   }
 
 
-  /*
-    短而精：
-    目标词前后最多三词。
-  */
-
   const center =
     target
       ? tokens.indexOf(
@@ -3187,16 +3391,14 @@ function renderCuratedPassage(
   const start =
     Math.max(
       0,
-      center -
-      3
+      center - 3
     );
 
 
   const end =
     Math.min(
       tokens.length,
-      center +
-      4
+      center + 4
     );
 
 
@@ -3238,36 +3440,36 @@ function renderCuratedPassage(
 
 
         span.onclick =
-          function(){
+        function(){
 
-            document
-              .querySelectorAll(
-                "#curatedGreek .corpus-token"
-              )
-              .forEach(
-                function(
-                  item
-                ){
+          document
+            .querySelectorAll(
+              "#curatedGreek .corpus-token"
+            )
+            .forEach(
+              function(
+                item
+              ){
 
-                  item.classList.remove(
-                    "active"
-                  );
+                item.classList.remove(
+                  "active"
+                );
 
-                }
-              );
-
-
-            span.classList.add(
-              "active"
+              }
             );
 
 
-            renderTokenDetail(
-              token,
-              "corpusTokenDetail"
-            );
+          span.classList.add(
+            "active"
+          );
 
-          };
+
+          renderTokenDetail(
+            token,
+            "corpusTokenDetail"
+          );
+
+        };
 
 
         box.appendChild(
@@ -3394,47 +3596,47 @@ function renderHelp(
 
   $("helpButton")
     .onclick =
-      function(){
+    function(){
 
-        $("help1")
-          .classList
-          .remove(
-            "hidden"
-          );
+      $("help1")
+        .classList
+        .remove(
+          "hidden"
+        );
 
-      };
+    };
 
 
   $("help2Button")
     .onclick =
-      function(){
+    function(){
 
-        $("help2")
-          .classList
-          .remove(
-            "hidden"
-          );
+      $("help2")
+        .classList
+        .remove(
+          "hidden"
+        );
 
-      };
+    };
 
 
   $("help3Button")
     .onclick =
-      function(){
+    function(){
 
-        $("help3")
-          .classList
-          .remove(
-            "hidden"
-          );
+      $("help3")
+        .classList
+        .remove(
+          "hidden"
+        );
 
-      };
+    };
 
 }
 
 
 /* =========================================================
-LOAD MORPHGNT
+LOAD BOOK
 ========================================================= */
 
 async function loadBook(
@@ -3484,6 +3686,12 @@ async function loadBook(
     !book
   ){
 
+    console.error(
+      "GBRM book missing:",
+      bookId
+    );
+
+
     return false;
 
   }
@@ -3516,7 +3724,7 @@ async function loadBook(
 
 
 /* =========================================================
-FETCH
+FETCH MORPHGNT
 ========================================================= */
 
 async function fetchBook(
@@ -3525,16 +3733,17 @@ async function fetchBook(
 
   try{
 
+    const url =
+      CONFIG.RAW_BASE +
+      book.file;
+
+
     const response =
       await fetch(
-
-        CONFIG.RAW_BASE +
-        book.file,
-
+        url,
         {
           cache:"no-cache"
         }
-
       );
 
 
@@ -3588,6 +3797,14 @@ async function fetchBook(
     );
 
 
+    console.log(
+      "GBRM loaded:",
+      book.id,
+      tokens.length,
+      "tokens"
+    );
+
+
     return true;
 
   }
@@ -3596,7 +3813,7 @@ async function fetchBook(
   ){
 
     console.error(
-      "GBRM MorphGNT:",
+      "GBRM MorphGNT load failed:",
       book.id,
       error
     );
@@ -3612,13 +3829,17 @@ async function fetchBook(
 /* =========================================================
 MORPHGNT PARSER
 
-关键修复：
+正确结构：
 
 040101
 
 04 = Book
 01 = Chapter
 01 = Verse
+
+Word index 不从 location 读取，
+而是在同一 verse 内自行计算。
+
 ========================================================= */
 
 function parseMorphGNT(
@@ -3636,8 +3857,7 @@ function parseMorphGNT(
 
   const lines =
     String(
-      text ||
-      ""
+      text || ""
     )
     .split(
       /\r?\n/
@@ -3730,9 +3950,10 @@ function parseMorphGNT(
 
 
       if(
-        !verseCounters[
+        typeof verseCounters[
           verseKey
-        ]
+        ] !==
+        "number"
       ){
 
         verseCounters[
@@ -3825,7 +4046,7 @@ function parseMorphGNT(
 
 
 /* =========================================================
-CLEAN TOKEN
+TOKEN CLEAN
 ========================================================= */
 
 function cleanToken(
@@ -3883,7 +4104,7 @@ function addToken(
     );
 
 
-  const lemma =
+  const lemmaKey =
     normalize(
       token.lemma
     );
@@ -3891,12 +4112,12 @@ function addToken(
 
   if(
     !corpus.lemmas[
-      lemma
+      lemmaKey
     ]
   ){
 
     corpus.lemmas[
-      lemma
+      lemmaKey
     ] = [];
 
   }
@@ -3904,7 +4125,7 @@ function addToken(
 
   corpus
     .lemmas[
-      lemma
+      lemmaKey
     ]
     .push(
       token
@@ -3914,7 +4135,7 @@ function addToken(
 
 
 /* =========================================================
-MORPH DECODER
+MORPHOLOGY DECODER
 ========================================================= */
 
 function decodeParsing(
@@ -3923,8 +4144,7 @@ function decodeParsing(
 
   const c =
     String(
-      code ||
-      ""
+      code || ""
     )
     .padEnd(
       8,
@@ -4189,6 +4409,10 @@ function tokenLine(
 }
 
 
+/* =========================================================
+POS
+========================================================= */
+
 function decodePOS(
   code
 ){
@@ -4218,20 +4442,26 @@ function decodePOS(
 
   const value =
     String(
-      code ||
-      ""
+      code || ""
     );
 
 
   return (
+
     map[
       value[0]
     ] ||
+
     value
+
   );
 
 }
 
+
+/* =========================================================
+VOCAB FIND
+========================================================= */
 
 function findVocabulary(
   lemma
@@ -4261,7 +4491,7 @@ function findVocabulary(
 
 
 /* =========================================================
-LEMMA
+LEMMA ENGINE
 ========================================================= */
 
 function openLemma(
@@ -4274,7 +4504,7 @@ function openLemma(
   ){
 
     alert(
-      "请先进入原文训练。"
+      "请先打开一条例文。"
     );
 
     return;
@@ -4282,11 +4512,15 @@ function openLemma(
   }
 
 
+  const key =
+    normalize(
+      lemma
+    );
+
+
   const entries =
     corpus.lemmas[
-      normalize(
-        lemma
-      )
+      key
     ] || [];
 
 
@@ -4352,12 +4586,11 @@ function renderLemma(){
       forms[
         token.rawText
       ] =
-        (
-          forms[
-            token.rawText
-          ] ||
-          0
-        ) + 1;
+      (
+        forms[
+          token.rawText
+        ] || 0
+      ) + 1;
 
     }
   );
@@ -4502,14 +4735,14 @@ function openVerse(
   token
 ){
 
-  const tokens =
+  const verse =
     corpus.verses[
       token.verseKey
     ];
 
 
   if(
-    !tokens
+    !verse
   ){
 
     alert(
@@ -4526,7 +4759,7 @@ function openVerse(
 
 
   renderVerse(
-    tokens,
+    verse,
     token
   );
 
@@ -4549,6 +4782,7 @@ function renderVerse(
 
     $("verseReference")
       .textContent =
+
       tokens[0]
         ? tokens[0].reference
         : "";
@@ -4590,8 +4824,8 @@ function renderVerse(
 
       if(
         selected &&
-        token.wordIndex ===
-        selected.wordIndex
+        selected.wordIndex ===
+        token.wordIndex
       ){
 
         span.classList.add(
@@ -4706,16 +4940,21 @@ function renderReview(
     "</div>";
 
 
-  $("finishLessonButton")
-    .onclick =
-      completeLesson;
-
+  /*
+    这里只表示学生进入了回顾步骤，
+    并不直接代表课程完成。
+  */
 
   st.review =
     true;
 
 
   saveState();
+
+
+  $("finishLessonButton")
+    .onclick =
+    completeLesson;
 
 }
 
@@ -4832,8 +5071,20 @@ function finishCorpus(){
   markCorpusComplete();
 
 
-  $("corpusArea")
-    .innerHTML =
+  const area =
+    $("corpusArea");
+
+
+  if(
+    !area
+  ){
+
+    return;
+
+  }
+
+
+  area.innerHTML =
 
     "<div class='success'>" +
 
@@ -4854,19 +5105,20 @@ function finishCorpus(){
 
   $("returnLessonFromCorpus")
     .onclick =
-      function(){
+    function(){
 
-        currentStep =
-          4;
+      currentStep =
+        4;
 
 
-        renderLesson();
+      renderLesson();
 
-        go(
-          "lesson"
-        );
 
-      };
+      go(
+        "lesson"
+      );
+
+    };
 
 }
 
@@ -4883,6 +5135,13 @@ function completeLesson(){
     );
 
 
+  /*
+    课程的完成条件。
+
+    这里不要求一定要成功读取网络，
+    但必须至少进入原文步骤。
+  */
+
   if(
     !st.content ||
     !st.practice ||
@@ -4892,7 +5151,7 @@ function completeLesson(){
   ){
 
     alert(
-      "请先完成本课全部步骤。"
+      "请先完成本课全部学习步骤。"
     );
 
     return;
@@ -4925,8 +5184,20 @@ function showLessonComplete(){
     ];
 
 
-  $("lessonArea")
-    .innerHTML =
+  const area =
+    $("lessonArea");
+
+
+  if(
+    !area
+  ){
+
+    return;
+
+  }
+
+
+  area.innerHTML =
 
     "<div class='lesson-section'>" +
 
@@ -4979,31 +5250,30 @@ function showLessonComplete(){
 
   $("nextLessonButton")
     .onclick =
-      function(){
+    function(){
 
-        if(
-          currentLessonIndex <
-          LESSONS.length - 1
-        ){
+      if(
+        currentLessonIndex <
+        LESSONS.length - 1
+      ){
 
-          openLesson(
-            currentLessonIndex +
-            1
-          );
+        openLesson(
+          currentLessonIndex + 1
+        );
 
-        }
-        else{
+      }
+      else{
 
-          goHome();
+        goHome();
 
-        }
+      }
 
-      };
+    };
 
 
   $("homeAfterLesson")
     .onclick =
-      goHome;
+    goHome;
 
 }
 
@@ -5050,6 +5320,7 @@ function nextStep(){
         ]
       );
 
+
       return;
 
     }
@@ -5064,20 +5335,21 @@ function nextStep(){
 
     currentStep++;
 
+
     renderLessonStep();
 
-  }
-  else{
-
-    completeLesson();
+    return;
 
   }
+
+
+  completeLesson();
 
 }
 
 
 /* =========================================================
-PREVIOUS
+PREVIOUS STEP
 ========================================================= */
 
 function previousStep(){
@@ -5089,30 +5361,26 @@ function previousStep(){
 
     currentStep--;
 
+
     renderLessonStep();
 
-  }
-  else{
-
-    goHome();
+    return;
 
   }
+
+
+  goHome();
 
 }
 
 
 /* =========================================================
-VOCAB REVIEW
+VOCABULARY REVIEW
 ========================================================= */
-
-let vocabularyReview = [];
-
-let vocabularyReviewIndex = 0;
-
 
 function startVocabularyReview(){
 
-  const learned =
+  const learnedLessons =
     LESSONS
       .filter(
         function(
@@ -5144,8 +5412,31 @@ function startVocabularyReview(){
           item
         ){
 
-          return learned.includes(
+          return learnedLessons.includes(
             item.lesson
+          );
+
+        }
+      )
+      .slice()
+      .sort(
+        function(
+          a,
+          b
+        ){
+
+          return (
+
+            getVocabState(
+              a.word
+            ).remembered
+
+            -
+
+            getVocabState(
+              b.word
+            ).remembered
+
           );
 
         }
@@ -5276,22 +5567,19 @@ function renderVocabularyReview(){
 
   $("reviewSpeak")
     .onclick =
-      function(){
+    function(){
 
-        speakText(
-          item.word
-        );
+      speakText(
+        item.word
+      );
 
-      };
-
-
-  const options =
-    buildReviewOptions(
-      item
-    );
+    };
 
 
-  options.forEach(
+  buildReviewOptions(
+    item
+  )
+  .forEach(
     function(
       option
     ){
@@ -5311,112 +5599,121 @@ function renderVocabularyReview(){
 
 
       button.onclick =
-        function(){
+      function(){
 
-          const memory =
-            getVocabState(
-              item.word
-            );
-
-
-          document
-            .querySelectorAll(
-              "#reviewOptions button"
-            )
-            .forEach(
-              function(
-                item
-              ){
-
-                item.disabled =
-                  true;
-
-              }
-            );
+        const memory =
+          getVocabState(
+            item.word
+          );
 
 
-          if(
-            option ===
-            item.gloss
-          ){
+        document
+          .querySelectorAll(
+            "#reviewOptions button"
+          )
+          .forEach(
+            function(
+              btn
+            ){
 
-            button.classList.add(
-              "correct"
-            );
+              btn.disabled =
+                true;
 
-
-            memory.remembered++;
-
-
-            $("reviewFeedback")
-              .innerHTML =
-
-                "<div class='success'>" +
-
-                  "✓ 很好" +
-
-                  "<button id='nextVocab' class='primary wide' type='button'>" +
-
-                    "下一词 →"
-
-                  +
-
-                  "</button>" +
-
-                "</div>";
-
-          }
-          else{
-
-            button.classList.add(
-              "wrong"
-            );
+            }
+          );
 
 
-            memory.wrong++;
+        if(
+          option ===
+          item.gloss
+        ){
+
+          button.classList.add(
+            "correct"
+          );
 
 
-            $("reviewFeedback")
-              .innerHTML =
-
-                "<div class='notice-box'>" +
-
-                  "正确答案：" +
-
-                  escapeHtml(
-                    item.gloss
-                  ) +
-
-                  "<button id='nextVocab' class='primary wide' type='button'>" +
-
-                    "下一词 →"
-
-                  +
-
-                  "</button>" +
-
-                "</div>";
-
-          }
+          memory.remembered =
+            Number(
+              memory.remembered
+            ) + 1;
 
 
-          memory.seen++;
+          $("reviewFeedback")
+            .innerHTML =
+
+            "<div class='success'>" +
+
+              "✓ 很好" +
+
+              "<button id='nextVocab' class='primary wide' type='button'>" +
+
+                "下一词 →"
+
+              +
+
+              "</button>" +
+
+            "</div>";
+
+        }
+        else{
+
+          button.classList.add(
+            "wrong"
+          );
 
 
-          saveState();
+          memory.wrong =
+            Number(
+              memory.wrong
+            ) + 1;
 
 
-          $("nextVocab")
-            .onclick =
-              function(){
+          $("reviewFeedback")
+            .innerHTML =
 
-                vocabularyReviewIndex++;
+            "<div class='notice-box'>" +
 
-                renderVocabularyReview();
+              "正确答案：" +
 
-              };
+              escapeHtml(
+                item.gloss
+              ) +
 
-        };
+              "<button id='nextVocab' class='primary wide' type='button'>" +
+
+                "下一词 →"
+
+              +
+
+              "</button>" +
+
+            "</div>";
+
+        }
+
+
+        memory.seen =
+          Number(
+            memory.seen
+          ) + 1;
+
+
+        saveState();
+
+
+        $("nextVocab")
+          .onclick =
+          function(){
+
+            vocabularyReviewIndex++;
+
+            renderVocabularyReview();
+
+          };
+
+      };
 
 
       $("reviewOptions")
@@ -5451,8 +5748,10 @@ function buildReviewOptions(
       .sort(
         function(){
 
-          return Math.random() -
-            0.5;
+          return (
+            Math.random() -
+            0.5
+          );
 
         }
       )
@@ -5480,8 +5779,10 @@ function buildReviewOptions(
   .sort(
     function(){
 
-      return Math.random() -
-        0.5;
+      return (
+        Math.random() -
+        0.5
+      );
 
     }
   );
@@ -5527,6 +5828,14 @@ function speakText(
     CONFIG.SPEECH_RATE;
 
 
+  utterance.pitch =
+    1;
+
+
+  utterance.volume =
+    1;
+
+
   window.speechSynthesis.speak(
     utterance
   );
@@ -5541,6 +5850,7 @@ RETURN
 function returnFromCorpus(){
 
   renderLesson();
+
 
   go(
     "lesson"
@@ -5567,9 +5877,21 @@ function returnFromLemma(){
   }
 
 
-  go(
+  if(
+    currentReturn ===
     "corpus"
-  );
+  ){
+
+    go(
+      "corpus"
+    );
+
+    return;
+
+  }
+
+
+  goHome();
 
 }
 
@@ -5592,12 +5914,30 @@ function returnFromVerse(){
   }
 
 
+  if(
+    currentReturn ===
+    "corpus"
+  ){
+
+    go(
+      "corpus"
+    );
+
+    return;
+
+  }
+
+
   go(
     "lemma"
   );
 
 }
 
+
+/* =========================================================
+HOME
+========================================================= */
 
 function goHome(){
 
@@ -5611,9 +5951,286 @@ function goHome(){
 
 
 /* =========================================================
-PUBLIC FUNCTIONS
+EVENTS
 
-给 index.html / inline handlers 使用。
+关键修复：
+
+“教材课程” = 直接进入当前课程
+
+不是展开列表。
+========================================================= */
+
+function bindEvents(){
+
+  const continueLesson =
+    $("continueLesson");
+
+
+  if(
+    continueLesson
+  ){
+
+    continueLesson.onclick =
+      function(){
+
+        openLesson(
+          currentLessonIndex
+        );
+
+      };
+
+  }
+
+
+  const openLessons =
+    $("openLessons");
+
+
+  if(
+    openLessons
+  ){
+
+    openLessons.onclick =
+      function(){
+
+        /*
+          直接进入当前课程。
+        */
+
+        openLesson(
+          currentLessonIndex
+        );
+
+      };
+
+  }
+
+
+  const closeLessons =
+    $("closeLessons");
+
+
+  if(
+    closeLessons
+  ){
+
+    closeLessons.onclick =
+      function(){
+
+        const panel =
+          $("lessonPanel");
+
+
+        if(
+          panel
+        ){
+
+          panel.classList.add(
+            "hidden"
+          );
+
+        }
+
+      };
+
+  }
+
+
+  const lessonBack =
+    $("lessonBack");
+
+
+  if(
+    lessonBack
+  ){
+
+    lessonBack.onclick =
+      goHome;
+
+  }
+
+
+  const lessonPrevious =
+    $("lessonPrevious");
+
+
+  if(
+    lessonPrevious
+  ){
+
+    lessonPrevious.onclick =
+      previousStep;
+
+  }
+
+
+  const lessonNext =
+    $("lessonNext");
+
+
+  if(
+    lessonNext
+  ){
+
+    lessonNext.onclick =
+      nextStep;
+
+  }
+
+
+  const vocabReview =
+    $("startVocabularyReview");
+
+
+  if(
+    vocabReview
+  ){
+
+    vocabReview.onclick =
+      startVocabularyReview;
+
+  }
+
+
+  const vocabReviewBack =
+    $("vocabReviewBack");
+
+
+  if(
+    vocabReviewBack
+  ){
+
+    vocabReviewBack.onclick =
+      goHome;
+
+  }
+
+
+  const corpusBack =
+    $("corpusBack");
+
+
+  if(
+    corpusBack
+  ){
+
+    corpusBack.onclick =
+      returnFromCorpus;
+
+  }
+
+
+  const lemmaBack =
+    $("lemmaBack");
+
+
+  if(
+    lemmaBack
+  ){
+
+    lemmaBack.onclick =
+      returnFromLemma;
+
+  }
+
+
+  const verseBack =
+    $("verseBack");
+
+
+  if(
+    verseBack
+  ){
+
+    verseBack.onclick =
+      returnFromVerse;
+
+  }
+
+
+  const verseBackButton =
+    $("verseBackButton");
+
+
+  if(
+    verseBackButton
+  ){
+
+    verseBackButton.onclick =
+      returnFromVerse;
+
+  }
+
+}
+
+
+/* =========================================================
+INIT
+
+注意：
+初始化时不访问 MorphGNT。
+========================================================= */
+
+function init(){
+
+  try{
+
+    bindEvents();
+
+    renderHome();
+
+  }
+  catch(
+    error
+  ){
+
+    console.error(
+      "GBRM init error:",
+      error
+    );
+
+
+    const home =
+      $("home");
+
+
+    if(
+      home
+    ){
+
+      home.innerHTML =
+
+        "<div class='card'>" +
+
+          "<h3>页面初始化遇到问题</h3>" +
+
+          "<p class='muted'>" +
+
+            "请刷新页面后再试。"
+
+          +
+
+          "</p>" +
+
+          "<button class='primary wide' onclick='location.reload()'>" +
+
+            "刷新页面"
+
+          +
+
+          "</button>" +
+
+        "</div>";
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+PUBLIC API
 ========================================================= */
 
 window.go =
@@ -5664,3 +6281,8 @@ else{
   init();
 
 }
+
+
+/* =========================================================
+END
+========================================================= */
