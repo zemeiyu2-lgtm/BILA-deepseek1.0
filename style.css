@@ -42,14 +42,6 @@
 }
 
 
-html {
-
-  scroll-behavior:
-    smooth;
-
-}
-
-
 body {
 
   margin:
@@ -246,7 +238,7 @@ TYPOGRAPHY
 .hero {
 
   padding:
-    35px 4px 23px;
+    35px 4px 24px;
 
 }
 
@@ -315,6 +307,14 @@ TYPOGRAPHY
 
   line-height:
     1.9;
+
+}
+
+
+.muted {
+
+  color:
+    var(--muted);
 
 }
 
@@ -394,8 +394,22 @@ CARDS
 }
 
 
+.status-text {
+
+  margin-top:
+    9px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+}
+
+
 /* =====================================================
-STATS
+STAT
 ===================================================== */
 
 .course-stat {
@@ -410,7 +424,7 @@ STATS
     8px;
 
   margin-top:
-    16px;
+    15px;
 
 }
 
@@ -491,91 +505,167 @@ STATS
 }
 
 
-.status-text {
+/* =====================================================
+CONTINUE
+===================================================== */
 
-  margin-top:
-    9px;
+.continue-card {
+
+  padding:
+    17px;
+
+  background:
+    var(--accent-soft);
+
+  border:
+    1px solid #bfd1c4;
+
+  border-radius:
+    15px;
+
+}
+
+
+.continue-card strong {
+
+  font-size:
+    17px;
+
+}
+
+
+.continue-card small {
 
   color:
     var(--muted);
-
-  font-size:
-    10px;
 
 }
 
 
 /* =====================================================
-LESSON WORD
+LESSON LIST
 ===================================================== */
 
-.lesson-word-list {
+.lesson-list {
 
   display:
     grid;
 
   gap:
-    9px;
+    8px;
 
   margin-top:
-    12px;
+    13px;
 
 }
 
 
-.lesson-word-card {
+.lesson-group {
+
+  margin-top:
+    13px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    .14em;
+
+}
+
+
+.lesson-item {
 
   display:
     grid;
 
   grid-template-columns:
-    1fr auto;
-
-  gap:
-    10px;
+    54px 1fr 30px;
 
   align-items:
     center;
 
+  gap:
+    10px;
+
+  width:
+    100%;
+
   padding:
     13px;
+
+  text-align:
+    left;
+
+  background:
+    white;
 
   border:
     1px solid var(--line);
 
   border-radius:
-    12px;
-
-  background:
-    white;
+    13px;
 
 }
 
 
-.lesson-word-card.selected {
+.lesson-item.current {
+
+  background:
+    var(--gold-soft);
+
+  border-color:
+    #d6c29c;
+
+}
+
+
+.lesson-item.completed {
 
   background:
     var(--accent-soft);
 
   border-color:
+    #bfd1c4;
+
+}
+
+
+.lesson-index {
+
+  color:
     var(--accent);
 
-}
-
-
-.lesson-word-greek {
-
-  font-family:
-    Georgia,
-    serif;
+  font-weight:
+    800;
 
   font-size:
-    27px;
+    10px;
 
 }
 
 
-.lesson-word-meta {
+.lesson-title {
+
+  font-weight:
+    700;
+
+}
+
+
+.lesson-meta {
+
+  display:
+    block;
+
+  margin-top:
+    2px;
 
   color:
     var(--muted);
@@ -586,104 +676,16 @@ LESSON WORD
 }
 
 
-.lesson-word-frequency {
+.lesson-mark {
+
+  text-align:
+    right;
 
   color:
     var(--accent);
 
-  font-size:
-    10px;
-
-}
-
-
-/* =====================================================
-SEARCH
-===================================================== */
-
-.search-input {
-
-  width:
-    100%;
-
-  margin-top:
-    10px;
-
-  padding:
-    12px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    10px;
-
-  background:
-    white;
-
-  outline:
-    none;
-
-}
-
-
-.search-input:focus {
-
-  border-color:
-    var(--accent);
-
-}
-
-
-.search-results {
-
-  margin-top:
-    13px;
-
-}
-
-
-.search-result-row {
-
-  padding:
-    13px 0;
-
-  border-top:
-    1px solid var(--line);
-
-  cursor:
-    pointer;
-
-}
-
-
-.search-result-row:first-child {
-
-  border-top:
-    0;
-
-}
-
-
-.search-result-lemma {
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    29px;
-
-}
-
-
-.search-result-meta {
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
+  font-weight:
+    800;
 
 }
 
@@ -732,189 +734,164 @@ SCREEN HEADER
 
 
 /* =====================================================
-LEMMA
+LESSON
 ===================================================== */
 
-.lemma-main {
+.lesson-identity {
 
-  text-align:
+  display:
+    flex;
+
+  align-items:
     center;
 
+  gap:
+    16px;
+
   padding:
-    10px 0 20px;
+    18px;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    17px;
 
 }
 
 
-.lemma-greek {
+.lesson-number-large {
+
+  font-size:
+    30px;
+
+  font-weight:
+    800;
+
+  color:
+    var(--accent);
+
+}
+
+
+.lesson-objective {
+
+  margin-top:
+    5px;
+
+  font-weight:
+    700;
+
+}
+
+
+.lesson-flow {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    7px;
+
+  color:
+    var(--accent);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+}
+
+
+.lesson-section {
+
+  margin:
+    13px 0;
+
+  padding:
+    18px;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    16px;
+
+}
+
+
+.lesson-section h3 {
+
+  margin-top:
+    0;
+
+}
+
+
+.lesson-text {
+
+  color:
+    var(--muted);
+
+}
+
+
+.grammar-example {
+
+  margin:
+    12px 0;
+
+  padding:
+    14px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    11px;
+
+}
+
+
+.greek {
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
 
-  font-size:
-    clamp(
-      44px,
-      11vw,
-      70px
-    );
-
-  line-height:
-    1.3;
-
 }
 
 
-.lemma-gloss {
-
-  margin-top:
-    5px;
+.greek-large {
 
   font-size:
-    14px;
+    31px;
 
 }
 
 
-.lemma-stat-grid {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:
-    8px;
-
-  margin-top:
-    15px;
-
-}
-
-
-.lemma-stat {
-
-  padding:
-    11px 5px;
-
-  text-align:
-    center;
-
-  background:
-    #faf9f4;
-
-  border-radius:
-    11px;
-
-}
-
-
-.lemma-stat strong {
-
-  display:
-    block;
-
-  font-size:
-    20px;
-
-}
-
-
-.lemma-stat span {
-
-  color:
-    var(--muted);
-
-  font-size:
-    9px;
-
-}
-
-
-.form-list {
-
-  display:
-    grid;
-
-  gap:
-    7px;
-
-  margin-top:
-    13px;
-
-}
-
-
-.form-row {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr auto;
-
-  gap:
-    10px;
-
-  padding:
-    11px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    10px;
-
-  background:
-    white;
-
-}
-
-
-.form-word {
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    21px;
-
-}
-
-
-.form-meta {
-
-  color:
-    var(--muted);
-
-  font-size:
-    9px;
-
-}
-
-
-/* =====================================================
-FAMILY
-===================================================== */
-
-.family-map {
-
-  margin-top:
-    14px;
-
-}
-
-
-.family-node {
+.lesson-example {
 
   margin:
-    8px 0;
+    12px 0;
 
   padding:
-    13px;
+    15px;
 
   background:
     white;
@@ -928,53 +905,14 @@ FAMILY
 }
 
 
-.family-node-main {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  gap:
-    10px;
-
-}
-
-
-.family-node-word {
+.lesson-example-text {
 
   font-family:
     Georgia,
     serif;
 
   font-size:
-    26px;
-
-}
-
-
-.family-node-frequency {
-
-  color:
-    var(--accent);
-
-  font-size:
-    10px;
-
-}
-
-
-.family-books {
-
-  margin-top:
-    7px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
+    22px;
 
   line-height:
     1.8;
@@ -982,37 +920,298 @@ FAMILY
 }
 
 
-.family-sample {
+.lesson-example-meta {
 
   margin-top:
+    6px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+}
+
+
+.lesson-actions {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
     8px;
 
-  padding:
-    9px;
+  margin-top:
+    13px;
 
-  background:
-    #faf8f1;
+}
 
-  border-radius:
-    9px;
 
-  cursor:
-    pointer;
+.lesson-actions button {
+
+  width:
+    100%;
 
 }
 
 
 /* =====================================================
-VERSE
+VOCAB
 ===================================================== */
 
-.verse-reference {
+.vocab-grid {
+
+  display:
+    grid;
+
+  gap:
+    8px;
+
+}
+
+
+.vocab-card {
+
+  padding:
+    14px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    13px;
+
+}
+
+
+.vocab-top {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+}
+
+
+.vocab-word {
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    29px;
+
+}
+
+
+.vocab-gloss {
+
+  margin-top:
+    3px;
+
+  font-size:
+    12px;
+
+}
+
+
+.vocab-frequency {
+
+  margin-top:
+    3px;
 
   color:
     var(--accent);
 
   font-size:
-    11px;
+    9px;
+
+}
+
+
+.vocab-actions {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    7px;
+
+  margin-top:
+    10px;
+
+}
+
+
+.vocab-actions button {
+
+  font-size:
+    10px;
+
+  padding:
+    7px 10px;
+
+}
+
+
+.vocab-status {
+
+  display:
+    inline-block;
+
+  margin-top:
+    9px;
+
+  padding:
+    4px 8px;
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+  border-radius:
+    8px;
+
+  font-size:
+    9px;
+
+}
+
+
+/* =====================================================
+TRAINING
+===================================================== */
+
+.training-card {
+
+  margin:
+    13px 0;
+
+  padding:
+    18px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    16px;
+
+}
+
+
+.training-question {
+
+  font-size:
+    16px;
+
+  font-weight:
+    700;
+
+}
+
+
+.training-options {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    8px;
+
+  margin-top:
+    12px;
+
+}
+
+
+.training-options button {
+
+  min-height:
+    46px;
+
+}
+
+
+.correct {
+
+  background:
+    var(--accent-soft) !important;
+
+  border-color:
+    var(--accent) !important;
+
+}
+
+
+.wrong {
+
+  background:
+    #f6e8e5 !important;
+
+  border-color:
+    var(--danger) !important;
+
+}
+
+
+/* =====================================================
+CORPUS
+===================================================== */
+
+.corpus-card {
+
+  margin:
+    13px 0;
+
+  padding:
+    17px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    15px;
+
+}
+
+
+.corpus-reference {
+
+  color:
+    var(--accent);
+
+  font-size:
+    10px;
 
   font-weight:
     800;
@@ -1020,38 +1219,37 @@ VERSE
 }
 
 
-.verse-text {
+.corpus-greek {
 
-  margin-top:
-    13px;
+  margin:
+    10px 0;
 
   font-family:
     Georgia,
-    "Times New Roman",
     serif;
 
   font-size:
-    24px;
+    25px;
 
   line-height:
-    2;
+    1.9;
 
 }
 
 
-.token {
+.corpus-token {
 
   display:
     inline-block;
 
   margin:
-    0 2px;
+    2px;
 
   padding:
     2px 5px;
 
   border-radius:
-    7px;
+    6px;
 
   cursor:
     pointer;
@@ -1059,7 +1257,7 @@ VERSE
 }
 
 
-.token:hover {
+.corpus-token:hover {
 
   background:
     var(--accent-soft);
@@ -1067,7 +1265,7 @@ VERSE
 }
 
 
-.token.active {
+.corpus-token.active {
 
   background:
     var(--accent-soft);
@@ -1078,40 +1276,19 @@ VERSE
 }
 
 
-.token-number {
-
-  margin-right:
-    3px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    8px;
-
-  vertical-align:
-    super;
-
-}
-
-
-/* =====================================================
-TOKEN DETAIL
-===================================================== */
-
 .token-detail {
 
   margin-top:
-    16px;
+    14px;
 
   padding:
-    15px;
+    14px;
 
   background:
     #faf8f1;
 
   border-radius:
-    13px;
+    12px;
 
 }
 
@@ -1123,7 +1300,7 @@ TOKEN DETAIL
     serif;
 
   font-size:
-    32px;
+    31px;
 
 }
 
@@ -1137,7 +1314,7 @@ TOKEN DETAIL
     space-between;
 
   gap:
-    12px;
+    10px;
 
   padding:
     7px 0;
@@ -1179,6 +1356,191 @@ TOKEN DETAIL
 
 
 /* =====================================================
+LEMMA
+===================================================== */
+
+.lemma-hero {
+
+  padding:
+    20px;
+
+  text-align:
+    center;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    17px;
+
+}
+
+
+.lemma-word {
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(
+      43px,
+      10vw,
+      68px
+    );
+
+}
+
+
+.lemma-gloss {
+
+  margin-top:
+    5px;
+
+}
+
+
+.lemma-stats {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:
+    8px;
+
+  margin-top:
+    13px;
+
+}
+
+
+.lemma-stat {
+
+  padding:
+    11px 5px;
+
+  text-align:
+    center;
+
+  background:
+    #faf9f4;
+
+  border-radius:
+    10px;
+
+}
+
+
+.lemma-stat strong {
+
+  display:
+    block;
+
+  font-size:
+    20px;
+
+}
+
+
+.lemma-stat span {
+
+  color:
+    var(--muted);
+
+  font-size:
+    9px;
+
+}
+
+
+.family-item {
+
+  padding:
+    12px;
+
+  border-top:
+    1px solid var(--line);
+
+  cursor:
+    pointer;
+
+}
+
+
+.family-item:first-child {
+
+  border-top:
+    0;
+
+}
+
+
+.family-form {
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    23px;
+
+}
+
+
+.family-meta {
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+}
+
+
+/* =====================================================
+VERSE
+===================================================== */
+
+.verse-reference {
+
+  color:
+    var(--accent);
+
+  font-size:
+    11px;
+
+  font-weight:
+    800;
+
+}
+
+
+.verse-text {
+
+  margin:
+    12px 0;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    24px;
+
+  line-height:
+    2;
+
+}
+
+
+/* =====================================================
 BUTTONS
 ===================================================== */
 
@@ -1215,51 +1577,34 @@ BUTTONS
 }
 
 
-.muted {
-
-  color:
-    var(--muted);
-
-}
-
-
-.success {
-
-  margin-top:
-    13px;
-
-  padding:
-    13px;
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  border-radius:
-    10px;
-
-}
-
-
 /* =====================================================
-FOOTER
+RECORD
 ===================================================== */
 
-footer {
+.record-row {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
 
   padding:
-    22px;
+    13px 0;
 
-  text-align:
-    center;
+  border-top:
+    1px solid var(--line);
 
-  color:
-    var(--muted);
+}
 
-  font-size:
-    10px;
+
+.record-row:first-child {
+
+  border-top:
+    0;
 
 }
 
@@ -1288,7 +1633,23 @@ MOBILE
   }
 
 
-  .lemma-stat-grid {
+  .lesson-actions {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .training-options {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .lemma-stats {
 
     grid-template-columns:
       1fr 1fr;
@@ -1300,14 +1661,6 @@ MOBILE
 
     grid-column:
       1 / -1;
-
-  }
-
-
-  .lesson-word-card {
-
-    grid-template-columns:
-      1fr;
 
   }
 
