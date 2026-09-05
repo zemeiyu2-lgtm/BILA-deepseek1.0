@@ -16,12 +16,12 @@
   >
 
   <title>
-    GBRM V1.2｜Greek Bible Reading Model
+    GBRM V1.3｜Greek Bible Reading Model
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=120"
+    href="style.css?v=130"
   >
 
 </head>
@@ -45,7 +45,7 @@
   </div>
 
   <div class="version">
-    V1.2
+    V1.3
   </div>
 
 </header>
@@ -93,7 +93,7 @@ HOME
 
       <br>
 
-      同时建立长期的新约词汇记忆系统。
+      同时建立长期的新约词汇记忆能力。
 
     </p>
 
@@ -125,7 +125,7 @@ HOME
         </strong>
 
         <span>
-          已完成
+          已完成课程
         </span>
 
       </div>
@@ -172,9 +172,9 @@ HOME
 
 
 
-  <!-- ===================================================
-       VOCABULARY DASHBOARD
-  ==================================================== -->
+<!-- =====================================================
+VOCABULARY DASHBOARD
+====================================================== -->
 
   <div class="card">
 
@@ -185,6 +185,7 @@ HOME
     <h3>
       新约词汇记忆
     </h3>
+
 
     <div class="vocab-summary">
 
@@ -250,13 +251,22 @@ HOME
       🔁 开始今日单字复习
     </button>
 
+
+    <button
+      id="openVocabAll"
+      class="secondary wide"
+      type="button"
+    >
+      📚 浏览全部词库
+    </button>
+
   </div>
 
 
 
-  <!-- ===================================================
-       COURSE MAP
-  ==================================================== -->
+<!-- =====================================================
+COURSE MAP
+====================================================== -->
 
   <div class="card">
 
@@ -267,7 +277,6 @@ HOME
     <h3>
       初阶课程
     </h3>
-
 
     <div
       id="lessonList"
@@ -414,11 +423,11 @@ VOCAB REVIEW
     <div>
 
       <div class="eyebrow">
-        VOCABULARY REVIEW
+        VOCABULARY TRAINING
       </div>
 
       <h2>
-        单字复习
+        单字训练
       </h2>
 
     </div>
@@ -433,7 +442,7 @@ VOCAB REVIEW
       id="reviewCounter"
       class="muted"
     >
-      今日复习
+      今日训练
     </div>
 
 
@@ -442,6 +451,63 @@ VOCAB REVIEW
     ></div>
 
   </div>
+
+</section>
+
+
+
+<!-- =====================================================
+VOCAB ALL
+====================================================== -->
+
+<section
+  id="vocabAll"
+  class="screen"
+>
+
+
+  <div class="screen-head">
+
+    <button
+      id="vocabAllBack"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        VOCABULARY DATABASE
+      </div>
+
+      <h2>
+        全部词库
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <input
+      id="vocabSearch"
+      class="vocab-search"
+      type="search"
+      placeholder="搜索希腊文、中文释义、课号……"
+    >
+
+
+    <div
+      id="vocabAllList"
+    ></div>
+
+  </div>
+
 
 </section>
 
@@ -483,7 +549,6 @@ COURSE REVIEW
   </div>
 
 
-
   <div class="card">
 
     <div
@@ -501,14 +566,14 @@ COURSE REVIEW
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V1.2
+  GBRM · Greek Bible Reading Model · V1.3
 
 </footer>
 
 
 
 <script
-  src="app.js?v=120"
+  src="app.js?v=130"
   defer
 ></script>
 
