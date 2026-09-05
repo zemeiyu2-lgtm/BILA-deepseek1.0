@@ -327,6 +327,14 @@ HERO
 }
 
 
+.muted {
+
+  color:
+    var(--muted);
+
+}
+
+
 /* =====================================================
 CARDS
 ===================================================== */
@@ -402,10 +410,16 @@ CARDS
 }
 
 
-.muted {
+.status-text {
+
+  margin-top:
+    9px;
 
   color:
     var(--muted);
+
+  font-size:
+    10px;
 
 }
 
@@ -426,7 +440,7 @@ STATS
     8px;
 
   margin-top:
-    15px;
+    14px;
 
 }
 
@@ -476,7 +490,7 @@ STATS
     7px;
 
   margin-top:
-    11px;
+    10px;
 
   background:
     #e8e4db;
@@ -507,25 +521,14 @@ STATS
 }
 
 
-.status-text {
-
-  margin-top:
-    9px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
-
-}
-
-
 /* =====================================================
 CONTINUE
 ===================================================== */
 
 .continue-card {
+
+  margin:
+    13px 0;
 
   padding:
     17px;
@@ -544,6 +547,12 @@ CONTINUE
 
 .continue-card strong {
 
+  display:
+    block;
+
+  margin-top:
+    4px;
+
   font-size:
     17px;
 
@@ -556,7 +565,7 @@ CONTINUE
     block;
 
   margin-top:
-    4px;
+    5px;
 
   color:
     var(--muted);
@@ -597,7 +606,7 @@ LESSON LIST
     800;
 
   letter-spacing:
-    .14em;
+    .13em;
 
 }
 
@@ -608,7 +617,7 @@ LESSON LIST
     grid;
 
   grid-template-columns:
-    53px 1fr 26px;
+    52px 1fr 25px;
 
   align-items:
     center;
@@ -664,11 +673,11 @@ LESSON LIST
   color:
     var(--accent);
 
-  font-weight:
-    800;
-
   font-size:
     10px;
+
+  font-weight:
+    800;
 
 }
 
@@ -761,14 +770,8 @@ LESSON
 
 .lesson-identity {
 
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    16px;
+  margin:
+    13px 0;
 
   padding:
     18px;
@@ -791,7 +794,7 @@ LESSON
     var(--accent);
 
   font-size:
-    30px;
+    29px;
 
   font-weight:
     800;
@@ -799,39 +802,53 @@ LESSON
 }
 
 
-.lesson-objective {
+.lesson-name {
 
   margin-top:
-    5px;
+    2px;
 
-  font-weight:
-    700;
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    21px;
 
 }
 
 
-.lesson-flow {
+.lesson-objective {
 
-  display:
-    flex;
-
-  flex-wrap:
-    wrap;
-
-  align-items:
-    center;
-
-  gap:
+  margin-top:
     7px;
 
   color:
-    var(--accent);
+    var(--muted);
 
   font-size:
-    11px;
+    12px;
 
-  font-weight:
-    700;
+}
+
+
+.lesson-progress {
+
+  margin:
+    10px 0 15px;
+
+}
+
+
+.lesson-step-text {
+
+  margin-bottom:
+    5px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
 
 }
 
@@ -864,24 +881,38 @@ LESSON
 }
 
 
-.lesson-note {
+.lesson-content {
+
+  font-size:
+    13px;
+
+  line-height:
+    1.9;
+
+}
+
+
+.lesson-target {
+
+  margin-top:
+    14px;
 
   padding:
-    13px;
+    14px;
 
   background:
     #faf8f1;
 
   border-radius:
-    10px;
+    11px;
 
 }
 
 
-.lesson-example {
+.grammar-card {
 
   margin:
-    11px 0;
+    10px 0;
 
   padding:
     13px;
@@ -898,7 +929,35 @@ LESSON
 }
 
 
-.lesson-example .greek {
+.grammar-term {
+
+  color:
+    var(--accent);
+
+  font-weight:
+    800;
+
+}
+
+
+.grammar-description {
+
+  margin-top:
+    5px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+}
+
+
+.example-greek {
+
+  margin-top:
+    8px;
 
   font-family:
     Georgia,
@@ -906,6 +965,20 @@ LESSON
 
   font-size:
     23px;
+
+}
+
+
+.example-note {
+
+  margin-top:
+    3px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
 
 }
 
@@ -923,6 +996,85 @@ LESSON
 
   margin-top:
     13px;
+
+}
+
+
+/* =====================================================
+PRACTICE
+===================================================== */
+
+.practice-card {
+
+  margin-top:
+    13px;
+
+  padding:
+    16px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    13px;
+
+}
+
+
+.practice-question {
+
+  font-weight:
+    700;
+
+}
+
+
+.practice-options {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    8px;
+
+  margin-top:
+    13px;
+
+}
+
+
+.practice-options button {
+
+  min-height:
+    46px;
+
+}
+
+
+.correct {
+
+  background:
+    var(--accent-soft) !important;
+
+  border-color:
+    var(--accent) !important;
+
+}
+
+
+.wrong {
+
+  background:
+    #f6e8e5 !important;
+
+  border-color:
+    var(--danger) !important;
 
 }
 
@@ -959,7 +1111,7 @@ VOCAB
 }
 
 
-.vocab-top {
+.vocab-header {
 
   display:
     flex;
@@ -969,9 +1121,6 @@ VOCAB
 
   justify-content:
     space-between;
-
-  gap:
-    10px;
 
 }
 
@@ -1068,92 +1217,13 @@ VOCAB
 
 
 /* =====================================================
-TRAINING
-===================================================== */
-
-.training-card {
-
-  margin:
-    12px 0;
-
-  padding:
-    17px;
-
-  background:
-    white;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    15px;
-
-}
-
-
-.training-question {
-
-  font-weight:
-    700;
-
-}
-
-
-.training-options {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    8px;
-
-  margin-top:
-    12px;
-
-}
-
-
-.training-options button {
-
-  min-height:
-    46px;
-
-}
-
-
-.correct {
-
-  background:
-    var(--accent-soft) !important;
-
-  border-color:
-    var(--accent) !important;
-
-}
-
-
-.wrong {
-
-  background:
-    #f6e8e5 !important;
-
-  border-color:
-    var(--danger) !important;
-
-}
-
-
-/* =====================================================
 CORPUS
 ===================================================== */
 
 .corpus-card {
 
   margin:
-    12px 0;
+    13px 0;
 
   padding:
     17px;
@@ -1187,7 +1257,7 @@ CORPUS
 .corpus-greek {
 
   margin:
-    11px 0;
+    12px 0;
 
   font-family:
     Georgia,
@@ -1198,7 +1268,7 @@ CORPUS
     24px;
 
   line-height:
-    1.95;
+    2;
 
 }
 
@@ -1209,7 +1279,7 @@ CORPUS
     inline-block;
 
   margin:
-    1px;
+    2px;
 
   padding:
     2px 5px;
@@ -1280,7 +1350,7 @@ CORPUS
     space-between;
 
   gap:
-    12px;
+    10px;
 
   padding:
     7px 0;
@@ -1369,7 +1439,7 @@ LEMMA
 }
 
 
-.lemma-stats {
+.lemma-stat-grid {
 
   display:
     grid;
@@ -1425,7 +1495,7 @@ LEMMA
 }
 
 
-.family-item {
+.form-row {
 
   padding:
     12px 0;
@@ -1439,7 +1509,7 @@ LEMMA
 }
 
 
-.family-item:first-child {
+.form-row:first-child {
 
   border-top:
     0;
@@ -1447,7 +1517,7 @@ LEMMA
 }
 
 
-.family-form {
+.form-word {
 
   font-family:
     Georgia,
@@ -1459,7 +1529,7 @@ LEMMA
 }
 
 
-.family-meta {
+.form-meta {
 
   color:
     var(--muted);
@@ -1491,7 +1561,7 @@ VERSE
 .verse-text {
 
   margin-top:
-    13px;
+    12px;
 
   font-family:
     Georgia,
@@ -1507,56 +1577,28 @@ VERSE
 
 
 /* =====================================================
-RECORD
+SUCCESS
 ===================================================== */
 
-.record-summary {
+.success {
 
   padding:
-    18px;
+    14px;
 
   background:
-    var(--paper);
+    var(--accent-soft);
 
-  border:
-    1px solid var(--line);
+  color:
+    var(--accent);
 
   border-radius:
-    15px;
-
-}
-
-
-.record-row {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  gap:
-    10px;
-
-  padding:
-    12px 0;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.record-row:first-child {
-
-  border-top:
-    0;
+    11px;
 
 }
 
 
 /* =====================================================
-BUTTONS
+GENERAL
 ===================================================== */
 
 .wide {
@@ -1588,6 +1630,23 @@ BUTTONS
 
   background:
     white;
+
+}
+
+
+footer {
+
+  padding:
+    22px;
+
+  text-align:
+    center;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
 
 }
 
@@ -1624,7 +1683,7 @@ MOBILE
   }
 
 
-  .training-options {
+  .practice-options {
 
     grid-template-columns:
       1fr;
@@ -1632,7 +1691,7 @@ MOBILE
   }
 
 
-  .lemma-stats {
+  .lemma-stat-grid {
 
     grid-template-columns:
       1fr 1fr;
