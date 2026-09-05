@@ -30,6 +30,9 @@
   --gold:
     #9a7740;
 
+  --gold-soft:
+    #f3ead8;
+
   --line:
     #e4ded2;
 
@@ -455,7 +458,7 @@ button:disabled {
 
 /* =====================================================
 VOCAB SUMMARY
-====================================================== */
+===================================================== */
 
 .vocab-summary {
 
@@ -468,8 +471,8 @@ VOCAB SUMMARY
   gap:
     8px;
 
-  margin-top:
-    12px;
+  margin:
+    12px 0;
 
 }
 
@@ -518,7 +521,7 @@ VOCAB SUMMARY
 
 /* =====================================================
 LESSON LIST
-====================================================== */
+===================================================== */
 
 .lesson-list {
 
@@ -627,9 +630,6 @@ LESSON LIST
   display:
     block;
 
-  margin-top:
-    1px;
-
   color:
     var(--muted);
 
@@ -654,8 +654,8 @@ LESSON LIST
 
 
 /* =====================================================
-HEADER
-====================================================== */
+SCREEN HEADER
+===================================================== */
 
 .screen-head {
 
@@ -716,7 +716,7 @@ HEADER
 
 /* =====================================================
 LESSON
-====================================================== */
+===================================================== */
 
 .lesson-section {
 
@@ -915,7 +915,7 @@ LESSON
 
 /* =====================================================
 TEST
-====================================================== */
+===================================================== */
 
 .choice-grid {
 
@@ -966,8 +966,8 @@ TEST
 
 .exercise-score {
 
-  margin-top:
-    13px;
+  margin:
+    13px 0;
 
   padding:
     11px;
@@ -989,15 +989,7 @@ TEST
 
 /* =====================================================
 VOCABULARY
-====================================================== */
-
-.vocabulary-panel {
-
-  margin-top:
-    13px;
-
-}
-
+===================================================== */
 
 .vocab-card {
 
@@ -1015,20 +1007,6 @@ VOCABULARY
 
   border-radius:
     14px;
-
-}
-
-
-.vocab-card-main {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
 
 }
 
@@ -1178,120 +1156,6 @@ VOCABULARY
 }
 
 
-.vocab-memory-options button {
-
-  min-height:
-    48px;
-
-}
-
-
-.vocab-mode-label {
-
-  margin-top:
-    12px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
-
-  text-align:
-    center;
-
-}
-
-
-.vocab-input {
-
-  width:
-    100%;
-
-  margin-top:
-    12px;
-
-  padding:
-    12px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    10px;
-
-  background:
-    white;
-
-  outline:
-    none;
-
-}
-
-
-.vocab-input:focus {
-
-  border-color:
-    var(--accent);
-
-}
-
-
-.vocab-answer {
-
-  margin-top:
-    12px;
-
-  padding:
-    12px;
-
-  background:
-    #faf9f4;
-
-  border-radius:
-    10px;
-
-}
-
-
-.vocab-progress {
-
-  height:
-    6px;
-
-  margin:
-    10px 0;
-
-  background:
-    #e7e2d8;
-
-  border-radius:
-    20px;
-
-  overflow:
-    hidden;
-
-}
-
-
-.vocab-progress-fill {
-
-  width:
-    0;
-
-  height:
-    100%;
-
-  background:
-    var(--accent);
-
-}
-
-
-/* =====================================================
-VOCAB DATABASE
-====================================================== */
-
 .vocab-search {
 
   width:
@@ -1300,6 +1164,9 @@ VOCAB DATABASE
   padding:
     12px;
 
+  margin-bottom:
+    14px;
+
   border:
     1px solid var(--line);
 
@@ -1311,9 +1178,6 @@ VOCAB DATABASE
 
   outline:
     none;
-
-  margin-bottom:
-    13px;
 
 }
 
@@ -1382,61 +1246,167 @@ VOCAB DATABASE
 }
 
 
-.vocab-review-result {
+/* =====================================================
+MORPHOLOGY
+===================================================== */
 
-  margin-top:
+.morphology-card {
+
+  padding:
+    17px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
     14px;
 
 }
 
 
-.vocab-correct {
+.morphology-word {
 
-  background:
-    var(--accent-soft) !important;
+  margin:
+    17px 0;
 
-  border-color:
-    var(--accent) !important;
+  text-align:
+    center;
 
-}
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
 
-
-.vocab-wrong {
-
-  background:
-    #f6e8e5 !important;
-
-  border-color:
-    var(--danger) !important;
+  font-size:
+    46px;
 
 }
 
 
-/* =====================================================
-NAVIGATION
-====================================================== */
+.morphology-question {
 
-.lesson-nav {
+  margin-top:
+    15px;
+
+  font-weight:
+    700;
+
+}
+
+
+.morphology-options {
 
   display:
     grid;
 
   grid-template-columns:
-    1fr 1fr;
+    repeat(2,1fr);
 
   gap:
     8px;
 
   margin-top:
-    12px;
+    9px;
 
 }
 
 
-.lesson-nav button {
+.morphology-options button {
+
+  min-height:
+    46px;
+
+}
+
+
+.morphology-progress {
+
+  height:
+    6px;
+
+  background:
+    #e5e1d8;
+
+  border-radius:
+    20px;
+
+  overflow:
+    hidden;
+
+}
+
+
+.morphology-progress-fill {
 
   width:
+    0;
+
+  height:
     100%;
+
+  background:
+    var(--accent);
+
+}
+
+
+.parse-row {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  padding:
+    9px 0;
+
+  border-top:
+    1px solid var(--line);
+
+}
+
+
+.parse-row:first-child {
+
+  border-top:
+    0;
+
+}
+
+
+.parse-label {
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+}
+
+
+.parse-value {
+
+  font-weight:
+    700;
+
+}
+
+
+.success {
+
+  padding:
+    14px;
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+  border-radius:
+    11px;
 
 }
 
@@ -1474,9 +1444,46 @@ NAVIGATION
 }
 
 
+.muted {
+
+  color:
+    var(--muted);
+
+}
+
+
+/* =====================================================
+NAVIGATION
+===================================================== */
+
+.lesson-nav {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    8px;
+
+  margin-top:
+    12px;
+
+}
+
+
+.lesson-nav button {
+
+  width:
+    100%;
+
+}
+
+
 /* =====================================================
 REVIEW
-====================================================== */
+===================================================== */
 
 .review-row {
 
@@ -1498,9 +1505,6 @@ REVIEW
   border-top:
     1px solid var(--line);
 
-  cursor:
-    pointer;
-
 }
 
 
@@ -1516,39 +1520,6 @@ REVIEW
 
   color:
     var(--muted);
-
-}
-
-
-.hidden {
-
-  display:
-    none !important;
-
-}
-
-
-.muted {
-
-  color:
-    var(--muted);
-
-}
-
-
-.success {
-
-  padding:
-    14px;
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  border-radius:
-    11px;
 
 }
 
@@ -1571,7 +1542,7 @@ footer {
 
 
 @media (
-  max-width: 700px
+  max-width:700px
 ) {
 
   .course-stat {
@@ -1615,6 +1586,14 @@ footer {
 
 
   .vocab-memory-options {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .morphology-options {
 
     grid-template-columns:
       1fr;
