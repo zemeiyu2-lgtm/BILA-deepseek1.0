@@ -2,34 +2,56 @@
   box-sizing:border-box;
 }
 
+
 :root{
+
   --bg:#f5f1e7;
+
   --paper:#fffdf8;
-  --white:#fff;
+
+  --white:#ffffff;
+
   --ink:#29332d;
+
   --muted:#778078;
+
   --accent:#496b59;
+
   --accent-soft:#e6eee7;
+
   --gold:#9a7740;
+
   --gold-soft:#f3ead8;
+
   --line:#e4ded2;
+
   --danger:#965f55;
+
 }
+
 
 html{
   scroll-behavior:smooth;
 }
 
+
 body{
+
   margin:0;
+
   background:var(--bg);
+
   color:var(--ink);
+
   font-family:
     Arial,
     "Microsoft YaHei",
     sans-serif;
+
   line-height:1.65;
+
 }
+
 
 button,
 input,
@@ -37,27 +59,43 @@ select{
   font:inherit;
 }
 
+
 button{
-  border:1px solid var(--line);
+
+  border:
+    1px solid var(--line);
+
   border-radius:10px;
+
   background:var(--white);
+
   color:var(--ink);
+
   padding:10px 13px;
+
   cursor:pointer;
+
   transition:.15s ease;
+
 }
+
 
 button:hover{
   border-color:#b8ae9c;
 }
 
+
 button:active{
   transform:scale(.98);
 }
 
+
 button:disabled{
+
   opacity:.55;
+
   cursor:default;
+
 }
 
 
@@ -66,39 +104,58 @@ TOPBAR
 ===================================================== */
 
 .topbar{
+
   position:sticky;
+
   top:0;
+
   z-index:30;
 
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
 
   padding:13px 18px;
 
-  background:rgba(245,241,231,.97);
+  background:
+    rgba(245,241,231,.97);
 
   border-bottom:
     1px solid var(--line);
 
-  backdrop-filter:
-    blur(10px);
+  backdrop-filter:blur(10px);
+
 }
+
 
 .brand{
+
   font-weight:800;
+
   letter-spacing:.12em;
+
 }
+
 
 .subtitle{
+
   color:var(--muted);
+
   font-size:10px;
+
 }
 
+
 .version{
+
   color:var(--accent);
+
   font-size:10px;
+
   font-weight:800;
+
 }
 
 
@@ -107,15 +164,22 @@ APP
 ===================================================== */
 
 .app{
+
   width:100%;
-  max-width:980px;
+
+  max-width:920px;
+
   margin:0 auto;
-  padding:18px 16px 80px;
+
+  padding:18px 16px 70px;
+
 }
+
 
 .screen{
   display:none;
 }
+
 
 .screen.active{
   display:block;
@@ -127,37 +191,69 @@ TEXT
 ===================================================== */
 
 .hero{
-  padding:34px 4px 23px;
+
+  padding:34px 4px 22px;
+
 }
+
 
 .eyebrow{
+
   color:var(--accent);
+
   font-size:10px;
+
   font-weight:800;
+
   letter-spacing:.14em;
+
 }
+
 
 .hero h1{
+
   margin:5px 0;
+
   font-family:Georgia,serif;
-  font-size:clamp(44px,12vw,76px);
+
+  font-size:
+    clamp(
+      44px,
+      12vw,
+      76px
+    );
+
   line-height:1;
+
 }
+
 
 .hero-subtitle{
+
   margin:10px 0;
+
   font-family:Georgia,serif;
+
   font-size:20px;
+
 }
+
 
 .hero-description{
+
   color:var(--muted);
+
   font-size:13px;
+
   line-height:1.9;
+
 }
 
+
 .muted{
+
   color:var(--muted);
+
 }
 
 
@@ -167,7 +263,9 @@ CARDS
 
 .card,
 .course-card{
+
   margin:13px 0;
+
   padding:19px;
 
   background:var(--paper);
@@ -176,9 +274,12 @@ CARDS
     1px solid var(--line);
 
   border-radius:18px;
+
 }
 
+
 .course-card{
+
   background:
     linear-gradient(
       145deg,
@@ -187,15 +288,30 @@ CARDS
     );
 
   border-color:#d6c29c;
+
 }
+
 
 .course-card h2{
+
   margin:5px 0;
+
   font-family:Georgia,serif;
+
 }
 
+
+.corpus-mini{
+
+  background:#faf9f5;
+
+}
+
+
 .notice-box{
+
   margin:13px 0;
+
   padding:14px;
 
   background:#faf8f1;
@@ -203,69 +319,81 @@ CARDS
   border-radius:12px;
 
   color:var(--muted);
+
   font-size:11px;
+
 }
 
+
 .status-text{
-  margin-top:9px;
+
+  margin-top:8px;
+
   color:var(--muted);
+
   font-size:10px;
+
 }
 
 
 /* =====================================================
-STATS
+PROGRESS
 ===================================================== */
 
-.course-stat{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
+.course-progress-number{
+
+  display:flex;
+
+  align-items:baseline;
 
   gap:8px;
 
   margin-top:14px;
+
 }
 
-.course-stat div{
-  padding:12px 6px;
 
-  text-align:center;
+.course-progress-number strong{
 
-  background:
-    rgba(255,255,255,.6);
+  font-size:28px;
 
-  border-radius:12px;
 }
 
-.course-stat strong{
-  display:block;
-  font-size:21px;
-}
 
-.course-stat span{
+.course-progress-number span{
+
   color:var(--muted);
+
   font-size:10px;
+
 }
+
 
 .progress-track{
+
   height:7px;
-  margin-top:10px;
+
+  margin-top:9px;
 
   background:#e8e4db;
 
   border-radius:20px;
 
   overflow:hidden;
+
 }
 
+
 .progress-fill{
+
   width:0;
+
   height:100%;
 
   background:var(--accent);
 
   transition:width .25s ease;
+
 }
 
 
@@ -274,8 +402,10 @@ CONTINUE
 ===================================================== */
 
 .continue-card{
+
   margin:13px 0;
-  padding:17px;
+
+  padding:18px;
 
   background:var(--accent-soft);
 
@@ -283,18 +413,36 @@ CONTINUE
     1px solid #bfd1c4;
 
   border-radius:15px;
+
 }
+
 
 .continue-card strong{
+
   display:block;
+
   margin-top:4px;
+
   font-size:17px;
+
 }
 
+
 .continue-card small{
+
   display:block;
+
   margin-top:5px;
+
   color:var(--muted);
+
+}
+
+
+.continue-button{
+
+  margin-top:11px;
+
 }
 
 
@@ -303,28 +451,44 @@ LESSON LIST
 ===================================================== */
 
 .lesson-list{
+
   display:grid;
+
   gap:8px;
+
   margin-top:13px;
+
 }
+
 
 .lesson-group{
+
   margin-top:12px;
+
   color:var(--muted);
+
   font-size:9px;
+
   font-weight:800;
+
   letter-spacing:.13em;
+
 }
 
+
 .lesson-item{
+
   display:grid;
+
   grid-template-columns:
-    52px 1fr 25px;
+    48px 1fr 22px;
 
   align-items:center;
+
   gap:10px;
 
   width:100%;
+
   padding:12px;
 
   text-align:left;
@@ -335,70 +499,113 @@ LESSON LIST
     1px solid var(--line);
 
   border-radius:13px;
+
 }
+
 
 .lesson-item.current{
+
   background:var(--gold-soft);
+
   border-color:#d6c29c;
+
 }
+
 
 .lesson-item.completed{
+
   background:var(--accent-soft);
+
   border-color:#bfd1c4;
+
 }
+
 
 .lesson-index{
+
   color:var(--accent);
+
   font-size:10px;
+
   font-weight:800;
+
 }
+
 
 .lesson-title{
+
   font-weight:700;
+
 }
+
 
 .lesson-meta{
+
   display:block;
+
   margin-top:2px;
+
   color:var(--muted);
+
   font-size:9px;
+
 }
 
+
 .lesson-mark{
+
   color:var(--accent);
+
   text-align:right;
+
   font-weight:800;
+
 }
 
 
 /* =====================================================
-SCREEN HEADER
+HEAD
 ===================================================== */
 
 .screen-head{
+
   display:flex;
+
   align-items:center;
+
   gap:12px;
+
   margin:8px 0 17px;
+
 }
+
 
 .screen-head h2{
+
   margin:3px 0;
+
 }
 
+
 .back{
+
   width:40px;
+
   height:40px;
+
   border-radius:50%;
+
 }
 
 
 /* =====================================================
-LESSON
+LESSON HEADER
 ===================================================== */
 
 .lesson-identity{
+
   margin:13px 0;
+
   padding:18px;
 
   background:var(--paper);
@@ -407,47 +614,69 @@ LESSON
     1px solid var(--line);
 
   border-radius:17px;
+
 }
+
 
 .lesson-number{
+
   color:var(--accent);
+
   font-size:29px;
+
   font-weight:800;
+
 }
 
+
 .lesson-name{
+
   margin-top:3px;
 
   font-family:Georgia,serif;
 
   font-size:22px;
+
 }
 
-.lesson-page{
-  margin-top:2px;
-  color:var(--gold);
-  font-size:10px;
-  font-weight:700;
-}
 
 .lesson-objective{
+
   margin-top:7px;
+
   color:var(--muted);
+
   font-size:12px;
+
 }
+
 
 .lesson-progress{
+
   margin:10px 0 15px;
+
 }
+
 
 .lesson-step-text{
+
   margin-bottom:5px;
+
   color:var(--muted);
+
   font-size:10px;
+
 }
 
+
+/* =====================================================
+LESSON CONTENT
+===================================================== */
+
 .lesson-section{
+
   margin:13px 0;
+
   padding:18px;
 
   background:var(--paper);
@@ -456,33 +685,52 @@ LESSON
     1px solid var(--line);
 
   border-radius:16px;
+
 }
+
 
 .lesson-section h3{
+
   margin-top:0;
+
 }
+
 
 .lesson-content{
+
   font-size:13px;
+
   line-height:1.9;
+
 }
 
+
 .lesson-target{
+
   margin-top:14px;
+
   padding:14px;
 
   background:#faf8f1;
 
   border-radius:11px;
+
 }
+
 
 .source-structure{
+
   display:grid;
+
   gap:7px;
+
   margin-top:12px;
+
 }
 
+
 .source-row{
+
   padding:10px 12px;
 
   background:#fff;
@@ -491,20 +739,36 @@ LESSON
     1px solid var(--line);
 
   border-radius:10px;
+
 }
+
 
 .source-row strong{
+
   display:block;
+
   font-size:12px;
+
 }
+
 
 .source-row small{
+
   color:var(--muted);
+
   font-size:10px;
+
 }
 
+
+/* =====================================================
+GRAMMAR
+===================================================== */
+
 .grammar-card{
+
   margin:10px 0;
+
   padding:13px;
 
   background:#fff;
@@ -513,25 +777,38 @@ LESSON
     1px solid var(--line);
 
   border-radius:11px;
+
 }
+
 
 .grammar-term{
+
   color:var(--accent);
+
   font-weight:800;
+
 }
+
 
 .grammar-description{
+
   margin-top:5px;
+
   color:var(--muted);
+
   font-size:11px;
+
 }
 
+
 .example-greek{
+
   margin-top:8px;
 
   font-family:Georgia,serif;
 
   font-size:23px;
+
 }
 
 
@@ -540,7 +817,9 @@ PRACTICE
 ===================================================== */
 
 .practice-card{
+
   margin-top:13px;
+
   padding:16px;
 
   background:#fff;
@@ -549,50 +828,75 @@ PRACTICE
     1px solid var(--line);
 
   border-radius:13px;
+
 }
+
 
 .practice-question{
+
   font-weight:700;
+
 }
 
+
 .practice-options{
+
   display:grid;
+
   grid-template-columns:
     1fr 1fr;
 
   gap:8px;
 
   margin-top:13px;
+
 }
+
 
 .practice-options button{
+
   min-height:46px;
+
 }
 
+
 .correct{
+
   background:
     var(--accent-soft) !important;
 
   border-color:
     var(--accent) !important;
+
 }
 
+
 .wrong{
-  background:#f6e8e5 !important;
-  border-color:var(--danger) !important;
+
+  background:
+    #f6e8e5 !important;
+
+  border-color:
+    var(--danger) !important;
+
 }
 
 
 /* =====================================================
-VOCAB
+VOCABULARY
 ===================================================== */
 
 .vocab-grid{
+
   display:grid;
+
   gap:9px;
+
 }
 
+
 .vocab-card{
+
   padding:14px;
 
   background:#fff;
@@ -601,46 +905,67 @@ VOCAB
     1px solid var(--line);
 
   border-radius:13px;
+
 }
+
 
 .vocab-header{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
 }
+
 
 .vocab-word{
+
   font-family:Georgia,serif;
+
   font-size:29px;
+
 }
+
 
 .vocab-gloss{
+
   margin-top:4px;
+
   font-size:12px;
+
 }
 
-.vocab-frequency{
-  margin-top:3px;
-  color:var(--accent);
-  font-size:9px;
-}
 
 .vocab-actions{
+
   display:flex;
+
   flex-wrap:wrap;
+
   gap:7px;
+
   margin-top:10px;
+
 }
+
 
 .vocab-actions button{
+
   padding:7px 10px;
+
   font-size:10px;
+
 }
 
+
 .vocab-status{
+
   display:inline-block;
 
   margin-top:9px;
+
   padding:4px 8px;
 
   background:var(--accent-soft);
@@ -650,100 +975,243 @@ VOCAB
   border-radius:8px;
 
   font-size:9px;
+
 }
 
 
 /* =====================================================
-CORPUS
+LESSON FOCUS
+===================================================== */
+
+.lesson-focus-card{
+
+  margin-bottom:13px;
+
+}
+
+
+.lesson-focus-card h3{
+
+  margin:5px 0;
+
+}
+
+
+/* =====================================================
+CORPUS TRAINING
 ===================================================== */
 
 .corpus-card{
+
   margin:13px 0;
-  padding:17px;
+
+  padding:18px;
 
   background:#fff;
 
   border:
     1px solid var(--line);
 
-  border-radius:15px;
+  border-radius:16px;
+
 }
+
 
 .corpus-reference{
+
   color:var(--accent);
-  font-size:10px;
+
+  font-size:11px;
+
   font-weight:800;
+
 }
 
+
 .corpus-greek{
-  margin:12px 0;
+
+  margin:15px 0;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
 
-  font-size:24px;
-  line-height:2;
+  font-size:
+    clamp(
+      21px,
+      5vw,
+      29px
+    );
+
+  line-height:2.05;
+
 }
 
+
 .corpus-token{
+
   display:inline-block;
 
   margin:2px;
+
   padding:2px 5px;
 
   border-radius:6px;
 
   cursor:pointer;
+
 }
+
 
 .corpus-token:hover{
+
   background:var(--accent-soft);
+
 }
+
 
 .corpus-token.active{
+
   background:var(--accent-soft);
+
   color:var(--accent);
+
 }
 
-.token-detail{
+
+.training-explanation{
+
   margin-top:14px;
+
   padding:14px;
 
   background:#faf8f1;
 
   border-radius:12px;
+
 }
+
+
+.training-explanation-title{
+
+  color:var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+  letter-spacing:.1em;
+
+}
+
+
+.training-explanation-text{
+
+  margin-top:6px;
+
+  font-size:12px;
+
+  line-height:1.85;
+
+}
+
+
+.training-task{
+
+  margin-top:12px;
+
+  padding:14px;
+
+  background:var(--accent-soft);
+
+  border-radius:12px;
+
+}
+
+
+.training-task strong{
+
+  display:block;
+
+  margin-bottom:6px;
+
+}
+
+
+.training-answer{
+
+  margin-top:12px;
+
+  padding:12px;
+
+  background:#fff;
+
+  border-radius:10px;
+
+}
+
+
+.token-detail{
+
+  margin-top:14px;
+
+  padding:14px;
+
+  background:#faf8f1;
+
+  border-radius:12px;
+
+}
+
 
 .token-detail-word{
+
   font-family:Georgia,serif;
-  font-size:31px;
+
+  font-size:30px;
+
 }
 
+
 .token-line{
+
   display:flex;
+
   justify-content:space-between;
+
   gap:12px;
 
   padding:7px 0;
 
   border-top:
     1px solid var(--line);
+
 }
+
 
 .token-line:first-child{
+
   border-top:0;
+
 }
+
 
 .token-label{
+
   color:var(--muted);
+
   font-size:10px;
+
 }
 
+
 .token-value{
+
   text-align:right;
+
   font-weight:700;
+
 }
 
 
@@ -752,6 +1220,7 @@ LEMMA
 ===================================================== */
 
 .lemma-hero{
+
   padding:20px;
 
   text-align:center;
@@ -762,70 +1231,76 @@ LEMMA
     1px solid var(--line);
 
   border-radius:17px;
+
 }
 
+
 .lemma-word{
+
   font-family:Georgia,serif;
 
   font-size:
-    clamp(43px,10vw,68px);
+    clamp(
+      42px,
+      10vw,
+      66px
+    );
+
 }
+
 
 .lemma-gloss{
+
   margin-top:5px;
+
 }
 
-.lemma-stat-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
 
-  gap:8px;
+.lemma-help{
 
   margin-top:14px;
-}
 
-.lemma-stat{
-  padding:11px 5px;
-
-  text-align:center;
-
-  background:#faf9f4;
-
-  border-radius:10px;
-}
-
-.lemma-stat strong{
-  display:block;
-  font-size:20px;
-}
-
-.lemma-stat span{
   color:var(--muted);
-  font-size:9px;
+
+  font-size:11px;
+
 }
+
 
 .form-row{
+
   padding:12px 0;
 
   border-top:
     1px solid var(--line);
 
   cursor:pointer;
+
 }
+
 
 .form-row:first-child{
+
   border-top:0;
+
 }
+
 
 .form-word{
+
   font-family:Georgia,serif;
-  font-size:23px;
+
+  font-size:22px;
+
 }
 
+
 .form-meta{
+
   color:var(--muted);
+
   font-size:10px;
+
 }
 
 
@@ -834,12 +1309,18 @@ VERSE
 ===================================================== */
 
 .verse-reference{
+
   color:var(--accent);
+
   font-size:11px;
+
   font-weight:800;
+
 }
 
+
 .verse-text{
+
   margin-top:12px;
 
   font-family:
@@ -848,15 +1329,49 @@ VERSE
     serif;
 
   font-size:24px;
+
   line-height:2;
+
 }
 
 
 /* =====================================================
-GENERAL
+BUTTONS
+===================================================== */
+
+.wide{
+
+  width:100%;
+
+  margin-top:10px;
+
+}
+
+
+.primary{
+
+  background:var(--accent);
+
+  color:#fff;
+
+  border-color:var(--accent);
+
+}
+
+
+.secondary{
+
+  background:#fff;
+
+}
+
+
+/* =====================================================
+SUCCESS
 ===================================================== */
 
 .success{
+
   padding:14px;
 
   background:var(--accent-soft);
@@ -864,24 +1379,16 @@ GENERAL
   color:var(--accent);
 
   border-radius:11px;
+
 }
 
-.wide{
-  width:100%;
-  margin-top:10px;
-}
 
-.primary{
-  background:var(--accent);
-  color:#fff;
-  border-color:var(--accent);
-}
-
-.secondary{
-  background:#fff;
-}
+/* =====================================================
+FOOTER
+===================================================== */
 
 footer{
+
   padding:22px;
 
   text-align:center;
@@ -889,6 +1396,7 @@ footer{
   color:var(--muted);
 
   font-size:10px;
+
 }
 
 
@@ -898,27 +1406,19 @@ MOBILE
 
 @media(max-width:700px){
 
-  .course-stat{
-    grid-template-columns:
-      1fr 1fr;
-  }
-
-  .course-stat div:last-child{
-    grid-column:1/-1;
-  }
-
   .practice-options{
+
     grid-template-columns:
       1fr;
+
   }
 
-  .lemma-stat-grid{
+
+  .lesson-actions{
+
     grid-template-columns:
-      1fr 1fr;
-  }
+      1fr;
 
-  .lemma-stat:last-child{
-    grid-column:1/-1;
   }
 
 }
