@@ -30,9 +30,6 @@
   --gold:
     #9a7740;
 
-  --gold-soft:
-    #f3ead8;
-
   --line:
     #e4ded2;
 
@@ -73,7 +70,8 @@ body {
 
 
 button,
-input {
+input,
+select {
 
   font:
     inherit;
@@ -101,9 +99,6 @@ button {
   cursor:
     pointer;
 
-  transition:
-    .15s ease;
-
 }
 
 
@@ -111,14 +106,6 @@ button:hover {
 
   border-color:
     #b8ae9c;
-
-}
-
-
-button:active {
-
-  transform:
-    scale(.98);
 
 }
 
@@ -211,7 +198,7 @@ button:disabled {
     100%;
 
   max-width:
-    920px;
+    980px;
 
   margin:
     0 auto;
@@ -295,7 +282,7 @@ button:disabled {
     serif;
 
   font-size:
-    20px;
+    21px;
 
 }
 
@@ -315,8 +302,7 @@ button:disabled {
 
 
 .card,
-.course-card,
-.lesson-head-card {
+.course-card {
 
   margin:
     13px 0;
@@ -457,178 +443,128 @@ button:disabled {
 
 
 /* =====================================================
-VOCAB SUMMARY
+SEARCH
 ===================================================== */
 
-.vocab-summary {
+.vocab-search {
 
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:
-    8px;
-
-  margin:
-    12px 0;
-
-}
-
-
-.vocab-summary div {
+  width:
+    100%;
 
   padding:
-    12px 6px;
-
-  text-align:
-    center;
-
-  background:
-    #faf9f4;
+    12px;
 
   border:
     1px solid var(--line);
 
   border-radius:
-    11px;
+    10px;
+
+  background:
+    white;
+
+  outline:
+    none;
 
 }
 
 
-.vocab-summary strong {
+.vocab-search:focus {
 
-  display:
-    block;
-
-  font-size:
-    21px;
+  border-color:
+    var(--accent);
 
 }
 
 
-.vocab-summary span {
-
-  color:
-    var(--muted);
-
-  font-size:
-    9px;
-
-}
-
-
-/* =====================================================
-LESSON LIST
-===================================================== */
-
-.lesson-list {
+.search-row {
 
   display:
     grid;
+
+  grid-template-columns:
+    1fr 120px;
 
   gap:
     8px;
 
   margin-top:
-    13px;
-
-}
-
-
-.mini-label {
-
-  margin:
-    11px 0 3px;
-
-  color:
-    var(--muted);
-
-  font-size:
     9px;
 
-  font-weight:
-    800;
-
-  letter-spacing:
-    .12em;
-
 }
 
 
-.lesson-item {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    56px 1fr 28px;
-
-  align-items:
-    center;
-
-  width:
-    100%;
-
-  gap:
-    10px;
+.select {
 
   padding:
-    13px;
-
-  text-align:
-    left;
-
-  background:
-    var(--white);
+    11px;
 
   border:
     1px solid var(--line);
 
   border-radius:
-    13px;
-
-}
-
-
-.lesson-item.done {
+    10px;
 
   background:
-    var(--accent-soft);
-
-  border-color:
-    #bed0c4;
+    white;
 
 }
 
 
-.lesson-number {
+.search-result {
+
+  margin-top:
+    15px;
+
+}
+
+
+.result-row {
+
+  padding:
+    13px 0;
+
+  border-top:
+    1px solid var(--line);
+
+  cursor:
+    pointer;
+
+}
+
+
+.result-row:first-child {
+
+  border-top:
+    0;
+
+}
+
+
+.result-greek {
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    28px;
+
+}
+
+
+.result-reference {
 
   color:
     var(--accent);
 
   font-size:
-    10px;
-
-  font-weight:
-    800;
+    11px;
 
 }
 
 
-.lesson-name {
-
-  font-weight:
-    700;
-
-}
-
-
-.lesson-meta {
-
-  display:
-    block;
+.result-meta {
 
   color:
     var(--muted);
@@ -639,22 +575,8 @@ LESSON LIST
 }
 
 
-.lesson-status {
-
-  text-align:
-    right;
-
-  color:
-    var(--accent);
-
-  font-weight:
-    800;
-
-}
-
-
 /* =====================================================
-SCREEN HEADER
+HEADER
 ===================================================== */
 
 .screen-head {
@@ -696,124 +618,23 @@ SCREEN HEADER
 }
 
 
-.lesson-reference {
-
-  margin-bottom:
-    5px;
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    24px;
-
-  font-weight:
-    700;
-
-}
-
-
 /* =====================================================
-LESSON
+CORPUS
 ===================================================== */
 
-.lesson-section {
+.notice-box {
 
   margin:
     13px 0;
 
   padding:
-    18px;
-
-  background:
-    var(--white);
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    16px;
-
-}
-
-
-.lesson-section h3 {
-
-  margin-top:
-    0;
-
-}
-
-
-.grammar-box {
-
-  margin-top:
-    12px;
-
-  padding:
-    15px;
+    14px;
 
   background:
     #faf8f1;
 
   border-radius:
     12px;
-
-}
-
-
-.word-card {
-
-  margin:
-    9px 0;
-
-  padding:
-    14px;
-
-  background:
-    #faf9f4;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    12px;
-
-}
-
-
-.word-card-main {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-
-  gap:
-    10px;
-
-}
-
-
-.word-greek {
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    28px;
-
-}
-
-
-.word-gloss {
 
   color:
     var(--muted);
@@ -824,13 +645,57 @@ LESSON
 }
 
 
-.word-detail {
+/* =====================================================
+MORPHOLOGY
+===================================================== */
 
-  margin-top:
-    7px;
+.morphology-card {
+
+  padding:
+    17px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    14px;
+
+}
+
+
+.morphology-word {
+
+  margin:
+    19px 0;
+
+  text-align:
+    center;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      38px,
+      10vw,
+      60px
+    );
+
+  line-height:
+    1.4;
+
+}
+
+
+.morphology-reference {
 
   color:
-    var(--muted);
+    var(--accent);
+
+  text-align:
+    center;
 
   font-size:
     12px;
@@ -838,27 +703,104 @@ LESSON
 }
 
 
-.bible-box {
+.morphology-grid {
 
-  margin:
-    13px 0;
+  display:
+    grid;
 
-  padding:
-    16px;
+  grid-template-columns:
+    1fr 1fr;
 
-  background:
-    var(--accent-soft);
+  gap:
+    8px;
 
-  border-radius:
-    13px;
-
-  cursor:
-    pointer;
+  margin-top:
+    15px;
 
 }
 
 
-.bible-reference {
+.morph-question {
+
+  padding:
+    13px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    12px;
+
+}
+
+
+.morph-question-title {
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+}
+
+
+.morph-question-value {
+
+  margin-top:
+    5px;
+
+  font-weight:
+    700;
+
+}
+
+
+.morph-actions {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    8px;
+
+  margin-top:
+    15px;
+
+}
+
+
+/* =====================================================
+VERSE
+===================================================== */
+
+.verse-card {
+
+  margin:
+    10px 0;
+
+  padding:
+    15px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    13px;
+
+}
+
+
+.verse-reference {
 
   color:
     var(--accent);
@@ -872,17 +814,18 @@ LESSON
 }
 
 
-.bible-text {
+.verse-text {
 
   margin:
-    9px 0;
+    11px 0;
 
   font-family:
     Georgia,
+    "Times New Roman",
     serif;
 
   font-size:
-    21px;
+    23px;
 
   line-height:
     1.9;
@@ -890,31 +833,155 @@ LESSON
 }
 
 
-.notice-box {
+.token {
 
-  margin-top:
-    12px;
+  display:
+    inline-block;
+
+  margin:
+    0 2px;
 
   padding:
-    13px;
-
-  background:
-    #faf8f1;
+    2px 4px;
 
   border-radius:
-    11px;
+    6px;
+
+  cursor:
+    pointer;
+
+}
+
+
+.token:hover {
+
+  background:
+    var(--accent-soft);
+
+}
+
+
+.token.active {
+
+  background:
+    var(--accent-soft);
 
   color:
-    var(--muted);
+    var(--accent);
+
+}
+
+
+.token-number {
+
+  margin-right:
+    3px;
+
+  color:
+    var(--accent);
 
   font-size:
-    12px;
+    9px;
+
+  vertical-align:
+    super;
 
 }
 
 
 /* =====================================================
-TEST
+TOKEN DETAIL
+===================================================== */
+
+.token-detail {
+
+  margin-top:
+    13px;
+
+  padding:
+    15px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    13px;
+
+}
+
+
+.token-detail-word {
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    31px;
+
+}
+
+
+.token-detail-line {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+  padding:
+    7px 0;
+
+  border-top:
+    1px solid var(--line);
+
+}
+
+
+.token-detail-line:first-child {
+
+  border-top:
+    0;
+
+}
+
+
+.token-detail-label {
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+}
+
+
+.token-detail-value {
+
+  text-align:
+    right;
+
+  font-weight:
+    700;
+
+}
+
+
+.token-speak {
+
+  margin-top:
+    10px;
+
+}
+
+
+/* =====================================================
+TRAINING
 ===================================================== */
 
 .choice-grid {
@@ -923,13 +990,13 @@ TEST
     grid;
 
   grid-template-columns:
-    repeat(2,1fr);
+    1fr 1fr;
 
   gap:
     8px;
 
   margin-top:
-    10px;
+    12px;
 
 }
 
@@ -964,436 +1031,6 @@ TEST
 }
 
 
-.exercise-score {
-
-  margin:
-    13px 0;
-
-  padding:
-    11px;
-
-  text-align:
-    center;
-
-  background:
-    #faf9f4;
-
-  border-radius:
-    10px;
-
-  font-weight:
-    700;
-
-}
-
-
-/* =====================================================
-VOCABULARY
-===================================================== */
-
-.vocab-card {
-
-  margin:
-    10px 0;
-
-  padding:
-    15px;
-
-  background:
-    var(--white);
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    14px;
-
-}
-
-
-.vocab-greek {
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    31px;
-
-}
-
-
-.vocab-gloss {
-
-  margin-top:
-    2px;
-
-  font-size:
-    13px;
-
-}
-
-
-.vocab-frequency {
-
-  margin-top:
-    3px;
-
-  color:
-    var(--accent);
-
-  font-size:
-    10px;
-
-}
-
-
-.vocab-status {
-
-  display:
-    inline-block;
-
-  margin-top:
-    9px;
-
-  padding:
-    4px 8px;
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  border-radius:
-    8px;
-
-  font-size:
-    10px;
-
-}
-
-
-.vocab-actions {
-
-  display:
-    flex;
-
-  flex-wrap:
-    wrap;
-
-  gap:
-    7px;
-
-  margin-top:
-    11px;
-
-}
-
-
-.vocab-actions button {
-
-  padding:
-    7px 10px;
-
-  font-size:
-    11px;
-
-}
-
-
-.vocab-memory-test {
-
-  margin-top:
-    15px;
-
-  padding:
-    15px;
-
-  background:
-    #faf8f1;
-
-  border-radius:
-    13px;
-
-}
-
-
-.vocab-memory-word {
-
-  margin:
-    15px 0;
-
-  text-align:
-    center;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    40px;
-
-}
-
-
-.vocab-memory-options {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:
-    8px;
-
-  margin-top:
-    12px;
-
-}
-
-
-.vocab-search {
-
-  width:
-    100%;
-
-  padding:
-    12px;
-
-  margin-bottom:
-    14px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    10px;
-
-  background:
-    white;
-
-  outline:
-    none;
-
-}
-
-
-.vocab-search:focus {
-
-  border-color:
-    var(--accent);
-
-}
-
-
-.vocab-database-row {
-
-  padding:
-    13px 0;
-
-  border-top:
-    1px solid var(--line);
-
-  cursor:
-    pointer;
-
-}
-
-
-.vocab-database-row:first-child {
-
-  border-top:
-    0;
-
-}
-
-
-.vocab-db-greek {
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    25px;
-
-}
-
-
-.vocab-db-meta {
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
-
-}
-
-
-.vocab-db-frequency {
-
-  color:
-    var(--accent);
-
-  font-size:
-    10px;
-
-}
-
-
-/* =====================================================
-MORPHOLOGY
-===================================================== */
-
-.morphology-card {
-
-  padding:
-    17px;
-
-  background:
-    #faf8f1;
-
-  border-radius:
-    14px;
-
-}
-
-
-.morphology-word {
-
-  margin:
-    17px 0;
-
-  text-align:
-    center;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    46px;
-
-}
-
-
-.morphology-question {
-
-  margin-top:
-    15px;
-
-  font-weight:
-    700;
-
-}
-
-
-.morphology-options {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:
-    8px;
-
-  margin-top:
-    9px;
-
-}
-
-
-.morphology-options button {
-
-  min-height:
-    46px;
-
-}
-
-
-.morphology-progress {
-
-  height:
-    6px;
-
-  background:
-    #e5e1d8;
-
-  border-radius:
-    20px;
-
-  overflow:
-    hidden;
-
-}
-
-
-.morphology-progress-fill {
-
-  width:
-    0;
-
-  height:
-    100%;
-
-  background:
-    var(--accent);
-
-}
-
-
-.parse-row {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  padding:
-    9px 0;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.parse-row:first-child {
-
-  border-top:
-    0;
-
-}
-
-
-.parse-label {
-
-  color:
-    var(--muted);
-
-  font-size:
-    11px;
-
-}
-
-
-.parse-value {
-
-  font-weight:
-    700;
-
-}
-
-
 .success {
 
   padding:
@@ -1407,6 +1044,14 @@ MORPHOLOGY
 
   border-radius:
     11px;
+
+}
+
+
+.muted {
+
+  color:
+    var(--muted);
 
 }
 
@@ -1439,90 +1084,14 @@ MORPHOLOGY
 .secondary {
 
   background:
-    var(--white);
-
-}
-
-
-.muted {
-
-  color:
-    var(--muted);
+    white;
 
 }
 
 
 /* =====================================================
-NAVIGATION
+FOOTER
 ===================================================== */
-
-.lesson-nav {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    8px;
-
-  margin-top:
-    12px;
-
-}
-
-
-.lesson-nav button {
-
-  width:
-    100%;
-
-}
-
-
-/* =====================================================
-REVIEW
-===================================================== */
-
-.review-row {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-
-  gap:
-    15px;
-
-  padding:
-    14px 0;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.review-row:first-child {
-
-  border-top:
-    0;
-
-}
-
-
-.review-row small {
-
-  color:
-    var(--muted);
-
-}
-
 
 footer {
 
@@ -1540,6 +1109,10 @@ footer {
 
 }
 
+
+/* =====================================================
+MOBILE
+===================================================== */
 
 @media (
   max-width:700px
@@ -1561,18 +1134,10 @@ footer {
   }
 
 
-  .vocab-summary {
+  .search-row {
 
     grid-template-columns:
-      1fr 1fr;
-
-  }
-
-
-  .vocab-summary div:last-child {
-
-    grid-column:
-      1 / -1;
+      1fr;
 
   }
 
@@ -1585,23 +1150,7 @@ footer {
   }
 
 
-  .vocab-memory-options {
-
-    grid-template-columns:
-      1fr;
-
-  }
-
-
-  .morphology-options {
-
-    grid-template-columns:
-      1fr;
-
-  }
-
-
-  .lesson-nav {
+  .morphology-grid {
 
     grid-template-columns:
       1fr;
