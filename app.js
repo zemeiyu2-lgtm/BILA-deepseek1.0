@@ -1,5 +1,5 @@
 /* =========================================================
-   GBRM V2.3.3
+   GBRM V2.4.1
    教材真实内容引擎
 
    冻结基础架构保留：
@@ -49,6 +49,21 @@ const TEXTBOOK_META = {
   edition: "第4版 · 2019",
   publisher: "Zondervan Academic"
 };
+
+const GREEK_ALPHABET = [
+  ["Α α","Alpha","A a","a"],["Β β","Beta","B b","b"],["Γ γ","Gamma","G g","g"],["Δ δ","Delta","D d","d"],["Ε ε","Epsilon","E e","e"],["Ζ ζ","Zeta","Z z","z / dz"],
+  ["Η η","Eta","E / ē","长 e 的教学标记"],["Θ θ","Theta","Th th","th"],["Ι ι","Iota","I i","i"],["Κ κ","Kappa","K k","k"],["Λ λ","Lambda","L l","l"],["Μ μ","Mu","M m","m"],
+  ["Ν ν","Nu","N n","n"],["Ξ ξ","Xi","X x / ks","ks"],["Ο ο","Omicron","O o","o"],["Π π","Pi","P p","p"],["Ρ ρ","Rho","R r","r"],["Σ σ / ς","Sigma","S s","s"],
+  ["Τ τ","Tau","T t","t"],["Υ υ","Upsilon","U u / Y y","u / y"],["Φ φ","Phi","Ph ph","ph"],["Χ χ","Chi","Ch ch","ch"],["Ψ ψ","Psi","Ps ps","ps"],["Ω ω","Omega","O / ō","长 o 的教学标记"]
+];
+
+const GREEK_ALPHABET_NOTES = [
+  "很多希腊字母与英语字母在形状、名称或转写上有明显联系，可以用来帮助记忆。",
+  "θ、φ、χ、ψ 常用两个英语字母转写；记住的是对应关系，不是把希腊文读成英语。",
+  "特别留意 η 与英语 n、ν 与英语 v、ρ 与英语 p、χ 与英语 x、ω 与英语 w 的形状混淆。",
+  "σ 出现在词中，ς 只写在词尾。",
+  "教材同时提供不同发音方案；本系统只把发音作为记忆和课堂朗读辅助，不把它当作口语考核。"
+];
 
 
 /* =========================================================
@@ -149,7 +164,7 @@ const TEXTBOOK_LESSONS = [
     page:21,
     kind:"alphabet",
     objective:"掌握希腊文字母、母音、双母音和气号的基本识别与发音。",
-    content:"教材要求先掌握二十四个字母，再进入发音、母音、双母音与气号。",
+    content:"先掌握二十四个字母的名称、小写形式与基本读法，再学习转写、母音、双母音与气号；英语字母对比可帮助记忆。",
     topics:[
       "24个字母",
       "母音",
@@ -631,7 +646,7 @@ const VOCABULARY = [
   [9,"πρῶτος","第一的/前面的",155],
   [9,"τρίτος","第三的",56],
 
-  [10,"ἅγιος","圣洁的/圣徒",233],
+  [9,"ἅγιος","圣洁的/圣徒",233],
   [10,"εἰ","如果",502],
   [10,"εἰ μή","除非/如果不",0],
   [10,"εἷς","一",344],
@@ -1308,6 +1323,13 @@ function getVocabState(
 function renderHome(){
   renderCourseProgress();
   renderLessonList();
+  const meta=$('textbookMeta');
+  if(meta){
+    meta.innerHTML=
+      '<div class="textbook-title">'+escapeHtml(TEXTBOOK_META.titleZh)+'</div>'+
+      '<div class="textbook-en">'+escapeHtml(TEXTBOOK_META.title)+'</div>'+
+      '<div class="textbook-byline">作者：'+escapeHtml(TEXTBOOK_META.author)+' · '+escapeHtml(TEXTBOOK_META.edition)+' · '+escapeHtml(TEXTBOOK_META.publisher)+'</div>';
+  }
 }
 
 function renderCourseProgress(){
@@ -1751,46 +1773,29 @@ function renderTextbookStep(
   lesson,
   st
 ){
+  const section=document.createElement('div');
+  section.className='lesson-section';
+  section.innerHTML=
+    '<h3>教材</h3>'+
+    '<div class="lesson-content">'+escapeHtml(lesson.content)+'</div>'+
+    '<div class="training-line"><strong>今天：</strong>'+escapeHtml(lesson.objective)+'</div>';
+  area.appendChild(section);
 
-  const section =
-    document.createElement(
-      "div"
-    );
+  if(lesson.n===3){
+    const alpha=document.createElement('div');
+    alpha.className='lesson-section alphabet-panel';
+    alpha.innerHTML=
+      '<div class="section-topline"><div><div class="eyebrow">L03 · ALPHABET</div><h3>用英语帮助记住希腊字母</h3></div><span class="section-count">24 个字母</span></div>'+
+      '<p class="muted">这里使用英语字母作形状、名称与转写的记忆桥梁；发音只作辅助。</p>'+
+      '<div class="alphabet-grid">'+
+      GREEK_ALPHABET.map(function(row){return '<div class="alphabet-row"><div class="alphabet-greek">'+escapeHtml(row[0])+'</div><div class="alphabet-name">'+escapeHtml(row[1])+'</div><div class="alphabet-english">'+escapeHtml(row[2])+'</div><div class="alphabet-sound">'+escapeHtml(row[3])+'</div></div>';}).join('')+
+      '</div>'+
+      '<div class="training-line"><strong>记忆提醒</strong><ul class="mini-notes">'+GREEK_ALPHABET_NOTES.map(function(x){return '<li>'+escapeHtml(x)+'</li>';}).join('')+'</ul></div>';
+    area.appendChild(alpha);
+  }
 
-  section.className =
-    "lesson-section";
-
-  section.innerHTML =
-
-    "<h3>教材</h3>" +
-
-    "<div class='lesson-content'>" +
-
-      escapeHtml(
-        lesson.content
-      ) +
-
-    "</div>" +
-
-    "<div class='training-line'>" +
-
-      "<strong>今天：</strong> " +
-
-      escapeHtml(
-        lesson.objective
-      ) +
-
-    "</div>";
-
-  area.appendChild(
-    section
-  );
-
-  st.content =
-    true;
-
+  st.content=true;
   saveState();
-
 }
 
 
@@ -2308,65 +2313,72 @@ function getLessonVocabulary(lessonNumber){
 }
 
 function renderVocabularyStep(area,lesson,st){
+  const list=getLessonVocabulary(lesson.n);
+  const cumulative=VOCABULARY.filter(function(item){return item.lesson<=lesson.n;});
   const section=document.createElement('div');
   section.className='lesson-section';
-  const list=getLessonVocabulary(lesson.n);
-
   section.innerHTML=
-    '<div class="section-topline">'+
-      '<div><div class="eyebrow">LESSON VOCABULARY</div><h3>本课词汇</h3></div>'+
-      '<span class="section-count">'+list.length+' 个词</span>'+
-    '</div>'+
-    '<p class="muted">这些词属于本课教材内容。先认识，再主动回忆。</p>';
-
+    '<div class="section-topline"><div><div class="eyebrow">LESSON VOCABULARY</div><h3>本课词汇</h3></div><span class="section-count">'+list.length+' 个新词</span></div>'+
+    '<p class="muted">本课新词加入累计记忆池；复习时会和前面课程一起出现。</p>';
   const grid=document.createElement('div');
   grid.className='vocab-grid';
-
-  if(!list.length){
-    grid.innerHTML='<div class="notice-box">本课暂未接入词库。</div>';
-  }else{
-    list.forEach(function(item){
-      grid.appendChild(createVocabularyCard(item));
-    });
-  }
-
+  if(!list.length)grid.innerHTML='<div class="notice-box">本课暂未接入词库。</div>';
+  else list.forEach(function(item){grid.appendChild(createVocabularyCard(item));});
   section.appendChild(grid);
-
   const button=document.createElement('button');
-  button.type='button';
-  button.className='primary wide vocab-launch';
-  button.textContent=list.length?'开始本课词汇闪卡':'本课暂无词汇';
-  button.disabled=!list.length;
-  button.onclick=function(){startLessonVocabularyReview(lesson.n);};
+  button.type='button';button.className='primary wide vocab-launch';
+  button.textContent=list.length?'开始累计词汇闪卡（L01–L'+String(lesson.n).padStart(2,'0')+'）':'本课暂无词汇';
+  button.disabled=!list.length;button.onclick=function(){startLessonVocabularyReview(lesson.n);};
   section.appendChild(button);
-
+  const note=document.createElement('div');
+  note.className='notice-box vocab-growth-note';
+  note.innerHTML='<strong>记忆范围：</strong> 目前累计 '+cumulative.length+' 个教材词汇；不熟的词会优先回来。';
+  section.appendChild(note);
   area.appendChild(section);
-  st.vocabulary=true;
-  saveState();
+  st.vocabulary=true;saveState();
 }
 
 function createVocabularyCard(item){
   const memory=getVocabState(item.word);
+  const info=getVocabularyInfo(item);
   const card=document.createElement('div');
   card.className='vocab-card';
   card.innerHTML=
-    '<div class="vocab-header">'+
-      '<div class="vocab-word">'+escapeHtml(item.word)+'</div>'+
-      '<button class="vocab-speak" type="button">🔊</button>'+
-    '</div>'+
-    '<div class="vocab-gloss">'+escapeHtml(item.gloss)+'</div>'+
+    '<div class="vocab-header"><div class="vocab-word">'+escapeHtml(item.word)+'</div><button class="vocab-speak" type="button">🔊</button></div>'+
+    '<div class="vocab-gloss">'+escapeHtml(info.gloss)+'</div>'+
+    '<div class="vocab-meta">'+escapeHtml(info.pos)+(info.extra?' · '+escapeHtml(info.extra):'')+'</div>'+
     '<div class="vocab-actions"><button class="vocab-memory" type="button">记住了</button></div>'+
     '<span class="vocab-status">'+vocabStatus(memory)+'</span>';
-
   card.querySelector('.vocab-speak').onclick=function(){speakText(item.word);};
-  card.querySelector('.vocab-memory').onclick=function(){
-    memory.seen++;
-    memory.remembered++;
-    memory.lastReviewed=new Date().toISOString();
-    saveState();
-    card.querySelector('.vocab-status').textContent=vocabStatus(memory);
-  };
+  card.querySelector('.vocab-memory').onclick=function(){memory.seen++;memory.remembered++;memory.lastReviewed=new Date().toISOString();saveState();card.querySelector('.vocab-status').textContent=vocabStatus(memory);};
   return card;
+}
+
+function getVocabularyInfo(item){
+  const m={
+    'λόγος':{gloss:'言语、话语；道',pos:'名词',extra:'阳性 · 第二格变式'},
+    'θεός':{gloss:'神、神明',pos:'名词',extra:'阳性 · 第二格变式'},
+    'κόσμος':{gloss:'世界、世人',pos:'名词',extra:'阳性 · 第二格变式'},
+    'ἀγάπη':{gloss:'爱、爱心',pos:'名词',extra:'阴性 · 第一格变式'},
+    'βασιλεία':{gloss:'国度、王权',pos:'名词',extra:'阴性 · 第一格变式'},
+    'ἐν':{gloss:'在……里面',pos:'介词'},
+    'εἰμί':{gloss:'是、存在',pos:'动词'},
+    'λέγω':{gloss:'说、告诉',pos:'动词'},
+    'πιστεύω':{gloss:'相信、信任',pos:'动词'},
+    'ποιέω':{gloss:'做、使',pos:'动词'},
+    'ἀγαπάω':{gloss:'爱、珍爱',pos:'动词'},
+    'γίνομαι':{gloss:'成为、发生',pos:'动词'},
+    'δίδωμι':{gloss:'给',pos:'动词'},
+    'ἔρχομαι':{gloss:'来、去',pos:'动词'},
+    'ἐγώ':{gloss:'我',pos:'代词',extra:'第一人称'},
+    'σύ':{gloss:'你',pos:'代词',extra:'第二人称'},
+    'αὐτός':{gloss:'他、她、它、自己',pos:'代词／形容词'},
+    'οὗτος':{gloss:'这个、这些',pos:'指示代词'},
+    'ὅς':{gloss:'谁、哪一个',pos:'关系代词'},
+    'ὁ':{gloss:'这、该',pos:'定冠词'}
+  };
+  if(m[item.word])return {gloss:m[item.word].gloss,pos:m[item.word].pos,extra:m[item.word].extra||''};
+  return {gloss:item.gloss,pos:'教材词汇',extra:''};
 }
 
 function vocabStatus(memory){
@@ -2376,16 +2388,12 @@ function vocabStatus(memory){
 }
 
 function startLessonVocabularyReview(lessonNumber){
-  vocabularyReview=getLessonVocabulary(lessonNumber).slice().sort(function(a,b){
+  vocabularyReview=VOCABULARY.filter(function(item){return item.lesson<=lessonNumber;}).slice().sort(function(a,b){
     const aa=getVocabState(a.word),bb=getVocabState(b.word);
     return (aa.remembered-aa.wrong)-(bb.remembered-bb.wrong);
   });
-  if(!vocabularyReview.length) return;
-  vocabularyReviewIndex=0;
-  state.currentVocabularyLesson=lessonNumber;
-  saveState();
-  go('vocabReview');
-  renderVocabularyReview();
+  if(!vocabularyReview.length)return;
+  vocabularyReviewIndex=0;state.currentVocabularyLesson=lessonNumber;saveState();go('vocabReview');renderVocabularyReview();
 }
 
 /* =========================================================
@@ -5270,25 +5278,12 @@ function previousStep(){
 
 function startVocabularyReview(){
   const currentLessonNumber=TEXTBOOK_LESSONS[currentLessonIndex].n;
-  vocabularyReview=VOCABULARY.filter(function(item){
-    return item.lesson<=currentLessonNumber;
-  });
-
-  vocabularyReview=vocabularyReview.slice().sort(function(a,b){
+  vocabularyReview=VOCABULARY.filter(function(item){return item.lesson<=currentLessonNumber;}).slice().sort(function(a,b){
     const aa=getVocabState(a.word),bb=getVocabState(b.word);
     return (aa.remembered-aa.wrong)-(bb.remembered-bb.wrong);
   }).slice(0,12);
-
-  if(!vocabularyReview.length){
-    alert('当前还没有可复习词汇。');
-    return;
-  }
-
-  vocabularyReviewIndex=0;
-  state.currentVocabularyLesson=currentLessonNumber;
-  saveState();
-  go('vocabReview');
-  renderVocabularyReview();
+  if(!vocabularyReview.length){alert('完成至少一课后就可以开始词汇复习。');return;}
+  vocabularyReviewIndex=0;state.currentVocabularyLesson=currentLessonNumber;saveState();go('vocabReview');renderVocabularyReview();
 }
 
 function renderVocabularyReview(){
@@ -5321,19 +5316,23 @@ function renderVocabularyReview(){
 
 function showFlashcardAnswer(item){
   const area=$('vocabReviewArea');
-  if(!area) return;
-
+  if(!area)return;
+  const info=getVocabularyInfo(item);
   area.innerHTML=
     '<div class="flashcard flashcard-revealed">'+
       '<div class="flashcard-word">'+escapeHtml(item.word)+'</div>'+
-      '<div class="flashcard-answer">'+escapeHtml(item.gloss)+'</div>'+
+      '<div class="flashcard-answer">'+escapeHtml(info.gloss)+'</div>'+
+      '<div class="flashcard-detail">'+
+        '<div><span>词性</span><strong>'+escapeHtml(info.pos)+'</strong></div>'+
+        (info.extra?'<div><span>形态提示</span><strong>'+escapeHtml(info.extra)+'</strong></div>':'')+
+        '<div><span>来源</span><strong>教材词汇</strong></div>'+
+      '</div>'+
       '<button id="flashSpeak" class="secondary wide" type="button">🔊 再听一次</button>'+
       '<div class="flashcard-actions">'+
         '<button id="flashNotSure" class="secondary" type="button">还不熟</button>'+
         '<button id="flashKnow" class="primary" type="button">记住了</button>'+
       '</div>'+
     '</div>';
-
   $('flashSpeak').onclick=function(){speakText(item.word);};
   $('flashNotSure').onclick=function(){rateFlashcard(item,false);};
   $('flashKnow').onclick=function(){rateFlashcard(item,true);};

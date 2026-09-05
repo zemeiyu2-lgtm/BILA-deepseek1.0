@@ -3,26 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="theme-color" content="#f3efe4">
+<meta name="theme-color" content="#f4efe4">
 <title>GBRM｜圣经希腊文基础</title>
-<link rel="stylesheet" href="style.css?v=240">
+<link rel="stylesheet" href="style.css?v=241">
 </head>
 <body>
-<header class="topbar"><div class="brand-wrap"><div class="brand">GBRM</div><div class="brand-sub">圣经希腊文基础</div></div><div class="version">基础版</div></header>
+<header class="topbar">
+  <div class="brand-wrap">
+    <div class="brand">GBRM</div>
+    <div class="brand-sub">圣经希腊文基础</div>
+  </div>
+  <div class="version">基础版</div>
+</header>
 <main class="app">
 <section id="home" class="screen active">
-  <section class="home-hero"><div class="hero-mark">G</div><div class="eyebrow">NEW TESTAMENT GREEK</div><h1>圣经希腊文基础</h1><p class="hero-note">跟着教材，一课一课学。</p></section>
-  <section class="textbook-card"><div class="eyebrow">配套教材</div><div class="textbook-title">《圣经希腊文基础语法》</div><div class="textbook-meta">Basics of Biblical Greek: Grammar</div><div class="textbook-byline">William D. Mounce · 第4版 · 2019 · Zondervan Academic</div></section>
-  <section class="study-strip"><div class="study-copy"><div class="eyebrow">我的学习</div><div id="homeStudyText" class="study-text">从 L01 开始，按教材一步一步学习</div></div><div id="homeProgressLabel" class="study-count">0 / 25 课</div></section>
-  <section class="course-map"><div class="course-map-head"><div><div class="eyebrow">COURSE</div><h2>选择课程</h2></div><div class="course-total">L01–L25</div></div><div id="lessonList" class="lesson-list"></div></section>
-  <section class="vocab-entry"><div class="entry-icon">A</div><div class="entry-content"><div class="eyebrow">FLASHCARDS</div><h3>词汇复习</h3><p>复习目前学过的全部教材词汇。</p></div><button id="startVocabularyReview" class="secondary compact-button" type="button">开始</button></section>
+  <section class="home-hero">
+    <div class="hero-mark">G</div>
+    <div class="eyebrow">BASIC BIBLICAL GREEK</div>
+    <h1>圣经希腊文基础</h1>
+    <p class="hero-note">跟着教材，一课一课学。</p>
+  </section>
+
+  <section class="textbook-card">
+    <div class="eyebrow">配套教材</div>
+    <div id="textbookMeta">
+      <div class="textbook-title">《圣经希腊文基础语法》</div>
+      <div class="textbook-en">Basics of Biblical Greek: Grammar</div>
+      <div class="textbook-byline">William D. Mounce · 第4版 · 2019 · Zondervan Academic</div>
+    </div>
+  </section>
+
+  <section class="study-strip">
+    <div class="study-copy">
+      <div class="eyebrow">我的学习</div>
+      <div id="homeStudyText" class="study-text">从 L01 开始，按教材一步一步学习</div>
+    </div>
+    <div id="homeProgressLabel" class="study-count">0 / 25 课</div>
+    <div class="home-progress-track"><div id="courseProgress" class="progress-fill"></div></div>
+  </section>
+
+  <section class="course-map">
+    <div class="course-map-head">
+      <div><div class="eyebrow">COURSE</div><h2>选择课程</h2></div>
+      <div class="course-total">L01–L25</div>
+    </div>
+    <div id="lessonList" class="lesson-list"></div>
+  </section>
+
+  <section class="vocab-entry">
+    <div class="entry-icon">A</div>
+    <div class="entry-content">
+      <div class="eyebrow">FLASHCARDS</div>
+      <h3>词汇复习</h3>
+      <p>复习目前已经学过的全部教材词汇。</p>
+    </div>
+    <button id="startVocabularyReview" class="secondary compact-button" type="button">开始</button>
+  </section>
 </section>
-<section id="lesson" class="screen"><div class="screen-head"><button id="lessonBack" class="back" type="button">←</button><div><div id="lessonLabel" class="eyebrow"></div><h2 id="lessonTitle"></h2></div></div><div id="lessonHeader" class="lesson-identity"></div><div class="lesson-progress"><div id="lessonStepText" class="lesson-step-text"></div><div class="progress-track"><div id="lessonStepProgress" class="progress-fill"></div></div></div><div id="lessonArea"></div><div class="lesson-actions"><button id="lessonPrevious" class="secondary" type="button">← 上一步</button><button id="lessonNext" class="primary" type="button">下一步 →</button></div></section>
-<section id="vocabReview" class="screen"><div class="screen-head"><button id="vocabReviewBack" class="back" type="button">←</button><div><div class="eyebrow">FLASHCARDS</div><h2>词汇复习</h2></div></div><div class="card flashcard-shell"><div id="vocabReviewCounter" class="flashcard-counter"></div><div id="vocabReviewArea"></div></div></section>
-<section id="corpus" class="screen"><div class="screen-head"><button id="corpusBack" class="back" type="button">←</button><div><div id="corpusLabel" class="eyebrow">REAL NEW TESTAMENT</div><h2>原文训练</h2></div></div><div class="corpus-intro"><div id="corpusLessonObjective" class="corpus-intro-text"></div><div id="corpusStatus" class="status-text"></div></div><div id="corpusArea"></div></section>
-<section id="lemma" class="screen"><div class="screen-head"><button id="lemmaBack" class="back" type="button">←</button><div><div class="eyebrow">WORD DETAIL</div><h2>词形</h2></div></div><div id="lemmaArea"></div></section>
-<section id="verse" class="screen"><div class="screen-head"><button id="verseBack" class="back" type="button">←</button><div><div class="eyebrow">REAL NEW TESTAMENT</div><h2>真实经文</h2></div></div><div class="card verse-card"><div id="verseReference" class="verse-reference"></div><div id="verseText" class="verse-text"></div><div id="verseDetail"></div></div></section>
+
+<section id="lesson" class="screen">
+  <div class="screen-head">
+    <button id="lessonBack" class="back" type="button">←</button>
+    <div><div id="lessonLabel" class="eyebrow"></div><h2 id="lessonTitle"></h2></div>
+  </div>
+  <div id="lessonHeader" class="lesson-identity"></div>
+  <div class="lesson-progress">
+    <div id="lessonStepText" class="lesson-step-text"></div>
+    <div class="progress-track"><div id="lessonStepProgress" class="progress-fill"></div></div>
+  </div>
+  <div id="lessonArea"></div>
+  <div class="lesson-actions">
+    <button id="lessonPrevious" class="secondary" type="button">← 上一步</button>
+    <button id="lessonNext" class="primary" type="button">下一步 →</button>
+  </div>
+</section>
+
+<section id="vocabReview" class="screen">
+  <div class="screen-head">
+    <button id="vocabReviewBack" class="back" type="button">←</button>
+    <div><div class="eyebrow">FLASHCARDS</div><h2>词汇复习</h2></div>
+  </div>
+  <div class="card flashcard-shell">
+    <div id="vocabReviewCounter" class="flashcard-counter"></div>
+    <div id="vocabReviewArea"></div>
+  </div>
+</section>
+
+<section id="corpus" class="screen">
+  <div class="screen-head">
+    <button id="corpusBack" class="back" type="button">←</button>
+    <div><div id="corpusLabel" class="eyebrow">REAL NEW TESTAMENT</div><h2>原文训练</h2></div>
+  </div>
+  <div class="corpus-intro">
+    <div id="corpusLessonObjective" class="corpus-intro-text"></div>
+    <div id="corpusStatus" class="status-text"></div>
+  </div>
+  <div id="corpusArea"></div>
+</section>
+
+<section id="lemma" class="screen">
+  <div class="screen-head">
+    <button id="lemmaBack" class="back" type="button">←</button>
+    <div><div class="eyebrow">WORD DETAIL</div><h2>词形</h2></div>
+  </div>
+  <div id="lemmaArea"></div>
+</section>
+
+<section id="verse" class="screen">
+  <div class="screen-head">
+    <button id="verseBack" class="back" type="button">←</button>
+    <div><div class="eyebrow">REAL NEW TESTAMENT</div><h2>真实经文</h2></div>
+  </div>
+  <div class="card verse-card">
+    <div id="verseReference" class="verse-reference"></div>
+    <div id="verseText" class="verse-text"></div>
+    <div id="verseDetail"></div>
+  </div>
+</section>
 </main>
 <footer>GBRM · 圣经希腊文基础</footer>
-<script src="app.js?v=240" defer></script>
-</body></html>
+<script src="app.js?v=241" defer></script>
+</body>
+</html>
