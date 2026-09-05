@@ -1,5 +1,6 @@
 * {
-  box-sizing: border-box;
+  box-sizing:
+    border-box;
 }
 
 
@@ -90,6 +91,17 @@ button:active {
 
   transform:
     scale(.98);
+
+}
+
+
+button:disabled {
+
+  opacity:
+    .65;
+
+  cursor:
+    default;
 
 }
 
@@ -329,7 +341,7 @@ button:active {
     8px;
 
   margin-top:
-    16px;
+    15px;
 
 }
 
@@ -438,8 +450,14 @@ button:active {
   gap:
     10px;
 
+  width:
+    100%;
+
   padding:
     13px;
+
+  text-align:
+    left;
 
   border:
     1px solid var(--line);
@@ -449,6 +467,14 @@ button:active {
 
   background:
     white;
+
+}
+
+
+.lesson-item.done {
+
+  background:
+    var(--accent-soft);
 
 }
 
@@ -495,18 +521,7 @@ button:active {
     var(--accent);
 
   font-size:
-    11px;
-
-  font-weight:
-    700;
-
-}
-
-
-.lesson-item.done {
-
-  background:
-    var(--accent-soft);
+    13px;
 
 }
 
@@ -523,7 +538,7 @@ button:active {
     center;
 
   gap:
-    8px;
+    7px;
 
   color:
     var(--muted);
@@ -586,14 +601,6 @@ button:active {
 
   border-radius:
     50%;
-
-}
-
-
-.lesson-head-card {
-
-  background:
-    #faf8f1;
 
 }
 
@@ -662,76 +669,160 @@ button:active {
 }
 
 
-.alphabet-grid {
+.grammar-box {
 
-  display:
-    grid;
+  padding:
+    13px;
 
-  grid-template-columns:
-    repeat(4,1fr);
+  background:
+    #faf8f1;
 
-  gap:
-    8px;
+  border-radius:
+    11px;
 
 }
 
 
-.letter-card {
+.form-table {
 
-  min-height:
-    92px;
+  width:
+    100%;
 
-  display:
-    flex;
+  border-collapse:
+    collapse;
 
-  flex-direction:
-    column;
+  margin-top:
+    10px;
 
-  align-items:
-    center;
+}
 
-  justify-content:
-    center;
+
+.form-table th,
+.form-table td {
+
+  padding:
+    9px 7px;
+
+  border-bottom:
+    1px solid var(--line);
+
+  text-align:
+    left;
+
+}
+
+
+.form-table th {
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+}
+
+
+.form-table td {
+
+  font-size:
+    13px;
+
+}
+
+
+.word-card {
+
+  margin:
+    10px 0;
+
+  padding:
+    14px;
 
   background:
     #faf9f4;
 
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    12px;
+
 }
 
 
-.letter {
+.word-card-main {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+}
+
+
+.word-greek {
 
   font-family:
     Georgia,
     serif;
 
   font-size:
-    30px;
+    28px;
 
 }
 
 
-.letter-name {
+.word-gloss {
 
   color:
     var(--muted);
 
   font-size:
-    10px;
+    12px;
 
 }
 
 
-.word-example {
+.word-detail {
 
   margin-top:
-    13px;
+    8px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    12px;
+
+}
+
+
+.speak-btn {
+
+  padding:
+    6px 9px;
+
+  font-size:
+    12px;
+
+}
+
+
+.bible-box {
+
+  margin:
+    12px 0;
 
   padding:
     15px;
-
-  text-align:
-    center;
 
   background:
     var(--accent-soft);
@@ -742,10 +833,54 @@ button:active {
 }
 
 
-.word-example .greek {
+.bible-reference {
+
+  color:
+    var(--accent);
 
   font-size:
-    28px;
+    11px;
+
+  font-weight:
+    800;
+
+}
+
+
+.bible-text {
+
+  margin-top:
+    8px;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    20px;
+
+  line-height:
+    1.85;
+
+}
+
+
+.notice-box {
+
+  padding:
+    13px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    11px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    12px;
 
 }
 
@@ -756,7 +891,7 @@ button:active {
     grid;
 
   grid-template-columns:
-    1fr 1fr;
+    repeat(2,1fr);
 
   gap:
     8px;
@@ -770,7 +905,7 @@ button:active {
 .choice-grid button {
 
   min-height:
-    54px;
+    48px;
 
 }
 
@@ -822,14 +957,17 @@ button:active {
 
 .success {
 
+  margin-top:
+    12px;
+
   padding:
     13px;
 
-  color:
-    var(--accent);
-
   background:
     var(--accent-soft);
+
+  color:
+    var(--accent);
 
   border-radius:
     10px;
@@ -849,42 +987,6 @@ button:active {
 
   display:
     none !important;
-
-}
-
-
-.review-row {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  gap:
-    15px;
-
-  padding:
-    13px 0;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.review-row:first-child {
-
-  border-top:
-    0;
-
-}
-
-
-.review-row small {
-
-  color:
-    var(--muted);
 
 }
 
@@ -914,6 +1016,50 @@ button:active {
 }
 
 
+.secondary {
+
+  background:
+    white;
+
+}
+
+
+.review-row {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+  padding:
+    13px 0;
+
+  border-top:
+    1px solid var(--line);
+
+}
+
+
+.review-row:first-child {
+
+  border-top:
+    0;
+
+}
+
+
+.review-row small {
+
+  color:
+    var(--muted);
+
+}
+
+
 footer {
 
   padding:
@@ -935,14 +1081,6 @@ footer {
   max-width: 600px
 ) {
 
-  .alphabet-grid {
-
-    grid-template-columns:
-      repeat(3,1fr);
-
-  }
-
-
   .course-stat {
 
     grid-template-columns:
@@ -955,6 +1093,14 @@ footer {
 
     grid-column:
       1 / -1;
+
+  }
+
+
+  .choice-grid {
+
+    grid-template-columns:
+      1fr;
 
   }
 
