@@ -16,12 +16,12 @@
   >
 
   <title>
-    GBRM V1.3｜Greek Bible Reading Model
+    GBRM V1.4｜Greek Bible Reading Model
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=130"
+    href="style.css?v=140"
   >
 
 </head>
@@ -45,7 +45,7 @@
   </div>
 
   <div class="version">
-    V1.3
+    V1.4
   </div>
 
 </header>
@@ -64,7 +64,6 @@ HOME
   class="screen active"
 >
 
-
   <div class="hero">
 
     <div class="eyebrow">
@@ -81,19 +80,13 @@ HOME
 
     <p class="hero-description">
 
-      从基础希腊文，
-
-      <br>
-
-      进入：
+      从：
 
       <strong>
         词形 → 语法 → 原文 → 释经
       </strong>
 
-      <br>
-
-      同时建立长期的新约词汇记忆能力。
+      逐步建立新约原文阅读能力。
 
     </p>
 
@@ -125,7 +118,7 @@ HOME
         </strong>
 
         <span>
-          已完成课程
+          已完成
         </span>
 
       </div>
@@ -172,9 +165,9 @@ HOME
 
 
 
-<!-- =====================================================
-VOCABULARY DASHBOARD
-====================================================== -->
+  <!-- ===================================================
+       VOCABULARY
+  ==================================================== -->
 
   <div class="card">
 
@@ -183,7 +176,7 @@ VOCABULARY DASHBOARD
     </div>
 
     <h3>
-      新约词汇记忆
+      新约词汇
     </h3>
 
 
@@ -248,7 +241,7 @@ VOCABULARY DASHBOARD
       class="primary wide"
       type="button"
     >
-      🔁 开始今日单字复习
+      🔁 今日单字复习
     </button>
 
 
@@ -257,16 +250,55 @@ VOCABULARY DASHBOARD
       class="secondary wide"
       type="button"
     >
-      📚 浏览全部词库
+      📚 全部词库
     </button>
 
   </div>
 
 
 
-<!-- =====================================================
-COURSE MAP
-====================================================== -->
+  <!-- ===================================================
+       MORPHOLOGY
+  ==================================================== -->
+
+  <div class="card">
+
+    <div class="eyebrow">
+      MORPHOLOGY LAB
+    </div>
+
+    <h3>
+      词形分析训练
+    </h3>
+
+    <p class="muted">
+
+      从一个希腊文词形开始，
+
+      学习：
+
+      <strong>
+        Form → Parse → Meaning
+      </strong>
+
+    </p>
+
+
+    <button
+      id="openMorphology"
+      class="primary wide"
+      type="button"
+    >
+      🔬 开始词形分析
+    </button>
+
+  </div>
+
+
+
+  <!-- ===================================================
+       COURSE MAP
+  ==================================================== -->
 
   <div class="card">
 
@@ -277,6 +309,7 @@ COURSE MAP
     <h3>
       初阶课程
     </h3>
+
 
     <div
       id="lessonList"
@@ -308,7 +341,6 @@ LESSON
   id="lesson"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -394,7 +426,6 @@ LESSON
 
   </div>
 
-
 </section>
 
 
@@ -407,7 +438,6 @@ VOCAB REVIEW
   id="vocabReview"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -435,7 +465,6 @@ VOCAB REVIEW
   </div>
 
 
-
   <div class="card">
 
     <div
@@ -457,14 +486,13 @@ VOCAB REVIEW
 
 
 <!-- =====================================================
-VOCAB ALL
+VOCAB DATABASE
 ====================================================== -->
 
 <section
   id="vocabAll"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -508,6 +536,60 @@ VOCAB ALL
 
   </div>
 
+</section>
+
+
+
+<!-- =====================================================
+MORPHOLOGY
+====================================================== -->
+
+<section
+  id="morphology"
+  class="screen"
+>
+
+  <div class="screen-head">
+
+    <button
+      id="morphologyBack"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        MORPHOLOGY LAB
+      </div>
+
+      <h2>
+        词形分析
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div
+      id="morphologyCounter"
+      class="muted"
+    >
+      词形训练
+    </div>
+
+
+    <div
+      id="morphologyArea"
+    ></div>
+
+  </div>
 
 </section>
 
@@ -521,7 +603,6 @@ COURSE REVIEW
   id="courseReview"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -566,14 +647,14 @@ COURSE REVIEW
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V1.3
+  GBRM · Greek Bible Reading Model · V1.4
 
 </footer>
 
 
 
 <script
-  src="app.js?v=130"
+  src="app.js?v=140"
   defer
 ></script>
 
