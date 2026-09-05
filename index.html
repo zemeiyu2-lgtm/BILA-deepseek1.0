@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
 
   <meta charset="UTF-8">
@@ -16,12 +15,12 @@
   >
 
   <title>
-    GBRM V1.4｜Greek Bible Reading Model
+    GBRM V1.5｜NT Corpus Engine
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=140"
+    href="style.css?v=150"
   >
 
 </head>
@@ -44,8 +43,9 @@
 
   </div>
 
+
   <div class="version">
-    V1.4
+    V1.5
   </div>
 
 </header>
@@ -75,18 +75,20 @@ HOME
     </h1>
 
     <p class="hero-subtitle">
-      Greek Bible Reading Model
+      NT Corpus Engine
     </p>
 
     <p class="hero-description">
 
-      从：
+      从教材语法进入：
 
       <strong>
-        词形 → 语法 → 原文 → 释经
+        真实新约希腊文
       </strong>
 
-      逐步建立新约原文阅读能力。
+      <br>
+
+      词形 → Lemma → Morphology → Context
 
     </p>
 
@@ -97,15 +99,17 @@ HOME
   <div class="course-card">
 
     <div class="eyebrow">
-      FOUNDATION COURSE
+      CORPUS
     </div>
 
     <h2>
-      圣经希腊文初阶
+      MorphGNT / SBLGNT
     </h2>
 
     <p class="muted">
-      Lesson 01–25
+
+      全新约逐词训练数据
+
     </p>
 
 
@@ -113,12 +117,12 @@ HOME
 
       <div>
 
-        <strong id="completedLessons">
+        <strong id="booksLoaded">
           0
         </strong>
 
         <span>
-          已完成
+          已载入书卷
         </span>
 
       </div>
@@ -126,12 +130,12 @@ HOME
 
       <div>
 
-        <strong id="totalLessons">
-          25
+        <strong id="tokensLoaded">
+          0
         </strong>
 
         <span>
-          总课程
+          词形
         </span>
 
       </div>
@@ -139,12 +143,12 @@ HOME
 
       <div>
 
-        <strong id="courseProgress">
+        <strong id="corpusStatus">
           0%
         </strong>
 
         <span>
-          课程进度
+          Corpus
         </span>
 
       </div>
@@ -155,7 +159,7 @@ HOME
     <div class="progress-track">
 
       <div
-        id="homeProgressBar"
+        id="corpusProgress"
         class="progress-fill"
       ></div>
 
@@ -165,101 +169,66 @@ HOME
 
 
 
-  <!-- ===================================================
-       VOCABULARY
-  ==================================================== -->
+<!-- =====================================================
+SEARCH
+====================================================== -->
 
   <div class="card">
 
     <div class="eyebrow">
-      VOCABULARY MEMORY
+      REAL GREEK SEARCH
     </div>
 
     <h3>
-      新约词汇
+      新约原文检索
     </h3>
 
 
-    <div class="vocab-summary">
-
-      <div>
-
-        <strong id="vocabTotal">
-          0
-        </strong>
-
-        <span>
-          总词数
-        </span>
-
-      </div>
+    <input
+      id="corpusSearch"
+      class="vocab-search"
+      type="search"
+      placeholder="输入希腊文、Lemma、中文课程词或经文编号……"
+    >
 
 
-      <div>
+    <div class="search-row">
 
-        <strong id="vocabLearning">
-          0
-        </strong>
+      <select
+        id="bookSelect"
+        class="select"
+      >
 
-        <span>
-          学习中
-        </span>
+        <option value="">
+          全新约
+        </option>
 
-      </div>
-
-
-      <div>
-
-        <strong id="vocabMastered">
-          0
-        </strong>
-
-        <span>
-          已掌握
-        </span>
-
-      </div>
+      </select>
 
 
-      <div>
-
-        <strong id="vocabDue">
-          0
-        </strong>
-
-        <span>
-          今日复习
-        </span>
-
-      </div>
+      <button
+        id="searchCorpusBtn"
+        class="primary"
+        type="button"
+      >
+        🔎 搜索
+      </button>
 
     </div>
 
 
-    <button
-      id="openVocabReview"
-      class="primary wide"
-      type="button"
-    >
-      🔁 今日单字复习
-    </button>
-
-
-    <button
-      id="openVocabAll"
-      class="secondary wide"
-      type="button"
-    >
-      📚 全部词库
-    </button>
+    <div
+      id="searchResult"
+      class="search-result"
+    ></div>
 
   </div>
 
 
 
-  <!-- ===================================================
-       MORPHOLOGY
-  ==================================================== -->
+<!-- =====================================================
+MORPHOLOGY
+====================================================== -->
 
   <div class="card">
 
@@ -268,273 +237,90 @@ HOME
     </div>
 
     <h3>
-      词形分析训练
+      真实词形分析
     </h3>
 
     <p class="muted">
 
-      从一个希腊文词形开始，
-
-      学习：
+      从真实新约词形开始分析：
 
       <strong>
-        Form → Parse → Meaning
+        Form → Lemma → Parsing
       </strong>
 
     </p>
 
 
     <button
-      id="openMorphology"
+      id="startMorphology"
       class="primary wide"
       type="button"
     >
-      🔬 开始词形分析
+      🔬 开始真实词形训练
     </button>
 
   </div>
 
 
 
-  <!-- ===================================================
-       COURSE MAP
-  ==================================================== -->
+<!-- =====================================================
+VERSE TRAINING
+====================================================== -->
 
   <div class="card">
 
     <div class="eyebrow">
-      COURSE MAP
+      VERSE TRAINING
     </div>
 
     <h3>
-      初阶课程
+      真实经文训练
     </h3>
 
+    <p class="muted">
 
-    <div
-      id="lessonList"
-      class="lesson-list"
-    ></div>
+      从一个真实新约词形进入整节经文。
+
+    </p>
+
+
+    <button
+      id="startVerseTraining"
+      class="secondary wide"
+      type="button"
+    >
+      📖 开始真实经文训练
+    </button>
 
   </div>
-
-
-
-  <button
-    id="openCourseReview"
-    class="secondary wide"
-    type="button"
-  >
-    📊 查看课程记录
-  </button>
-
-
-</section>
 
 
 
 <!-- =====================================================
-LESSON
+ATTRIBUTION
 ====================================================== -->
 
-<section
-  id="lesson"
-  class="screen"
->
+  <div class="notice-box">
 
-  <div class="screen-head">
+    <strong>
+      Corpus Source
+    </strong>
 
-    <button
-      id="lessonBackBtn"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
+    <br><br>
 
+    MorphGNT：SBLGNT edition
 
-    <div>
+    <br>
 
-      <div
-        id="lessonEyebrow"
-        class="eyebrow"
-      >
-        LESSON
-      </div>
+    Morphological parsing /
+    lemmatization 数据来自 MorphGNT。
 
+    <br>
 
-      <h2
-        id="lessonTitle"
-      >
-        Lesson
-      </h2>
-
-    </div>
+    SBLGNT 文本及其使用条件请以原项目许可证与 EULA 为准。
 
   </div>
 
-
-
-  <div class="lesson-head-card">
-
-    <div
-      id="lessonReference"
-      class="lesson-reference"
-    ></div>
-
-
-    <div
-      id="lessonObjective"
-      class="muted"
-    ></div>
-
-  </div>
-
-
-
-  <div
-    id="lessonContent"
-  ></div>
-
-
-
-  <div
-    id="lessonVocabulary"
-    class="vocabulary-panel"
-  ></div>
-
-
-
-  <div class="lesson-nav">
-
-    <button
-      id="lessonPrevBtn"
-      class="secondary"
-      type="button"
-    >
-      ← 上一课
-    </button>
-
-
-    <button
-      id="lessonNextBtn"
-      class="primary"
-      type="button"
-    >
-      下一步 →
-    </button>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-VOCAB REVIEW
-====================================================== -->
-
-<section
-  id="vocabReview"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="vocabReviewBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-
-    <div>
-
-      <div class="eyebrow">
-        VOCABULARY TRAINING
-      </div>
-
-      <h2>
-        单字训练
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div
-      id="reviewCounter"
-      class="muted"
-    >
-      今日训练
-    </div>
-
-
-    <div
-      id="vocabReviewArea"
-    ></div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-VOCAB DATABASE
-====================================================== -->
-
-<section
-  id="vocabAll"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="vocabAllBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-
-    <div>
-
-      <div class="eyebrow">
-        VOCABULARY DATABASE
-      </div>
-
-      <h2>
-        全部词库
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <input
-      id="vocabSearch"
-      class="vocab-search"
-      type="search"
-      placeholder="搜索希腊文、中文释义、课号……"
-    >
-
-
-    <div
-      id="vocabAllList"
-    ></div>
-
-  </div>
 
 </section>
 
@@ -552,7 +338,7 @@ MORPHOLOGY
   <div class="screen-head">
 
     <button
-      id="morphologyBack"
+      id="morphBack"
       class="back"
       type="button"
     >
@@ -567,12 +353,13 @@ MORPHOLOGY
       </div>
 
       <h2>
-        词形分析
+        真实词形分析
       </h2>
 
     </div>
 
   </div>
+
 
 
   <div class="card">
@@ -581,7 +368,7 @@ MORPHOLOGY
       id="morphologyCounter"
       class="muted"
     >
-      词形训练
+      正在准备
     </div>
 
 
@@ -596,18 +383,18 @@ MORPHOLOGY
 
 
 <!-- =====================================================
-COURSE REVIEW
+VERSE
 ====================================================== -->
 
 <section
-  id="courseReview"
+  id="verseTraining"
   class="screen"
 >
 
   <div class="screen-head">
 
     <button
-      id="courseReviewBack"
+      id="verseBack"
       class="back"
       type="button"
     >
@@ -618,11 +405,11 @@ COURSE REVIEW
     <div>
 
       <div class="eyebrow">
-        COURSE REVIEW
+        REAL TEXT TRAINING
       </div>
 
       <h2>
-        学习记录
+        真实新约经文
       </h2>
 
     </div>
@@ -633,12 +420,66 @@ COURSE REVIEW
   <div class="card">
 
     <div
-      id="reviewList"
+      id="verseCounter"
+      class="muted"
+    ></div>
+
+
+    <div
+      id="verseArea"
     ></div>
 
   </div>
 
 </section>
+
+
+
+<!-- =====================================================
+SEARCH
+====================================================== -->
+
+<section
+  id="search"
+  class="screen"
+>
+
+  <div class="screen-head">
+
+    <button
+      id="searchBack"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        CORPUS SEARCH
+      </div>
+
+      <h2>
+        搜索结果
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div
+      id="searchPageResult"
+    ></div>
+
+  </div>
+
+</section>
+
 
 
 </main>
@@ -647,14 +488,14 @@ COURSE REVIEW
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V1.4
+  GBRM · Greek Bible Reading Model · V1.5
 
 </footer>
 
 
 
 <script
-  src="app.js?v=140"
+  src="app.js?v=150"
   defer
 ></script>
 
