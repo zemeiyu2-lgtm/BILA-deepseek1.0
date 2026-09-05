@@ -1,26 +1,18 @@
 /* =========================================================
-   GBRM V1.3
+   GBRM V1.4
    Greek Bible Reading Model
 
    FOUNDATION L01–L25
+   VOCABULARY MEMORY
+   MORPHOLOGY ENGINE
 
-   VOCABULARY TRAINING ENGINE
-
-   NEW
-     ↓
-   LISTEN
-     ↓
-   RECOGNIZE
-     ↓
-   RECALL
-     ↓
-   SPELL
-     ↓
-   FORM
-     ↓
-   REVIEW
-     ↓
-   MASTERED
+   Form
+   ↓
+   Parse
+   ↓
+   Function
+   ↓
+   Meaning
 ========================================================= */
 
 
@@ -31,7 +23,7 @@
 const CONFIG = {
 
   STATE_KEY:
-    "GBRM_V13_STATE",
+    "GBRM_V14_STATE",
 
   LANGUAGE:
     "en-US",
@@ -70,7 +62,7 @@ const LESSONS = [
     title: "学习希腊文",
     group: "引言",
     objective:
-      "建立持续学习、发音、书写、复习和同伴学习的习惯。",
+      "建立持续学习、发音、书写和复习习惯。",
     kind: "intro",
     sections: [
       "学习纪律",
@@ -84,7 +76,7 @@ const LESSONS = [
     title: "字母与发音",
     group: "引言",
     objective:
-      "掌握24个字母、基本发音、元音、双母音和气号。",
+      "掌握24个字母、元音、双母音与气号。",
     kind: "alphabet",
     sections: [
       "24个字母",
@@ -99,7 +91,7 @@ const LESSONS = [
     title: "标点符号与音节",
     group: "引言",
     objective:
-      "认识希腊文标点和基本音节结构。",
+      "认识希腊文标点与基本音节结构。",
     kind: "syllable",
     sections: [
       "标点符号",
@@ -157,7 +149,7 @@ const LESSONS = [
     title: "介词与 εἰμί",
     group: "名词系统",
     objective:
-      "学习基本介词与 εἰμί。",
+      "学习基本介词和 εἰμί。",
     kind: "case",
     sections: [
       "介词",
@@ -217,7 +209,7 @@ const LESSONS = [
     title: "αὐτός",
     group: "名词系统",
     objective:
-      "认识 αὐτός 的基本形式和功能。",
+      "认识 αὐτός 的基本形式与功能。",
     kind: "autos",
     sections: [
       "αὐτός",
@@ -232,7 +224,7 @@ const LESSONS = [
     title: "指示代名词／形容词",
     group: "名词系统",
     objective:
-      "认识指示代名词。",
+      "认识指示代名词的形式与指涉。",
     kind: "demonstrative",
     sections: [
       "指示词",
@@ -262,7 +254,7 @@ const LESSONS = [
     title: "动词简介",
     group: "动词系统",
     objective:
-      "建立时态、语态、语气、人称与数等概念。",
+      "建立时态、语态、语气、人称与数的基本概念。",
     kind: "verb",
     sections: [
       "动词是什么",
@@ -281,7 +273,7 @@ const LESSONS = [
     kind: "present",
     sections: [
       "结构图",
-      "六个人称形式",
+      "六个人称",
       "人称字尾",
       "原文观察"
     ]
@@ -322,7 +314,7 @@ const LESSONS = [
     title: "未来式主动／关身",
     group: "动词系统",
     objective:
-      "学习未来式的基本构成。",
+      "学习未来式基本构成。",
     kind: "future",
     sections: [
       "未来式",
@@ -334,10 +326,10 @@ const LESSONS = [
 
   {
     n: 20,
-    title: "动词字根；未来式其他字形",
+    title: "动词字根与未来式其他字形",
     group: "动词系统",
     objective:
-      "认识动词词干和未来式变化。",
+      "认识动词词干与未来式变化。",
     kind: "stems",
     sections: [
       "词干",
@@ -397,7 +389,7 @@ const LESSONS = [
     title: "不定过去式与未来式被动",
     group: "动词系统",
     objective:
-      "认识被动语态特别标记。",
+      "认识被动语态的特殊标记。",
     kind: "passive",
     sections: [
       "未来被动",
@@ -412,7 +404,7 @@ const LESSONS = [
     title: "现在完成式",
     group: "动词系统",
     objective:
-      "认识完成式。",
+      "认识完成式基本构成。",
     kind: "perfect",
     sections: [
       "完成式",
@@ -426,7 +418,7 @@ const LESSONS = [
 
 
 /* =========================================================
-   USER MASTER VOCABULARY
+   VOCABULARY
 ========================================================= */
 
 const VOCAB_CSV = `
@@ -648,13 +640,8 @@ const VOCAB_CSV = `
 `;
 
 
-/* =========================================================
-   PARSE VOCAB
-========================================================= */
-
-function parseVocabulary(csv) {
-
-  return csv
+const VOCABULARY =
+  VOCAB_CSV
     .trim()
     .split("\n")
     .map(function(line) {
@@ -663,32 +650,37 @@ function parseVocabulary(csv) {
         line.split(",");
 
 
-      let frequency =
+      let freq =
         parts[3] ||
         "";
 
 
-      frequency =
-        frequency.replace(
-          /[^0-9]/g,
-          ""
-        );
+      freq =
+        freq
+          .replace(
+            /[^0-9]/g,
+            ""
+          );
 
 
       return {
 
         lesson:
-          Number(parts[0]),
+          Number(
+            parts[0]
+          ),
 
         word:
-          (parts[1] || "").trim(),
+          (parts[1] || "")
+            .trim(),
 
         gloss:
-          (parts[2] || "").trim(),
+          (parts[2] || "")
+            .trim(),
 
         frequency:
-          frequency
-            ? Number(frequency)
+          freq
+            ? Number(freq)
             : null
 
       };
@@ -703,13 +695,285 @@ function parseVocabulary(csv) {
 
     });
 
-}
+
+/* =========================================================
+   MORPHOLOGY DATA
+========================================================= */
+
+const MORPHOLOGY_ITEMS = [
+
+  {
+    form:
+      "ἔλαβον",
+
+    lemma:
+      "λαμβάνω",
+
+    stem:
+      "λαβ",
+
+    tense:
+      "不定过去式",
+
+    voice:
+      "主动",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第一人称单数 / 第三人称复数（依上下文）",
+
+    number:
+      "单数或复数",
+
+    meaning:
+      "拿了 / 领受了",
+
+    lesson:
+      22
+
+  },
 
 
-const VOCABULARY =
-  parseVocabulary(
-    VOCAB_CSV
-  );
+  {
+    form:
+      "ἔλυσα",
+
+    lemma:
+      "λύω",
+
+    stem:
+      "λυ",
+
+    tense:
+      "第一不定过去式",
+
+    voice:
+      "主动",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第一人称单数",
+
+    number:
+      "单数",
+
+    meaning:
+      "我解开了",
+
+    lesson:
+      23
+
+  },
+
+
+  {
+    form:
+      "ἐλύθην",
+
+    lemma:
+      "λύω",
+
+    stem:
+      "λυ",
+
+    tense:
+      "不定过去式",
+
+    voice:
+      "被动",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第一人称",
+
+    number:
+      "单数",
+
+    meaning:
+      "我被解开了",
+
+    lesson:
+      24
+
+  },
+
+
+  {
+    form:
+      "λέλυκα",
+
+    lemma:
+      "λύω",
+
+    stem:
+      "λυ",
+
+    tense:
+      "完成式",
+
+    voice:
+      "主动",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第一人称",
+
+    number:
+      "单数",
+
+    meaning:
+      "我已经解开",
+
+    lesson:
+      25
+
+  },
+
+
+  {
+    form:
+      "λύομεν",
+
+    lemma:
+      "λύω",
+
+    stem:
+      "λυ",
+
+    tense:
+      "现在式",
+
+    voice:
+      "主动",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第一人称",
+
+    number:
+      "复数",
+
+    meaning:
+      "我们解开",
+
+    lesson:
+      16
+
+  },
+
+
+  {
+    form:
+      "λύετε",
+
+    lemma:
+      "λύω",
+
+    stem:
+      "λυ",
+
+    tense:
+      "现在式",
+
+    voice:
+      "主动",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第二人称",
+
+    number:
+      "复数",
+
+    meaning:
+      "你们解开",
+
+    lesson:
+      16
+
+  },
+
+
+  {
+    form:
+      "ἔλυον",
+
+    lemma:
+      "λύω",
+
+    stem:
+      "λυ",
+
+    tense:
+      "未完成式",
+
+    voice:
+      "主动",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第一人称单数 / 第三人称复数",
+
+    number:
+      "单数或复数",
+
+    meaning:
+      "我正在解开 / 他们正在解开",
+
+    lesson:
+      21
+
+  },
+
+
+  {
+    form:
+      "λύσομαι",
+
+    lemma:
+      "λύω",
+
+    stem:
+      "λυ",
+
+    tense:
+      "未来式",
+
+    voice:
+      "关身",
+
+    mood:
+      "直说语气",
+
+    person:
+      "第一人称",
+
+    number:
+      "单数",
+
+    meaning:
+      "我将为自己解开",
+
+    lesson:
+      19
+
+  }
+
+];
 
 
 /* =========================================================
@@ -830,134 +1094,227 @@ const BIBLE = {
 const FORM_DATA = {
 
   noun: [
+
     ["ὁ λόγος","阳性·单数·主格","the Word"],
+
     ["τοῦ λόγου","阳性·单数·所有格","of the Word"],
+
     ["τὸν λόγον","阳性·单数·受格","the Word"],
+
     ["τῷ λόγῳ","阳性·单数·间接受格","to/for the Word"]
+
   ],
 
   case: [
+
     ["ὁ θεός","主格·阳性·单数","God"],
+
     ["τὸν θεόν","受格·阳性·单数","God"],
+
     ["τοῦ θεοῦ","所有格·阳性·单数","of God"],
+
     ["τῷ θεῷ","间接受格·阳性·单数","to/for God"]
+
   ],
 
   adjective: [
+
     ["ἀγαθός","阳性·主格单数","good"],
+
     ["ἀγαθή","阴性·主格单数","good"],
+
     ["ἀγαθόν","中性·主格/受格单数","good"]
+
   ],
 
   third: [
+
     ["φῶς","主格/受格","light"],
+
     ["φωτός","所有格","of light"],
+
     ["σῶμα","主格/受格","body"],
+
     ["σώματος","所有格","of body"]
+
   ],
 
   pronoun: [
+
     ["ἐγώ","第一人称·主格单数","I"],
+
     ["μοι","第一人称·间接受格单数","to/for me"],
+
     ["ἡμεῖς","第一人称·主格复数","we"],
+
     ["σύ","第二人称·主格单数","you"],
+
     ["ὑμεῖς","第二人称·主格复数","you"]
+
   ],
 
   autos: [
+
     ["αὐτός","主格·阳性单数","he / himself"],
+
     ["αὐτόν","受格·阳性单数","him"],
+
     ["αὐτοῦ","所有格·阳性单数","his / of him"],
+
     ["αὐτοί","主格·阳性复数","they"]
+
   ],
 
   demonstrative: [
+
     ["οὗτος","阳性·主格单数","this"],
+
     ["αὕτη","阴性·主格单数","this"],
+
     ["τοῦτο","中性·主格/受格单数","this"],
+
     ["οὗτοι","阳性·主格复数","these"]
+
   ],
 
   relative: [
+
     ["ὅς","阳性·主格单数","who"],
+
     ["ἥ","阴性·主格单数","who"],
+
     ["ὅ","中性·主格/受格单数","which"],
+
     ["οὗ","所有格","of whom/of which"],
+
     ["ὅν","阳性·受格单数","whom"]
+
   ],
 
   verb: [
+
     ["λύω","现在式·主动·1单","I loose"],
+
     ["λύεις","现在式·主动·2单","you loose"],
+
     ["λύει","现在式·主动·3单","he/she/it looses"]
+
   ],
 
   present: [
+
     ["λύω","1单","I loose"],
+
     ["λύεις","2单","you loose"],
+
     ["λύει","3单","he/she/it looses"],
+
     ["λύομεν","1复","we loose"],
+
     ["λύετε","2复","you loose"],
+
     ["λύουσι(ν)","3复","they loose"]
+
   ],
 
   contract: [
+
     ["ἀγαπάω","字典形","I love"],
+
     ["ἀγαπῶ","缩略·1单","I love"],
+
     ["ζητέω","字典形","I seek"],
+
     ["ζητῶ","缩略·1单","I seek"]
+
   ],
 
   mp: [
+
     ["λύομαι","现在式·关身/被动·1单","I am being loosed"],
+
     ["λύεται","现在式·关身/被动·3单","he/she/it is being loosed"],
+
     ["λυόμεθα","现在式·关身/被动·1复","we are being loosed"]
+
   ],
 
   future: [
+
     ["λύσω","未来主动·1单","I will loose"],
+
     ["λύσεις","未来主动·2单","you will loose"],
+
     ["λύσει","未来主动·3单","he/she/it will loose"],
+
     ["λύσομαι","未来关身·1单","I will loose for myself"]
+
   ],
 
   stems: [
+
     ["ἀκούω","现在式","hear"],
+
     ["ἀκούσω","未来式","I will hear"],
+
     ["βλέπω","现在式","see"],
+
     ["βλέψω","未来式","I will see"]
+
   ],
 
   imperfect: [
+
     ["ἔλυον","未完成式","I was loosing / they were loosing"],
+
     ["ἔλυες","2单","you were loosing"],
+
     ["ἔλυε(ν)","3单","he/she/it was loosing"]
+
   ],
 
   aorist2: [
+
     ["ἔλαβον","第二不定过去式","I took / they took"],
+
     ["ἔλαβες","主动·2单","you took"],
+
     ["ἔλαβε(ν)","主动·3单","he/she/it took"]
+
   ],
 
   aorist1: [
+
     ["ἔλυσα","第一不定过去式·主动1单","I loosed"],
+
     ["ἔλυσας","主动·2单","you loosed"],
+
     ["ἔλυσε(ν)","主动·3单","he/she/it loosed"],
+
     ["ἐλυσάμην","关身·1单","I loosed for myself"]
+
   ],
 
   passive: [
+
     ["ἐλύθην","不定过去式被动·1单","I was loosed"],
+
     ["ἐλύθησαν","不定过去式被动·3复","they were loosed"],
+
     ["λυθήσομαι","未来被动·1单","I will be loosed"]
+
   ],
 
   perfect: [
+
     ["λέλυκα","完成式主动·1单","I have loosed"],
+
     ["λέλυκας","完成式主动·2单","you have loosed"],
+
     ["λέλυκε(ν)","完成式主动·3单","he/she/it has loosed"],
+
     ["λέλυμαι","完成式关身/被动·1单","I have been loosed"]
+
   ]
 
 };
@@ -999,12 +1356,24 @@ let reviewIndex =
   0;
 
 
-let vocabTrainingMode =
-  "meaning";
+let morphologyQueue =
+  [];
+
+
+let morphologyIndex =
+  0;
+
+
+let morphologyScore =
+  0;
+
+
+let morphologyAnswered =
+  0;
 
 
 /* =========================================================
-   STATE STORAGE
+   STORAGE
 ========================================================= */
 
 function loadState() {
@@ -1027,15 +1396,29 @@ function loadState() {
         );
 
 
-      if (
-        parsed &&
-        parsed.lessons &&
-        parsed.vocabulary
-      ) {
+      return {
 
-        return parsed;
+        lessons:
+          parsed.lessons ||
+          {},
 
-      }
+        vocabulary:
+          parsed.vocabulary ||
+          {},
+
+        morphology:
+          parsed.morphology ||
+          {
+
+            attempted:
+              0,
+
+            correct:
+              0
+
+          }
+
+      };
 
     }
 
@@ -1046,6 +1429,7 @@ function loadState() {
   ) {
 
     console.warn(
+      "GBRM storage:",
       error
     );
 
@@ -1058,7 +1442,17 @@ function loadState() {
       {},
 
     vocabulary:
-      {}
+      {},
+
+    morphology: {
+
+      attempted:
+        0,
+
+      correct:
+        0
+
+    }
 
   };
 
@@ -1086,6 +1480,7 @@ function saveState() {
   ) {
 
     console.warn(
+      "GBRM save:",
       error
     );
 
@@ -1212,10 +1607,6 @@ function init() {
 }
 
 
-/* =========================================================
-   EVENTS
-========================================================= */
-
 function bindEvents() {
 
   if (
@@ -1250,50 +1641,6 @@ function bindEvents() {
 
     $("lessonNextBtn").onclick =
       nextStep;
-
-  }
-
-
-  if (
-    $("courseReviewBack")
-  ) {
-
-    $("courseReviewBack").onclick =
-      function() {
-
-        go("home");
-
-      };
-
-  }
-
-
-  if (
-    $("openCourseReview")
-  ) {
-
-    $("openCourseReview").onclick =
-      function() {
-
-        renderCourseReview();
-
-        go("courseReview");
-
-      };
-
-  }
-
-
-  if (
-    $("vocabReviewBack")
-  ) {
-
-    $("vocabReviewBack").onclick =
-      function() {
-
-        go("home");
-
-      };
 
   }
 
@@ -1342,10 +1689,83 @@ function bindEvents() {
     $("vocabSearch")
   ) {
 
-    $("vocabSearch").addEventListener(
-      "input",
-      renderVocabularyDatabase
-    );
+    $("vocabSearch")
+      .addEventListener(
+        "input",
+        renderVocabularyDatabase
+      );
+
+  }
+
+
+  if (
+    $("vocabReviewBack")
+  ) {
+
+    $("vocabReviewBack").onclick =
+      function() {
+
+        go("home");
+
+        renderHome();
+
+      };
+
+  }
+
+
+  if (
+    $("openMorphology")
+  ) {
+
+    $("openMorphology").onclick =
+      startMorphologyTraining;
+
+  }
+
+
+  if (
+    $("morphologyBack")
+  ) {
+
+    $("morphologyBack").onclick =
+      function() {
+
+        go("home");
+
+        renderHome();
+
+      };
+
+  }
+
+
+  if (
+    $("openCourseReview")
+  ) {
+
+    $("openCourseReview").onclick =
+      function() {
+
+        renderCourseReview();
+
+        go("courseReview");
+
+      };
+
+  }
+
+
+  if (
+    $("courseReviewBack")
+  ) {
+
+    $("courseReviewBack").onclick =
+      function() {
+
+        go("home");
+
+      };
 
   }
 
@@ -1422,16 +1842,10 @@ function getWordState(
       wrong:
         0,
 
-      recognizeCorrect:
-        0,
-
       recallCorrect:
         0,
 
       spellingCorrect:
-        0,
-
-      formCorrect:
         0,
 
       lastSeen:
@@ -1451,7 +1865,7 @@ function getWordState(
 
 
 /* =========================================================
-   COURSE HOME
+   HOME
 ========================================================= */
 
 function renderHome() {
@@ -1464,6 +1878,10 @@ function renderHome() {
 
 }
 
+
+/* =========================================================
+   LESSON LIST
+========================================================= */
 
 function renderLessonList() {
 
@@ -1793,7 +2211,7 @@ function renderLessonHeader() {
 
 
 /* =========================================================
-   LESSON STEP
+   STEP ENGINE
 ========================================================= */
 
 function renderLessonStep() {
@@ -1847,7 +2265,7 @@ function renderLessonStep() {
 
 
 /* =========================================================
-   BUILD SECTION
+   LESSON SECTION
 ========================================================= */
 
 function buildLessonSection(
@@ -1865,39 +2283,39 @@ function buildLessonSection(
     "lesson-section";
 
 
-  const title =
+  const h =
     document.createElement(
       "h3"
     );
 
 
-  title.textContent =
+  h.textContent =
     lesson.sections[
       step
     ];
 
 
   section.appendChild(
-    title
+    h
   );
 
 
-  const intro =
+  const p =
     document.createElement(
       "p"
     );
 
 
-  intro.className =
+  p.className =
     "muted";
 
 
-  intro.textContent =
+  p.textContent =
     "先学习，再观察形式，最后回到新约文本。";
 
 
   section.appendChild(
-    intro
+    p
   );
 
 
@@ -1906,7 +2324,7 @@ function buildLessonSection(
     4
   ) {
 
-    renderFoundationSection(
+    renderFoundation(
       section,
       lesson,
       step
@@ -1916,7 +2334,7 @@ function buildLessonSection(
 
   else {
 
-    renderGrammarSection(
+    renderGrammar(
       section,
       lesson,
       step
@@ -1934,7 +2352,7 @@ function buildLessonSection(
    FOUNDATION
 ========================================================= */
 
-function renderFoundationSection(
+function renderFoundation(
   section,
   lesson,
   step
@@ -1993,32 +2411,26 @@ function renderFoundationSection(
       alphabet.forEach(
         function(item) {
 
-          const button =
+          const b =
             document.createElement(
               "button"
             );
 
 
-          button.innerHTML =
+          b.innerHTML =
 
-            "<div class='word-greek greek'>" +
-
+            "<div class='word-greek'>" +
             item[1] +
-
             "</div>" +
 
             "<div class='word-gloss'>" +
-
             item[0] +
-
             " · " +
-
             item[2] +
-
             "</div>";
 
 
-          button.onclick =
+          b.onclick =
             function() {
 
               speakText(
@@ -2029,7 +2441,7 @@ function renderFoundationSection(
 
 
           grid.appendChild(
-            button
+            b
           );
 
         }
@@ -2051,7 +2463,17 @@ function renderFoundationSection(
       1
     ) {
 
-      VOWELS.forEach(
+      [
+
+        ["α","a"],
+        ["ε","e"],
+        ["η","ē"],
+        ["ι","i"],
+        ["ο","o"],
+        ["υ","u"],
+        ["ω","ō"]
+
+      ].forEach(
         function(item) {
 
           addSimpleWord(
@@ -2075,7 +2497,17 @@ function renderFoundationSection(
       2
     ) {
 
-      DIPHTHONGS.forEach(
+      [
+
+        ["αι","ai"],
+        ["ει","ei"],
+        ["οι","oi"],
+        ["ου","ou"],
+        ["αυ","au"],
+        ["ευ","eu"],
+        ["υι","ui"]
+
+      ].forEach(
         function(item) {
 
           addSimpleWord(
@@ -2104,9 +2536,8 @@ function renderFoundationSection(
 
     addNotice(
       section,
-      "把字母形状、声音和词形一起学习。"
+      "观察字母、声音和词形，不要只背中文。"
     );
-
 
     return;
 
@@ -2183,11 +2614,11 @@ function renderFoundationSection(
 
       ?
 
-      "学习希腊文的直接目的，是更准确地进入新约原文。"
+      "学习希腊文，是为了更准确地进入新约原文。"
 
       :
 
-      "语言学习需要持续、重复、发音、书写和定期复习。"
+      "语言学习需要持续、重复、发音、书写和规律复习。"
 
   );
 
@@ -2198,7 +2629,7 @@ function renderFoundationSection(
    GRAMMAR
 ========================================================= */
 
-function renderGrammarSection(
+function renderGrammar(
   section,
   lesson,
   step
@@ -2283,7 +2714,7 @@ function renderGrammarSection(
 
         "<th>形式</th>" +
 
-        "<th>识别</th>" +
+        "<th>观察</th>" +
 
         "</tr>" +
 
@@ -2362,7 +2793,2586 @@ function renderGrammarSection(
 
 
 /* =========================================================
-   FOUNDATION COMPONENTS
+   COURSE TEST
+========================================================= */
+
+function renderTest() {
+
+  const lesson =
+    LESSONS[
+      currentLessonIndex
+    ];
+
+
+  const box =
+    $("lessonContent");
+
+
+  box.innerHTML =
+    "";
+
+
+  const section =
+    document.createElement(
+      "div"
+    );
+
+
+  section.className =
+    "lesson-section";
+
+
+  section.innerHTML =
+
+    "<h3>课程测试</h3>" +
+
+    "<p class='muted'>" +
+
+    "完成全部测试题后结束本课。"
+
+    +
+
+    "</p>";
+
+
+  const questions =
+    getTestQuestions(
+      lesson.n
+    );
+
+
+  testScore =
+    0;
+
+
+  testAnswered =
+    0;
+
+
+  const score =
+    document.createElement(
+      "div"
+    );
+
+
+  score.className =
+    "exercise-score";
+
+
+  score.id =
+    "liveTestScore";
+
+
+  score.textContent =
+    "0 / " +
+    questions.length;
+
+
+  section.appendChild(
+    score
+  );
+
+
+  questions.forEach(
+    function(
+      q,
+      qi
+    ) {
+
+      const block =
+        document.createElement(
+          "div"
+        );
+
+
+      block.style.marginTop =
+        "17px";
+
+
+      const title =
+        document.createElement(
+          "strong"
+        );
+
+
+      title.textContent =
+
+        (
+          qi +
+          1
+        ) +
+
+        ". " +
+
+        q[0];
+
+
+      block.appendChild(
+        title
+      );
+
+
+      const grid =
+        document.createElement(
+          "div"
+        );
+
+
+      grid.className =
+        "choice-grid";
+
+
+      q[1].forEach(
+        function(
+          option,
+          oi
+        ) {
+
+          const b =
+            document.createElement(
+              "button"
+            );
+
+
+          b.type =
+            "button";
+
+
+          b.textContent =
+            option;
+
+
+          b.onclick =
+            function() {
+
+              grid
+                .querySelectorAll(
+                  "button"
+                )
+                .forEach(
+                  function(
+                    x
+                  ) {
+
+                    x.disabled =
+                      true;
+
+                  }
+                );
+
+
+              testAnswered++;
+
+
+              if (
+                oi ===
+                q[2]
+              ) {
+
+                testScore++;
+
+
+                b.classList.add(
+                  "choice-correct"
+                );
+
+              }
+
+              else {
+
+                b.classList.add(
+                  "choice-wrong"
+                );
+
+              }
+
+
+              score.textContent =
+
+                testScore +
+
+                " / " +
+
+                questions.length;
+
+            };
+
+
+          grid.appendChild(
+            b
+          );
+
+        }
+      );
+
+
+      block.appendChild(
+        grid
+      );
+
+
+      section.appendChild(
+        block
+      );
+
+    }
+  );
+
+
+  const finish =
+    document.createElement(
+      "button"
+    );
+
+
+  finish.className =
+    "primary wide";
+
+
+  finish.textContent =
+    "完成本课";
+
+
+  finish.onclick =
+    function() {
+
+      if (
+        testAnswered <
+        questions.length
+      ) {
+
+        alert(
+          "请先完成全部测试题。"
+        );
+
+        return;
+
+      }
+
+
+      completeLesson(
+        testScore,
+        questions.length
+      );
+
+    };
+
+
+  section.appendChild(
+    finish
+  );
+
+
+  box.appendChild(
+    section
+  );
+
+
+  $("lessonNextBtn")
+    .textContent =
+    "重新测试";
+
+
+  $("lessonNextBtn")
+    .onclick =
+    renderTest;
+
+}
+
+
+function getTestQuestions(
+  n
+) {
+
+  const tests = {
+
+    1: [
+      [
+        "学习希腊文的主要目的是什么？",
+        [
+          "进入新约原文",
+          "只为考试",
+          "只背中文"
+        ],
+        0
+      ]
+    ],
+
+    2: [
+      [
+        "多感官学习包括什么？",
+        [
+          "看、读、听、写",
+          "只看中文",
+          "只背答案"
+        ],
+        0
+      ]
+    ],
+
+    3: [
+      [
+        "希腊文有多少个字母？",
+        [
+          "24",
+          "26",
+          "20"
+        ],
+        0
+      ]
+    ],
+
+    4: [
+      [
+        "希腊文问号是什么？",
+        [
+          ";",
+          "?",
+          ":"
+        ],
+        0
+      ]
+    ],
+
+    5: [
+      [
+        "名词核心观察维度是什么？",
+        [
+          "性、数、格",
+          "时态、语态、语气",
+          "人称、时间、观点"
+        ],
+        0
+      ]
+    ],
+
+    6: [
+      [
+        "τὸν θεόν 是什么格？",
+        [
+          "受格",
+          "主格",
+          "所有格"
+        ],
+        0
+      ]
+    ],
+
+    7: [
+      [
+        "τοῦ θεοῦ 是什么格？",
+        [
+          "所有格",
+          "主格",
+          "受格"
+        ],
+        0
+      ]
+    ],
+
+    8: [
+      [
+        "εἰμί 的基本意义是什么？",
+        [
+          "to be",
+          "to see",
+          "to hear"
+        ],
+        0
+      ]
+    ],
+
+    9: [
+      [
+        "形容词通常与名词在哪些方面一致？",
+        [
+          "性、数、格",
+          "时态、语态、语气",
+          "只有性"
+        ],
+        0
+      ]
+    ],
+
+    10: [
+      [
+        "第三格变式需要特别注意什么？",
+        [
+          "词干与字尾",
+          "中文翻译",
+          "章节号码"
+        ],
+        0
+      ]
+    ],
+
+    11: [
+      [
+        "ἐγώ 表示什么？",
+        [
+          "I",
+          "you",
+          "we"
+        ],
+        0
+      ]
+    ],
+
+    12: [
+      [
+        "αὐτόν 常表示什么？",
+        [
+          "him",
+          "his",
+          "they"
+        ],
+        0
+      ]
+    ],
+
+    13: [
+      [
+        "οὗτος 的基本功能是什么？",
+        [
+          "this",
+          "who",
+          "because"
+        ],
+        0
+      ]
+    ],
+
+    14: [
+      [
+        "关系代名词的格由什么决定？",
+        [
+          "它在关系子句中的功能",
+          "中文翻译",
+          "章节号码"
+        ],
+        0
+      ]
+    ],
+
+    15: [
+      [
+        "动词需要观察什么？",
+        [
+          "时态、语态、语气、人称、数",
+          "只有时间",
+          "只有中文"
+        ],
+        0
+      ]
+    ],
+
+    16: [
+      [
+        "λύομεν 是什么？",
+        [
+          "第一人称复数",
+          "第二人称单数",
+          "第三人称复数"
+        ],
+        0
+      ]
+    ],
+
+    17: [
+      [
+        "ἀγαπῶ 属于什么？",
+        [
+          "缩略形式",
+          "未来被动",
+          "不定过去式"
+        ],
+        0
+      ]
+    ],
+
+    18: [
+      [
+        "关身／被动意义如何判断？",
+        [
+          "结合上下文",
+          "只看中文",
+          "只看长度"
+        ],
+        0
+      ]
+    ],
+
+    19: [
+      [
+        "未来式常见什么标记？",
+        [
+          "σ",
+          "θ",
+          "μ"
+        ],
+        0
+      ]
+    ],
+
+    20: [
+      [
+        "为什么需要学习动词字干？",
+        [
+          "不同形式可能使用不同字干",
+          "动词没有人称",
+          "动词取代冠词"
+        ],
+        0
+      ]
+    ],
+
+    21: [
+      [
+        "未完成式通常表达什么？",
+        [
+          "过去中的持续/进行观点",
+          "未来命令",
+          "只有身份"
+        ],
+        0
+      ]
+    ],
+
+    22: [
+      [
+        "第二不定过去式的重要特征是什么？",
+        [
+          "第二词干",
+          "未来σ",
+          "冠词"
+        ],
+        0
+      ]
+    ],
+
+    23: [
+      [
+        "第一不定过去式常见什么标记？",
+        [
+          "σα",
+          "θη",
+          "μαι"
+        ],
+        0
+      ]
+    ],
+
+    24: [
+      [
+        "不定过去式被动常见什么标记？",
+        [
+          "θη",
+          "σ",
+          "ομαι"
+        ],
+        0
+      ]
+    ],
+
+    25: [
+      [
+        "完成式常见什么特征？",
+        [
+          "重复号",
+          "未来σ",
+          "冠词"
+        ],
+        0
+      ]
+    ]
+
+  };
+
+
+  return (
+    tests[n] ||
+    []
+  );
+
+}
+
+
+/* =========================================================
+   COMPLETE LESSON
+========================================================= */
+
+function completeLesson(
+  score,
+  total
+) {
+
+  const lesson =
+    LESSONS[
+      currentLessonIndex
+    ];
+
+
+  const st =
+    getLessonState(
+      currentLessonIndex
+    );
+
+
+  st.completed =
+    true;
+
+
+  st.score =
+    Math.round(
+      score /
+      total *
+      100
+    );
+
+
+  st.completedAt =
+    new Date()
+      .toISOString();
+
+
+  saveState();
+
+
+  renderHome();
+
+  renderCourseReview();
+
+  renderVocabularySummary();
+
+
+  $("lessonContent")
+    .innerHTML =
+
+    "<div class='lesson-section'>" +
+
+    "<div class='success'>" +
+
+    "<strong>✓ " +
+
+    escapeHtml(
+      lesson.title
+    ) +
+
+    "</strong>" +
+
+    "<br><br>" +
+
+    "课程成绩：" +
+
+    st.score +
+
+    "%" +
+
+    "<br><br>" +
+
+    (
+      st.score >=
+      80
+
+        ? "基础掌握良好，可以继续下一课。"
+
+        : "建议复习后再次测试。"
+
+    ) +
+
+    "</div>" +
+
+    "</div>";
+
+
+  const next =
+    $("lessonNextBtn");
+
+
+  if (
+    currentLessonIndex <
+    LESSONS.length - 1
+  ) {
+
+    next.textContent =
+      "下一课 →";
+
+
+    next.onclick =
+      function() {
+
+        openLesson(
+          currentLessonIndex +
+          1
+        );
+
+      };
+
+  }
+
+  else {
+
+    next.textContent =
+      "返回课程目录";
+
+
+    next.onclick =
+      function() {
+
+        go("home");
+
+        renderHome();
+
+      };
+
+  }
+
+}
+
+
+/* =========================================================
+   STEP
+========================================================= */
+
+function nextStep() {
+
+  const lesson =
+    LESSONS[
+      currentLessonIndex
+    ];
+
+
+  if (
+    currentStep <
+    lesson.sections.length
+  ) {
+
+    currentStep++;
+
+    renderLessonStep();
+
+    renderLessonVocabulary();
+
+  }
+
+}
+
+
+function previousLesson() {
+
+  if (
+    currentLessonIndex >
+    0
+  ) {
+
+    openLesson(
+      currentLessonIndex -
+      1
+    );
+
+  }
+
+  else {
+
+    go("home");
+
+  }
+
+}
+
+
+/* =========================================================
+   VOCABULARY CARD
+========================================================= */
+
+function renderLessonVocabulary() {
+
+  const container =
+    $("lessonVocabulary");
+
+
+  if (
+    !container
+  ) {
+
+    return;
+
+  }
+
+
+  const lesson =
+    LESSONS[
+      currentLessonIndex
+    ];
+
+
+  const list =
+    VOCABULARY.filter(
+      function(item) {
+
+        return (
+          item.lesson ===
+          lesson.n
+        );
+
+      }
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    !list.length
+  ) {
+
+    return;
+
+  }
+
+
+  const section =
+    document.createElement(
+      "div"
+    );
+
+
+  section.className =
+    "lesson-section";
+
+
+  section.innerHTML =
+
+    "<h3>📚 本课新单字</h3>" +
+
+    "<p class='muted'>" +
+
+    "先听，再认，再回忆。"
+
+    +
+
+    "</p>";
+
+
+  list.forEach(
+    function(item) {
+
+      section.appendChild(
+        createVocabularyCard(
+          item
+        )
+      );
+
+    }
+  );
+
+
+  container.appendChild(
+    section
+  );
+
+}
+
+
+function createVocabularyCard(
+  item
+) {
+
+  const memory =
+    getWordState(
+      item.word
+    );
+
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "vocab-card";
+
+
+  card.innerHTML =
+
+    "<div>" +
+
+    "<div class='vocab-greek'>" +
+
+    escapeHtml(
+      item.word
+    ) +
+
+    "</div>" +
+
+    "<div class='vocab-gloss'>" +
+
+    escapeHtml(
+      item.gloss
+    ) +
+
+    "</div>" +
+
+    "<div class='vocab-frequency'>" +
+
+    "NT frequency: " +
+
+    (
+      item.frequency ===
+      null
+
+        ? "—"
+
+        : item.frequency
+
+    ) +
+
+    "</div>" +
+
+    "</div>" +
+
+
+    "<div class='vocab-actions'>" +
+
+    "<button type='button' class='listen'>" +
+
+    "🔊 听"
+
+    +
+
+    "</button>" +
+
+    "<button type='button' class='recall'>" +
+
+    "🧠 回忆"
+
+    +
+
+    "</button>" +
+
+    "</div>" +
+
+
+    "<span class='vocab-status'>" +
+
+    vocabStatus(
+      memory.status
+    ) +
+
+    "</span>";
+
+
+  card
+    .querySelector(
+      ".listen"
+    )
+    .onclick =
+    function() {
+
+      speakText(
+        item.word
+      );
+
+    };
+
+
+  card
+    .querySelector(
+      ".recall"
+    )
+    .onclick =
+    function() {
+
+      startSingleVocabularyReview(
+        item
+      );
+
+    };
+
+
+  return card;
+
+}
+
+
+function vocabStatus(
+  status
+) {
+
+  if (
+    status ===
+    "mastered"
+  ) {
+
+    return "已掌握";
+
+  }
+
+
+  if (
+    status ===
+    "learning"
+  ) {
+
+    return "学习中";
+
+  }
+
+
+  return "新单字";
+
+}
+
+
+/* =========================================================
+   VOCAB REVIEW
+========================================================= */
+
+function startSingleVocabularyReview(
+  item
+) {
+
+  reviewQueue =
+    [item];
+
+
+  reviewIndex =
+    0;
+
+
+  go(
+    "vocabReview"
+  );
+
+
+  renderVocabularyReview();
+
+}
+
+
+function startVocabularyReview() {
+
+  const due =
+    getDueVocabulary();
+
+
+  if (
+    !due.length
+  ) {
+
+    alert(
+      "今天暂时没有到期复习的单字。"
+    );
+
+    return;
+
+  }
+
+
+  reviewQueue =
+    due;
+
+
+  reviewIndex =
+    0;
+
+
+  go(
+    "vocabReview"
+  );
+
+
+  renderVocabularyReview();
+
+}
+
+
+function renderVocabularyReview() {
+
+  const box =
+    $("vocabReviewArea");
+
+
+  const counter =
+    $("reviewCounter");
+
+
+  if (
+    !box
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    reviewIndex >=
+    reviewQueue.length
+  ) {
+
+    counter.textContent =
+      "训练完成";
+
+
+    box.innerHTML =
+
+      "<div class='success'>" +
+
+      "<strong>🎉 单字训练完成</strong>" +
+
+      "<br><br>" +
+
+      "继续保持规律复习。"
+
+      +
+
+      "</div>";
+
+
+    renderVocabularySummary();
+
+
+    return;
+
+  }
+
+
+  const item =
+    reviewQueue[
+      reviewIndex
+    ];
+
+
+  counter.textContent =
+
+    "第 " +
+
+    (
+      reviewIndex +
+      1
+    ) +
+
+    " / " +
+
+    reviewQueue.length;
+
+
+  box.innerHTML =
+    "";
+
+
+  const section =
+    document.createElement(
+      "div"
+    );
+
+
+  section.className =
+    "vocab-memory-test";
+
+
+  section.innerHTML =
+
+    "<div class='eyebrow'>" +
+
+    "MEANING RECALL"
+
+    +
+
+    "</div>" +
+
+    "<div class='vocab-memory-word greek'>" +
+
+    escapeHtml(
+      item.word
+    ) +
+
+    "</div>" +
+
+    "<button type='button' id='hearWord'>🔊 听发音</button>" +
+
+    "<p class='muted' style='text-align:center'>" +
+
+    "请选择基本意思。"
+
+    +
+
+    "</p>" +
+
+    "<div id='vocabChoices' class='vocab-memory-options'></div>";
+
+
+  section
+    .querySelector(
+      "#hearWord"
+    )
+    .onclick =
+    function() {
+
+      speakText(
+        item.word
+      );
+
+    };
+
+
+  const grid =
+    section.querySelector(
+      "#vocabChoices"
+    );
+
+
+  getVocabularyOptions(
+    item
+  )
+    .forEach(
+      function(
+        option
+      ) {
+
+        const button =
+          document.createElement(
+            "button"
+          );
+
+
+        button.type =
+          "button";
+
+
+        button.textContent =
+          option;
+
+
+        button.onclick =
+          function() {
+
+            grid
+              .querySelectorAll(
+                "button"
+              )
+              .forEach(
+                function(
+                  b
+                ) {
+
+                  b.disabled =
+                    true;
+
+                }
+              );
+
+
+            const correct =
+              normalize(
+                option
+              ) ===
+              normalize(
+                item.gloss
+              );
+
+
+            if (
+              correct
+            ) {
+
+              button.classList.add(
+                "vocab-correct"
+              );
+
+            }
+
+            else {
+
+              button.classList.add(
+                "vocab-wrong"
+              );
+
+            }
+
+
+            updateVocabularyMemory(
+              item,
+              correct
+            );
+
+
+            const result =
+              document.createElement(
+                "div"
+              );
+
+
+            result.className =
+              "success";
+
+
+            result.style.marginTop =
+              "14px";
+
+
+            result.textContent =
+
+              correct
+
+                ? "✓ 正确。"
+
+                : (
+
+                  "✗ 正确答案：" +
+
+                  item.gloss
+
+                );
+
+
+            const next =
+              document.createElement(
+                "button"
+              );
+
+
+            next.className =
+              "primary wide";
+
+
+            next.textContent =
+              "下一词 →";
+
+
+            next.onclick =
+              function() {
+
+                reviewIndex++;
+
+                renderVocabularyReview();
+
+              };
+
+
+            result.appendChild(
+              next
+            );
+
+
+            section.appendChild(
+              result
+            );
+
+          };
+
+
+        grid.appendChild(
+          button
+        );
+
+      }
+    );
+
+
+  box.appendChild(
+    section
+  );
+
+}
+
+
+function getVocabularyOptions(
+  correct
+) {
+
+  const others =
+    VOCABULARY
+      .filter(
+        function(item) {
+
+          return (
+            item.word !==
+            correct.word &&
+            item.gloss
+          );
+
+        }
+      )
+      .slice()
+      .sort(
+        function() {
+
+          return Math.random() -
+            0.5;
+
+        }
+      );
+
+
+  const options = [
+
+    correct.gloss,
+
+    others[0]
+      ? others[0].gloss
+      : "生命",
+
+    others[1]
+      ? others[1].gloss
+      : "世界",
+
+    others[2]
+      ? others[2].gloss
+      : "光"
+
+  ];
+
+
+  return options.sort(
+    function() {
+
+      return Math.random() -
+        0.5;
+
+    }
+  );
+
+}
+
+
+function updateVocabularyMemory(
+  item,
+  correct
+) {
+
+  const memory =
+    getWordState(
+      item.word
+    );
+
+
+  memory.lastSeen =
+    new Date()
+      .toISOString();
+
+
+  if (
+    correct
+  ) {
+
+    memory.correct++;
+
+    memory.recallCorrect++;
+
+  }
+
+  else {
+
+    memory.wrong++;
+
+  }
+
+
+  const score =
+    memory.recallCorrect +
+    memory.spellingCorrect;
+
+
+  if (
+    score >=
+    5
+  ) {
+
+    memory.status =
+      "mastered";
+
+    memory.nextReview =
+      addDays(
+        30
+      );
+
+  }
+
+  else if (
+    score >=
+    4
+  ) {
+
+    memory.status =
+      "learning";
+
+    memory.nextReview =
+      addDays(
+        14
+      );
+
+  }
+
+  else if (
+    score >=
+    3
+  ) {
+
+    memory.status =
+      "learning";
+
+    memory.nextReview =
+      addDays(
+        7
+      );
+
+  }
+
+  else if (
+    score >=
+    2
+  ) {
+
+    memory.status =
+      "learning";
+
+    memory.nextReview =
+      addDays(
+        3
+      );
+
+  }
+
+  else {
+
+    memory.status =
+      "learning";
+
+    memory.nextReview =
+      addDays(
+        1
+      );
+
+  }
+
+
+  if (
+    !correct
+  ) {
+
+    memory.status =
+      "learning";
+
+    memory.nextReview =
+      addDays(
+        1
+      );
+
+  }
+
+
+  saveState();
+
+  renderVocabularySummary();
+
+}
+
+
+function addDays(
+  days
+) {
+
+  const date =
+    new Date();
+
+
+  date.setDate(
+    date.getDate() +
+    days
+  );
+
+
+  return date
+    .toISOString()
+    .slice(
+      0,
+      10
+    );
+
+}
+
+
+function getDueVocabulary() {
+
+  const today =
+    new Date()
+      .toISOString()
+      .slice(
+        0,
+        10
+      );
+
+
+  return VOCABULARY.filter(
+    function(item) {
+
+      const memory =
+        getWordState(
+          item.word
+        );
+
+
+      return (
+        memory.nextReview &&
+        memory.nextReview <=
+        today
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   VOCAB SUMMARY
+========================================================= */
+
+function renderVocabularySummary() {
+
+  const unique =
+    [];
+
+
+  const seen =
+    {};
+
+
+  VOCABULARY.forEach(
+    function(item) {
+
+      if (
+        !seen[item.word]
+      ) {
+
+        seen[item.word] =
+          true;
+
+        unique.push(
+          item
+        );
+
+      }
+
+    }
+  );
+
+
+  let learning =
+    0;
+
+
+  let mastered =
+    0;
+
+
+  unique.forEach(
+    function(item) {
+
+      const memory =
+        getWordState(
+          item.word
+        );
+
+
+      if (
+        memory.status ===
+        "learning"
+      ) {
+
+        learning++;
+
+      }
+
+
+      if (
+        memory.status ===
+        "mastered"
+      ) {
+
+        mastered++;
+
+      }
+
+    }
+  );
+
+
+  const due =
+    getDueVocabulary()
+      .length;
+
+
+  if (
+    $("vocabTotal")
+  ) {
+
+    $("vocabTotal")
+      .textContent =
+      unique.length;
+
+  }
+
+
+  if (
+    $("vocabLearning")
+  ) {
+
+    $("vocabLearning")
+      .textContent =
+      learning;
+
+  }
+
+
+  if (
+    $("vocabMastered")
+  ) {
+
+    $("vocabMastered")
+      .textContent =
+      mastered;
+
+  }
+
+
+  if (
+    $("vocabDue")
+  ) {
+
+    $("vocabDue")
+      .textContent =
+      due;
+
+  }
+
+}
+
+
+/* =========================================================
+   VOCAB DATABASE
+========================================================= */
+
+function renderVocabularyDatabase() {
+
+  const box =
+    $("vocabAllList");
+
+
+  if (
+    !box
+  ) {
+
+    return;
+
+  }
+
+
+  const input =
+    $("vocabSearch");
+
+
+  const query =
+    input
+      ? input.value
+          .trim()
+          .toLowerCase()
+      : "";
+
+
+  const list =
+    VOCABULARY.filter(
+      function(item) {
+
+        const text =
+
+          (
+            item.word +
+            " " +
+            item.gloss +
+            " " +
+            item.lesson
+          )
+            .toLowerCase();
+
+
+        return (
+          !query ||
+          text.includes(
+            query
+          )
+        );
+
+      }
+    );
+
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    !list.length
+  ) {
+
+    box.innerHTML =
+
+      "<div class='muted'>" +
+
+      "没有找到匹配词汇。"
+
+      +
+
+      "</div>";
+
+    return;
+
+  }
+
+
+  list.forEach(
+    function(item) {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "vocab-database-row";
+
+
+      const memory =
+        getWordState(
+          item.word
+        );
+
+
+      row.innerHTML =
+
+        "<div class='vocab-db-greek'>" +
+
+        escapeHtml(
+          item.word
+        ) +
+
+        "</div>" +
+
+        "<div>" +
+
+        escapeHtml(
+          item.gloss
+        ) +
+
+        "</div>" +
+
+        "<div class='vocab-db-meta'>" +
+
+        "Lesson " +
+
+        item.lesson +
+
+        " · " +
+
+        vocabStatus(
+          memory.status
+        ) +
+
+        "</div>" +
+
+        "<div class='vocab-db-frequency'>" +
+
+        "NT frequency: " +
+
+        (
+          item.frequency ===
+          null
+            ? "—"
+            : item.frequency
+        ) +
+
+        "</div>";
+
+
+      row.onclick =
+        function() {
+
+          startSingleVocabularyReview(
+            item
+          );
+
+        };
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   MORPHOLOGY ENGINE
+========================================================= */
+
+function startMorphologyTraining() {
+
+  morphologyQueue =
+    MORPHOLOGY_ITEMS
+      .slice()
+      .sort(
+        function() {
+
+          return Math.random() -
+            0.5;
+
+        }
+      );
+
+
+  morphologyIndex =
+    0;
+
+
+  morphologyScore =
+    0;
+
+
+  morphologyAnswered =
+    0;
+
+
+  go(
+    "morphology"
+  );
+
+
+  renderMorphology();
+
+}
+
+
+function renderMorphology() {
+
+  const box =
+    $("morphologyArea");
+
+
+  const counter =
+    $("morphologyCounter");
+
+
+  if (
+    morphologyIndex >=
+    morphologyQueue.length
+  ) {
+
+    counter.textContent =
+      "训练完成";
+
+
+    box.innerHTML =
+
+      "<div class='success'>" +
+
+      "<strong>🔬 词形分析完成</strong>" +
+
+      "<br><br>" +
+
+      "成绩：" +
+
+      morphologyScore +
+
+      " / " +
+
+      morphologyQueue.length +
+
+      "<br><br>" +
+
+      (
+        morphologyScore >=
+        morphologyQueue.length * 0.8
+
+          ? "词形基础掌握良好。"
+
+          : "建议再做一次词形训练。"
+
+      ) +
+
+      "</div>";
+
+
+    saveMorphologyStats();
+
+    return;
+
+  }
+
+
+  const item =
+    morphologyQueue[
+      morphologyIndex
+    ];
+
+
+  counter.textContent =
+
+    "第 " +
+
+    (
+      morphologyIndex +
+      1
+    ) +
+
+    " / " +
+
+    morphologyQueue.length;
+
+
+  box.innerHTML =
+    "";
+
+
+  const section =
+    document.createElement(
+      "div"
+    );
+
+
+  section.className =
+    "morphology-card";
+
+
+  section.innerHTML =
+
+    "<div class='morphology-progress'>" +
+
+    "<div class='morphology-progress-fill' style='width:" +
+
+    (
+
+      morphologyIndex /
+      morphologyQueue.length *
+      100
+
+    ) +
+
+    "%'></div>" +
+
+    "</div>" +
+
+    "<div class='morphology-word greek'>" +
+
+    escapeHtml(
+      item.form
+    ) +
+
+    "</div>" +
+
+    "<button type='button' id='morphSpeak'>🔊 听词形</button>" +
+
+    "<div id='morphQuestions'></div>";
+
+
+  box.appendChild(
+    section
+  );
+
+
+  $("morphSpeak").onclick =
+    function() {
+
+      speakText(
+        item.form
+      );
+
+    };
+
+
+  buildMorphologyQuestions(
+    item
+  );
+
+}
+
+
+/* =========================================================
+   MORPH QUESTIONS
+========================================================= */
+
+function buildMorphologyQuestions(
+  item
+) {
+
+  const container =
+    $("morphQuestions");
+
+
+  if (
+    !container
+  ) {
+
+    return;
+
+  }
+
+
+  const questions = [
+
+    {
+      key:
+        "lemma",
+
+      label:
+        "1. 词典形",
+
+      answer:
+        item.lemma
+
+    },
+
+    {
+      key:
+        "tense",
+
+      label:
+        "2. 时态",
+
+      answer:
+        item.tense
+
+    },
+
+    {
+      key:
+        "voice",
+
+      label:
+        "3. 语态",
+
+      answer:
+        item.voice
+
+    },
+
+    {
+      key:
+        "mood",
+
+      label:
+        "4. 语气",
+
+      answer:
+        item.mood
+
+    },
+
+    {
+      key:
+        "person",
+
+      label:
+        "5. 人称",
+
+      answer:
+        item.person
+
+    },
+
+    {
+      key:
+        "number",
+
+      label:
+        "6. 数",
+
+      answer:
+        item.number
+
+    }
+
+  ];
+
+
+  questions.forEach(
+    function(q) {
+
+      const block =
+        document.createElement(
+          "div"
+        );
+
+
+      block.className =
+        "morphology-question";
+
+
+      block.innerHTML =
+        "<div>" +
+        escapeHtml(
+          q.label
+        ) +
+        "</div>" +
+        "<div class='morphology-options'></div>";
+
+
+      const grid =
+        block.querySelector(
+          ".morphology-options"
+        );
+
+
+      getMorphologyOptions(
+        q,
+        item
+      )
+        .forEach(
+          function(option) {
+
+            const button =
+              document.createElement(
+                "button"
+              );
+
+
+            button.type =
+              "button";
+
+
+            button.textContent =
+              option;
+
+
+            button.onclick =
+              function() {
+
+                grid
+                  .querySelectorAll(
+                    "button"
+                  )
+                  .forEach(
+                    function(
+                      b
+                    ) {
+
+                      b.disabled =
+                        true;
+
+                    }
+                  );
+
+
+                const correct =
+                  normalize(
+                    option
+                  ) ===
+                  normalize(
+                    q.answer
+                  );
+
+
+                if (
+                  correct
+                ) {
+
+                  button.classList.add(
+                    "choice-correct"
+                  );
+
+                  morphologyScore++;
+
+                }
+
+                else {
+
+                  button.classList.add(
+                    "choice-wrong"
+                  );
+
+                }
+
+
+                morphologyAnswered++;
+
+
+                state.morphology.attempted++;
+
+
+                if (
+                  correct
+                ) {
+
+                  state.morphology.correct++;
+
+                }
+
+
+                saveState();
+
+
+                const result =
+                  document.createElement(
+                    "div"
+                  );
+
+
+                result.className =
+                  "success";
+
+
+                result.style.marginTop =
+                  "8px";
+
+
+                result.textContent =
+
+                  correct
+
+                    ? "✓"
+
+                    : (
+
+                      "✗ 正确答案：" +
+
+                      q.answer
+
+                    );
+
+
+                block.appendChild(
+                  result
+                );
+
+              };
+
+
+            grid.appendChild(
+              button
+            );
+
+          }
+        );
+
+
+      container.appendChild(
+        block
+      );
+
+    }
+  );
+
+
+  const finish =
+    document.createElement(
+      "button"
+    );
+
+
+  finish.className =
+    "primary wide";
+
+
+  finish.textContent =
+    "分析下一个词形 →";
+
+
+  finish.onclick =
+    function() {
+
+      if (
+        morphologyAnswered <
+        questions.length
+      ) {
+
+        alert(
+          "请完成这个词形的全部分析。"
+        );
+
+        return;
+
+      }
+
+
+      morphologyIndex++;
+
+      morphologyAnswered =
+        0;
+
+      renderMorphology();
+
+    };
+
+
+  container.appendChild(
+    finish
+  );
+
+}
+
+
+/* =========================================================
+   MORPH OPTIONS
+========================================================= */
+
+function getMorphologyOptions(
+  question,
+  item
+) {
+
+  const pool = [];
+
+
+  MORPHOLOGY_ITEMS.forEach(
+    function(other) {
+
+      const value =
+        other[
+          question.key
+        ];
+
+
+      if (
+        value &&
+        value !==
+        question.answer
+      ) {
+
+        pool.push(
+          value
+        );
+
+      }
+
+    }
+  );
+
+
+  pool.push(
+    "主格"
+  );
+
+  pool.push(
+    "受格"
+  );
+
+  pool.push(
+    "现在式"
+  );
+
+  pool.push(
+    "主动"
+  );
+
+  pool.push(
+    "复数"
+  );
+
+
+  const unique = [];
+
+
+  pool.forEach(
+    function(value) {
+
+      if (
+        value &&
+        value !==
+        question.answer &&
+        !unique.includes(
+          value
+        )
+      ) {
+
+        unique.push(
+          value
+        );
+
+      }
+
+    }
+  );
+
+
+  unique.sort(
+    function() {
+
+      return Math.random() -
+        0.5;
+
+    }
+  );
+
+
+  return [
+
+    question.answer,
+
+    unique[0] ||
+      "受格",
+
+    unique[1] ||
+      "现在式",
+
+    unique[2] ||
+      "主动"
+
+  ]
+    .sort(
+      function() {
+
+        return Math.random() -
+          0.5;
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   MORPHOLOGY STATS
+========================================================= */
+
+function saveMorphologyStats() {
+
+  saveState();
+
+}
+
+
+function normalize(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+    .trim()
+    .replace(
+      /\s+/g,
+      " "
+    )
+    .normalize(
+      "NFD"
+    )
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    );
+
+}
+
+
+/* =========================================================
+   SIMPLE COMPONENTS
 ========================================================= */
 
 function addSimpleWord(
@@ -2388,7 +5398,7 @@ function addSimpleWord(
 
     "<div>" +
 
-    "<div class='word-greek greek'>" +
+    "<div class='word-greek'>" +
 
     escapeHtml(
       word
@@ -2555,10 +5565,6 @@ function addBibleBox(
 }
 
 
-/* =========================================================
-   RESEARCH
-========================================================= */
-
 function researchNotice(
   kind
 ) {
@@ -2566,61 +5572,61 @@ function researchNotice(
   const notes = {
 
     noun:
-      "先判断性、数、格，再判断句中功能。",
+      "名词：先判断性、数、格，再判断句中功能。",
 
     case:
-      "格不能机械等于一个固定中文意思，要结合上下文。",
+      "格：不要把一个格机械等于一个中文意思，要结合上下文。",
 
     adjective:
-      "检查形容词与相关名词的性、数、格一致。",
+      "形容词：寻找相关名词，检查性、数、格一致。",
 
     third:
-      "先找词干，再确认字尾和格。",
+      "第三格变式：寻找词干，再确认字尾。",
 
     pronoun:
-      "先识别代词形式，再追踪它所指对象。",
+      "代词：先识别形式，再追踪指涉对象。",
 
     autos:
-      "αὐτός 的具体意义由形式和上下文共同决定。",
+      "αὐτός：不要固定成一个中文译法。",
 
     demonstrative:
-      "先问这个指示词具体指向谁或什么。",
+      "指示词：先问它具体指向什么。",
 
     relative:
-      "性、数通常跟先行词；格由关系子句中的功能决定。",
+      "关系代名词：性、数与先行词相关，格由关系子句中的功能决定。",
 
     verb:
-      "分别观察时态、语态、语气、人称和数。",
+      "动词：分别观察时态、语态、语气、人称和数。",
 
     present:
-      "观察时态字干、连接母音与人称字尾。",
+      "现在式：观察时态字干、连接母音和人称字尾。",
 
     contract:
-      "观察词干元音和词尾结合后的缩合。",
+      "缩略动词：观察元音缩合。",
 
     mp:
-      "根据上下文判断关身或被动意义。",
+      "关身／被动：形式相同或接近时必须结合上下文判断。",
 
     future:
-      "先确认未来式形式，再讨论时间和观点。",
+      "未来式：先确认形式，再讨论时间和观点。",
 
     stems:
-      "遇到陌生形式，应回到词典和时态字形。",
+      "词干：陌生动词形式需要回到词典和时态字形。",
 
     imperfect:
-      "观察往昔号、字干和过去中的连续观点。",
+      "未完成式：观察往昔号、字干以及过去中的连续观点。",
 
     aorist2:
-      "重点是第二词干，不要机械翻译成中文过去时。",
+      "第二不定过去式：重点观察第二词干。",
 
     aorist1:
-      "观察往昔号、字干、σα及人称字尾。",
+      "第一不定过去式：观察往昔号、字干和 σα。",
 
     passive:
-      "先完成形态分析，再判断动作接受者。",
+      "被动：先完成形态分析，再判断动作接受者。",
 
     perfect:
-      "注意重复号，以及动作和持续状态之间的关系。"
+      "完成式：观察重复号及动作与持续结果之间的关系。"
 
   };
 
@@ -2629,2456 +5635,6 @@ function researchNotice(
     notes[kind] ||
     "先看形式，再看功能，最后回到上下文。"
   );
-
-}
-
-
-/* =========================================================
-   LESSON VOCABULARY
-========================================================= */
-
-function renderLessonVocabulary() {
-
-  const container =
-    $("lessonVocabulary");
-
-
-  if (
-    !container
-  ) {
-
-    return;
-
-  }
-
-
-  const lesson =
-    LESSONS[
-      currentLessonIndex
-    ];
-
-
-  const list =
-    VOCABULARY.filter(
-      function(item) {
-
-        return (
-          item.lesson ===
-          lesson.n
-        );
-
-      }
-    );
-
-
-  container.innerHTML =
-    "";
-
-
-  if (
-    !list.length
-  ) {
-
-    return;
-
-  }
-
-
-  const section =
-    document.createElement(
-      "div"
-    );
-
-
-  section.className =
-    "lesson-section";
-
-
-  section.innerHTML =
-
-    "<h3>📚 本课新单字</h3>" +
-
-    "<p class='muted'>" +
-
-    "建议顺序：听 → 认形 → 回忆 → 拼写。"
-
-    +
-
-    "</p>";
-
-
-  list.forEach(
-    function(item) {
-
-      section.appendChild(
-        createVocabularyCard(
-          item
-        )
-      );
-
-    }
-  );
-
-
-  container.appendChild(
-    section
-  );
-
-}
-
-
-function createVocabularyCard(
-  item
-) {
-
-  const memory =
-    getWordState(
-      item.word
-    );
-
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-
-  card.className =
-    "vocab-card";
-
-
-  card.innerHTML =
-
-    "<div class='vocab-card-main'>" +
-
-    "<div>" +
-
-    "<div class='vocab-greek'>" +
-
-    escapeHtml(
-      item.word
-    ) +
-
-    "</div>" +
-
-    "<div class='vocab-gloss'>" +
-
-    escapeHtml(
-      item.gloss
-    ) +
-
-    "</div>" +
-
-    "<div class='vocab-frequency'>" +
-
-    "NT frequency: " +
-
-    (
-      item.frequency ===
-      null
-        ? "—"
-        : item.frequency
-    ) +
-
-    "</div>" +
-
-    "</div>" +
-
-    "</div>" +
-
-
-    "<div class='vocab-actions'>" +
-
-    "<button type='button' class='listen'>" +
-
-    "🔊 听"
-
-    +
-
-    "</button>" +
-
-    "<button type='button' class='recall'>" +
-
-    "🧠 回忆"
-
-    +
-
-    "</button>" +
-
-    "<button type='button' class='spell'>" +
-
-    "✍ 拼写"
-
-    +
-
-    "</button>" +
-
-    "</div>" +
-
-
-    "<span class='vocab-status'>" +
-
-    vocabularyStatus(
-      memory.status
-    ) +
-
-    "</span>";
-
-
-  card
-    .querySelector(
-      ".listen"
-    )
-    .onclick =
-    function() {
-
-      speakText(
-        item.word
-      );
-
-    };
-
-
-  card
-    .querySelector(
-      ".recall"
-    )
-    .onclick =
-    function() {
-
-      startSingleVocabularyReview(
-        item,
-        "meaning"
-      );
-
-    };
-
-
-  card
-    .querySelector(
-      ".spell"
-    )
-    .onclick =
-    function() {
-
-      startSingleVocabularyReview(
-        item,
-        "spelling"
-      );
-
-    };
-
-
-  return card;
-
-}
-
-
-function vocabularyStatus(
-  status
-) {
-
-  if (
-    status ===
-    "mastered"
-  ) {
-
-    return "已掌握";
-
-  }
-
-
-  if (
-    status ===
-    "learning"
-  ) {
-
-    return "学习中";
-
-  }
-
-
-  return "新单字";
-
-}
-
-
-/* =========================================================
-   VOCAB DATABASE
-========================================================= */
-
-function renderVocabularyDatabase() {
-
-  const box =
-    $("vocabAllList");
-
-
-  if (
-    !box
-  ) {
-
-    return;
-
-  }
-
-
-  const input =
-    $("vocabSearch");
-
-
-  const query =
-    input
-      ? input.value
-          .trim()
-          .toLowerCase()
-      : "";
-
-
-  const list =
-    VOCABULARY.filter(
-      function(item) {
-
-        const text =
-
-          (
-            item.word +
-            " " +
-            item.gloss +
-            " " +
-            item.lesson
-          )
-            .toLowerCase();
-
-
-        return (
-          !query ||
-          text.includes(
-            query
-          )
-        );
-
-      }
-    );
-
-
-  box.innerHTML =
-    "";
-
-
-  if (
-    !list.length
-  ) {
-
-    box.innerHTML =
-      "<div class='muted'>" +
-      "没有找到匹配词汇。" +
-      "</div>";
-
-    return;
-
-  }
-
-
-  list.forEach(
-    function(item) {
-
-      const stateItem =
-        getWordState(
-          item.word
-        );
-
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "vocab-database-row";
-
-
-      row.innerHTML =
-
-        "<div class='vocab-db-greek'>" +
-
-        escapeHtml(
-          item.word
-        ) +
-
-        "</div>" +
-
-        "<div>" +
-
-        escapeHtml(
-          item.gloss
-        ) +
-
-        "</div>" +
-
-        "<div class='vocab-db-meta'>" +
-
-        "Lesson " +
-
-        item.lesson +
-
-        " · " +
-
-        vocabularyStatus(
-          stateItem.status
-        ) +
-
-        "</div>" +
-
-        "<div class='vocab-db-frequency'>" +
-
-        "NT frequency: " +
-
-        (
-          item.frequency ===
-          null
-            ? "—"
-            : item.frequency
-        ) +
-
-        "</div>";
-
-
-      row.onclick =
-        function() {
-
-          startSingleVocabularyReview(
-            item,
-            "meaning"
-          );
-
-        };
-
-
-      box.appendChild(
-        row
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   VOCAB REVIEW
-========================================================= */
-
-function startSingleVocabularyReview(
-  item,
-  mode
-) {
-
-  reviewQueue =
-    [item];
-
-
-  reviewIndex =
-    0;
-
-
-  vocabTrainingMode =
-    mode ||
-    "meaning";
-
-
-  go(
-    "vocabReview"
-  );
-
-
-  renderVocabularyReview();
-
-}
-
-
-function startVocabularyReview() {
-
-  const due =
-    getDueVocabulary();
-
-
-  if (
-    !due.length
-  ) {
-
-    alert(
-      "今天暂时没有到期复习的单字。"
-    );
-
-    return;
-
-  }
-
-
-  reviewQueue =
-    due;
-
-
-  reviewIndex =
-    0;
-
-
-  vocabTrainingMode =
-    "meaning";
-
-
-  go(
-    "vocabReview"
-  );
-
-
-  renderVocabularyReview();
-
-}
-
-
-function renderVocabularyReview() {
-
-  const box =
-    $("vocabReviewArea");
-
-
-  const counter =
-    $("reviewCounter");
-
-
-  if (
-    !box
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    reviewIndex >=
-    reviewQueue.length
-  ) {
-
-    counter.textContent =
-      "本轮训练完成";
-
-
-    box.innerHTML =
-
-      "<div class='success'>" +
-
-      "<strong>🎉 单字训练完成</strong>" +
-
-      "<br><br>" +
-
-      "继续保持规律复习。"
-
-      +
-
-      "</div>";
-
-
-    renderVocabularySummary();
-
-
-    return;
-
-  }
-
-
-  const item =
-    reviewQueue[
-      reviewIndex
-    ];
-
-
-  counter.textContent =
-
-    "第 " +
-
-    (
-      reviewIndex +
-      1
-    ) +
-
-    " / " +
-
-    reviewQueue.length;
-
-
-  box.innerHTML =
-    "";
-
-
-  const section =
-    document.createElement(
-      "div"
-    );
-
-
-  section.className =
-    "vocab-memory-test";
-
-
-  const progress =
-    document.createElement(
-      "div"
-    );
-
-
-  progress.className =
-    "vocab-progress";
-
-
-  const progressFill =
-    document.createElement(
-      "div"
-    );
-
-
-  progressFill.className =
-    "vocab-progress-fill";
-
-
-  progressFill.style.width =
-
-    (
-      (
-        reviewIndex
-        /
-        reviewQueue.length
-      ) *
-      100
-    ) +
-
-    "%";
-
-
-  progress.appendChild(
-    progressFill
-  );
-
-
-  section.appendChild(
-    progress
-  );
-
-
-  if (
-    vocabTrainingMode ===
-    "meaning"
-  ) {
-
-    renderMeaningTraining(
-      section,
-      item
-    );
-
-  }
-
-  else if (
-    vocabTrainingMode ===
-    "spelling"
-  ) {
-
-    renderSpellingTraining(
-      section,
-      item
-    );
-
-  }
-
-  else {
-
-    renderMeaningTraining(
-      section,
-      item
-    );
-
-  }
-
-
-  box.appendChild(
-    section
-  );
-
-}
-
-
-function renderMeaningTraining(
-  section,
-  item
-) {
-
-  section.innerHTML +=
-
-    "<div class='eyebrow'>" +
-
-    "MEANING RECALL"
-
-    +
-
-    "</div>" +
-
-    "<div class='vocab-memory-word greek'>" +
-
-    escapeHtml(
-      item.word
-    ) +
-
-    "</div>" +
-
-    "<div class='vocab-actions'>" +
-
-    "<button type='button' id='hearCurrent'>🔊 听</button>" +
-
-    "</div>" +
-
-    "<p class='muted' style='text-align:center'>" +
-
-    "请选择这个词最接近的基本意思。"
-
-    +
-
-    "</p>" +
-
-    "<div id='meaningOptions' class='vocab-memory-options'></div>";
-
-  $("hearCurrent").onclick =
-    function() {
-
-      speakText(
-        item.word
-      );
-
-    };
-
-
-  const grid =
-    $("meaningOptions");
-
-
-  getVocabularyOptions(
-    item
-  )
-    .forEach(
-      function(option) {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-
-        button.type =
-          "button";
-
-
-        button.textContent =
-          option;
-
-
-        button.onclick =
-          function() {
-
-            grid
-              .querySelectorAll(
-                "button"
-              )
-              .forEach(
-                function(
-                  b
-                ) {
-
-                  b.disabled =
-                    true;
-
-                }
-              );
-
-
-            const correct =
-              normalizeText(
-                option
-              ) ===
-              normalizeText(
-                item.gloss
-              );
-
-
-            markTrainingResult(
-              button,
-              correct
-            );
-
-
-            updateVocabularyMemory(
-              item,
-              "recall",
-              correct
-            );
-
-
-            showNextTrainingButton(
-              section,
-              item,
-              correct
-            );
-
-          };
-
-
-        grid.appendChild(
-          button
-        );
-
-      }
-    );
-
-}
-
-
-function renderSpellingTraining(
-  section,
-  item
-) {
-
-  section.innerHTML +=
-
-    "<div class='eyebrow'>" +
-
-    "SPELLING RECALL"
-
-    +
-
-    "</div>" +
-
-    "<p class='muted'>" +
-
-    "听一次以后，尝试自己输入希腊文。"
-
-    +
-
-    "</p>" +
-
-    "<button type='button' id='hearCurrent'>🔊 听发音</button>" +
-
-    "<input id='spellingInput' class='vocab-input' type='text' placeholder='请输入希腊文……'>" +
-
-    "<button type='button' id='checkSpelling' class='primary wide'>检查拼写</button>";
-
-
-  $("hearCurrent").onclick =
-    function() {
-
-      speakText(
-        item.word
-      );
-
-    };
-
-
-  $("checkSpelling").onclick =
-    function() {
-
-      const input =
-        $("spellingInput");
-
-
-      const answer =
-        input.value.trim();
-
-
-      if (
-        !answer
-      ) {
-
-        alert(
-          "请先输入希腊文。"
-        );
-
-        return;
-
-      }
-
-
-      const correct =
-        normalizeGreek(
-          answer
-        ) ===
-        normalizeGreek(
-          item.word
-        );
-
-
-      updateVocabularyMemory(
-        item,
-        "spelling",
-        correct
-      );
-
-
-      $("checkSpelling")
-        .disabled =
-        true;
-
-
-      input.disabled =
-        true;
-
-
-      const result =
-        document.createElement(
-          "div"
-        );
-
-
-      result.className =
-        correct
-          ? "success vocab-review-result"
-          : "vocab-review-result vocab-answer";
-
-
-      result.innerHTML =
-
-        correct
-
-          ? "✓ 拼写正确。"
-
-          : (
-
-            "✗ 再观察一次。" +
-
-            "<br><br>" +
-
-            "正确形式：" +
-
-            "<span class='greek'>" +
-
-            escapeHtml(
-              item.word
-            ) +
-
-            "</span>"
-
-          );
-
-
-      section.appendChild(
-        result
-      );
-
-
-      showNextTrainingButton(
-        section,
-        item,
-        correct
-      );
-
-    };
-
-}
-
-
-function markTrainingResult(
-  button,
-  correct
-) {
-
-  if (
-    correct
-  ) {
-
-    button.classList.add(
-      "vocab-correct"
-    );
-
-  }
-
-  else {
-
-    button.classList.add(
-      "vocab-wrong"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   NEXT TRAINING
-========================================================= */
-
-function showNextTrainingButton(
-  section,
-  item,
-  correct
-) {
-
-  const button =
-    document.createElement(
-      "button"
-    );
-
-
-  button.className =
-    "primary wide";
-
-
-  button.textContent =
-    "下一词 →";
-
-
-  button.onclick =
-    function() {
-
-      reviewIndex++;
-
-
-      if (
-        reviewIndex >=
-        reviewQueue.length
-      ) {
-
-        renderVocabularyReview();
-
-      }
-
-      else {
-
-        renderVocabularyReview();
-
-      }
-
-    };
-
-
-  section.appendChild(
-    button
-  );
-
-}
-
-
-/* =========================================================
-   VOCABULARY OPTIONS
-========================================================= */
-
-function getVocabularyOptions(
-  correct
-) {
-
-  const pool =
-    VOCABULARY
-      .filter(
-        function(item) {
-
-          return (
-            item.word !==
-            correct.word &&
-            item.gloss
-          );
-
-        }
-      )
-      .slice()
-      .sort(
-        function() {
-
-          return Math.random() -
-            0.5;
-
-        }
-      );
-
-
-  const options = [
-
-    correct.gloss,
-
-    pool[0]
-      ? pool[0].gloss
-      : "生命",
-
-    pool[1]
-      ? pool[1].gloss
-      : "世界",
-
-    pool[2]
-      ? pool[2].gloss
-      : "光"
-
-  ];
-
-
-  return options.sort(
-    function() {
-
-      return Math.random() -
-        0.5;
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   MEMORY ALGORITHM
-========================================================= */
-
-function updateVocabularyMemory(
-  item,
-  mode,
-  correct
-) {
-
-  const memory =
-    getWordState(
-      item.word
-    );
-
-
-  memory.lastSeen =
-    new Date()
-      .toISOString();
-
-
-  if (
-    mode ===
-    "recall"
-  ) {
-
-    if (
-      correct
-    ) {
-
-      memory.recallCorrect++;
-
-    }
-
-  }
-
-
-  if (
-    mode ===
-    "spelling"
-  ) {
-
-    if (
-      correct
-    ) {
-
-      memory.spellingCorrect++;
-
-    }
-
-  }
-
-
-  if (
-    correct
-  ) {
-
-    memory.correct++;
-
-  }
-
-  else {
-
-    memory.wrong++;
-
-  }
-
-
-  const masteryScore =
-
-    memory.recallCorrect +
-
-    memory.spellingCorrect;
-
-
-  if (
-    masteryScore >=
-    5
-  ) {
-
-    memory.status =
-      "mastered";
-
-
-    memory.nextReview =
-      addDays(
-        30
-      );
-
-  }
-
-  else if (
-    masteryScore >=
-    4
-  ) {
-
-    memory.status =
-      "learning";
-
-
-    memory.nextReview =
-      addDays(
-        14
-      );
-
-  }
-
-  else if (
-    masteryScore >=
-    3
-  ) {
-
-    memory.status =
-      "learning";
-
-
-    memory.nextReview =
-      addDays(
-        7
-      );
-
-  }
-
-  else if (
-    masteryScore >=
-    2
-  ) {
-
-    memory.status =
-      "learning";
-
-
-    memory.nextReview =
-      addDays(
-        3
-      );
-
-  }
-
-  else {
-
-    memory.status =
-      "learning";
-
-
-    memory.nextReview =
-      addDays(
-        1
-      );
-
-  }
-
-
-  if (
-    !correct
-  ) {
-
-    memory.status =
-      "learning";
-
-
-    memory.nextReview =
-      addDays(
-        1
-      );
-
-  }
-
-
-  saveState();
-
-
-  renderVocabularySummary();
-
-}
-
-
-function addDays(
-  days
-) {
-
-  const date =
-    new Date();
-
-
-  date.setDate(
-    date.getDate() +
-    days
-  );
-
-
-  return date
-    .toISOString()
-    .slice(
-      0,
-      10
-    );
-
-}
-
-
-/* =========================================================
-   DUE
-========================================================= */
-
-function getDueVocabulary() {
-
-  const today =
-    new Date()
-      .toISOString()
-      .slice(
-        0,
-        10
-      );
-
-
-  return VOCABULARY.filter(
-    function(item) {
-
-      const memory =
-        getWordState(
-          item.word
-        );
-
-
-      return (
-
-        memory.nextReview &&
-
-        memory.nextReview <=
-          today
-
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   VOCAB SUMMARY
-========================================================= */
-
-function renderVocabularySummary() {
-
-  const unique = [];
-
-
-  const seen =
-    {};
-
-
-  VOCABULARY.forEach(
-    function(item) {
-
-      if (
-        !seen[item.word]
-      ) {
-
-        seen[item.word] =
-          true;
-
-        unique.push(
-          item
-        );
-
-      }
-
-    }
-  );
-
-
-  let learning =
-    0;
-
-
-  let mastered =
-    0;
-
-
-  unique.forEach(
-    function(item) {
-
-      const memory =
-        getWordState(
-          item.word
-        );
-
-
-      if (
-        memory.status ===
-        "learning"
-      ) {
-
-        learning++;
-
-      }
-
-
-      if (
-        memory.status ===
-        "mastered"
-      ) {
-
-        mastered++;
-
-      }
-
-    }
-  );
-
-
-  const due =
-    getDueVocabulary()
-      .length;
-
-
-  if (
-    $("vocabTotal")
-  ) {
-
-    $("vocabTotal")
-      .textContent =
-      unique.length;
-
-  }
-
-
-  if (
-    $("vocabLearning")
-  ) {
-
-    $("vocabLearning")
-      .textContent =
-      learning;
-
-  }
-
-
-  if (
-    $("vocabMastered")
-  ) {
-
-    $("vocabMastered")
-      .textContent =
-      mastered;
-
-  }
-
-
-  if (
-    $("vocabDue")
-  ) {
-
-    $("vocabDue")
-      .textContent =
-      due;
-
-  }
-
-}
-
-
-/* =========================================================
-   NORMALIZE
-========================================================= */
-
-function normalizeText(
-  value
-) {
-
-  return String(
-    value ?? ""
-  )
-    .trim()
-    .replace(
-      /\s+/g,
-      " "
-    );
-
-}
-
-
-function normalizeGreek(
-  value
-) {
-
-  return String(
-    value ?? ""
-  )
-    .trim()
-    .normalize(
-      "NFD"
-    )
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
-    )
-    .replace(
-      /ς/g,
-      "σ"
-    );
-
-}
-
-
-/* =========================================================
-   COURSE TEST
-========================================================= */
-
-function renderTest() {
-
-  const lesson =
-    LESSONS[
-      currentLessonIndex
-    ];
-
-
-  const box =
-    $("lessonContent");
-
-
-  box.innerHTML =
-    "";
-
-
-  const section =
-    document.createElement(
-      "div"
-    );
-
-
-  section.className =
-    "lesson-section";
-
-
-  section.innerHTML =
-
-    "<h3>课程测试</h3>" +
-
-    "<p class='muted'>" +
-
-    "完成全部问题后才能结束本课。"
-
-    +
-
-    "</p>";
-
-
-  const questions =
-    getTestQuestions(
-      lesson.n
-    );
-
-
-  testScore =
-    0;
-
-
-  testAnswered =
-    0;
-
-
-  const score =
-    document.createElement(
-      "div"
-    );
-
-
-  score.className =
-    "exercise-score";
-
-
-  score.id =
-    "liveTestScore";
-
-
-  score.textContent =
-    "0 / " +
-    questions.length;
-
-
-  section.appendChild(
-    score
-  );
-
-
-  questions.forEach(
-    function(
-      q,
-      qi
-    ) {
-
-      const block =
-        document.createElement(
-          "div"
-        );
-
-
-      block.style.marginTop =
-        "17px";
-
-
-      const title =
-        document.createElement(
-          "strong"
-        );
-
-
-      title.textContent =
-
-        (
-          qi +
-          1
-        ) +
-
-        ". " +
-
-        q[0];
-
-
-      block.appendChild(
-        title
-      );
-
-
-      const grid =
-        document.createElement(
-          "div"
-        );
-
-
-      grid.className =
-        "choice-grid";
-
-
-      q[1].forEach(
-        function(
-          option,
-          oi
-        ) {
-
-          const button =
-            document.createElement(
-              "button"
-            );
-
-
-          button.type =
-            "button";
-
-
-          button.textContent =
-            option;
-
-
-          button.onclick =
-            function() {
-
-              grid
-                .querySelectorAll(
-                  "button"
-                )
-                .forEach(
-                  function(
-                    b
-                  ) {
-
-                    b.disabled =
-                      true;
-
-                  }
-                );
-
-
-              testAnswered++;
-
-
-              if (
-                oi ===
-                q[2]
-              ) {
-
-                testScore++;
-
-
-                button.classList.add(
-                  "choice-correct"
-                );
-
-              }
-
-              else {
-
-                button.classList.add(
-                  "choice-wrong"
-                );
-
-              }
-
-
-              score.textContent =
-
-                testScore +
-
-                " / " +
-
-                questions.length;
-
-            };
-
-
-          grid.appendChild(
-            button
-          );
-
-        }
-      );
-
-
-      block.appendChild(
-        grid
-      );
-
-
-      section.appendChild(
-        block
-      );
-
-    }
-  );
-
-
-  const finish =
-    document.createElement(
-      "button"
-    );
-
-
-  finish.className =
-    "primary wide";
-
-
-  finish.textContent =
-    "完成本课";
-
-
-  finish.onclick =
-    function() {
-
-      if (
-        testAnswered <
-        questions.length
-      ) {
-
-        alert(
-          "请先完成全部测试题。"
-        );
-
-        return;
-
-      }
-
-
-      completeLesson(
-        testScore,
-        questions.length
-      );
-
-    };
-
-
-  section.appendChild(
-    finish
-  );
-
-
-  box.appendChild(
-    section
-  );
-
-
-  $("lessonNextBtn")
-    .textContent =
-    "重新测试";
-
-
-  $("lessonNextBtn")
-    .onclick =
-    renderTest;
-
-}
-
-
-/* =========================================================
-   TEST QUESTIONS
-========================================================= */
-
-function getTestQuestions(
-  n
-) {
-
-  const tests = {
-
-    1: [
-      [
-        "学习新约希腊文的主要目的是什么？",
-        [
-          "进入新约原文",
-          "只为考试",
-          "只背中文"
-        ],
-        0
-      ]
-    ],
-
-    2: [
-      [
-        "多感官学习包括什么？",
-        [
-          "看、读、听、写",
-          "只看中文",
-          "只背答案"
-        ],
-        0
-      ]
-    ],
-
-    3: [
-      [
-        "希腊文有多少个字母？",
-        [
-          "24",
-          "26",
-          "20"
-        ],
-        0
-      ]
-    ],
-
-    4: [
-      [
-        "希腊文的问号是什么？",
-        [
-          ";",
-          "?",
-          ":"
-        ],
-        0
-      ]
-    ],
-
-    5: [
-      [
-        "名词的核心观察维度是什么？",
-        [
-          "性、数、格",
-          "时态、语态、语气",
-          "人称、时间、观点"
-        ],
-        0
-      ]
-    ],
-
-    6: [
-      [
-        "τὸν θεόν 是什么格？",
-        [
-          "受格",
-          "主格",
-          "所有格"
-        ],
-        0
-      ]
-    ],
-
-    7: [
-      [
-        "τοῦ θεοῦ 是什么格？",
-        [
-          "所有格",
-          "主格",
-          "受格"
-        ],
-        0
-      ]
-    ],
-
-    8: [
-      [
-        "εἰμί 的基本意义是什么？",
-        [
-          "to be",
-          "to see",
-          "to hear"
-        ],
-        0
-      ]
-    ],
-
-    9: [
-      [
-        "形容词通常与名词在哪些方面一致？",
-        [
-          "性、数、格",
-          "时态、语态、语气",
-          "人称、时间、观点"
-        ],
-        0
-      ]
-    ],
-
-    10: [
-      [
-        "第三格变式特别需要注意什么？",
-        [
-          "词干与字尾",
-          "中文翻译",
-          "章节号码"
-        ],
-        0
-      ]
-    ],
-
-    11: [
-      [
-        "ἐγώ 表示什么？",
-        [
-          "I",
-          "you",
-          "we"
-        ],
-        0
-      ]
-    ],
-
-    12: [
-      [
-        "αὐτόν 常表示什么？",
-        [
-          "him",
-          "his",
-          "they"
-        ],
-        0
-      ]
-    ],
-
-    13: [
-      [
-        "οὗτος 通常表示什么？",
-        [
-          "this",
-          "who",
-          "because"
-        ],
-        0
-      ]
-    ],
-
-    14: [
-      [
-        "关系代名词的格由什么决定？",
-        [
-          "它在关系子句中的功能",
-          "中文翻译",
-          "章节号码"
-        ],
-        0
-      ]
-    ],
-
-    15: [
-      [
-        "动词需要观察什么？",
-        [
-          "时态、语态、语气、人称、数",
-          "只有时间",
-          "只有中文"
-        ],
-        0
-      ]
-    ],
-
-    16: [
-      [
-        "λύομεν 是什么？",
-        [
-          "第一人称复数",
-          "第二人称单数",
-          "第三人称复数"
-        ],
-        0
-      ]
-    ],
-
-    17: [
-      [
-        "ἀγαπῶ 属于什么？",
-        [
-          "缩略形式",
-          "未来被动",
-          "不定过去式"
-        ],
-        0
-      ]
-    ],
-
-    18: [
-      [
-        "关身/被动意义怎样判断？",
-        [
-          "结合上下文",
-          "只看中文",
-          "只看长度"
-        ],
-        0
-      ]
-    ],
-
-    19: [
-      [
-        "规则未来式常见什么标记？",
-        [
-          "σ",
-          "θ",
-          "μ"
-        ],
-        0
-      ]
-    ],
-
-    20: [
-      [
-        "为什么要学习动词词干？",
-        [
-          "不同形式可能使用不同字干",
-          "动词没有人称",
-          "动词取代冠词"
-        ],
-        0
-      ]
-    ],
-
-    21: [
-      [
-        "未完成式通常表达什么？",
-        [
-          "过去中的持续/进行观点",
-          "未来命令",
-          "只有身份"
-        ],
-        0
-      ]
-    ],
-
-    22: [
-      [
-        "第二不定过去式的重要特征是什么？",
-        [
-          "第二词干",
-          "未来σ",
-          "冠词"
-        ],
-        0
-      ]
-    ],
-
-    23: [
-      [
-        "第一不定过去式常见什么标记？",
-        [
-          "σα",
-          "θη",
-          "μαι"
-        ],
-        0
-      ]
-    ],
-
-    24: [
-      [
-        "不定过去式被动常见什么标记？",
-        [
-          "θη",
-          "σ",
-          "ομαι"
-        ],
-        0
-      ]
-    ],
-
-    25: [
-      [
-        "完成式常见什么特征？",
-        [
-          "重复号",
-          "未来σ",
-          "冠词"
-        ],
-        0
-      ]
-    ]
-
-  };
-
-
-  return (
-    tests[n] ||
-    [
-      [
-        "本课是否完成？",
-        [
-          "是",
-          "否"
-        ],
-        0
-      ]
-    ]
-  );
-
-}
-
-
-/* =========================================================
-   COMPLETE LESSON
-========================================================= */
-
-function completeLesson(
-  score,
-  total
-) {
-
-  const lesson =
-    LESSONS[
-      currentLessonIndex
-    ];
-
-
-  const st =
-    getLessonState(
-      currentLessonIndex
-    );
-
-
-  st.completed =
-    true;
-
-
-  st.score =
-    Math.round(
-      score /
-      total *
-      100
-    );
-
-
-  st.completedAt =
-    new Date()
-      .toISOString();
-
-
-  saveState();
-
-
-  renderHome();
-
-  renderCourseReview();
-
-  renderVocabularySummary();
-
-
-  $("lessonContent")
-    .innerHTML =
-
-    "<div class='lesson-section'>" +
-
-    "<div class='success'>" +
-
-    "<strong>✓ " +
-
-    escapeHtml(
-      lesson.title
-    ) +
-
-    "</strong>" +
-
-    "<br><br>" +
-
-    "课程成绩：" +
-
-    st.score +
-
-    "%" +
-
-    "<br><br>" +
-
-    (
-      st.score >=
-      80
-
-        ? "基础掌握良好，可以继续下一课。"
-
-        : "建议复习后再次测试。"
-
-    ) +
-
-    "</div>" +
-
-    "</div>";
-
-
-  const next =
-    $("lessonNextBtn");
-
-
-  if (
-    currentLessonIndex <
-    LESSONS.length - 1
-  ) {
-
-    next.textContent =
-      "下一课 →";
-
-
-    next.onclick =
-      function() {
-
-        openLesson(
-          currentLessonIndex +
-          1
-        );
-
-      };
-
-  }
-
-  else {
-
-    next.textContent =
-      "返回课程目录";
-
-
-    next.onclick =
-      function() {
-
-        go("home");
-
-      };
-
-  }
-
-}
-
-
-/* =========================================================
-   STEP NAVIGATION
-========================================================= */
-
-function nextStep() {
-
-  const lesson =
-    LESSONS[
-      currentLessonIndex
-    ];
-
-
-  if (
-    currentStep <
-    lesson.sections.length
-  ) {
-
-    currentStep++;
-
-    renderLessonStep();
-
-    renderLessonVocabulary();
-
-  }
-
-}
-
-
-function previousLesson() {
-
-  if (
-    currentLessonIndex >
-    0
-  ) {
-
-    openLesson(
-      currentLessonIndex -
-      1
-    );
-
-  }
-
-  else {
-
-    go("home");
-
-  }
-
-}
-
-
-/* =========================================================
-   COURSE REVIEW
-========================================================= */
-
-function renderCourseReview() {
-
-  const box =
-    $("reviewList");
-
-
-  if (
-    !box
-  ) {
-
-    return;
-
-  }
-
-
-  box.innerHTML =
-    "";
-
-
-  let found =
-    false;
-
-
-  LESSONS.forEach(
-    function(
-      lesson,
-      index
-    ) {
-
-      const st =
-        getLessonState(
-          index
-        );
-
-
-      if (
-        !st.completed
-      ) {
-
-        return;
-
-      }
-
-
-      found =
-        true;
-
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "review-row";
-
-
-      row.innerHTML =
-
-        "<div>" +
-
-        "<strong>" +
-
-        "L" +
-
-        String(
-          lesson.n
-        ).padStart(
-          2,
-          "0"
-        ) +
-
-        " · " +
-
-        escapeHtml(
-          lesson.title
-        ) +
-
-        "</strong>" +
-
-        "<div class='muted'>" +
-
-        (
-          st.completedAt
-            ? st.completedAt
-                .slice(
-                  0,
-                  10
-                )
-            : ""
-        ) +
-
-        "</div>" +
-
-        "</div>" +
-
-        "<small>" +
-
-        st.score +
-
-        "%"
-
-        +
-
-        "</small>";
-
-
-      row.onclick =
-        function() {
-
-          openLesson(
-            index
-          );
-
-        };
-
-
-      box.appendChild(
-        row
-      );
-
-    }
-  );
-
-
-  if (
-    !found
-  ) {
-
-    box.innerHTML =
-
-      "<div class='muted'>" +
-
-      "还没有完成任何课程。"
-
-      +
-
-      "</div>";
-
-  }
 
 }
 
@@ -5155,37 +5711,10 @@ window.startVocabularyReview =
 window.startSingleVocabularyReview =
   startSingleVocabularyReview;
 
-
-/* =========================================================
-   EXTRA CONSTANTS
-========================================================= */
-
-const VOWELS = [
-
-  ["α","a"],
-  ["ε","e"],
-  ["η","ē"],
-  ["ι","i"],
-  ["ο","o"],
-  ["υ","u"],
-  ["ω","ō"]
-
-];
-
-
-const DIPHTHONGS = [
-
-  ["αι","ai"],
-  ["ει","ei"],
-  ["οι","oi"],
-  ["ου","ou"],
-  ["αυ","au"],
-  ["ευ","eu"],
-  ["υι","ui"]
-
-];
+window.startMorphologyTraining =
+  startMorphologyTraining;
 
 
 /* =========================================================
-   END GBRM V1.3
+   END GBRM V1.4
 ========================================================= */
