@@ -12,6 +12,9 @@
   --paper:
     #fffdf8;
 
+  --white:
+    #ffffff;
+
   --ink:
     #29332d;
 
@@ -27,14 +30,11 @@
   --gold:
     #9a7740;
 
-  --gold-soft:
-    #f3ead8;
+  --line:
+    #e4ded2;
 
   --danger:
     #965f55;
-
-  --line:
-    #e4ded2;
 
 }
 
@@ -81,7 +81,7 @@ button {
     10px;
 
   background:
-    white;
+    var(--white);
 
   color:
     var(--ink);
@@ -117,7 +117,7 @@ button:active {
 button:disabled {
 
   opacity:
-    .6;
+    .55;
 
   cursor:
     default;
@@ -366,7 +366,7 @@ button:disabled {
     8px;
 
   margin-top:
-    15px;
+    16px;
 
 }
 
@@ -447,6 +447,10 @@ button:disabled {
 }
 
 
+/* =========================================================
+VOCAB SUMMARY
+========================================================= */
+
 .vocab-summary {
 
   display:
@@ -467,7 +471,7 @@ button:disabled {
 .vocab-summary div {
 
   padding:
-    11px 5px;
+    12px 6px;
 
   text-align:
     center;
@@ -490,7 +494,7 @@ button:disabled {
     block;
 
   font-size:
-    20px;
+    21px;
 
 }
 
@@ -505,6 +509,10 @@ button:disabled {
 
 }
 
+
+/* =========================================================
+LESSONS
+========================================================= */
 
 .lesson-list {
 
@@ -523,7 +531,7 @@ button:disabled {
 .mini-label {
 
   margin:
-    10px 0 4px;
+    11px 0 3px;
 
   color:
     var(--muted);
@@ -535,7 +543,7 @@ button:disabled {
     800;
 
   letter-spacing:
-    .1em;
+    .12em;
 
 }
 
@@ -546,7 +554,7 @@ button:disabled {
     grid;
 
   grid-template-columns:
-    55px 1fr 30px;
+    56px 1fr 28px;
 
   align-items:
     center;
@@ -564,7 +572,7 @@ button:disabled {
     left;
 
   background:
-    white;
+    var(--white);
 
   border:
     1px solid var(--line);
@@ -613,6 +621,9 @@ button:disabled {
   display:
     block;
 
+  margin-top:
+    1px;
+
   color:
     var(--muted);
 
@@ -635,6 +646,10 @@ button:disabled {
 
 }
 
+
+/* =========================================================
+HEADER
+========================================================= */
 
 .screen-head {
 
@@ -693,6 +708,10 @@ button:disabled {
 }
 
 
+/* =========================================================
+LESSON
+========================================================= */
+
 .lesson-section {
 
   margin:
@@ -702,7 +721,7 @@ button:disabled {
     18px;
 
   background:
-    white;
+    var(--white);
 
   border:
     1px solid var(--line);
@@ -759,7 +778,7 @@ button:disabled {
     serif;
 
   font-size:
-    39px;
+    38px;
 
   line-height:
     1.4;
@@ -845,6 +864,17 @@ button:disabled {
 }
 
 
+.speak-btn {
+
+  padding:
+    6px 9px;
+
+  font-size:
+    12px;
+
+}
+
+
 .bible-box {
 
   margin:
@@ -920,6 +950,10 @@ button:disabled {
 }
 
 
+/* =========================================================
+TEST
+========================================================= */
+
 .choice-grid {
 
   display:
@@ -990,22 +1024,9 @@ button:disabled {
 }
 
 
-.success {
-
-  padding:
-    14px;
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  border-radius:
-    11px;
-
-}
-
+/* =========================================================
+VOCABULARY
+========================================================= */
 
 .vocabulary-panel {
 
@@ -1024,7 +1045,7 @@ button:disabled {
     15px;
 
   background:
-    white;
+    var(--white);
 
   border:
     1px solid var(--line);
@@ -1057,12 +1078,15 @@ button:disabled {
     serif;
 
   font-size:
-    30px;
+    31px;
 
 }
 
 
 .vocab-gloss {
+
+  margin-top:
+    2px;
 
   font-size:
     13px;
@@ -1095,11 +1119,11 @@ button:disabled {
   padding:
     4px 8px;
 
-  color:
-    var(--accent);
-
   background:
     var(--accent-soft);
+
+  color:
+    var(--accent);
 
   border-radius:
     8px;
@@ -1138,6 +1162,23 @@ button:disabled {
 }
 
 
+.vocab-memory-test {
+
+  margin-top:
+    15px;
+
+  padding:
+    15px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    13px;
+
+}
+
+
 .vocab-memory-word {
 
   margin:
@@ -1148,6 +1189,7 @@ button:disabled {
 
   font-family:
     Georgia,
+    "Times New Roman",
     serif;
 
   font-size:
@@ -1167,6 +1209,9 @@ button:disabled {
   gap:
     8px;
 
+  margin-top:
+    12px;
+
 }
 
 
@@ -1177,6 +1222,32 @@ button:disabled {
 
 }
 
+
+.vocab-correct {
+
+  background:
+    var(--accent-soft) !important;
+
+  border-color:
+    var(--accent) !important;
+
+}
+
+
+.vocab-wrong {
+
+  background:
+    #f6e8e5 !important;
+
+  border-color:
+    var(--danger) !important;
+
+}
+
+
+/* =========================================================
+NAV
+========================================================= */
 
 .lesson-nav {
 
@@ -1199,50 +1270,6 @@ button:disabled {
 
   width:
     100%;
-
-}
-
-
-.review-row {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-
-  padding:
-    13px 0;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.review-row:first-child {
-
-  border-top:
-    0;
-
-}
-
-
-.hidden {
-
-  display:
-    none !important;
-
-}
-
-
-.muted {
-
-  color:
-    var(--muted);
 
 }
 
@@ -1275,10 +1302,93 @@ button:disabled {
 .secondary {
 
   background:
-    white;
+    var(--white);
 
 }
 
+
+/* =========================================================
+REVIEW
+========================================================= */
+
+.review-row {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+  gap:
+    15px;
+
+  padding:
+    14px 0;
+
+  border-top:
+    1px solid var(--line);
+
+  cursor:
+    pointer;
+
+}
+
+
+.review-row:first-child {
+
+  border-top:
+    0;
+
+}
+
+
+.review-row small {
+
+  color:
+    var(--muted);
+
+}
+
+
+.hidden {
+
+  display:
+    none !important;
+
+}
+
+
+.muted {
+
+  color:
+    var(--muted);
+
+}
+
+
+.success {
+
+  padding:
+    14px;
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+  border-radius:
+    11px;
+
+}
+
+
+/* =========================================================
+FOOTER
+========================================================= */
 
 footer {
 
@@ -1296,6 +1406,10 @@ footer {
 
 }
 
+
+/* =========================================================
+MOBILE
+========================================================= */
 
 @media (
   max-width: 700px
