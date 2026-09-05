@@ -1,5 +1,5 @@
 /* =========================================================
-   GBRM V2.4.1
+   GBRM V2.5.1
    教材真实内容引擎
 
    冻结基础架构保留：
@@ -2396,6 +2396,29 @@ function startLessonVocabularyReview(lessonNumber){
   vocabularyReviewIndex=0;state.currentVocabularyLesson=lessonNumber;saveState();go('vocabReview');renderVocabularyReview();
 }
 
+
+/* =========================================================
+   原文训练内容（GBRM V2.5 校准版）
+========================================================= */
+const CORPUS_TRAINING = {
+  6:{translation:'太初有道，道与神同在。',task:'先找主词和直接受词，再尝试把整句译成中文。',hint:'先看冠词和词尾：ὁ λόγος 是主格，τὸν θεόν 是受格。',explain:'ὁ λόγος 是主格单数，作主词；τὸν θεόν 是受格单数。这里的字序不能按英文一一对应。',analysis:'ὁ λόγος：主格单数，作主词。ἦν：εἰμί 的未完成式主动直说第三人称单数。πρὸς τὸν θεόν：介词短语，其中 τὸν θεόν 为受格。',mode:'sentence'},
+  7:{translation:'神的道。',task:'先找所有格，再把这个短语译成自然中文。',hint:'想到所有格的关键词“的”。',explain:'τοῦ θεοῦ 是 θεός 的所有格单数，修饰 λόγος。',analysis:'ὁ λόγος：中心名词；τοῦ θεοῦ：所有格短语，表示“神的”。本课不展开尚未学习的未来式 σώσει。',mode:'phrase'},
+  8:{translation:'在屋子里。',task:'先把介词和受词看成一个整体，再翻译。',hint:'先找介词 ἐν，再看它后面的词。',explain:'ἐν 与它所带的词组成介词短语，中文自然表达为“在……里”。',analysis:'ἐν：介词；τῇ οἰκίᾳ：定冠词加名词的间接受格形式，整体表达位置关系。',mode:'phrase'},
+  9:{translation:'这个好人。',task:'先找形容词，再判断它修饰哪个名词。',hint:'注意 ἀγαθός 和 ἄνθρωπος 的性、数、格。',explain:'ἀγαθός 与 ἄνθρωπος 在性、数、格上一致，所以这里是形容词用法。',analysis:'ὁ ἀγαθὸς ἄνθρωπος：ὁ 与 ἄνθρωπος 构成名词短语；ἀγαθός 与其在性、数、格上一致，修饰“人”。',mode:'phrase'},
+  10:{translation:'肉身。',task:'先识别 σάρξ 的词性和形式，不急着分析整节。',hint:'今天重点是第三格变式。',explain:'σάρξ 是第三格变式名词；本课重点是辨认词干和词尾。',analysis:'σάρξ：名词，阴性，第三格变式；当前训练只要求先认识其形式，不提前展开 ἐγένετο。',mode:'word'},
+  12:{translation:'大卫自己。',task:'先判断 αὐτός 修饰谁，再翻译。',hint:'它和谁发生一致？',explain:'αὐτὸς 在这里位于名词前，表示强调，意思是“自己”。',analysis:'αὐτὸς：主格阳性单数，与 Δαυίδ 对应，作强调用法，中文自然译为“大卫自己”。',mode:'phrase'},
+  13:{translation:'这个人。',task:'先确定指示词指向什么，再翻译。',hint:'不要孤立地把 οὗτος 固定译成一个中文词。',explain:'οὗτος 是指示词，具体中文表达要根据它指向的名词和上下文决定。',analysis:'οὗτος：指示代词/形容词体系中的指示词；在这里重点训练“指向关系”，而不是展开完整句的未来式。',mode:'phrase'},
+  14:{translation:'我们认识的那个人。',task:'先找先行词，再观察关系代名词的功能。',hint:'关系代名词的性、数跟谁？格又由什么决定？',explain:'ὅν 的性、数与先行词一致，但它在关系子句中的功能决定它用直接受格。',analysis:'ὁ ἄνθρωπος 是先行词；ὅν 是关系代名词，性数与先行词一致，格由其在关系子句中的功能决定。本课不展开尚未学习的全部动词形式。',mode:'phrase'},
+  16:{translation:'我爱罗宾。',task:'先找现在式主动直说的真正人称字尾，再翻译。',hint:'动词本身已经包含“我”。',explain:'ἀγαπῶ 的形式已经包含第一人称单数信息；显出的 ἐγώ 有强调作用。',analysis:'ἀγαπῶ：现在式、主动、直说、第一人称单数。Ῥόβιν 为直接受格。中文按上下文可自然译为“我爱罗宾”。',mode:'sentence'},
+  18:{translation:'他/她/它正在来。',task:'先观察词尾，再判断人称、数和时态。',hint:'注意 -εται。',explain:'ἔρχεται 是现在式第三人称单数的关身/被动形；按照教材目前的学习范围，这里作“关身/被动形主动意”处理。',analysis:'ἔρχεται：现在式、关身/被动形、直说、第三人称单数，来自 ἔρχομαι；本课阶段按教材作主动意义理解。',mode:'word'},
+  19:{translation:'我将去。',task:'先找未来式的形式特征，再翻译。',hint:'注意 σ 和人称字尾。',explain:'πορεύσομαι 是未来式关身形；这里按教材所教的关身形主动意理解。',analysis:'πορεύσομαι：未来式关身形、直说、第一人称单数；教材阶段意义按主动“我将去”处理。',mode:'word'},
+  21:{translation:null,task:'今天先练习辨认未完成式在真实经文中的画面感。',hint:'教材用启示录5:9说明“他们唱新歌”的连续画面；先认识这个训练重点。',explain:'未完成式通常把过去的动作呈现为连续或重复的过程。',analysis:'当前表格中的目标词形尚需重新核对，因此基础版暂不显示固定中文答案，避免把错误形式带进训练。',mode:'pending'},
+  22:{translation:'我拿了。',task:'先看往昔号，再判断第二字干。',hint:'ἔλαβον 不是现在式 λαμβάνω 的简单拼接。',explain:'ἔλαβον 使用的是第二不定过去式的第二字干 λαβ-。',analysis:'ἔλαβον：第二不定过去式主动直说第一人称单数，来自 λαμβάνω；本课先掌握形态识别，再逐步进入句法。',mode:'word'},
+  23:{translation:null,task:'先观察 μετανοήσατε 的第一不定过去式词形。',hint:'注意它虽然是第一不定过去式，但这一个例句本身不是直说语气。',explain:'μετανοήσατε 是第一不定过去式，但在徒2:38中属于命令语气；本课只借它认识词形。',analysis:'本课主目标是第一不定过去式直说语气，因此这里不把命令语气当成本课主训练，只作为真实经文中的形态观察。',mode:'pending'},
+  24:{translation:'我们受洗归入基督耶稣。',task:'先判断主词是否接受动作，再翻译。',hint:'看 θη 这个被动语态时态特征。',explain:'ἐβαπτίσθημεν 是不定过去式被动形式，第一人称复数；主词是动作的接受者。',analysis:'ἐβαπτίσθημεν：不定过去式、被动、直说、第一人称复数。翻译时要保留“我们接受这个行动”的关系。',mode:'sentence'},
+  25:{translation:'罪已经定了。',task:'先自己翻译，再判断完成式为什么适合这里的中文表达。',hint:'注意重复号和完成式形式。',explain:'κέκριται 表示一个已经发生的判决，其结果状态仍然持续到现在。',analysis:'ἤδη κέκριται：κέκριται 为现在完成式被动直说第三人称单数；ἤδη 强调“已经”。中文“罪已经定了”帮助表达完成及持续结果。',mode:'sentence'}
+};
+
 /* =========================================================
    CORPUS GATEWAY
 ========================================================= */
@@ -2407,10 +2430,15 @@ function renderCorpusGateway(
 ){
 
   area.innerHTML =
-    "<div class='lesson-section'>" +
-      "<h3>真实新约</h3>" +
-      "<p>把今天学的内容放进一句短短的真实经文。</p>" +
-      "<button id='launchCorpus' class='primary wide' type='button'>进入原文 →</button>" +
+    "<div class='lesson-section corpus-gateway-card'>" +
+      "<div class='corpus-gateway-kicker'>真实新约</div>" +
+      "<h3>把今天学的知识放进真实经文。</h3>" +
+      "<div class='corpus-guide-list'>" +
+        "<div><b>① 先读</b><span>看一遍希腊文。</span></div>" +
+        "<div><b>② 再观察</b><span>找出今天学习的词形。</span></div>" +
+        "<div><b>③ 最后翻译</b><span>先自己翻，再按需要查看帮助。</span></div>" +
+      "</div>" +
+      "<button id='launchCorpus' class='primary wide' type='button'>开始原文训练 →</button>" +
     "</div>";
 
   $("launchCorpus").onclick =
@@ -2831,7 +2859,7 @@ function renderCorpusTraining(){
     $("corpusLessonObjective")
       .textContent =
 
-      "先看今天所学的一个词在真实经文中怎样出现。";
+      "今天只练一个重点：先自己观察，再翻译；不会时再查看帮助。";
 
   }
 
@@ -2926,14 +2954,6 @@ function renderCorpusTraining(){
 
     "<div id='corpusGreek' class='corpus-greek'></div>" +
 
-    "<div class='corpus-context-note'>" +
-
-      "显示目标词附近的短语，方便集中注意力。"
-
-    +
-
-    "</div>" +
-
     "<div id='corpusTokenDetail'></div>";
 
 
@@ -2949,6 +2969,51 @@ function renderCorpusTraining(){
     seed
   );
 
+  const training = CORPUS_TRAINING[lesson.n] || {};
+
+  const translationBox = document.createElement("div");
+  translationBox.className = "corpus-translation-box";
+  translationBox.innerHTML =
+    "<div class='corpus-label'>先自己翻译</div>" +
+    (training.mode === "pending"
+      ? "<div class='muted'>这一课的固定参考译文仍在校准，不显示未经确认的答案。</div>"
+      : "<div id='translationReveal' class='translation-reveal muted'>先尝试，再查看参考译文。</div>" +
+        "<button id='showTranslation' class='secondary wide' type='button'>查看参考译文</button>");
+  area.appendChild(translationBox);
+
+  if($("showTranslation")){
+    $("showTranslation").onclick=function(){
+      const r=$("translationReveal");
+      if(r){ r.textContent=training.translation || "暂无固定参考译文"; r.classList.remove("muted"); }
+      $("showTranslation").style.display="none";
+    };
+  }
+
+  const help = document.createElement("div");
+  help.className = "corpus-help-box";
+  help.innerHTML =
+    "<div class='corpus-label'>需要帮助？</div>"+
+    "<button id='corpusHintBtn' class='secondary' type='button'>提示</button>"+
+    "<button id='corpusExplainBtn' class='secondary' type='button'>解释</button>"+
+    "<button id='corpusAnalysisBtn' class='secondary' type='button'>完整分析</button>"+
+    "<div id='corpusHelpContent' class='training-line' style='display:none'></div>";
+  area.appendChild(help);
+
+  let helpLevel=0;
+  function showHelp(level){
+    helpLevel=Math.max(helpLevel,level);
+    const b=$("corpusHelpContent");
+    if(!b)return;
+    b.style.display="block";
+    const parts=[];
+    if(helpLevel>=1 && training.hint)parts.push("<strong>提示：</strong> "+escapeHtml(training.hint));
+    if(helpLevel>=2 && training.explain)parts.push("<strong>解释：</strong> "+escapeHtml(training.explain));
+    if(helpLevel>=3 && training.analysis)parts.push("<strong>完整分析：</strong> "+escapeHtml(training.analysis));
+    b.innerHTML=parts.join("<hr>");
+  }
+  if($("corpusHintBtn"))$("corpusHintBtn").onclick=function(){showHelp(1)};
+  if($("corpusExplainBtn"))$("corpusExplainBtn").onclick=function(){showHelp(2)};
+  if($("corpusAnalysisBtn"))$("corpusAnalysisBtn").onclick=function(){showHelp(3)};
 
   const note =
     document.createElement(
@@ -2961,16 +3026,9 @@ function renderCorpusTraining(){
 
 
   note.innerHTML =
-
-    "<strong>现在做</strong>" +
-
-    "<br><br>" +
-
+    "<strong>现在做</strong><br><br>" +
     escapeHtml(
-      currentCorpusTask(
-        lesson,
-        seed
-      )
+      training.task || currentCorpusTask(lesson,seed)
     );
 
 
