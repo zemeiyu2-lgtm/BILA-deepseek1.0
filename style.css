@@ -53,9 +53,7 @@ body{
 }
 
 
-button,
-input,
-select{
+button{
   font:inherit;
 }
 
@@ -67,11 +65,14 @@ button{
 
   border-radius:10px;
 
-  background:var(--white);
+  background:
+    var(--white);
 
-  color:var(--ink);
+  color:
+    var(--ink);
 
-  padding:10px 13px;
+  padding:
+    10px 13px;
 
   cursor:pointer;
 
@@ -99,8 +100,13 @@ button:disabled{
 }
 
 
+.hidden{
+  display:none !important;
+}
+
+
 /* =====================================================
-TOPBAR
+TOP
 ===================================================== */
 
 .topbar{
@@ -117,7 +123,8 @@ TOPBAR
 
   align-items:center;
 
-  padding:13px 18px;
+  padding:
+    13px 18px;
 
   background:
     rgba(245,241,231,.97);
@@ -172,7 +179,8 @@ APP
 
   margin:0 auto;
 
-  padding:18px 16px 65px;
+  padding:
+    18px 16px 65px;
 
 }
 
@@ -187,27 +195,40 @@ APP
 }
 
 
-.hidden{
-  display:none !important;
-}
-
-
 /* =====================================================
 PORTAL
 ===================================================== */
 
 .portal-head{
 
-  padding:30px 3px 21px;
+  padding:
+    30px 3px 22px;
+
+}
+
+
+.eyebrow{
+
+  color:
+    var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+  letter-spacing:.14em;
 
 }
 
 
 .portal-head h1{
 
-  margin:7px 0 12px;
+  margin:
+    7px 0 12px;
 
-  font-family:Georgia,serif;
+  font-family:
+    Georgia,
+    serif;
 
   font-size:
     clamp(
@@ -227,7 +248,8 @@ PORTAL
 
   margin:0;
 
-  color:var(--muted);
+  color:
+    var(--muted);
 
   font-size:14px;
 
@@ -287,7 +309,9 @@ TODAY
 
   margin-top:2px;
 
-  font-family:Georgia,serif;
+  font-family:
+    Georgia,
+    serif;
 
   font-size:25px;
 
@@ -313,9 +337,11 @@ PROGRESS
 
   margin-top:13px;
 
-  padding:15px 17px;
+  padding:
+    15px 17px;
 
-  background:var(--paper);
+  background:
+    var(--paper);
 
   border:
     1px solid var(--line);
@@ -366,9 +392,11 @@ PROGRESS
 
   height:100%;
 
-  background:var(--accent);
+  background:
+    var(--accent);
 
-  transition:width .25s ease;
+  transition:
+    width .25s ease;
 
 }
 
@@ -385,7 +413,7 @@ PROGRESS
 
 
 /* =====================================================
-PORTAL GRID
+PORTAL BUTTONS
 ===================================================== */
 
 .portal-grid{
@@ -404,11 +432,13 @@ PORTAL GRID
 
 .portal-item{
 
-  padding:17px 14px;
+  padding:
+    17px 14px;
 
   text-align:left;
 
-  background:var(--paper);
+  background:
+    var(--paper);
 
   border:
     1px solid var(--line);
@@ -420,7 +450,8 @@ PORTAL GRID
 
 .portal-item:hover{
 
-  background:#fff;
+  background:
+    var(--white);
 
 }
 
@@ -433,11 +464,14 @@ PORTAL GRID
 
   margin-bottom:9px;
 
-  padding:4px 8px;
+  padding:
+    4px 8px;
 
-  background:var(--accent-soft);
+  background:
+    var(--accent-soft);
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   border-radius:7px;
 
@@ -488,23 +522,16 @@ CARDS
 }
 
 
-.corpus-mini p{
+.corpus-mini{
 
-  margin:7px 0 0;
-
-  color:var(--muted);
-
-  font-size:11px;
+  background:#faf9f5;
 
 }
 
 
-.lesson-panel{
-
-  margin-top:13px;
-
-}
-
+/* =====================================================
+LESSON PANEL
+===================================================== */
 
 .panel-head{
 
@@ -521,14 +548,16 @@ CARDS
 
 .panel-head h3{
 
-  margin:4px 0 0;
+  margin:
+    4px 0 0;
 
 }
 
 
 .small-button{
 
-  padding:7px 10px;
+  padding:
+    7px 10px;
 
   font-size:10px;
 
@@ -570,7 +599,7 @@ LESSON LIST
   display:grid;
 
   grid-template-columns:
-    46px 1fr 18px;
+    45px 1fr 18px;
 
   align-items:center;
 
@@ -594,7 +623,8 @@ LESSON LIST
 
 .lesson-item.current{
 
-  background:var(--gold-soft);
+  background:
+    var(--gold-soft);
 
   border-color:#d6c29c;
 
@@ -603,7 +633,8 @@ LESSON LIST
 
 .lesson-item.completed{
 
-  background:var(--accent-soft);
+  background:
+    var(--accent-soft);
 
   border-color:#bfd1c4;
 
@@ -612,7 +643,8 @@ LESSON LIST
 
 .lesson-index{
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   font-size:10px;
 
@@ -653,7 +685,7 @@ LESSON LIST
 
 
 /* =====================================================
-SCREEN HEADER
+HEAD
 ===================================================== */
 
 .screen-head{
@@ -664,14 +696,16 @@ SCREEN HEADER
 
   gap:12px;
 
-  margin:7px 0 16px;
+  margin:
+    7px 0 16px;
 
 }
 
 
 .screen-head h2{
 
-  margin:3px 0;
+  margin:
+    3px 0;
 
   font-size:22px;
 
@@ -697,7 +731,8 @@ LESSON
 
   padding:18px;
 
-  background:var(--paper);
+  background:
+    var(--paper);
 
   border:
     1px solid var(--line);
@@ -709,7 +744,8 @@ LESSON
 
 .lesson-number{
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   font-size:28px;
 
@@ -722,7 +758,9 @@ LESSON
 
   margin-top:3px;
 
-  font-family:Georgia,serif;
+  font-family:
+    Georgia,
+    serif;
 
   font-size:23px;
 
@@ -742,7 +780,8 @@ LESSON
 
 .lesson-progress{
 
-  margin:10px 0 15px;
+  margin:
+    10px 0 15px;
 
 }
 
@@ -764,7 +803,8 @@ LESSON
 
   padding:18px;
 
-  background:var(--paper);
+  background:
+    var(--paper);
 
   border:
     1px solid var(--line);
@@ -821,20 +861,26 @@ LESSON
 
 .grammar-term{
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   font-weight:800;
 
 }
 
 
+/* =====================================================
+TRAINING HELP
+===================================================== */
+
 .training-explanation{
 
-  margin-top:14px;
+  margin-top:13px;
 
   padding:13px;
 
-  background:#faf8f1;
+  background:
+    #faf8f1;
 
   border-radius:11px;
 
@@ -843,7 +889,8 @@ LESSON
 
 .training-explanation-title{
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   font-size:9px;
 
@@ -860,7 +907,7 @@ LESSON
 
   font-size:12px;
 
-  line-height:1.85;
+  line-height:1.9;
 
 }
 
@@ -919,9 +966,11 @@ PRACTICE
 
 .correct{
 
-  background:var(--accent-soft) !important;
+  background:
+    var(--accent-soft) !important;
 
-  border-color:var(--accent) !important;
+  border-color:
+    var(--accent) !important;
 
 }
 
@@ -930,7 +979,8 @@ PRACTICE
 
   background:#f6e8e5 !important;
 
-  border-color:var(--danger) !important;
+  border-color:
+    var(--danger) !important;
 
 }
 
@@ -975,7 +1025,9 @@ VOCABULARY
 
 .vocab-word{
 
-  font-family:Georgia,serif;
+  font-family:
+    Georgia,
+    serif;
 
   font-size:27px;
 
@@ -1006,7 +1058,8 @@ VOCABULARY
 
 .vocab-actions button{
 
-  padding:7px 9px;
+  padding:
+    7px 9px;
 
   font-size:9px;
 
@@ -1019,11 +1072,14 @@ VOCABULARY
 
   margin-top:8px;
 
-  padding:4px 7px;
+  padding:
+    4px 7px;
 
-  background:var(--accent-soft);
+  background:
+    var(--accent-soft);
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   border-radius:7px;
 
@@ -1035,27 +1091,6 @@ VOCABULARY
 /* =====================================================
 CORPUS
 ===================================================== */
-
-.lesson-focus-card{
-
-  padding:15px;
-
-  background:var(--paper);
-
-  border:
-    1px solid var(--line);
-
-  border-radius:15px;
-
-}
-
-
-.lesson-focus-card h3{
-
-  margin:4px 0;
-
-}
-
 
 .corpus-card{
 
@@ -1075,7 +1110,8 @@ CORPUS
 
 .corpus-reference{
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   font-size:10px;
 
@@ -1122,93 +1158,84 @@ CORPUS
 
 .corpus-token:hover{
 
-  background:var(--accent-soft);
+  background:
+    var(--accent-soft);
 
 }
 
 
 .corpus-token.active{
 
-  background:var(--accent-soft);
+  background:
+    var(--accent-soft);
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
 }
 
 
-.training-explanation{
+/* =====================================================
+THREE LEVEL HELP
+===================================================== */
 
-  margin-top:13px;
+.help-panel{
+
+  margin-top:12px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:12px;
+
+  overflow:hidden;
+
+}
+
+
+.help-level{
 
   padding:13px;
-
-  background:#faf8f1;
-
-  border-radius:11px;
-
-}
-
-
-.training-explanation-title{
-
-  color:var(--accent);
-
-  font-size:9px;
-
-  font-weight:800;
-
-  letter-spacing:.1em;
-
-}
-
-
-.training-explanation-text{
-
-  margin-top:5px;
-
-  font-size:12px;
-
-  line-height:1.85;
-
-}
-
-
-.training-task{
-
-  margin-top:10px;
-
-  padding:13px;
-
-  background:var(--accent-soft);
-
-  border-radius:11px;
-
-  font-size:12px;
-
-}
-
-
-.training-task strong{
-
-  display:block;
-
-  margin-bottom:5px;
-
-}
-
-
-.training-answer{
-
-  margin-top:9px;
-
-  padding:10px;
 
   background:#fff;
 
-  border-radius:9px;
+}
+
+
+.help-level + .help-level{
+
+  border-top:
+    1px solid var(--line);
 
 }
 
+
+.help-level-title{
+
+  color:
+    var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+}
+
+
+.help-level-text{
+
+  margin-top:6px;
+
+  font-size:12px;
+
+  line-height:1.9;
+
+}
+
+
+/* =====================================================
+TOKEN DETAIL
+===================================================== */
 
 .token-detail{
 
@@ -1225,7 +1252,9 @@ CORPUS
 
 .token-detail-word{
 
-  font-family:Georgia,serif;
+  font-family:
+    Georgia,
+    serif;
 
   font-size:29px;
 
@@ -1297,7 +1326,9 @@ LEMMA
 
 .lemma-word{
 
-  font-family:Georgia,serif;
+  font-family:
+    Georgia,
+    serif;
 
   font-size:
     clamp(
@@ -1348,7 +1379,9 @@ LEMMA
 
 .form-word{
 
-  font-family:Georgia,serif;
+  font-family:
+    Georgia,
+    serif;
 
   font-size:21px;
 
@@ -1370,7 +1403,8 @@ VERSE
 
 .verse-reference{
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   font-size:10px;
 
@@ -1410,33 +1444,47 @@ BUTTONS
 
 .primary{
 
-  background:var(--accent);
+  background:
+    var(--accent);
 
-  color:white;
+  color:#fff;
 
-  border-color:var(--accent);
+  border-color:
+    var(--accent);
 
 }
 
 
 .secondary{
 
-  background:white;
+  background:#fff;
 
 }
 
 
-/* =====================================================
-SUCCESS
-===================================================== */
+.lesson-actions{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:9px;
+
+  margin-top:13px;
+
+}
+
 
 .success{
 
   padding:13px;
 
-  background:var(--accent-soft);
+  background:
+    var(--accent-soft);
 
-  color:var(--accent);
+  color:
+    var(--accent);
 
   border-radius:10px;
 
@@ -1475,6 +1523,14 @@ MOBILE
 
 
   .practice-options{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .lesson-actions{
 
     grid-template-columns:
       1fr;
