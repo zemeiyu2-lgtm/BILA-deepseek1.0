@@ -5770,6 +5770,80 @@ const STAGE_TESTS = [
   }
 ];
 
+
+const PRACTICAL_TESTS = {
+  T1:[
+    {type:"translation",tag:"L07 所有格",prompt:"把短语翻译成中文：ὁ λόγος τοῦ θεοῦ",answer:"神的道",keywords:["神","道"],lesson:7},
+    {type:"morph",tag:"L06 受格",prompt:"看词形：τὸν θεόν。它是什么？",answer:"受格单数",keywords:["受格","单数"],lesson:6}
+  ],
+  T2:[
+    {type:"translation",tag:"L14 关系代词",prompt:"把短语翻译成中文：ὁ ἄνθρωπος ὃν εἶδον",answer:"我看见的那个人",keywords:["我","看见","那个人"],lesson:14},
+    {type:"morph",tag:"L16 现在式",prompt:"看词形：ἀγαπῶ。请写出人称和数。",answer:"第一人称单数",keywords:["第一人称","单数"],lesson:16}
+  ],
+  T3:[
+    {type:"translation",tag:"L16 现在式",prompt:"把短句翻译成中文：ἀγαπῶ Ῥόβιν",answer:"我爱罗宾。",keywords:["我爱","罗宾"],lesson:16},
+    {type:"morph",tag:"L19 未来式",prompt:"看词形：πορεύσομαι。它首先是什么时态？",answer:"未来式",keywords:["未来式"],lesson:19}
+  ],
+  T4:[
+    {type:"translation",tag:"L24 被动",prompt:"把词形翻译成中文：ἐβαπτίσθημεν",answer:"我们受洗归入基督耶稣。",keywords:["我们","受洗","基督","耶稣"],lesson:24},
+    {type:"translation",tag:"L25 完成式",prompt:"把短语翻译成中文：ἤδη κέκριται",answer:"已经定罪。",keywords:["已经","定罪"],lesson:25}
+  ]
+};
+
+function normalizeUserAnswer(v){
+  return String(v||"").replace(/[\s，。；：、,.!?！？“”‘’「」()（）]/g,"").toLowerCase();
+}
+
+function practicalMatch(answer, item){
+  const a=normalizeUserAnswer(answer);
+  if(!a) return false;
+  return item.keywords.every(k=>a.includes(normalizeUserAnswer(k)));
+}
+
+function renderPracticalIntro(){
+  const area=$("testArea");
+  if(!area||!activeTest)return;
+  area.innerHTML=`<div class="practical-card"><div class="eyebrow">原文实操</div><h3>现在自己处理两条短材料</h3><p>不提供提示。先自己判断或翻译，完成后再看参考答案。</p><div class="practical-steps"><span>① 看词形</span><span>② 判断</span><span>③ 翻译</span></div><button id="startPractical" class="primary wide" type="button">开始实操 →</button></div>`;
+  $("startPractical").onclick=()=>startPractical();
+}
+
+let practicalIndex=0, practicalAnswers=[];
+function startPractical(){
+  practicalIndex=0;
+  practicalAnswers=new Array((PRACTICAL_TESTS[activeTest.id]||[]).length).fill("");
+  renderPracticalQuestion();
+}
+
+function renderPracticalQuestion(){
+  const area=$("testArea");
+  const items=PRACTICAL_TESTS[activeTest.id]||[];
+  const item=items[practicalIndex];
+  if(!area||!item)return;
+  const val=practicalAnswers[practicalIndex]||"";
+  area.innerHTML=`<div class="practical-question"><div class="test-q-index">${escapeHtml(activeTest.name)} · 原文实操 ${practicalIndex+1} / ${items.length}</div><div class="practical-source">${escapeHtml(item.prompt)}</div><label class="practical-input-label">你的答案</label><textarea id="practicalAnswer" class="practical-input" rows="3" placeholder="先自己写下来……">${escapeHtml(val)}</textarea><div class="test-actions-row"><button id="practicalPrev" class="secondary" ${practicalIndex===0?"disabled":""}>上一题</button><button id="practicalNext" class="primary">${practicalIndex===items.length-1?"提交实操":"下一题"}</button></div></div>`;
+  $("practicalPrev").onclick=()=>{practicalAnswers[practicalIndex]=$("practicalAnswer").value;practicalIndex--;renderPracticalQuestion();};
+  $("practicalNext").onclick=()=>{
+    practicalAnswers[practicalIndex]=$("practicalAnswer").value;
+    if(!practicalAnswers[practicalIndex].trim()){alert("先写下你的答案。");return;}
+    if(practicalIndex<items.length-1){practicalIndex++;renderPracticalQuestion();}else{finishPractical();}
+  };
+}
+
+function finishPractical(){
+  const items=PRACTICAL_TESTS[activeTest.id]||[];
+  let score=0; const weak=[];
+  items.forEach((item,i)=>{if(practicalMatch(practicalAnswers[i],item))score++;else weak.push(item.tag);});
+  if(!state.tests)state.tests={};
+  const prev=state.tests[activeTest.id]||{};
+  state.tests[activeTest.id]={...prev,practicalScore:score,practicalTotal:items.length,practicalAt:new Date().toISOString(),practicalWeak:weak};
+  saveState();
+  const area=$("testArea");
+  area.innerHTML=`<div class="test-result practical-result"><div class="eyebrow">${escapeHtml(activeTest.name)}</div><div class="test-score">${score}/${items.length}</div><div class="test-band">${score===items.length?"原文实操通过，可以继续。":"先把下面的薄弱点再练一次。"}</div><div class="weak-list"><strong>需要再看：</strong>${weak.length?weak.map(escapeHtml).join("、"):"本次没有明显薄弱项。"}</div><div class="practical-review-list">${items.map((item,i)=>{const ok=practicalMatch(practicalAnswers[i],item);return `<div class="practical-review ${ok?"ok":"no"}"><div><strong>${i+1}. ${ok?"✓ 掌握":"再练一次"}</strong> · ${escapeHtml(item.tag)}</div><div class="practical-answer-line">你的答案：${escapeHtml(practicalAnswers[i]||"—")}</div><div class="practical-answer-line"><span class="answer-label">参考：${escapeHtml(item.answer)}</span></div><button class="secondary practical-retry-one" data-practical-index="${i}" type="button">再练这一题</button></div>`;}).join("")}</div><button id="retryPractical" class="primary wide" type="button">再做一次</button><button id="backTestList" class="secondary wide test-back-link" type="button">返回阶段测试</button></div>`;
+  $("retryPractical").onclick=()=>startPractical();
+  $("backTestList").onclick=()=>{renderTests();$("testArea").innerHTML="";};
+  area.querySelectorAll(".practical-retry-one").forEach(btn=>btn.onclick=()=>{practicalIndex=Number(btn.dataset.practicalIndex);renderPracticalQuestion();});
+}
+
 let activeTest=null, activeTestIndex=0, testAnswers=[];
 
 function getCompletedLessons(){
@@ -5821,7 +5895,8 @@ function finishTest(){
   saveState();
   const band=score>=activeTest.min?"可以继续，也建议复习薄弱处。":"建议回到教材重点复习后再测一次。";
   const area=$("testArea");
-  area.innerHTML=`<div class="test-result"><div class="eyebrow">${escapeHtml(activeTest.name)}</div><div class="test-score">${score}/${activeTest.questions.length}</div><div class="test-band">${band}</div><div class="weak-list"><strong>建议再练：</strong>${Object.keys(weak).length?Object.keys(weak).map(escapeHtml).join("、"):"本次没有明显薄弱项。"}</div><div class="test-feedback-list">${activeTest.questions.map((q,i)=>{const ok=testAnswers[i]===q.a;return `<div class="test-feedback ${ok?"ok":"no"}"><strong>${i+1}. ${ok?"✓":"再看一次"}</strong> · ${escapeHtml(q.tag)}</div>`;}).join("")}</div><button id="retryTest" class="primary wide">再测一次</button><button id="backTestList" class="secondary wide test-back-link">返回阶段测试</button></div>`;
+  area.innerHTML=`<div class="test-result"><div class="eyebrow">${escapeHtml(activeTest.name)}</div><div class="test-score">${score}/${activeTest.questions.length}</div><div class="test-band">${band}</div><div class="weak-list"><strong>建议再练：</strong>${Object.keys(weak).length?Object.keys(weak).map(escapeHtml).join("、"):"本次没有明显薄弱项。"}</div><div class="test-feedback-list">${activeTest.questions.map((q,i)=>{const ok=testAnswers[i]===q.a;return `<div class="test-feedback ${ok?"ok":"no"}"><strong>${i+1}. ${ok?"✓":"再看一次"}</strong> · ${escapeHtml(q.tag)}</div>`;}).join("")}</div><button id="practicalEntry" class="primary wide">进入原文实操 →</button><button id="retryTest" class="secondary wide">再测一次</button><button id="backTestList" class="secondary wide test-back-link">返回阶段测试</button></div>`;
+  $("practicalEntry").onclick=renderPracticalIntro;
   $("retryTest").onclick=()=>startTest(activeTest.id);$("backTestList").onclick=()=>{renderTests();$("testArea").innerHTML="";};
 }
 
