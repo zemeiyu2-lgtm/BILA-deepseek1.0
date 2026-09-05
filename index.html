@@ -3,26 +3,26 @@
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0"
->
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0,viewport-fit=cover"
+  >
 
-<meta
-  name="theme-color"
-  content="#f5f1e7"
->
+  <meta
+    name="theme-color"
+    content="#f5f1e7"
+  >
 
-<title>
-GBRM V0.1｜Lesson 03 字母与发音
-</title>
+  <title>
+    GBRM V0.2｜Greek Bible Reading Model
+  </title>
 
-<link
-  rel="stylesheet"
-  href="style.css"
->
+  <link
+    rel="stylesheet"
+    href="style.css?v=020"
+  >
 
 </head>
 
@@ -44,8 +44,9 @@ GBRM V0.1｜Lesson 03 字母与发音
 
   </div>
 
+
   <div class="version">
-    V0.1
+    V0.2
   </div>
 
 </header>
@@ -55,80 +56,119 @@ GBRM V0.1｜Lesson 03 字母与发音
 <main class="app">
 
 
+<!-- =====================================================
+HOME
+====================================================== -->
+
 <section
   id="home"
   class="screen active"
 >
 
+
   <div class="hero">
 
     <div class="eyebrow">
-      GREEK BIBLE READING MODEL
+      NEW TESTAMENT GREEK
     </div>
 
+
     <h1>
-      Lesson 03
+      GBRM
     </h1>
 
+
     <p class="hero-subtitle">
-      Greek Alphabet · Sound · Reading
+      Greek Bible Reading Model
     </p>
+
 
     <p class="hero-description">
 
-      第一阶段不是背复杂文法。
+      不是只学古希腊语。
 
       <br>
 
-      先建立：
+      而是训练：
 
       <strong>
-        看得见、读得出、听得懂、记得住
+        读原文 → 识别形式 → 理解结构 → 阅读新约
       </strong>
 
-      的希腊文字能力。
-
     </p>
 
   </div>
 
 
 
-  <div class="golden-card">
+  <div class="course-card">
 
     <div class="eyebrow">
-      GOLDEN UNIT
+      CURRENT COURSE
     </div>
+
 
     <h2>
-      字母与发音
+      圣经希腊文基础
     </h2>
 
-    <p>
-      24 Greek Letters
+
+    <p class="muted">
+      Foundation Course
     </p>
 
-    <div class="flow">
 
-      LOOK
-      →
-      LISTEN
-      →
-      SAY
-      →
-      WRITE
-      →
-      RECOGNIZE
+    <div class="course-stat">
+
+      <div>
+
+        <strong id="completedLessons">
+          0
+        </strong>
+
+        <span>
+          已完成课程
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong id="totalLessons">
+          2
+        </strong>
+
+        <span>
+          当前课程
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong id="courseProgress">
+          0%
+        </strong>
+
+        <span>
+          完成度
+        </span>
+
+      </div>
 
     </div>
 
-    <button
-      id="startBtn"
-      class="primary wide"
-      type="button"
-    >
-      开始训练 →
-    </button>
+
+    <div class="progress-track">
+
+      <div
+        id="homeProgressBar"
+        class="progress-fill"
+      ></div>
+
+    </div>
 
   </div>
 
@@ -137,500 +177,208 @@ GBRM V0.1｜Lesson 03 字母与发音
   <div class="card">
 
     <div class="eyebrow">
-      TODAY'S TARGET
+      COURSE MAP
     </div>
+
 
     <h3>
-      今天掌握
+      课程目录
     </h3>
 
-    <div class="target-list">
-
-      <div>
-        ✓ 24 个希腊字母
-      </div>
-
-      <div>
-        ✓ 大写 / 小写
-      </div>
-
-      <div>
-        ✓ 基本发音
-      </div>
-
-      <div>
-        ✓ 7 个元音
-      </div>
-
-      <div>
-        ✓ 双母音
-      </div>
-
-      <div>
-        ✓ 气号
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<section
-  id="alphabet"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="alphabetBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-    <div>
-
-      <div class="eyebrow">
-        STEP 1 · ALPHABET
-      </div>
-
-      <h2>
-        希腊文字母
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <p class="muted">
-      点击任意字母听发音。
-    </p>
 
     <div
-      id="alphabetGrid"
-      class="alphabet-grid"
+      id="lessonList"
+      class="lesson-list"
     ></div>
 
   </div>
 
 
-  <button
-    id="soundBtn"
-    class="primary wide"
-    type="button"
-  >
-    下一步：发音规则 →
-  </button>
-
-</section>
-
-
-
-<section
-  id="sound"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="soundBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-    <div>
-
-      <div class="eyebrow">
-        STEP 2 · SOUND
-      </div>
-
-      <h2>
-        发音观察
-      </h2>
-
-    </div>
-
-  </div>
-
 
   <div class="card">
-
-    <h3>
-      元音
-    </h3>
-
-    <div
-      id="vowelGrid"
-      class="vowel-grid"
-    ></div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      双母音
-    </h3>
-
-    <div
-      id="diphthongList"
-    ></div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      气号
-    </h3>
-
-    <p class="greek-large">
-      ἀπόστολος
-    </p>
-
-    <div class="notice">
-
-      Smooth breathing：
-
-      不增加 h 音。
-
-      <br><br>
-
-      Rough breathing：
-
-      增加 h 音。
-
-    </div>
-
-    <button
-      id="breathingPlayBtn"
-      type="button"
-    >
-      🔊 听示例
-    </button>
-
-  </div>
-
-
-  <button
-    id="recognizeBtn"
-    class="primary wide"
-    type="button"
-  >
-    下一步：字母识别 →
-  </button>
-
-</section>
-
-
-
-<section
-  id="recognize"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="recognizeBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-    <div>
-
-      <div class="eyebrow">
-        STEP 3 · RECOGNIZE
-      </div>
-
-      <h2>
-        字母识别
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <p class="muted">
-      看见小写字母，选择对应的大写字母。
-    </p>
-
-    <div
-      id="recognizeGame"
-      class="game"
-    ></div>
-
-    <div
-      id="recognizeScore"
-      class="score"
-    >
-      0 / 0
-    </div>
-
-    <button
-      id="recognizeNextBtn"
-      class="primary wide"
-      type="button"
-    >
-      开始识别
-    </button>
-
-  </div>
-
-</section>
-
-
-
-<section
-  id="read"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="readBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-    <div>
-
-      <div class="eyebrow">
-        STEP 4 · READ
-      </div>
-
-      <h2>
-        读出希腊文
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="greek-word">
-      λόγος
-    </div>
-
-    <p class="muted">
-      现在尝试自己读出来。
-    </p>
-
-    <button
-      id="logosBtn"
-      class="primary"
-      type="button"
-    >
-      🔊 听示范
-    </button>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="greek-word">
-      ἀπόστολος
-    </div>
-
-    <p class="muted">
-      注意开头的气号。
-    </p>
-
-    <button
-      id="apostolosBtn"
-      class="primary"
-      type="button"
-    >
-      🔊 听示范
-    </button>
-
-  </div>
-
-
-  <button
-    id="testBtn"
-    class="primary wide"
-    type="button"
-  >
-    下一步：测试 →
-  </button>
-
-</section>
-
-
-
-<section
-  id="test"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="testBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-    <div>
-
-      <div class="eyebrow">
-        STEP 5 · TEST
-      </div>
-
-      <h2>
-        今日测试
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div
-      id="testArea"
-    ></div>
-
-    <button
-      id="submitTest"
-      class="primary wide"
-      type="button"
-    >
-      提交测试
-    </button>
-
-    <div
-      id="testResult"
-      class="hidden"
-    ></div>
-
-  </div>
-
-</section>
-
-
-
-<section
-  id="complete"
-  class="screen"
->
-
-  <div class="result-hero">
-
-    <div class="result-mark">
-      ✓
-    </div>
 
     <div class="eyebrow">
-      LESSON COMPLETE
+      TRAINING MODEL
     </div>
 
-    <h1>
-      Lesson 03
-    </h1>
 
-    <p>
-      Greek Alphabet · Sound
-    </p>
+    <h3>
+      GBRM 学习循环
+    </h3>
+
+
+    <div class="training-flow">
+
+      <span>学习</span>
+      <b>→</b>
+      <span>观察</span>
+      <b>→</b>
+      <span>练习</span>
+      <b>→</b>
+      <span>测试</span>
+      <b>→</b>
+      <span>复习</span>
+
+    </div>
 
   </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+LESSON
+====================================================== -->
+
+<section
+  id="lesson"
+  class="screen"
+>
+
+
+  <div class="screen-head">
+
+    <button
+      id="lessonBackBtn"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div
+        id="lessonEyebrow"
+        class="eyebrow"
+      >
+        LESSON
+      </div>
+
+
+      <h2
+        id="lessonTitle"
+      >
+        Lesson
+      </h2>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="lesson-head-card">
+
+    <div
+      id="lessonReference"
+      class="lesson-reference"
+    ></div>
+
+
+    <div
+      id="lessonObjective"
+      class="muted"
+    ></div>
+
+  </div>
+
 
 
   <div
-    id="finalMessage"
-    class="improvement-card"
+    id="lessonContent"
   ></div>
 
 
-  <div class="card">
 
-    <h3>
-      训练成果
-    </h3>
+  <button
+    id="lessonNextBtn"
+    class="primary wide"
+    type="button"
+  >
+    下一步 →
+  </button>
 
-    <div class="target-list">
 
-      <div>
-        ✓ 字母识别
+</section>
+
+
+
+<!-- =====================================================
+REVIEW
+====================================================== -->
+
+<section
+  id="review"
+  class="screen"
+>
+
+
+  <div class="screen-head">
+
+    <button
+      id="reviewBackBtn"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        REVIEW
       </div>
 
-      <div>
-        ✓ 基本发音
-      </div>
-
-      <div>
-        ✓ 元音
-      </div>
-
-      <div>
-        ✓ 双母音
-      </div>
-
-      <div>
-        ✓ 气号
-      </div>
-
-      <div>
-        ✓ 简单希腊文阅读
-      </div>
+      <h2>
+        复习
+      </h2>
 
     </div>
 
   </div>
 
 
-  <button
-    id="homeBtn"
-    class="primary wide"
-    type="button"
-  >
-    返回课程
-  </button>
+  <div class="card">
+
+    <div class="eyebrow">
+      SPACED REVIEW
+    </div>
+
+
+    <h3>
+      已完成课程
+    </h3>
+
+
+    <div
+      id="reviewList"
+    ></div>
+
+  </div>
 
 </section>
+
 
 
 </main>
 
 
+
 <footer>
 
-  GBRM · Greek Bible Reading Model · V0.1
+  GBRM · Greek Bible Reading Model · V0.2
 
 </footer>
 
 
 
 <script
-  src="app.js?v=010"
+  src="app.js?v=020"
   defer
 ></script>
 
