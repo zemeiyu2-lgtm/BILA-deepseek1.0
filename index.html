@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
 
   <meta charset="UTF-8">
@@ -15,12 +16,12 @@
   >
 
   <title>
-    GBRM V1.5｜NT Corpus Engine
+    GBRM V1.6｜Real Greek Text Engine
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=150"
+    href="style.css?v=160"
   >
 
 </head>
@@ -45,7 +46,7 @@
 
 
   <div class="version">
-    V1.5
+    V1.6
   </div>
 
 </header>
@@ -64,6 +65,7 @@ HOME
   class="screen active"
 >
 
+
   <div class="hero">
 
     <div class="eyebrow">
@@ -75,20 +77,24 @@ HOME
     </h1>
 
     <p class="hero-subtitle">
-      NT Corpus Engine
+      Real Greek Text Engine
     </p>
 
     <p class="hero-description">
 
-      从教材语法进入：
+      不停留在教材例句。
+
+      <br>
+
+      直接进入：
 
       <strong>
-        真实新约希腊文
+        真实新约原文
       </strong>
 
       <br>
 
-      词形 → Lemma → Morphology → Context
+      Form → Lemma → Morphology → Context → Observation
 
     </p>
 
@@ -96,20 +102,22 @@ HOME
 
 
 
+<!-- =====================================================
+CORPUS STATUS
+====================================================== -->
+
   <div class="course-card">
 
     <div class="eyebrow">
-      CORPUS
+      NT CORPUS
     </div>
 
     <h2>
-      MorphGNT / SBLGNT
+      MorphGNT
     </h2>
 
     <p class="muted">
-
-      全新约逐词训练数据
-
+      全新约真实逐词训练数据
     </p>
 
 
@@ -135,7 +143,7 @@ HOME
         </strong>
 
         <span>
-          词形
+          已载入词形
         </span>
 
       </div>
@@ -143,7 +151,7 @@ HOME
 
       <div>
 
-        <strong id="corpusStatus">
+        <strong id="corpusPercent">
           0%
         </strong>
 
@@ -165,6 +173,51 @@ HOME
 
     </div>
 
+
+    <button
+      id="loadAllCorpus"
+      class="primary wide"
+      type="button"
+    >
+
+      ⬇ 加载整个新约
+
+    </button>
+
+
+    <div
+      id="corpusStatusText"
+      class="status-text"
+    >
+
+      尚未载入
+
+    </div>
+
+  </div>
+
+
+
+<!-- =====================================================
+BOOK BROWSER
+====================================================== -->
+
+  <div class="card">
+
+    <div class="eyebrow">
+      BOOK BROWSER
+    </div>
+
+    <h3>
+      新约书卷
+    </h3>
+
+
+    <div
+      id="bookGrid"
+      class="book-grid"
+    ></div>
+
   </div>
 
 
@@ -180,15 +233,15 @@ SEARCH
     </div>
 
     <h3>
-      新约原文检索
+      原文检索
     </h3>
 
 
     <input
       id="corpusSearch"
-      class="vocab-search"
+      class="search-input"
       type="search"
-      placeholder="输入希腊文、Lemma、中文课程词或经文编号……"
+      placeholder="希腊文 / Lemma / 经文编号……"
     >
 
 
@@ -200,26 +253,26 @@ SEARCH
       >
 
         <option value="">
-          全新约
+          全部已载入书卷
         </option>
 
       </select>
 
 
       <button
-        id="searchCorpusBtn"
+        id="searchBtn"
         class="primary"
         type="button"
       >
-        🔎 搜索
+        搜索
       </button>
 
     </div>
 
 
     <div
-      id="searchResult"
-      class="search-result"
+      id="searchResults"
+      class="search-results"
     ></div>
 
   </div>
@@ -227,28 +280,18 @@ SEARCH
 
 
 <!-- =====================================================
-MORPHOLOGY
+TRAINING
 ====================================================== -->
 
   <div class="card">
 
     <div class="eyebrow">
-      MORPHOLOGY LAB
+      TRAINING LAB
     </div>
 
     <h3>
-      真实词形分析
+      训练场
     </h3>
-
-    <p class="muted">
-
-      从真实新约词形开始分析：
-
-      <strong>
-        Form → Lemma → Parsing
-      </strong>
-
-    </p>
 
 
     <button
@@ -256,40 +299,31 @@ MORPHOLOGY
       class="primary wide"
       type="button"
     >
-      🔬 开始真实词形训练
+
+      🔬 真实词形训练
+
     </button>
-
-  </div>
-
-
-
-<!-- =====================================================
-VERSE TRAINING
-====================================================== -->
-
-  <div class="card">
-
-    <div class="eyebrow">
-      VERSE TRAINING
-    </div>
-
-    <h3>
-      真实经文训练
-    </h3>
-
-    <p class="muted">
-
-      从一个真实新约词形进入整节经文。
-
-    </p>
 
 
     <button
-      id="startVerseTraining"
+      id="startVerse"
       class="secondary wide"
       type="button"
     >
-      📖 开始真实经文训练
+
+      📖 真实经文训练
+
+    </button>
+
+
+    <button
+      id="startSyntax"
+      class="secondary wide"
+      type="button"
+    >
+
+      🧩 Syntax Observation
+
     </button>
 
   </div>
@@ -297,7 +331,7 @@ VERSE TRAINING
 
 
 <!-- =====================================================
-ATTRIBUTION
+SOURCE NOTICE
 ====================================================== -->
 
   <div class="notice-box">
@@ -308,19 +342,90 @@ ATTRIBUTION
 
     <br><br>
 
-    MorphGNT：SBLGNT edition
+    MorphGNT / SBLGNT Edition
 
     <br>
 
-    Morphological parsing /
-    lemmatization 数据来自 MorphGNT。
+    当前系统读取 MorphGNT 的真实逐词资料。
 
     <br>
 
-    SBLGNT 文本及其使用条件请以原项目许可证与 EULA 为准。
+    形态分析与 Lemma 数据依据 MorphGNT；
+
+    文本使用条件遵守原项目许可条款。
 
   </div>
 
+
+</section>
+
+
+
+<!-- =====================================================
+VERSE
+====================================================== -->
+
+<section
+  id="verse"
+  class="screen"
+>
+
+  <div class="screen-head">
+
+    <button
+      id="verseBack"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        REAL TEXT
+      </div>
+
+      <h2>
+        真实经文
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div
+      id="verseReference"
+      class="verse-reference"
+    ></div>
+
+
+    <div
+      id="verseText"
+      class="verse-text"
+    ></div>
+
+
+    <div
+      id="verseTokenDetail"
+    ></div>
+
+  </div>
+
+
+  <button
+    id="nextVerse"
+    class="primary wide"
+    type="button"
+  >
+
+    下一节 →
+
+  </button>
 
 </section>
 
@@ -361,19 +466,16 @@ MORPHOLOGY
   </div>
 
 
-
   <div class="card">
 
     <div
-      id="morphologyCounter"
+      id="morphCounter"
       class="muted"
-    >
-      正在准备
-    </div>
+    ></div>
 
 
     <div
-      id="morphologyArea"
+      id="morphArea"
     ></div>
 
   </div>
@@ -383,18 +485,18 @@ MORPHOLOGY
 
 
 <!-- =====================================================
-VERSE
+SYNTAX
 ====================================================== -->
 
 <section
-  id="verseTraining"
+  id="syntax"
   class="screen"
 >
 
   <div class="screen-head">
 
     <button
-      id="verseBack"
+      id="syntaxBack"
       class="back"
       type="button"
     >
@@ -405,11 +507,11 @@ VERSE
     <div>
 
       <div class="eyebrow">
-        REAL TEXT TRAINING
+        SYNTAX OBSERVATION
       </div>
 
       <h2>
-        真实新约经文
+        句法观察
       </h2>
 
     </div>
@@ -420,60 +522,13 @@ VERSE
   <div class="card">
 
     <div
-      id="verseCounter"
+      id="syntaxCounter"
       class="muted"
     ></div>
 
 
     <div
-      id="verseArea"
-    ></div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-SEARCH
-====================================================== -->
-
-<section
-  id="search"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="searchBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-
-    <div>
-
-      <div class="eyebrow">
-        CORPUS SEARCH
-      </div>
-
-      <h2>
-        搜索结果
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div
-      id="searchPageResult"
+      id="syntaxArea"
     ></div>
 
   </div>
@@ -488,14 +543,14 @@ SEARCH
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V1.5
+  GBRM · Greek Bible Reading Model · V1.6
 
 </footer>
 
 
 
 <script
-  src="app.js?v=150"
+  src="app.js?v=160"
   defer
 ></script>
 
