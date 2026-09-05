@@ -16,12 +16,12 @@
   >
 
   <title>
-    GBRM V1.6｜Real Greek Text Engine
+    GBRM V1.7｜Lemma + Word Family Engine
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=160"
+    href="style.css?v=170"
   >
 
 </head>
@@ -46,7 +46,7 @@
 
 
   <div class="version">
-    V1.6
+    V1.7
   </div>
 
 </header>
@@ -65,7 +65,6 @@ HOME
   class="screen active"
 >
 
-
   <div class="hero">
 
     <div class="eyebrow">
@@ -77,24 +76,22 @@ HOME
     </h1>
 
     <p class="hero-subtitle">
-      Real Greek Text Engine
+      Lemma + Word Family Engine
     </p>
 
     <p class="hero-description">
 
-      不停留在教材例句。
+      从教材学习一个词，
 
       <br>
 
-      直接进入：
+      进入这个词在整个新约中的真实使用网络。
+
+      <br>
 
       <strong>
-        真实新约原文
+        Lesson → Lemma → Form → Context
       </strong>
-
-      <br>
-
-      Form → Lemma → Morphology → Context → Observation
 
     </p>
 
@@ -103,7 +100,7 @@ HOME
 
 
 <!-- =====================================================
-CORPUS STATUS
+CORPUS
 ====================================================== -->
 
   <div class="course-card">
@@ -117,7 +114,7 @@ CORPUS STATUS
     </h2>
 
     <p class="muted">
-      全新约真实逐词训练数据
+      全新约逐词资料
     </p>
 
 
@@ -130,7 +127,7 @@ CORPUS STATUS
         </strong>
 
         <span>
-          已载入书卷
+          书卷
         </span>
 
       </div>
@@ -143,7 +140,7 @@ CORPUS STATUS
         </strong>
 
         <span>
-          已载入词形
+          Token
         </span>
 
       </div>
@@ -151,12 +148,12 @@ CORPUS STATUS
 
       <div>
 
-        <strong id="corpusPercent">
-          0%
+        <strong id="lemmasLoaded">
+          0
         </strong>
 
         <span>
-          Corpus
+          Lemma
         </span>
 
       </div>
@@ -186,12 +183,10 @@ CORPUS STATUS
 
 
     <div
-      id="corpusStatusText"
+      id="corpusStatus"
       class="status-text"
     >
-
       尚未载入
-
     </div>
 
   </div>
@@ -199,23 +194,31 @@ CORPUS STATUS
 
 
 <!-- =====================================================
-BOOK BROWSER
+LESSON VOCABULARY
 ====================================================== -->
 
   <div class="card">
 
     <div class="eyebrow">
-      BOOK BROWSER
+      TEXTBOOK → CORPUS
     </div>
 
     <h3>
-      新约书卷
+      从教材进入词汇网络
     </h3>
+
+    <p class="muted">
+
+      选择教材课号，
+
+      系统会把该课词汇与整个新约 Corpus 自动连接。
+
+    </p>
 
 
     <div
-      id="bookGrid"
-      class="book-grid"
+      id="lessonWordList"
+      class="lesson-word-list"
     ></div>
 
   </div>
@@ -223,55 +226,39 @@ BOOK BROWSER
 
 
 <!-- =====================================================
-SEARCH
+LEMMA SEARCH
 ====================================================== -->
 
   <div class="card">
 
     <div class="eyebrow">
-      REAL GREEK SEARCH
+      LEMMA SEARCH
     </div>
 
     <h3>
-      原文检索
+      词典形检索
     </h3>
 
 
     <input
-      id="corpusSearch"
+      id="lemmaSearch"
       class="search-input"
       type="search"
-      placeholder="希腊文 / Lemma / 经文编号……"
+      placeholder="输入 λόγος / θεός / ἀγαπάω ……"
     >
 
 
-    <div class="search-row">
-
-      <select
-        id="bookSelect"
-        class="select"
-      >
-
-        <option value="">
-          全部已载入书卷
-        </option>
-
-      </select>
-
-
-      <button
-        id="searchBtn"
-        class="primary"
-        type="button"
-      >
-        搜索
-      </button>
-
-    </div>
+    <button
+      id="searchLemmaBtn"
+      class="primary wide"
+      type="button"
+    >
+      🔎 搜索词典形
+    </button>
 
 
     <div
-      id="searchResults"
+      id="lemmaSearchResults"
       class="search-results"
     ></div>
 
@@ -286,76 +273,161 @@ TRAINING
   <div class="card">
 
     <div class="eyebrow">
-      TRAINING LAB
+      WORD FAMILY TRAINING
     </div>
 
     <h3>
-      训练场
+      词汇网络训练
     </h3>
 
 
     <button
-      id="startMorphology"
+      id="startLemmaTraining"
       class="primary wide"
       type="button"
     >
-
-      🔬 真实词形训练
-
+      🧠 开始 Lemma 训练
     </button>
 
 
     <button
-      id="startVerse"
+      id="startFamilyTraining"
       class="secondary wide"
       type="button"
     >
-
-      📖 真实经文训练
-
-    </button>
-
-
-    <button
-      id="startSyntax"
-      class="secondary wide"
-      type="button"
-    >
-
-      🧩 Syntax Observation
-
+      🌐 开始 Word Family 训练
     </button>
 
   </div>
 
 
-
-<!-- =====================================================
-SOURCE NOTICE
-====================================================== -->
 
   <div class="notice-box">
 
     <strong>
-      Corpus Source
+      学习原则
     </strong>
 
     <br><br>
 
-    MorphGNT / SBLGNT Edition
+    教材负责建立语言知识。
 
     <br>
 
-    当前系统读取 MorphGNT 的真实逐词资料。
+    Corpus 负责提供真实新约使用环境。
 
     <br>
 
-    形态分析与 Lemma 数据依据 MorphGNT；
-
-    文本使用条件遵守原项目许可条款。
+    系统不会把“词频”直接等同于“神学意义”。
 
   </div>
 
+
+</section>
+
+
+
+<!-- =====================================================
+LEMMA
+====================================================== -->
+
+<section
+  id="lemma"
+  class="screen"
+>
+
+  <div class="screen-head">
+
+    <button
+      id="lemmaBack"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        LEMMA
+      </div>
+
+      <h2>
+        词典形学习中心
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div
+      id="lemmaCounter"
+      class="muted"
+    ></div>
+
+
+    <div
+      id="lemmaArea"
+    ></div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+FAMILY
+====================================================== -->
+
+<section
+  id="family"
+  class="screen"
+>
+
+  <div class="screen-head">
+
+    <button
+      id="familyBack"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        WORD FAMILY
+      </div>
+
+      <h2>
+        新约使用网络
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div
+      id="familyCounter"
+      class="muted"
+    ></div>
+
+
+    <div
+      id="familyArea"
+    ></div>
+
+  </div>
 
 </section>
 
@@ -388,7 +460,7 @@ VERSE
       </div>
 
       <h2>
-        真实经文
+        真实新约经文
       </h2>
 
     </div>
@@ -418,120 +490,12 @@ VERSE
 
 
   <button
-    id="nextVerse"
-    class="primary wide"
+    id="verseBackToLemma"
+    class="secondary wide"
     type="button"
   >
-
-    下一节 →
-
+    ← 返回词典形
   </button>
-
-</section>
-
-
-
-<!-- =====================================================
-MORPHOLOGY
-====================================================== -->
-
-<section
-  id="morphology"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="morphBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-
-    <div>
-
-      <div class="eyebrow">
-        MORPHOLOGY LAB
-      </div>
-
-      <h2>
-        真实词形分析
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div
-      id="morphCounter"
-      class="muted"
-    ></div>
-
-
-    <div
-      id="morphArea"
-    ></div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-SYNTAX
-====================================================== -->
-
-<section
-  id="syntax"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="syntaxBack"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-
-    <div>
-
-      <div class="eyebrow">
-        SYNTAX OBSERVATION
-      </div>
-
-      <h2>
-        句法观察
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div
-      id="syntaxCounter"
-      class="muted"
-    ></div>
-
-
-    <div
-      id="syntaxArea"
-    ></div>
-
-  </div>
 
 </section>
 
@@ -543,14 +507,14 @@ SYNTAX
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V1.6
+  GBRM · Greek Bible Reading Model · V1.7
 
 </footer>
 
 
 
 <script
-  src="app.js?v=160"
+  src="app.js?v=170"
   defer
 ></script>
 
