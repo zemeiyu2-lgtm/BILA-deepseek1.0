@@ -30,11 +30,22 @@
   --gold:
     #9a7740;
 
+  --gold-soft:
+    #f3ead8;
+
   --line:
     #e4ded2;
 
   --danger:
     #965f55;
+
+}
+
+
+html {
+
+  scroll-behavior:
+    smooth;
 
 }
 
@@ -91,6 +102,9 @@ button {
   cursor:
     pointer;
 
+  transition:
+    .15s ease;
+
 }
 
 
@@ -98,6 +112,14 @@ button:hover {
 
   border-color:
     #b8ae9c;
+
+}
+
+
+button:active {
+
+  transform:
+    scale(.98);
 
 }
 
@@ -190,7 +212,7 @@ button:disabled {
     100%;
 
   max-width:
-    980px;
+    1000px;
 
   margin:
     0 auto;
@@ -216,6 +238,10 @@ button:disabled {
 
 }
 
+
+/* =====================================================
+TYPOGRAPHY
+===================================================== */
 
 .hero {
 
@@ -293,6 +319,10 @@ button:disabled {
 }
 
 
+/* =====================================================
+CARDS
+===================================================== */
+
 .card,
 .course-card {
 
@@ -340,6 +370,33 @@ button:disabled {
 
 }
 
+
+.notice-box {
+
+  margin:
+    13px 0;
+
+  padding:
+    14px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    12px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+}
+
+
+/* =====================================================
+STATS
+===================================================== */
 
 .course-stat {
 
@@ -428,6 +485,9 @@ button:disabled {
   background:
     var(--accent);
 
+  transition:
+    width .3s ease;
+
 }
 
 
@@ -445,110 +505,94 @@ button:disabled {
 }
 
 
-.notice-box {
+/* =====================================================
+LESSON WORD
+===================================================== */
 
-  margin:
-    13px 0;
+.lesson-word-list {
 
-  padding:
-    14px;
+  display:
+    grid;
 
-  background:
-    #faf8f1;
+  gap:
+    9px;
 
-  border-radius:
+  margin-top:
     12px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    11px;
 
 }
 
 
-/* =====================================================
-BOOKS
-===================================================== */
-
-.book-grid {
+.lesson-word-card {
 
   display:
     grid;
 
   grid-template-columns:
-    repeat(3,1fr);
+    1fr auto;
 
   gap:
-    8px;
+    10px;
 
-  margin-top:
-    13px;
-
-}
-
-
-.book-button {
-
-  min-height:
-    58px;
+  align-items:
+    center;
 
   padding:
-    9px;
+    13px;
 
-  text-align:
-    left;
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    12px;
+
+  background:
+    white;
 
 }
 
 
-.book-button.loaded {
+.lesson-word-card.selected {
 
   background:
     var(--accent-soft);
 
   border-color:
-    #bed0c4;
-
-}
-
-
-.book-id {
-
-  color:
     var(--accent);
 
+}
+
+
+.lesson-word-greek {
+
+  font-family:
+    Georgia,
+    serif;
+
   font-size:
-    9px;
-
-  font-weight:
-    800;
+    27px;
 
 }
 
 
-.book-name {
-
-  margin-top:
-    2px;
-
-  font-weight:
-    700;
-
-}
-
-
-.book-status {
-
-  margin-top:
-    3px;
+.lesson-word-meta {
 
   color:
     var(--muted);
 
   font-size:
-    9px;
+    10px;
+
+}
+
+
+.lesson-word-frequency {
+
+  color:
+    var(--accent);
+
+  font-size:
+    10px;
 
 }
 
@@ -591,52 +635,18 @@ SEARCH
 }
 
 
-.search-row {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 100px;
-
-  gap:
-    8px;
-
-  margin-top:
-    8px;
-
-}
-
-
-.select {
-
-  padding:
-    10px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    10px;
-
-  background:
-    white;
-
-}
-
-
 .search-results {
 
   margin-top:
-    12px;
+    13px;
 
 }
 
 
-.result-row {
+.search-result-row {
 
   padding:
-    12px 0;
+    13px 0;
 
   border-top:
     1px solid var(--line);
@@ -647,7 +657,7 @@ SEARCH
 }
 
 
-.result-row:first-child {
+.search-result-row:first-child {
 
   border-top:
     0;
@@ -655,30 +665,19 @@ SEARCH
 }
 
 
-.result-word {
+.search-result-lemma {
 
   font-family:
     Georgia,
     serif;
 
   font-size:
-    27px;
+    29px;
 
 }
 
 
-.result-reference {
-
-  color:
-    var(--accent);
-
-  font-size:
-    11px;
-
-}
-
-
-.result-meta {
+.search-result-meta {
 
   color:
     var(--muted);
@@ -690,7 +689,7 @@ SEARCH
 
 
 /* =====================================================
-HEADER
+SCREEN HEADER
 ===================================================== */
 
 .screen-head {
@@ -733,6 +732,277 @@ HEADER
 
 
 /* =====================================================
+LEMMA
+===================================================== */
+
+.lemma-main {
+
+  text-align:
+    center;
+
+  padding:
+    10px 0 20px;
+
+}
+
+
+.lemma-greek {
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      44px,
+      11vw,
+      70px
+    );
+
+  line-height:
+    1.3;
+
+}
+
+
+.lemma-gloss {
+
+  margin-top:
+    5px;
+
+  font-size:
+    14px;
+
+}
+
+
+.lemma-stat-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:
+    8px;
+
+  margin-top:
+    15px;
+
+}
+
+
+.lemma-stat {
+
+  padding:
+    11px 5px;
+
+  text-align:
+    center;
+
+  background:
+    #faf9f4;
+
+  border-radius:
+    11px;
+
+}
+
+
+.lemma-stat strong {
+
+  display:
+    block;
+
+  font-size:
+    20px;
+
+}
+
+
+.lemma-stat span {
+
+  color:
+    var(--muted);
+
+  font-size:
+    9px;
+
+}
+
+
+.form-list {
+
+  display:
+    grid;
+
+  gap:
+    7px;
+
+  margin-top:
+    13px;
+
+}
+
+
+.form-row {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr auto;
+
+  gap:
+    10px;
+
+  padding:
+    11px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    10px;
+
+  background:
+    white;
+
+}
+
+
+.form-word {
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    21px;
+
+}
+
+
+.form-meta {
+
+  color:
+    var(--muted);
+
+  font-size:
+    9px;
+
+}
+
+
+/* =====================================================
+FAMILY
+===================================================== */
+
+.family-map {
+
+  margin-top:
+    14px;
+
+}
+
+
+.family-node {
+
+  margin:
+    8px 0;
+
+  padding:
+    13px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    12px;
+
+}
+
+
+.family-node-main {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+}
+
+
+.family-node-word {
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    26px;
+
+}
+
+
+.family-node-frequency {
+
+  color:
+    var(--accent);
+
+  font-size:
+    10px;
+
+}
+
+
+.family-books {
+
+  margin-top:
+    7px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+  line-height:
+    1.8;
+
+}
+
+
+.family-sample {
+
+  margin-top:
+    8px;
+
+  padding:
+    9px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    9px;
+
+  cursor:
+    pointer;
+
+}
+
+
+/* =====================================================
 VERSE
 ===================================================== */
 
@@ -742,7 +1012,7 @@ VERSE
     var(--accent);
 
   font-size:
-    12px;
+    11px;
 
   font-weight:
     800;
@@ -853,7 +1123,7 @@ TOKEN DETAIL
     serif;
 
   font-size:
-    33px;
+    32px;
 
 }
 
@@ -909,221 +1179,6 @@ TOKEN DETAIL
 
 
 /* =====================================================
-MORPHOLOGY
-===================================================== */
-
-.morph-word {
-
-  margin:
-    20px 0;
-
-  text-align:
-    center;
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    clamp(
-      40px,
-      10vw,
-      63px
-    );
-
-}
-
-
-.morph-reference {
-
-  color:
-    var(--accent);
-
-  text-align:
-    center;
-
-  font-size:
-    11px;
-
-}
-
-
-.morph-question {
-
-  margin:
-    13px 0;
-
-  padding:
-    13px;
-
-  background:
-    white;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    12px;
-
-}
-
-
-.morph-question-title {
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
-
-}
-
-
-.morph-options {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:
-    8px;
-
-  margin-top:
-    8px;
-
-}
-
-
-.morph-options button {
-
-  min-height:
-    45px;
-
-}
-
-
-.correct {
-
-  background:
-    var(--accent-soft) !important;
-
-  border-color:
-    var(--accent) !important;
-
-}
-
-
-.wrong {
-
-  background:
-    #f6e8e5 !important;
-
-  border-color:
-    var(--danger) !important;
-
-}
-
-
-/* =====================================================
-SYNTAX
-===================================================== */
-
-.syntax-intro {
-
-  padding:
-    15px;
-
-  background:
-    #faf8f1;
-
-  border-radius:
-    12px;
-
-}
-
-
-.syntax-verse {
-
-  margin:
-    15px 0;
-
-  padding:
-    15px;
-
-  background:
-    white;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    13px;
-
-}
-
-
-.syntax-word {
-
-  display:
-    inline-block;
-
-  margin:
-    3px;
-
-  padding:
-    4px 7px;
-
-  background:
-    #faf9f4;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    7px;
-
-  cursor:
-    pointer;
-
-}
-
-
-.syntax-word:hover {
-
-  background:
-    var(--accent-soft);
-
-}
-
-
-.syntax-question {
-
-  margin-top:
-    14px;
-
-  padding:
-    13px;
-
-  background:
-    #faf8f1;
-
-  border-radius:
-    11px;
-
-}
-
-
-.syntax-question-title {
-
-  font-weight:
-    700;
-
-}
-
-
-/* =====================================================
 BUTTONS
 ===================================================== */
 
@@ -1168,8 +1223,49 @@ BUTTONS
 }
 
 
+.success {
+
+  margin-top:
+    13px;
+
+  padding:
+    13px;
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+  border-radius:
+    10px;
+
+}
+
+
 /* =====================================================
-RESPONSIVE
+FOOTER
+===================================================== */
+
+footer {
+
+  padding:
+    22px;
+
+  text-align:
+    center;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+}
+
+
+/* =====================================================
+MOBILE
 ===================================================== */
 
 @media (
@@ -1192,7 +1288,7 @@ RESPONSIVE
   }
 
 
-  .book-grid {
+  .lemma-stat-grid {
 
     grid-template-columns:
       1fr 1fr;
@@ -1200,29 +1296,15 @@ RESPONSIVE
   }
 
 
-  .search-row {
+  .lemma-stat:last-child {
 
-    grid-template-columns:
-      1fr;
-
-  }
-
-
-  .morph-options {
-
-    grid-template-columns:
-      1fr;
+    grid-column:
+      1 / -1;
 
   }
 
-}
 
-
-@media (
-  max-width:440px
-) {
-
-  .book-grid {
+  .lesson-word-card {
 
     grid-template-columns:
       1fr;
