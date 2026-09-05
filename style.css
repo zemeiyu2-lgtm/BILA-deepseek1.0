@@ -4,7 +4,1579 @@
 
 
 :root{
+*{
+  box-sizing:border-box;
+}
 
+
+:root{
+
+  --bg:#f5f1e7;
+
+  --paper:#fffdf8;
+
+  --white:#ffffff;
+
+  --ink:#29332d;
+
+  --muted:#778078;
+
+  --accent:#496b59;
+
+  --accent-soft:#e6eee7;
+
+  --gold:#9a7740;
+
+  --gold-soft:#f3ead8;
+
+  --line:#e4ded2;
+
+  --danger:#965f55;
+
+}
+
+
+html{
+  scroll-behavior:smooth;
+}
+
+
+body{
+
+  margin:0;
+
+  background:var(--bg);
+
+  color:var(--ink);
+
+  font-family:
+    Arial,
+    "Microsoft YaHei",
+    sans-serif;
+
+  line-height:1.65;
+
+}
+
+
+button{
+
+  font:inherit;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:10px;
+
+  background:var(--white);
+
+  color:var(--ink);
+
+  padding:10px 13px;
+
+  cursor:pointer;
+
+  transition:.15s ease;
+
+}
+
+
+button:hover{
+  border-color:#b8ae9c;
+}
+
+
+button:active{
+  transform:scale(.98);
+}
+
+
+button:disabled{
+
+  opacity:.55;
+
+  cursor:default;
+
+}
+
+
+.hidden{
+  display:none !important;
+}
+
+
+/* =====================================================
+TOP
+===================================================== */
+
+.topbar{
+
+  position:sticky;
+
+  top:0;
+
+  z-index:30;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:13px 18px;
+
+  background:
+    rgba(245,241,231,.97);
+
+  border-bottom:
+    1px solid var(--line);
+
+  backdrop-filter:
+    blur(10px);
+
+}
+
+
+.brand{
+
+  font-weight:800;
+
+  letter-spacing:.12em;
+
+}
+
+
+.subtitle{
+
+  color:var(--muted);
+
+  font-size:10px;
+
+}
+
+
+.version{
+
+  color:var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+}
+
+
+/* =====================================================
+APP
+===================================================== */
+
+.app{
+
+  width:100%;
+
+  max-width:900px;
+
+  margin:0 auto;
+
+  padding:18px 16px 65px;
+
+}
+
+
+.screen{
+  display:none;
+}
+
+
+.screen.active{
+  display:block;
+}
+
+
+/* =====================================================
+PORTAL
+===================================================== */
+
+.portal-head{
+
+  padding:
+    30px 3px 22px;
+
+}
+
+
+.eyebrow{
+
+  color:
+    var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+  letter-spacing:.14em;
+
+}
+
+
+.portal-head h1{
+
+  margin:
+    7px 0 12px;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(
+      34px,
+      9vw,
+      58px
+    );
+
+  line-height:1.12;
+
+  font-weight:600;
+
+}
+
+
+.portal-head p{
+
+  margin:0;
+
+  color:var(--muted);
+
+  font-size:14px;
+
+}
+
+
+/* =====================================================
+TODAY
+===================================================== */
+
+.today-card{
+
+  padding:21px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf0,
+      #f4ead5
+    );
+
+  border:
+    1px solid #d6c29c;
+
+  border-radius:19px;
+
+}
+
+
+.today-label{
+
+  color:
+    var(--gold);
+
+  font-size:10px;
+
+  font-weight:800;
+
+  letter-spacing:.11em;
+
+}
+
+
+.today-number{
+
+  margin-top:7px;
+
+  color:var(--accent);
+
+  font-size:12px;
+
+  font-weight:800;
+
+}
+
+
+.today-title{
+
+  margin-top:2px;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:25px;
+
+}
+
+
+.today-objective{
+
+  margin-top:7px;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+}
+
+
+/* =====================================================
+PROGRESS
+===================================================== */
+
+.progress-card{
+
+  margin-top:13px;
+
+  padding:
+    15px 17px;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:15px;
+
+}
+
+
+.progress-head{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  font-size:11px;
+
+}
+
+
+.progress-head strong{
+
+  color:
+    var(--accent);
+
+}
+
+
+.progress-track{
+
+  height:7px;
+
+  margin-top:8px;
+
+  background:#e8e4db;
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+}
+
+
+.progress-fill{
+
+  width:0;
+
+  height:100%;
+
+  background:
+    var(--accent);
+
+  transition:
+    width .25s ease;
+
+}
+
+
+.progress-text{
+
+  margin-top:7px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
+}
+
+
+/* =====================================================
+PORTAL
+===================================================== */
+
+.portal-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:10px;
+
+  margin-top:13px;
+
+}
+
+
+.portal-item{
+
+  padding:
+    17px 14px;
+
+  text-align:left;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:16px;
+
+}
+
+
+.portal-item:hover{
+
+  background:
+    var(--white);
+
+}
+
+
+.portal-icon{
+
+  display:block;
+
+  width:max-content;
+
+  margin-bottom:9px;
+
+  padding:
+    4px 8px;
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+  border-radius:7px;
+
+  font-size:9px;
+
+}
+
+
+.portal-item strong{
+
+  display:block;
+
+  font-size:14px;
+
+}
+
+
+.portal-item small{
+
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+}
+
+
+/* =====================================================
+CARD
+===================================================== */
+
+.card{
+
+  margin-top:13px;
+
+  padding:18px;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:17px;
+
+}
+
+
+.lesson-panel{
+
+  margin-top:13px;
+
+}
+
+
+.panel-head{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-start;
+
+  gap:10px;
+
+}
+
+
+.panel-head h3{
+
+  margin:
+    4px 0 0;
+
+}
+
+
+.small-button{
+
+  padding:
+    7px 10px;
+
+  font-size:10px;
+
+}
+
+
+.muted{
+
+  color:var(--muted);
+
+}
+
+
+/* =====================================================
+LESSON LIST
+===================================================== */
+
+.lesson-list{
+
+  display:grid;
+
+  gap:7px;
+
+  margin-top:13px;
+
+}
+
+
+.lesson-group{
+
+  margin-top:10px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
+  font-weight:800;
+
+  letter-spacing:.1em;
+
+}
+
+
+.lesson-item{
+
+  display:grid;
+
+  grid-template-columns:
+    45px 1fr 18px;
+
+  align-items:center;
+
+  gap:10px;
+
+  width:100%;
+
+  padding:11px;
+
+  text-align:left;
+
+  background:#fff;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:12px;
+
+}
+
+
+.lesson-item.current{
+
+  background:
+    var(--gold-soft);
+
+  border-color:#d6c29c;
+
+}
+
+
+.lesson-item.completed{
+
+  background:
+    var(--accent-soft);
+
+  border-color:#bfd1c4;
+
+}
+
+
+.lesson-index{
+
+  color:
+    var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+}
+
+
+.lesson-title{
+
+  font-weight:700;
+
+  font-size:12px;
+
+}
+
+
+.lesson-meta{
+
+  display:block;
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
+}
+
+
+.lesson-mark{
+
+  color:var(--accent);
+
+  text-align:right;
+
+}
+
+
+/* =====================================================
+HEAD
+===================================================== */
+
+.screen-head{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  margin:
+    7px 0 16px;
+
+}
+
+
+.screen-head h2{
+
+  margin:
+    3px 0;
+
+  font-size:22px;
+
+}
+
+
+.back{
+
+  width:40px;
+
+  height:40px;
+
+  border-radius:50%;
+
+}
+
+
+/* =====================================================
+LESSON
+===================================================== */
+
+.lesson-identity{
+
+  padding:18px;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:17px;
+
+}
+
+
+.lesson-number{
+
+  color:
+    var(--accent);
+
+  font-size:28px;
+
+  font-weight:800;
+
+}
+
+
+.lesson-name{
+
+  margin-top:3px;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:23px;
+
+}
+
+
+.lesson-objective{
+
+  margin-top:7px;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+}
+
+
+.lesson-progress{
+
+  margin:
+    10px 0 15px;
+
+}
+
+
+.lesson-step-text{
+
+  margin-bottom:5px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
+}
+
+
+.lesson-section{
+
+  margin-top:13px;
+
+  padding:18px;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:16px;
+
+}
+
+
+.lesson-section h3{
+
+  margin-top:0;
+
+}
+
+
+.lesson-content{
+
+  font-size:13px;
+
+  line-height:1.9;
+
+}
+
+
+.training-explanation{
+
+  margin-top:13px;
+
+  padding:13px;
+
+  background:
+    #faf8f1;
+
+  border-radius:11px;
+
+}
+
+
+.training-explanation-title{
+
+  color:
+    var(--accent);
+
+  font-size:9px;
+
+  font-weight:800;
+
+  letter-spacing:.1em;
+
+}
+
+
+.training-explanation-text{
+
+  margin-top:5px;
+
+  font-size:12px;
+
+  line-height:1.9;
+
+}
+
+
+/* =====================================================
+PRACTICE
+===================================================== */
+
+.practice-card{
+
+  margin-top:12px;
+
+  padding:15px;
+
+  background:#fff;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:12px;
+
+}
+
+
+.practice-question{
+
+  font-weight:700;
+
+  font-size:13px;
+
+}
+
+
+.practice-options{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:8px;
+
+  margin-top:12px;
+
+}
+
+
+.practice-options button{
+
+  min-height:45px;
+
+  font-size:12px;
+
+}
+
+
+.correct{
+
+  background:
+    var(--accent-soft) !important;
+
+  border-color:
+    var(--accent) !important;
+
+}
+
+
+.wrong{
+
+  background:
+    #f6e8e5 !important;
+
+  border-color:
+    var(--danger) !important;
+
+}
+
+
+/* =====================================================
+VOCABULARY
+===================================================== */
+
+.vocab-grid{
+
+  display:grid;
+
+  gap:8px;
+
+}
+
+
+.vocab-card{
+
+  padding:13px;
+
+  background:#fff;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:12px;
+
+}
+
+
+.vocab-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+}
+
+
+.vocab-word{
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:27px;
+
+}
+
+
+.vocab-gloss{
+
+  margin-top:4px;
+
+  font-size:12px;
+
+}
+
+
+.vocab-actions{
+
+  display:flex;
+
+  gap:7px;
+
+  margin-top:9px;
+
+  flex-wrap:wrap;
+
+}
+
+
+.vocab-actions button{
+
+  padding:
+    7px 9px;
+
+  font-size:9px;
+
+}
+
+
+.vocab-status{
+
+  display:inline-block;
+
+  margin-top:8px;
+
+  padding:
+    4px 7px;
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+  border-radius:7px;
+
+  font-size:9px;
+
+}
+
+
+/* =====================================================
+CORPUS
+===================================================== */
+
+.corpus-card{
+
+  margin-top:13px;
+
+  padding:17px;
+
+  background:#fff;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:16px;
+
+}
+
+
+.corpus-reference{
+
+  color:
+    var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+}
+
+
+.corpus-greek{
+
+  margin:14px 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      22px,
+      5vw,
+      30px
+    );
+
+  line-height:2.1;
+
+}
+
+
+.corpus-token{
+
+  display:inline-block;
+
+  margin:2px;
+
+  padding:
+    2px 5px;
+
+  border-radius:6px;
+
+  cursor:pointer;
+
+}
+
+
+.corpus-token:hover{
+
+  background:
+    var(--accent-soft);
+
+}
+
+
+.corpus-token.active{
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+}
+
+
+.curated-note{
+
+  margin-top:11px;
+
+  padding:12px;
+
+  background:
+    #faf8f1;
+
+  border-radius:11px;
+
+}
+
+
+.curated-note-title{
+
+  color:
+    var(--accent);
+
+  font-size:9px;
+
+  font-weight:800;
+
+  letter-spacing:.1em;
+
+}
+
+
+.curated-note-text{
+
+  margin-top:5px;
+
+  font-size:12px;
+
+  line-height:1.85;
+
+}
+
+
+.help-panel{
+
+  margin-top:11px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:11px;
+
+  overflow:hidden;
+
+}
+
+
+.help-button{
+
+  width:100%;
+
+  text-align:left;
+
+  border:0;
+
+  border-radius:0;
+
+}
+
+
+.help-level{
+
+  padding:13px;
+
+  background:#fff;
+
+  border-top:
+    1px solid var(--line);
+
+}
+
+
+.help-level-title{
+
+  color:
+    var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+}
+
+
+.help-level-text{
+
+  margin-top:5px;
+
+  font-size:12px;
+
+  line-height:1.9;
+
+}
+
+
+.training-task{
+
+  margin-top:11px;
+
+  padding:13px;
+
+  background:
+    var(--accent-soft);
+
+  border-radius:11px;
+
+  font-size:12px;
+
+}
+
+
+.training-task strong{
+
+  display:block;
+
+  margin-bottom:5px;
+
+}
+
+
+.token-detail{
+
+  margin-top:13px;
+
+  padding:13px;
+
+  background:
+    #faf8f1;
+
+  border-radius:11px;
+
+}
+
+
+.token-detail-word{
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:29px;
+
+}
+
+
+.token-line{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  padding:6px 0;
+
+  border-top:
+    1px solid var(--line);
+
+}
+
+
+.token-line:first-child{
+
+  border-top:0;
+
+}
+
+
+.token-label{
+
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+}
+
+
+.token-value{
+
+  text-align:right;
+
+  font-weight:700;
+
+  font-size:11px;
+
+}
+
+
+/* =====================================================
+LEMMA
+===================================================== */
+
+.lemma-hero{
+
+  padding:20px;
+
+  text-align:center;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:17px;
+
+}
+
+
+.lemma-word{
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(
+      42px,
+      10vw,
+      65px
+    );
+
+}
+
+
+.lemma-gloss{
+
+  margin-top:5px;
+
+}
+
+
+.lemma-help{
+
+  margin-top:11px;
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+
+}
+
+
+.form-row{
+
+  padding:
+    11px 0;
+
+  border-top:
+    1px solid var(--line);
+
+  cursor:pointer;
+
+}
+
+
+.form-row:first-child{
+
+  border-top:0;
+
+}
+
+
+.form-word{
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:21px;
+
+}
+
+
+.form-meta{
+
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+}
+
+
+/* =====================================================
+VERSE
+===================================================== */
+
+.verse-reference{
+
+  color:
+    var(--accent);
+
+  font-size:10px;
+
+  font-weight:800;
+
+}
+
+
+.verse-text{
+
+  margin-top:12px;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:23px;
+
+  line-height:2;
+
+}
+
+
+/* =====================================================
+GENERAL
+===================================================== */
+
+.wide{
+
+  width:100%;
+
+  margin-top:10px;
+
+}
+
+
+.primary{
+
+  background:
+    var(--accent);
+
+  color:#fff;
+
+  border-color:
+    var(--accent);
+
+}
+
+
+.secondary{
+
+  background:#fff;
+
+}
+
+
+.lesson-actions{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:9px;
+
+  margin-top:13px;
+
+}
+
+
+.success{
+
+  padding:13px;
+
+  background:
+    var(--accent-soft);
+
+  color:
+    var(--accent);
+
+  border-radius:10px;
+
+}
+
+
+.analysis-block{
+
+  line-height:1.9;
+
+}
+
+
+/* =====================================================
+FOOTER
+===================================================== */
+
+footer{
+
+  padding:20px;
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:9px;
+
+}
+
+
+/* =====================================================
+MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+  .portal-grid{
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+
+  .practice-options{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .lesson-actions{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}
   --bg:#f5f1e7;
 
   --paper:#fffdf8;
