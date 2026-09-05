@@ -29,11 +29,11 @@
   --gold-soft:
     #f3ead8;
 
-  --line:
-    #e4ded2;
-
   --danger:
     #965f55;
+
+  --line:
+    #e4ded2;
 
 }
 
@@ -150,11 +150,14 @@ button:active {
 
 .version {
 
+  color:
+    var(--accent);
+
   font-size:
     11px;
 
-  color:
-    var(--accent);
+  font-weight:
+    700;
 
 }
 
@@ -165,13 +168,13 @@ button:active {
     100%;
 
   max-width:
-    850px;
+    880px;
 
   margin:
-    auto;
+    0 auto;
 
   padding:
-    18px 16px 70px;
+    18px 16px 80px;
 
 }
 
@@ -195,7 +198,7 @@ button:active {
 .hero {
 
   padding:
-    32px 4px 23px;
+    35px 4px 22px;
 
 }
 
@@ -220,7 +223,7 @@ button:active {
 .hero h1 {
 
   margin:
-    8px 0;
+    5px 0;
 
   font-family:
     Georgia,
@@ -228,22 +231,28 @@ button:active {
 
   font-size:
     clamp(
-      40px,
-      10vw,
-      68px
+      42px,
+      11vw,
+      70px
     );
+
+  line-height:
+    1;
 
 }
 
 
 .hero-subtitle {
 
+  margin:
+    8px 0;
+
   font-family:
     Georgia,
     serif;
 
   font-size:
-    18px;
+    20px;
 
 }
 
@@ -259,7 +268,9 @@ button:active {
 }
 
 
-.card {
+.card,
+.course-card,
+.lesson-head-card {
 
   margin:
     13px 0;
@@ -267,25 +278,19 @@ button:active {
   padding:
     19px;
 
-  background:
-    var(--paper);
-
   border:
     1px solid var(--line);
 
   border-radius:
     18px;
 
+  background:
+    var(--paper);
+
 }
 
 
-.golden-card {
-
-  margin:
-    13px 0;
-
-  padding:
-    24px 20px;
+.course-card {
 
   background:
     linear-gradient(
@@ -294,76 +299,254 @@ button:active {
       #f4ead5
     );
 
-  border:
-    1px solid #d6c29c;
-
-  border-radius:
-    22px;
+  border-color:
+    #d6c29c;
 
 }
 
 
-.golden-card h2 {
+.course-card h2 {
 
   margin:
-    6px 0;
+    5px 0 0;
 
   font-family:
     Georgia,
     serif;
 
-  font-size:
-    29px;
-
 }
 
 
-.flow {
+.course-stat {
 
-  margin:
-    17px 0;
+  display:
+    grid;
 
-  color:
-    #726650;
+  grid-template-columns:
+    repeat(3,1fr);
 
-  font-size:
-    11px;
-
-  line-height:
-    2;
-
-}
-
-
-.wide {
-
-  width:
-    100%;
+  gap:
+    8px;
 
   margin-top:
+    16px;
+
+}
+
+
+.course-stat div {
+
+  padding:
+    12px 5px;
+
+  text-align:
+    center;
+
+  background:
+    rgba(255,255,255,.6);
+
+  border-radius:
+    12px;
+
+}
+
+
+.course-stat strong {
+
+  display:
+    block;
+
+  font-size:
+    21px;
+
+}
+
+
+.course-stat span {
+
+  color:
+    var(--muted);
+
+  font-size:
     10px;
 
 }
 
 
-.primary {
+.progress-track {
+
+  height:
+    7px;
+
+  margin-top:
+    10px;
 
   background:
-    var(--accent);
+    #e8e4db;
 
-  color:
-    white;
+  border-radius:
+    20px;
 
-  border-color:
-    var(--accent);
+  overflow:
+    hidden;
 
 }
 
 
-.secondary {
+.progress-fill {
+
+  width:
+    0;
+
+  height:
+    100%;
+
+  background:
+    var(--accent);
+
+  transition:
+    width .3s ease;
+
+}
+
+
+.lesson-list {
+
+  display:
+    grid;
+
+  gap:
+    9px;
+
+  margin-top:
+    13px;
+
+}
+
+
+.lesson-item {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    55px 1fr auto;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+  padding:
+    13px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    13px;
 
   background:
     white;
+
+}
+
+
+.lesson-number {
+
+  color:
+    var(--accent);
+
+  font-weight:
+    800;
+
+  font-size:
+    10px;
+
+}
+
+
+.lesson-name {
+
+  font-weight:
+    700;
+
+}
+
+
+.lesson-meta {
+
+  display:
+    block;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+}
+
+
+.lesson-status {
+
+  color:
+    var(--accent);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+}
+
+
+.lesson-item.done {
+
+  background:
+    var(--accent-soft);
+
+}
+
+
+.training-flow {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    12px;
+
+}
+
+
+.training-flow span {
+
+  padding:
+    7px 9px;
+
+  background:
+    #faf9f4;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    8px;
 
 }
 
@@ -380,7 +563,7 @@ button:active {
     12px;
 
   margin:
-    8px 0 18px;
+    8px 0 17px;
 
 }
 
@@ -407,19 +590,74 @@ button:active {
 }
 
 
-.target-list {
+.lesson-head-card {
 
-  display:
-    grid;
+  background:
+    #faf8f1;
 
-  gap:
-    8px;
+}
 
-  color:
-    var(--muted);
+
+.lesson-reference {
+
+  font-family:
+    Georgia,
+    serif;
 
   font-size:
-    13px;
+    24px;
+
+  font-weight:
+    700;
+
+}
+
+
+.lesson-section {
+
+  margin:
+    13px 0;
+
+  padding:
+    17px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    15px;
+
+}
+
+
+.lesson-section h3 {
+
+  margin-top:
+    0;
+
+}
+
+
+.greek {
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+}
+
+
+.greek-large {
+
+  font-size:
+    40px;
+
+  text-align:
+    center;
 
 }
 
@@ -441,10 +679,7 @@ button:active {
 .letter-card {
 
   min-height:
-    95px;
-
-  padding:
-    10px;
+    92px;
 
   display:
     flex;
@@ -458,19 +693,13 @@ button:active {
   justify-content:
     center;
 
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    12px;
-
   background:
-    white;
+    #faf9f4;
 
 }
 
 
-.letter-small {
+.letter {
 
   font-family:
     Georgia,
@@ -482,35 +711,24 @@ button:active {
 }
 
 
-.letter-large {
+.letter-name {
 
   color:
     var(--muted);
 
   font-size:
-    11px;
+    10px;
 
 }
 
 
-.vowel-grid {
+.word-example {
 
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(7,1fr);
-
-  gap:
-    8px;
-
-}
-
-
-.vowel {
+  margin-top:
+    13px;
 
   padding:
-    12px 5px;
+    15px;
 
   text-align:
     center;
@@ -519,115 +737,15 @@ button:active {
     var(--accent-soft);
 
   border-radius:
-    10px;
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    25px;
-
-}
-
-
-.diphthong-row {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-
-  padding:
-    11px 0;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.diphthong-row:first-child {
-
-  border-top:
-    0;
-
-}
-
-
-.diphthong {
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    23px;
-
-}
-
-
-.greek-large {
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    30px;
-
-}
-
-
-.notice {
-
-  padding:
-    13px;
-
-  background:
-    #faf8f1;
-
-  border-radius:
-    10px;
-
-  color:
-    var(--muted);
-
-  font-size:
     12px;
 
 }
 
 
-.game {
-
-  min-height:
-    210px;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-}
-
-
-.game-letter {
-
-  margin-bottom:
-    14px;
-
-  font-family:
-    Georgia,
-    serif;
+.word-example .greek {
 
   font-size:
-    65px;
+    28px;
 
 }
 
@@ -638,30 +756,51 @@ button:active {
     grid;
 
   grid-template-columns:
-    repeat(2,1fr);
+    1fr 1fr;
 
   gap:
     8px;
+
+  margin-top:
+    12px;
 
 }
 
 
 .choice-grid button {
 
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    28px;
+  min-height:
+    54px;
 
 }
 
 
-.score {
+.choice-correct {
+
+  background:
+    var(--accent-soft);
+
+  border-color:
+    var(--accent);
+
+}
+
+
+.choice-wrong {
+
+  background:
+    #f6e9e6;
+
+  border-color:
+    var(--danger);
+
+}
+
+
+.exercise-score {
 
   margin-top:
-    14px;
+    12px;
 
   padding:
     10px;
@@ -675,31 +814,8 @@ button:active {
   border-radius:
     10px;
 
-}
-
-
-.greek-word {
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:
-    38px;
-
-  text-align:
-    center;
-
-  letter-spacing:
-    .03em;
-
-}
-
-
-.hidden {
-
-  display:
-    none;
+  font-weight:
+    700;
 
 }
 
@@ -709,77 +825,14 @@ button:active {
   padding:
     13px;
 
-  background:
-    var(--accent-soft);
-
   color:
     var(--accent);
+
+  background:
+    var(--accent-soft);
 
   border-radius:
     10px;
-
-}
-
-
-.result-hero {
-
-  padding:
-    40px 10px 20px;
-
-  text-align:
-    center;
-
-}
-
-
-.result-mark {
-
-  width:
-    70px;
-
-  height:
-    70px;
-
-  margin:
-    auto auto 18px;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  border-radius:
-    50%;
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  font-size:
-    34px;
-
-}
-
-
-.improvement-card {
-
-  margin:
-    13px 0;
-
-  padding:
-    18px;
-
-  background:
-    var(--accent-soft);
-
-  border-radius:
-    16px;
-
-  text-align:
-    center;
 
 }
 
@@ -788,6 +841,75 @@ button:active {
 
   color:
     var(--muted);
+
+}
+
+
+.hidden {
+
+  display:
+    none !important;
+
+}
+
+
+.review-row {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    15px;
+
+  padding:
+    13px 0;
+
+  border-top:
+    1px solid var(--line);
+
+}
+
+
+.review-row:first-child {
+
+  border-top:
+    0;
+
+}
+
+
+.review-row small {
+
+  color:
+    var(--muted);
+
+}
+
+
+.wide {
+
+  width:
+    100%;
+
+  margin-top:
+    10px;
+
+}
+
+
+.primary {
+
+  background:
+    var(--accent);
+
+  color:
+    white;
+
+  border-color:
+    var(--accent);
 
 }
 
@@ -821,10 +943,18 @@ footer {
   }
 
 
-  .vowel-grid {
+  .course-stat {
 
     grid-template-columns:
-      repeat(4,1fr);
+      1fr 1fr;
+
+  }
+
+
+  .course-stat div:last-child {
+
+    grid-column:
+      1 / -1;
 
   }
 
