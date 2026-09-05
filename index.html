@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
 
   <meta charset="UTF-8">
@@ -15,12 +16,12 @@
   >
 
   <title>
-    GBRM V1.9｜Textbook Core Engine
+    GBRM V2.0｜Textbook Digital Engine
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=190"
+    href="style.css?v=200"
   >
 
 </head>
@@ -43,8 +44,9 @@
 
   </div>
 
+
   <div class="version">
-    V1.9
+    V2.0
   </div>
 
 </header>
@@ -63,10 +65,11 @@ HOME
   class="screen active"
 >
 
+
   <div class="hero">
 
     <div class="eyebrow">
-      TEXTBOOK CORE ENGINE
+      TEXTBOOK DIGITAL ENGINE
     </div>
 
     <h1>
@@ -74,23 +77,21 @@ HOME
     </h1>
 
     <p class="hero-subtitle">
-      教材驱动的新约希腊文学习引擎
+      Greek Bible Reading Model
     </p>
 
     <p class="hero-description">
 
-      教材决定：
-
-      <strong>
-        学什么、何时学、练什么
-      </strong>
+      教材决定学习路径。
 
       <br>
 
-      原文 Corpus 负责提供：
+      原文负责把教材知识带进真实新约。
+
+      <br>
 
       <strong>
-        真实的新约训练场
+        Learn → Practice → Read → Observe → Return
       </strong>
 
     </p>
@@ -100,7 +101,7 @@ HOME
 
 
 <!-- =====================================================
-COURSE PROGRESS
+COURSE DASHBOARD
 ====================================================== -->
 
   <div class="course-card">
@@ -114,7 +115,7 @@ COURSE PROGRESS
     </h2>
 
     <p class="muted">
-      Lesson 01–25
+      Textbook-driven learning
     </p>
 
 
@@ -135,12 +136,12 @@ COURSE PROGRESS
 
       <div>
 
-        <strong>
-          25
+        <strong id="currentLessonDisplay">
+          L01
         </strong>
 
         <span>
-          总课程
+          当前课程
         </span>
 
       </div>
@@ -148,12 +149,12 @@ COURSE PROGRESS
 
       <div>
 
-        <strong id="progressPercent">
+        <strong id="coursePercent">
           0%
         </strong>
 
         <span>
-          课程进度
+          完成度
         </span>
 
       </div>
@@ -185,7 +186,7 @@ CONTINUE
 
 
 <!-- =====================================================
-COURSE MAP
+LESSON MAP
 ====================================================== -->
 
   <div class="card">
@@ -195,13 +196,12 @@ COURSE MAP
     </div>
 
     <h3>
-      教材课程主线
+      教材主线
     </h3>
 
     <p class="muted">
 
-      当前课程永远位于主轴中心。
-      其他功能都从当前课程向外展开。
+      所有原文训练都从这里进入。
 
     </p>
 
@@ -216,7 +216,7 @@ COURSE MAP
 
 
 <!-- =====================================================
-VOCAB REVIEW
+MEMORY
 ====================================================== -->
 
   <div class="card">
@@ -226,22 +226,22 @@ VOCAB REVIEW
     </div>
 
     <h3>
-      教材词汇记忆
+      教材词汇复习
     </h3>
 
     <p class="muted">
 
-      只复习已经进入教材学习路径的词汇。
+      复习已经学过的教材词汇。
 
     </p>
 
 
     <button
-      id="vocabReviewBtn"
+      id="startVocabularyReview"
       class="primary wide"
       type="button"
     >
-      📚 开始词汇复习
+      📚 开始复习
     </button>
 
   </div>
@@ -255,11 +255,11 @@ CORPUS
   <div class="card">
 
     <div class="eyebrow">
-      REAL NEW TESTAMENT CORPUS
+      NEW TESTAMENT CORPUS
     </div>
 
     <h3>
-      原文训练资料
+      真实新约训练资料
     </h3>
 
 
@@ -307,11 +307,11 @@ CORPUS
 
 
     <button
-      id="loadCorpusBtn"
+      id="loadCorpusButton"
       class="secondary wide"
       type="button"
     >
-      ⬇ 加载整个新约
+      ⬇ 手动加载全新约
     </button>
 
 
@@ -319,7 +319,7 @@ CORPUS
       id="corpusStatus"
       class="status-text"
     >
-      按当前课程需要自动加载
+      按课程需要自动加载
     </div>
 
   </div>
@@ -327,42 +327,31 @@ CORPUS
 
 
 <!-- =====================================================
-SYSTEM PRINCIPLE
+PRINCIPLE
 ====================================================== -->
 
   <div class="notice-box">
 
     <strong>
-      V1.9 学习原则
+      GBRM V2.0
     </strong>
 
     <br><br>
 
-    <div>
-      ① 教材决定课程顺序
-    </div>
+    教材不是资料之一。
 
-    <div>
-      ② 教材决定当前训练目标
-    </div>
+    <br>
 
-    <div>
-      ③ 教材词汇是词汇训练的基础
-    </div>
+    <strong>
+      教材就是系统的课程核心。
+    </strong>
 
-    <div>
-      ④ Corpus 只提供真实新约语境
-    </div>
+    <br><br>
 
-    <div>
-      ⑤ Lemma / Morphology 是教材的延伸
-    </div>
-
-    <div>
-      ⑥ 训练完成后必须回到教材课程
-    </div>
+    Corpus、Lemma、Morphology 都服务于当前教材课程。
 
   </div>
+
 
 </section>
 
@@ -377,10 +366,11 @@ LESSON
   class="screen"
 >
 
+
   <div class="screen-head">
 
     <button
-      id="lessonBackBtn"
+      id="lessonBack"
       class="back"
       type="button"
     >
@@ -393,15 +383,11 @@ LESSON
       <div
         id="lessonLabel"
         class="eyebrow"
-      >
-        LESSON
-      </div>
+      ></div>
 
       <h2
         id="lessonTitle"
-      >
-        Lesson
-      </h2>
+      ></h2>
 
     </div>
 
@@ -409,79 +395,27 @@ LESSON
 
 
 
-  <div class="lesson-identity">
+  <div
+    id="lessonHeader"
+    class="lesson-identity"
+  ></div>
+
+
+
+  <div class="lesson-progress">
 
     <div
-      id="lessonNumber"
-      class="lesson-number"
-    >
-      L01
-    </div>
+      id="lessonStepText"
+      class="lesson-step-text"
+    ></div>
 
 
-    <div>
+    <div class="progress-track">
 
       <div
-        id="lessonGroup"
-        class="eyebrow"
+        id="lessonStepProgress"
+        class="progress-fill"
       ></div>
-
-
-      <div
-        id="lessonObjective"
-        class="lesson-objective"
-      ></div>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="card">
-
-    <div class="eyebrow">
-      LESSON PATH
-    </div>
-
-
-    <div class="lesson-flow">
-
-      <span>
-        教材
-      </span>
-
-      <span>
-        →
-      </span>
-
-      <span>
-        练习
-      </span>
-
-      <span>
-        →
-      </span>
-
-      <span>
-        词汇
-      </span>
-
-      <span>
-        →
-      </span>
-
-      <span>
-        原文
-      </span>
-
-      <span>
-        →
-      </span>
-
-      <span>
-        回顾
-      </span>
 
     </div>
 
@@ -498,16 +432,16 @@ LESSON
   <div class="lesson-actions">
 
     <button
-      id="lessonPrevBtn"
+      id="lessonPrevious"
       class="secondary"
       type="button"
     >
-      ← 上一课
+      ← 上一步
     </button>
 
 
     <button
-      id="lessonNextBtn"
+      id="lessonNext"
       class="primary"
       type="button"
     >
@@ -515,6 +449,7 @@ LESSON
     </button>
 
   </div>
+
 
 </section>
 
@@ -529,10 +464,11 @@ VOCAB REVIEW
   class="screen"
 >
 
+
   <div class="screen-head">
 
     <button
-      id="vocabBackBtn"
+      id="vocabReviewBack"
       class="back"
       type="button"
     >
@@ -547,7 +483,7 @@ VOCAB REVIEW
       </div>
 
       <h2>
-        教材词汇复习
+        词汇复习
       </h2>
 
     </div>
@@ -559,23 +495,24 @@ VOCAB REVIEW
   <div class="card">
 
     <div
-      id="vocabCounter"
+      id="vocabReviewCounter"
       class="muted"
     ></div>
 
 
     <div
-      id="vocabArea"
+      id="vocabReviewArea"
     ></div>
 
   </div>
+
 
 </section>
 
 
 
 <!-- =====================================================
-CORPUS TRAINING
+CORPUS
 ====================================================== -->
 
 <section
@@ -583,10 +520,11 @@ CORPUS TRAINING
   class="screen"
 >
 
+
   <div class="screen-head">
 
     <button
-      id="corpusBackBtn"
+      id="corpusBack"
       class="back"
       type="button"
     >
@@ -599,14 +537,10 @@ CORPUS TRAINING
       <div
         id="corpusLabel"
         class="eyebrow"
-      >
-        LESSON CORPUS
-      </div>
+      ></div>
 
-      <h2
-        id="corpusTitle"
-      >
-        原文训练
+      <h2>
+        本课真实新约
       </h2>
 
     </div>
@@ -618,7 +552,7 @@ CORPUS TRAINING
   <div class="card">
 
     <div
-      id="corpusObjective"
+      id="corpusLessonObjective"
       class="muted"
     ></div>
 
@@ -627,8 +561,9 @@ CORPUS TRAINING
 
 
   <div
-    id="corpusTrainingArea"
+    id="corpusArea"
   ></div>
+
 
 </section>
 
@@ -643,10 +578,11 @@ LEMMA
   class="screen"
 >
 
+
   <div class="screen-head">
 
     <button
-      id="lemmaBackBtn"
+      id="lemmaBack"
       class="back"
       type="button"
     >
@@ -669,9 +605,11 @@ LEMMA
   </div>
 
 
+
   <div
     id="lemmaArea"
   ></div>
+
 
 </section>
 
@@ -686,10 +624,11 @@ VERSE
   class="screen"
 >
 
+
   <div class="screen-head">
 
     <button
-      id="verseBackBtn"
+      id="verseBack"
       class="back"
       type="button"
     >
@@ -728,64 +667,20 @@ VERSE
 
 
     <div
-      id="verseTokenDetail"
+      id="verseDetail"
     ></div>
 
   </div>
 
 
-
   <button
-    id="verseBackToLemma"
+    id="verseLemmaButton"
     class="secondary wide"
     type="button"
   >
-    ← 返回上一级
+    ← 回到 Lemma
   </button>
 
-</section>
-
-
-
-<!-- =====================================================
-RECORD
-====================================================== -->
-
-<section
-  id="record"
-  class="screen"
->
-
-  <div class="screen-head">
-
-    <button
-      id="recordBackBtn"
-      class="back"
-      type="button"
-    >
-      ←
-    </button>
-
-
-    <div>
-
-      <div class="eyebrow">
-        LEARNING RECORD
-      </div>
-
-      <h2>
-        学习记录
-      </h2>
-
-    </div>
-
-  </div>
-
-
-
-  <div
-    id="recordArea"
-  ></div>
 
 </section>
 
@@ -797,16 +692,18 @@ RECORD
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V1.9
+  GBRM · Greek Bible Reading Model · V2.0
 
 </footer>
 
 
 
 <script
-  src="app.js?v=190"
+  src="app.js?v=200"
   defer
 ></script>
 
+
 </body>
+
 </html>
