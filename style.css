@@ -39,14 +39,6 @@
 }
 
 
-html {
-
-  scroll-behavior:
-    smooth;
-
-}
-
-
 body {
 
   margin:
@@ -130,7 +122,7 @@ button:disabled {
     0;
 
   z-index:
-    20;
+    30;
 
   display:
     flex;
@@ -436,8 +428,127 @@ button:disabled {
   background:
     var(--accent);
 
-  transition:
-    width .3s ease;
+}
+
+
+.status-text {
+
+  margin-top:
+    9px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+}
+
+
+.notice-box {
+
+  margin:
+    13px 0;
+
+  padding:
+    14px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    12px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+}
+
+
+/* =====================================================
+BOOKS
+===================================================== */
+
+.book-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:
+    8px;
+
+  margin-top:
+    13px;
+
+}
+
+
+.book-button {
+
+  min-height:
+    58px;
+
+  padding:
+    9px;
+
+  text-align:
+    left;
+
+}
+
+
+.book-button.loaded {
+
+  background:
+    var(--accent-soft);
+
+  border-color:
+    #bed0c4;
+
+}
+
+
+.book-id {
+
+  color:
+    var(--accent);
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+
+}
+
+
+.book-name {
+
+  margin-top:
+    2px;
+
+  font-weight:
+    700;
+
+}
+
+
+.book-status {
+
+  margin-top:
+    3px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    9px;
 
 }
 
@@ -446,10 +557,13 @@ button:disabled {
 SEARCH
 ===================================================== */
 
-.vocab-search {
+.search-input {
 
   width:
     100%;
+
+  margin-top:
+    10px;
 
   padding:
     12px;
@@ -469,7 +583,7 @@ SEARCH
 }
 
 
-.vocab-search:focus {
+.search-input:focus {
 
   border-color:
     var(--accent);
@@ -483,13 +597,13 @@ SEARCH
     grid;
 
   grid-template-columns:
-    1fr 120px;
+    1fr 100px;
 
   gap:
     8px;
 
   margin-top:
-    9px;
+    8px;
 
 }
 
@@ -497,7 +611,7 @@ SEARCH
 .select {
 
   padding:
-    11px;
+    10px;
 
   border:
     1px solid var(--line);
@@ -511,10 +625,10 @@ SEARCH
 }
 
 
-.search-result {
+.search-results {
 
   margin-top:
-    15px;
+    12px;
 
 }
 
@@ -522,7 +636,7 @@ SEARCH
 .result-row {
 
   padding:
-    13px 0;
+    12px 0;
 
   border-top:
     1px solid var(--line);
@@ -541,14 +655,14 @@ SEARCH
 }
 
 
-.result-greek {
+.result-word {
 
   font-family:
     Georgia,
     serif;
 
   font-size:
-    28px;
+    27px;
 
 }
 
@@ -619,186 +733,8 @@ HEADER
 
 
 /* =====================================================
-CORPUS
-===================================================== */
-
-.notice-box {
-
-  margin:
-    13px 0;
-
-  padding:
-    14px;
-
-  background:
-    #faf8f1;
-
-  border-radius:
-    12px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    11px;
-
-}
-
-
-/* =====================================================
-MORPHOLOGY
-===================================================== */
-
-.morphology-card {
-
-  padding:
-    17px;
-
-  background:
-    #faf8f1;
-
-  border-radius:
-    14px;
-
-}
-
-
-.morphology-word {
-
-  margin:
-    19px 0;
-
-  text-align:
-    center;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(
-      38px,
-      10vw,
-      60px
-    );
-
-  line-height:
-    1.4;
-
-}
-
-
-.morphology-reference {
-
-  color:
-    var(--accent);
-
-  text-align:
-    center;
-
-  font-size:
-    12px;
-
-}
-
-
-.morphology-grid {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    8px;
-
-  margin-top:
-    15px;
-
-}
-
-
-.morph-question {
-
-  padding:
-    13px;
-
-  background:
-    white;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    12px;
-
-}
-
-
-.morph-question-title {
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
-
-}
-
-
-.morph-question-value {
-
-  margin-top:
-    5px;
-
-  font-weight:
-    700;
-
-}
-
-
-.morph-actions {
-
-  display:
-    flex;
-
-  flex-wrap:
-    wrap;
-
-  gap:
-    8px;
-
-  margin-top:
-    15px;
-
-}
-
-
-/* =====================================================
 VERSE
 ===================================================== */
-
-.verse-card {
-
-  margin:
-    10px 0;
-
-  padding:
-    15px;
-
-  background:
-    white;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:
-    13px;
-
-}
-
 
 .verse-reference {
 
@@ -806,7 +742,7 @@ VERSE
     var(--accent);
 
   font-size:
-    10px;
+    12px;
 
   font-weight:
     800;
@@ -816,8 +752,8 @@ VERSE
 
 .verse-text {
 
-  margin:
-    11px 0;
+  margin-top:
+    13px;
 
   font-family:
     Georgia,
@@ -825,10 +761,10 @@ VERSE
     serif;
 
   font-size:
-    23px;
+    24px;
 
   line-height:
-    1.9;
+    2;
 
 }
 
@@ -842,10 +778,10 @@ VERSE
     0 2px;
 
   padding:
-    2px 4px;
+    2px 5px;
 
   border-radius:
-    6px;
+    7px;
 
   cursor:
     pointer;
@@ -878,10 +814,10 @@ VERSE
     3px;
 
   color:
-    var(--accent);
+    var(--muted);
 
   font-size:
-    9px;
+    8px;
 
   vertical-align:
     super;
@@ -896,7 +832,7 @@ TOKEN DETAIL
 .token-detail {
 
   margin-top:
-    13px;
+    16px;
 
   padding:
     15px;
@@ -917,12 +853,12 @@ TOKEN DETAIL
     serif;
 
   font-size:
-    31px;
+    33px;
 
 }
 
 
-.token-detail-line {
+.token-line {
 
   display:
     flex;
@@ -931,7 +867,7 @@ TOKEN DETAIL
     space-between;
 
   gap:
-    10px;
+    12px;
 
   padding:
     7px 0;
@@ -942,7 +878,7 @@ TOKEN DETAIL
 }
 
 
-.token-detail-line:first-child {
+.token-line:first-child {
 
   border-top:
     0;
@@ -950,18 +886,18 @@ TOKEN DETAIL
 }
 
 
-.token-detail-label {
+.token-label {
 
   color:
     var(--muted);
 
   font-size:
-    11px;
+    10px;
 
 }
 
 
-.token-detail-value {
+.token-value {
 
   text-align:
     right;
@@ -972,44 +908,103 @@ TOKEN DETAIL
 }
 
 
-.token-speak {
+/* =====================================================
+MORPHOLOGY
+===================================================== */
 
-  margin-top:
-    10px;
+.morph-word {
+
+  margin:
+    20px 0;
+
+  text-align:
+    center;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(
+      40px,
+      10vw,
+      63px
+    );
 
 }
 
 
-/* =====================================================
-TRAINING
-===================================================== */
+.morph-reference {
 
-.choice-grid {
+  color:
+    var(--accent);
 
-  display:
-    grid;
+  text-align:
+    center;
 
-  grid-template-columns:
-    1fr 1fr;
+  font-size:
+    11px;
 
-  gap:
-    8px;
+}
 
-  margin-top:
+
+.morph-question {
+
+  margin:
+    13px 0;
+
+  padding:
+    13px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
     12px;
 
 }
 
 
-.choice-grid button {
+.morph-question-title {
 
-  min-height:
-    48px;
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
 
 }
 
 
-.choice-correct {
+.morph-options {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:
+    8px;
+
+  margin-top:
+    8px;
+
+}
+
+
+.morph-options button {
+
+  min-height:
+    45px;
+
+}
+
+
+.correct {
 
   background:
     var(--accent-soft) !important;
@@ -1020,7 +1015,7 @@ TRAINING
 }
 
 
-.choice-wrong {
+.wrong {
 
   background:
     #f6e8e5 !important;
@@ -1031,16 +1026,88 @@ TRAINING
 }
 
 
-.success {
+/* =====================================================
+SYNTAX
+===================================================== */
+
+.syntax-intro {
 
   padding:
-    14px;
+    15px;
+
+  background:
+    #faf8f1;
+
+  border-radius:
+    12px;
+
+}
+
+
+.syntax-verse {
+
+  margin:
+    15px 0;
+
+  padding:
+    15px;
+
+  background:
+    white;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    13px;
+
+}
+
+
+.syntax-word {
+
+  display:
+    inline-block;
+
+  margin:
+    3px;
+
+  padding:
+    4px 7px;
+
+  background:
+    #faf9f4;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    7px;
+
+  cursor:
+    pointer;
+
+}
+
+
+.syntax-word:hover {
 
   background:
     var(--accent-soft);
 
-  color:
-    var(--accent);
+}
+
+
+.syntax-question {
+
+  margin-top:
+    14px;
+
+  padding:
+    13px;
+
+  background:
+    #faf8f1;
 
   border-radius:
     11px;
@@ -1048,13 +1115,17 @@ TRAINING
 }
 
 
-.muted {
+.syntax-question-title {
 
-  color:
-    var(--muted);
+  font-weight:
+    700;
 
 }
 
+
+/* =====================================================
+BUTTONS
+===================================================== */
 
 .wide {
 
@@ -1089,29 +1160,16 @@ TRAINING
 }
 
 
-/* =====================================================
-FOOTER
-===================================================== */
-
-footer {
-
-  padding:
-    22px;
-
-  text-align:
-    center;
+.muted {
 
   color:
     var(--muted);
-
-  font-size:
-    10px;
 
 }
 
 
 /* =====================================================
-MOBILE
+RESPONSIVE
 ===================================================== */
 
 @media (
@@ -1134,6 +1192,14 @@ MOBILE
   }
 
 
+  .book-grid {
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+
   .search-row {
 
     grid-template-columns:
@@ -1142,15 +1208,21 @@ MOBILE
   }
 
 
-  .choice-grid {
+  .morph-options {
 
     grid-template-columns:
       1fr;
 
   }
 
+}
 
-  .morphology-grid {
+
+@media (
+  max-width:440px
+) {
+
+  .book-grid {
 
     grid-template-columns:
       1fr;
