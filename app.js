@@ -1,16 +1,18 @@
 /* =========================================================
-   GBRM V0.3
+   GBRM V0.4
    Greek Bible Reading Model
 
-   Course Engine
+   Lesson 09–14
    ---------------------------------------------------------
-   L05  Nouns
-   L06  Nominative / Accusative / Article
-   L07  Genitive / Dative
-   L08  Prepositions / εἰμί
+   L09  Adjectives
+   L10  Third Declension Nouns
+   L11  First / Second Person Pronouns
+   L12  αὐτός
+   L13  Demonstrative Pronouns / Adjectives
+   L14  Relative Pronouns
 
-   Purpose:
-   从基础希腊文进入真实新约原文观察。
+   Training:
+   FORM → FUNCTION → TEXT → MEANING
 ========================================================= */
 
 
@@ -21,7 +23,7 @@
 const CONFIG = {
 
   STATE_KEY:
-    "GBRM_V03_STATE",
+    "GBRM_V04_STATE",
 
   LANGUAGE:
     "en-US",
@@ -36,76 +38,247 @@ const CONFIG = {
 
 
 /* =========================================================
-   COURSE DATA
+   LESSON DATA
 ========================================================= */
 
 const LESSONS = [
 
-
   /* =======================================================
-     LESSON 05
+     L09
   ======================================================= */
 
   {
 
     id:
-      "L05",
+      "L09",
 
     number:
-      5,
+      9,
 
     title:
-      "Nouns · 名词",
+      "Adjectives · 形容词",
 
     reference:
-      "Lesson 05",
+      "Lesson 09",
 
     objective:
-      "理解希腊文名词的基本概念，并开始观察性、数、格如何影响词形与句中功能。",
+      "认识形容词与名词之间的性、数、格一致，并观察形容词在新约句子中的功能。",
 
     type:
-      "noun",
+      "adjective",
 
     sections: [
 
       {
-
         title:
-          "什么是名词",
+          "形容词做什么？",
 
         intro:
-          "名词可以表示人、事物、地点或概念。希腊文中名词的词尾会携带重要语法信息。"
+          "形容词可以描述名词，也可以在句子中承担名词性的功能。"
+      },
+
+      {
+        title:
+          "一致关系",
+
+        intro:
+          "形容词通常要在性、数、格上与所修饰的名词相一致。"
+      },
+
+      {
+        title:
+          "词形观察",
+
+        intro:
+          "观察基本形如何随着性、数、格变化。"
+      },
+
+      {
+        title:
+          "新约阅读",
+
+        intro:
+          "现在把形容词放回真实经文。"
+      }
+
+    ],
+
+    forms: [
+
+      [
+        "ἀγαθός",
+        "阳性 · 主格单数",
+        "good"
+      ],
+
+      [
+        "ἀγαθή",
+        "阴性 · 主格单数",
+        "good"
+      ],
+
+      [
+        "ἀγαθόν",
+        "中性 · 主格/受格单数",
+        "good"
+      ],
+
+      [
+        "καλός",
+        "阳性 · 主格单数",
+        "good / beautiful"
+      ]
+
+    ],
+
+    bible: {
+
+      reference:
+        "John 1:46",
+
+      greek:
+        "καὶ εἶπεν αὐτῷ Ναθαναήλ· Ἐκ Ναζαρὲτ δύναταί τι ἀγαθὸν εἶναι;",
+
+      chinese:
+        "拿但业对他说：拿撒勒还能出什么好的吗？"
+
+    },
+
+    test: [
+
+      {
+
+        question:
+          "What normally agrees with the noun in gender, number, and case?",
+
+        options:
+          [
+            "Adjective",
+            "Only the verb",
+            "Only the preposition",
+            "The accent"
+          ],
+
+        answer:
+          0
 
       },
 
       {
 
-        title:
-          "三个基本观察维度",
+        question:
+          "Which form is neuter singular?",
 
-        intro:
-          "先建立三个概念：性、数、格。"
+        options:
+          [
+            "ἀγαθόν",
+            "ἀγαθός",
+            "ἀγαθή",
+            "καλοί"
+          ],
 
-      },
-
-      {
-
-        title:
-          "真实新约词汇",
-
-        intro:
-          "观察 λόγος、θεός、ζωή、φῶς。"
+        answer:
+          0
 
       },
 
       {
 
+        question:
+          "What does ἀγαθός commonly mean?",
+
+        options:
+          [
+            "good",
+            "greatly",
+            "from",
+            "there"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "In the John 1:46 example, ἀγαθὸν is connected with which idea?",
+
+        options:
+          [
+            "something good",
+            "someone speaking",
+            "the city",
+            "the disciples"
+          ],
+
+        answer:
+          0
+
+      }
+
+    ]
+
+  },
+
+
+  /* =======================================================
+     L10
+  ======================================================= */
+
+  {
+
+    id:
+      "L10",
+
+    number:
+      10,
+
+    title:
+      "Third Declension Nouns · 第三格变式名词",
+
+    reference:
+      "Lesson 10",
+
+    objective:
+      "开始认识第三格变式名词，并学习通过词干与字尾判断词形和句法角色。",
+
+    type:
+      "third",
+
+    sections: [
+
+      {
+        title:
+          "为什么需要第三格变式？",
+
+        intro:
+          "第三格变式与前面学过的名词形式不同，需要注意词干变化。"
+      },
+
+      {
+        title:
+          "词干观察",
+
+        intro:
+          "第三格变式的词干往往不能直接从主格外形看出来。"
+      },
+
+      {
+        title:
+          "重要词汇",
+
+        intro:
+          "开始接触新约中重要的第三格变式名词。"
+      },
+
+      {
         title:
           "原文观察",
 
         intro:
-          "比较不同形式如何改变句中功能。"
-
+          "把第三格变式带回新约阅读。"
       }
 
     ],
@@ -113,27 +286,27 @@ const LESSONS = [
     forms: [
 
       [
-        "ὁ λόγος",
-        "阳性 · 单数 · 主格",
-        "the Word"
+        "σῶμα",
+        "中性 · 主格/受格单数",
+        "body"
       ],
 
       [
-        "τοῦ λόγου",
-        "阳性 · 单数 · 所有格",
-        "of the Word"
+        "σώματος",
+        "中性 · 所有格单数",
+        "of the body"
       ],
 
       [
-        "τὸν λόγον",
-        "阳性 · 单数 · 受格",
-        "the Word"
+        "φῶς",
+        "中性 · 主格/受格单数",
+        "light"
       ],
 
       [
-        "τῷ λόγῳ",
-        "阳性 · 单数 · 间接受格",
-        "to/for the Word"
+        "φωτός",
+        "中性 · 所有格单数",
+        "of light"
       ]
 
     ],
@@ -141,13 +314,13 @@ const LESSONS = [
     bible: {
 
       reference:
-        "John 1:1",
+        "John 1:4–5",
 
       greek:
-        "Ἐν ἀρχῇ ἦν ὁ λόγος.",
+        "Ἐν αὐτῷ ζωὴ ἦν, καὶ ἡ ζωὴ ἦν τὸ φῶς τῶν ἀνθρώπων.",
 
       chinese:
-        "太初有道。"
+        "生命在他里面，这生命就是人的光。"
 
     },
 
@@ -156,14 +329,14 @@ const LESSONS = [
       {
 
         question:
-          "Which form is nominative singular?",
+          "Which phrase represents the genitive of φῶς?",
 
         options:
           [
-            "ὁ λόγος",
-            "τοῦ λόγου",
-            "τὸν λόγον",
-            "τῷ λόγῳ"
+            "φωτός",
+            "φῶς",
+            "φωτί",
+            "φῶτος"
           ],
 
         answer:
@@ -174,14 +347,14 @@ const LESSONS = [
       {
 
         question:
-          "What does τοῦ λόγου normally express?",
+          "Why can third declension nouns require special attention?",
 
         options:
           [
-            "Possession / relation",
-            "Direct object",
-            "Subject",
-            "Command"
+            "The stem may not be obvious from the nominative",
+            "They have no cases",
+            "They cannot be plural",
+            "They never have articles"
           ],
 
         answer:
@@ -192,32 +365,14 @@ const LESSONS = [
       {
 
         question:
-          "Which dimension tells us singular or plural?",
+          "What does φῶς mean?",
 
         options:
           [
-            "Number",
-            "Gender",
-            "Case",
-            "Accent"
-          ],
-
-        answer:
-          0
-
-      },
-
-      {
-
-        question:
-          "What does λόγος mean in John 1:1?",
-
-        options:
-          [
-            "Word",
-            "Light",
-            "Life",
-            "Law"
+            "light",
+            "life",
+            "body",
+            "word"
           ],
 
         answer:
@@ -231,69 +386,61 @@ const LESSONS = [
 
 
   /* =======================================================
-     LESSON 06
+     L11
   ======================================================= */
 
   {
 
     id:
-      "L06",
+      "L11",
 
     number:
-      6,
+      11,
 
     title:
-      "Nominative · Accusative · Article",
+      "First & Second Person Pronouns",
 
     reference:
-      "Lesson 06",
+      "Lesson 11",
 
     objective:
-      "认识主格、直接受格与定冠词，并开始通过词尾判断句中角色。",
+      "掌握第一、第二人称代名词的基本形式，并学习通过上下文理解代名词所指。",
 
     type:
-      "cases",
+      "pronoun",
 
     sections: [
 
       {
-
         title:
-          "主格",
+          "第一人称",
 
         intro:
-          "主格通常与句子的主语有关。"
-
+          "学习 'I / we' 的基本希腊文形式。"
       },
 
       {
-
         title:
-          "直接受格",
+          "第二人称",
 
         intro:
-          "直接受格常用于表示动词直接作用的对象。"
-
+          "学习 'you' 的单复数以及基本格变化。"
       },
 
       {
-
         title:
-          "定冠词",
+          "词形观察",
 
         intro:
-          "ὁ、ἡ、τό 等定冠词必须和名词的性、数、格相配。"
-
+          "代名词的形式本身携带格与数等信息。"
       },
 
       {
-
         title:
-          "John 1 原文",
+          "新约阅读",
 
         intro:
-          "现在把主格、受格和冠词带回约翰福音。"
-
+          "观察代名词在真实文本中的指涉。"
       }
 
     ],
@@ -301,27 +448,33 @@ const LESSONS = [
     forms: [
 
       [
-        "ὁ λόγος",
-        "主格 · 阳性 · 单数",
-        "the Word"
+        "ἐγώ",
+        "第一人称 · 主格单数",
+        "I"
       ],
 
       [
-        "τὸν λόγον",
-        "受格 · 阳性 · 单数",
-        "the Word"
+        "μοι",
+        "第一人称 · 间接受格单数",
+        "to/for me"
       ],
 
       [
-        "ὁ θεός",
-        "主格 · 阳性 · 单数",
-        "God"
+        "ἡμεῖς",
+        "第一人称 · 主格复数",
+        "we"
       ],
 
       [
-        "τὸν θεόν",
-        "受格 · 阳性 · 单数",
-        "God"
+        "σύ",
+        "第二人称 · 主格单数",
+        "you"
+      ],
+
+      [
+        "ὑμεῖς",
+        "第二人称 · 主格复数",
+        "you"
       ]
 
     ],
@@ -329,13 +482,13 @@ const LESSONS = [
     bible: {
 
       reference:
-        "John 1:1–3",
+        "John 1:23",
 
       greek:
-        "καὶ ὁ λόγος ἦν πρὸς τὸν θεόν. πάντα δι’ αὐτοῦ ἐγένετο.",
+        "Ἐγὼ φωνὴ βοῶντος ἐν τῇ ἐρήμῳ·",
 
       chinese:
-        "道与神同在。万物都是借着他造的。"
+        "我就是那在旷野有人声喊着说……"
 
     },
 
@@ -344,14 +497,14 @@ const LESSONS = [
       {
 
         question:
-          "Which form is direct object?",
+          "What does ἐγώ mean?",
 
         options:
           [
-            "τὸν θεόν",
-            "ὁ θεός",
-            "ὁ λόγος",
-            "τοῦ θεοῦ"
+            "I",
+            "you",
+            "we",
+            "they"
           ],
 
         answer:
@@ -362,14 +515,14 @@ const LESSONS = [
       {
 
         question:
-          "Which article matches masculine nominative singular?",
+          "Which form means 'we'?",
 
         options:
           [
-            "ὁ",
-            "ἡ",
-            "τό",
-            "τῷ"
+            "ἡμεῖς",
+            "ἐγώ",
+            "σύ",
+            "ὑμεῖς"
           ],
 
         answer:
@@ -380,32 +533,14 @@ const LESSONS = [
       {
 
         question:
-          "Which form is nominative singular masculine?",
+          "Which form means 'you' singular?",
 
         options:
           [
-            "ὁ θεός",
-            "τὸν θεόν",
-            "τοῦ θεοῦ",
-            "τῷ θεῷ"
-          ],
-
-        answer:
-          0
-
-      },
-
-      {
-
-        question:
-          "In ὁ λόγος ἦν πρὸς τὸν θεόν, which phrase is the direct object of πρὸς?",
-
-        options:
-          [
-            "τὸν θεόν",
-            "ὁ λόγος",
-            "ἦν",
-            "πρὸς"
+            "σύ",
+            "ὑμεῖς",
+            "ἡμεῖς",
+            "ἐγώ"
           ],
 
         answer:
@@ -419,69 +554,61 @@ const LESSONS = [
 
 
   /* =======================================================
-     LESSON 07
+     L12
   ======================================================= */
 
   {
 
     id:
-      "L07",
+      "L12",
 
     number:
-      7,
+      12,
 
     title:
-      "Genitive · Dative",
+      "αὐτός",
 
     reference:
-      "Lesson 07",
+      "Lesson 12",
 
     objective:
-      "开始理解所有格与间接受格的基本功能，并在新约原文中辨认这些形式。",
+      "学习 αὐτός 的三种主要功能：代名词、强调用法、以及与名词组合的相关用法。",
 
     type:
-      "genitive",
+      "autos",
 
     sections: [
 
       {
-
         title:
-          "所有格",
+          "αὐτός 的核心",
 
         intro:
-          "所有格常用于所属、关系、来源等表达。具体意义由上下文决定。"
-
+          "αὐτός 是新约中极常见的词，需要根据句法和上下文判断功能。"
       },
 
       {
-
         title:
-          "间接受格",
+          "代名词功能",
 
         intro:
-          "间接受格常表达对象、接受者、利益对象等功能。"
-
+          "在代名词功能中，αὐτός 可以承担 'he / him / they / them' 等角色。"
       },
 
       {
-
         title:
-          "形态观察",
+          "形式观察",
 
         intro:
-          "比较 λόγος 的几个形式。"
-
+          "观察 αὐτός 的性、数、格变化。"
       },
 
       {
-
         title:
-          "新约观察",
+          "新约阅读",
 
         intro:
-          "将词形分析带回 John 1。"
-
+          "把 αὐτός 带回约翰福音文本。"
       }
 
     ],
@@ -489,33 +616,357 @@ const LESSONS = [
     forms: [
 
       [
-        "ὁ λόγος",
-        "主格",
-        "the Word"
+        "αὐτός",
+        "阳性 · 主格单数",
+        "he / himself"
       ],
 
       [
-        "τοῦ λόγου",
+        "αὐτόν",
+        "阳性 · 受格单数",
+        "him"
+      ],
+
+      [
+        "αὐτοῦ",
+        "阳性 · 所有格单数",
+        "his / of him"
+      ],
+
+      [
+        "αὐτοί",
+        "阳性 · 主格复数",
+        "they"
+      ]
+
+    ],
+
+    bible: {
+
+      reference:
+        "John 1:10",
+
+      greek:
+        "ἐν τῷ κόσμῳ ἦν, καὶ ὁ κόσμος δι’ αὐτοῦ ἐγένετο.",
+
+      chinese:
+        "他在世界上，世界也是借着他造的。"
+
+    },
+
+    test: [
+
+      {
+
+        question:
+          "What can αὐτός function as?",
+
+        options:
+          [
+            "A pronoun",
+            "Only a preposition",
+            "Only an article",
+            "Only a conjunction"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "What does αὐτόν represent here?",
+
+        options:
+          [
+            "him",
+            "his",
+            "they",
+            "I"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "What does αὐτοῦ commonly indicate?",
+
+        options:
+          [
+            "his / of him",
+            "him",
+            "they",
+            "we"
+          ],
+
+        answer:
+          0
+
+      }
+
+    ]
+
+  },
+
+
+  /* =======================================================
+     L13
+  ======================================================= */
+
+  {
+
+    id:
+      "L13",
+
+    number:
+      13,
+
+    title:
+      "Demonstratives · 指示代词",
+
+    reference:
+      "Lesson 13",
+
+    objective:
+      "认识 οὗτος 等指示代词，并学习它们如何指向特定人物、事物或概念。",
+
+    type:
+      "demonstrative",
+
+    sections: [
+
+      {
+        title:
+          "指示代词",
+
+        intro:
+          "指示代词用于指向某一个确定的人、事物或概念。"
+      },
+
+      {
+        title:
+          "οὗτος",
+
+        intro:
+          "οὗτος、αὕτη、τοῦτο 是最重要的一组指示形式。"
+      },
+
+      {
+        title:
+          "形式变化",
+
+        intro:
+          "观察性、数、格如何影响指示代词。"
+      },
+
+      {
+        title:
+          "新约阅读",
+
+        intro:
+          "观察指示代词在上下文中到底指向谁。"
+      }
+
+    ],
+
+    forms: [
+
+      [
+        "οὗτος",
+        "阳性 · 主格单数",
+        "this man / this"
+      ],
+
+      [
+        "αὕτη",
+        "阴性 · 主格单数",
+        "this woman / this"
+      ],
+
+      [
+        "τοῦτο",
+        "中性 · 主格/受格单数",
+        "this thing"
+      ],
+
+      [
+        "οὗτοι",
+        "阳性 · 主格复数",
+        "these men"
+      ]
+
+    ],
+
+    bible: {
+
+      reference:
+        "John 1:30",
+
+      greek:
+        "οὗτός ἐστιν ὑπὲρ οὗ ἐγὼ εἶπον·",
+
+      chinese:
+        "这就是我曾说……的那一位。"
+
+    },
+
+    test: [
+
+      {
+
+        question:
+          "What does οὗτος usually indicate?",
+
+        options:
+          [
+            "this",
+            "who",
+            "because",
+            "through"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "Which form is feminine nominative singular?",
+
+        options:
+          [
+            "αὕτη",
+            "οὗτος",
+            "τοῦτο",
+            "οὗτοι"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "Which form is neuter singular?",
+
+        options:
+          [
+            "τοῦτο",
+            "αὕτη",
+            "οὗτος",
+            "οὗτοι"
+          ],
+
+        answer:
+          0
+
+      }
+
+    ]
+
+  },
+
+
+  /* =======================================================
+     L14
+  ======================================================= */
+
+  {
+
+    id:
+      "L14",
+
+    number:
+      14,
+
+    title:
+      "Relative Pronouns · 关系代名词",
+
+    reference:
+      "Lesson 14",
+
+    objective:
+      "理解关系代名词如何连接主句与关系子句，并开始用关系代名词进行句法观察。",
+
+    type:
+      "relative",
+
+    sections: [
+
+      {
+        title:
+          "什么是关系代名词？",
+
+        intro:
+          "关系代名词连接一个名词与描述这个名词的关系子句。"
+      },
+
+      {
+        title:
+          "ὅς · ἥ · ὅ",
+
+        intro:
+          "关系代名词在性和数上通常与先行词一致，但格由它在关系子句中的功能决定。"
+      },
+
+      {
+        title:
+          "句法观察",
+
+        intro:
+          "这是从单纯词形学习进入句法学习的重要一步。"
+      },
+
+      {
+        title:
+          "新约阅读",
+
+        intro:
+          "现在观察关系代名词如何连接完整的新约句子。"
+      }
+
+    ],
+
+    forms: [
+
+      [
+        "ὅς",
+        "阳性 · 主格单数",
+        "who / which"
+      ],
+
+      [
+        "ἥ",
+        "阴性 · 主格单数",
+        "who / which"
+      ],
+
+      [
+        "ὅ",
+        "中性 · 主格/受格单数",
+        "which / what"
+      ],
+
+      [
+        "οὗ",
         "所有格",
-        "of the Word"
+        "of whom / of which"
       ],
 
       [
-        "τῷ λόγῳ",
-        "间接受格",
-        "to/for the Word"
-      ],
-
-      [
-        "τοῦ θεοῦ",
-        "所有格",
-        "of God"
-      ],
-
-      [
-        "τῷ θεῷ",
-        "间接受格",
-        "to/for God"
+        "ὅν",
+        "阳性 · 受格单数",
+        "whom / which"
       ]
 
     ],
@@ -523,13 +974,13 @@ const LESSONS = [
     bible: {
 
       reference:
-        "John 1:6",
+        "John 1:30",
 
       greek:
-        "Ἐγένετο ἄνθρωπος, ἀπεσταλμένος παρὰ θεοῦ, ὄνομα αὐτῷ Ἰωάννης.",
+        "οὗτός ἐστιν ὑπὲρ οὗ ἐγὼ εἶπον·",
 
       chinese:
-        "有一个人，是从神那里差来的，名叫约翰。"
+        "这就是我曾说过的那一位。"
 
     },
 
@@ -538,14 +989,14 @@ const LESSONS = [
       {
 
         question:
-          "Which form means 'of God'?",
+          "What does a relative pronoun usually do?",
 
         options:
           [
-            "τοῦ θεοῦ",
-            "τῷ θεῷ",
-            "ὁ θεός",
-            "τὸν θεόν"
+            "Connect a noun with a relative clause",
+            "Mark only a question",
+            "Replace every verb",
+            "Mark every preposition"
           ],
 
         answer:
@@ -556,14 +1007,14 @@ const LESSONS = [
       {
 
         question:
-          "Which form is dative singular?",
+          "Which is a nominative masculine singular relative pronoun?",
 
         options:
           [
-            "τῷ θεῷ",
-            "τοῦ θεοῦ",
-            "ὁ θεός",
-            "τὸν θεόν"
+            "ὅς",
+            "ἥ",
+            "ὅ",
+            "ὅν"
           ],
 
         answer:
@@ -574,148 +1025,14 @@ const LESSONS = [
       {
 
         question:
-          "The genitive often expresses what idea?",
+          "What usually determines the case of the relative pronoun?",
 
         options:
           [
-            "Possession or relationship",
-            "Only subject",
-            "Only command",
-            "Only question"
-          ],
-
-        answer:
-          0
-
-      }
-
-    ]
-
-  },
-
-
-  /* =======================================================
-     LESSON 08
-  ======================================================= */
-
-  {
-
-    id:
-      "L08",
-
-    number:
-      8,
-
-    title:
-      "Prepositions · εἰμί",
-
-    reference:
-      "Lesson 08",
-
-    objective:
-      "学习常见介词，并认识 εἰμί 的基本现在时形式，然后进入 John 1 的真实句子。",
-
-    type:
-      "prepositions",
-
-    sections: [
-
-      {
-
-        title:
-          "介词",
-
-        intro:
-          "介词与格结合，形成有关系意义的短语。"
-
-      },
-
-      {
-
-        title:
-          "εἰμί",
-
-        intro:
-          "εἰμί 是希腊文最重要的系动词之一，基本意义为 'to be'。"
-
-      },
-
-      {
-
-        title:
-          "基本形式",
-
-        intro:
-          "注意 εἰμί 的现在时基本形式。"
-
-      },
-
-      {
-
-        title:
-          "John 1 原文阅读",
-
-        intro:
-          "现在把前面几课的内容组合起来。"
-
-      }
-
-    ],
-
-    forms: [
-
-      [
-        "εἰμί",
-        "第一人称单数",
-        "I am"
-      ],
-
-      [
-        "εἶ",
-        "第二人称单数",
-        "you are"
-      ],
-
-      [
-        "ἐστίν",
-        "第三人称单数",
-        "he/she/it is"
-      ],
-
-      [
-        "ἐσμέν",
-        "第一人称复数",
-        "we are"
-      ]
-
-    ],
-
-    bible: {
-
-      reference:
-        "John 1:1–4",
-
-      greek:
-        "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.",
-
-      chinese:
-        "太初有道，道与神同在。"
-
-    },
-
-    test: [
-
-      {
-
-        question:
-          "What does εἰμί mean?",
-
-        options:
-          [
-            "to be",
-            "to see",
-            "to make",
-            "to hear"
+            "Its function inside the relative clause",
+            "The preceding article only",
+            "Its translation",
+            "The chapter number"
           ],
 
         answer:
@@ -726,50 +1043,14 @@ const LESSONS = [
       {
 
         question:
-          "Which form means 'I am'?",
+          "In οὗ ἐγὼ εἶπον, οὗ is connected to which idea?",
 
         options:
           [
-            "εἰμί",
-            "εἶ",
-            "ἐστίν",
-            "ἐσμέν"
-          ],
-
-        answer:
-          0
-
-      },
-
-      {
-
-        question:
-          "What does ἐστίν mean?",
-
-        options:
-          [
-            "he/she/it is",
-            "I am",
-            "you are",
-            "we are"
-          ],
-
-        answer:
-          0
-
-      },
-
-      {
-
-        question:
-          "What does ἐν normally mean?",
-
-        options:
-          [
-            "in",
-            "from",
-            "through",
-            "against"
+            "the person spoken about",
+            "the city",
+            "the time",
+            "the speaker's name"
           ],
 
         answer:
@@ -804,8 +1085,16 @@ let speechRate =
   CONFIG.NORMAL_RATE;
 
 
+let testScore =
+  0;
+
+
+let testAnswered =
+  0;
+
+
 /* =========================================================
-   STATE FUNCTIONS
+   STATE
 ========================================================= */
 
 function loadState() {
@@ -822,9 +1111,21 @@ function loadState() {
       raw
     ) {
 
-      return JSON.parse(
-        raw
-      );
+      const parsed =
+        JSON.parse(
+          raw
+        );
+
+
+      if (
+        parsed &&
+        typeof parsed ===
+        "object"
+      ) {
+
+        return parsed;
+
+      }
 
     }
 
@@ -852,15 +1153,28 @@ function loadState() {
 
 function saveState() {
 
-  localStorage.setItem(
+  try {
 
-    CONFIG.STATE_KEY,
+    localStorage.setItem(
 
-    JSON.stringify(
-      state
-    )
+      CONFIG.STATE_KEY,
 
-  );
+      JSON.stringify(
+        state
+      )
+
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.warn(
+      "GBRM save error:",
+      error
+    );
+
+  }
 
 }
 
@@ -929,10 +1243,6 @@ function $(
 }
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
 function go(
   id
 ) {
@@ -996,7 +1306,7 @@ function init() {
 
   renderReview();
 
-  bindStaticEvents();
+  bindEvents();
 
 }
 
@@ -1005,7 +1315,7 @@ function init() {
    EVENTS
 ========================================================= */
 
-function bindStaticEvents() {
+function bindEvents() {
 
   bind(
     "lessonBackBtn",
@@ -1037,17 +1347,25 @@ function bindStaticEvents() {
   );
 
 
-  bind(
-    "lessonNextBtn",
-    nextLessonStep
-  );
+  const next =
+    $("lessonNextBtn");
+
+
+  if (
+    next
+  ) {
+
+    next.onclick =
+      nextLessonStep;
+
+  }
 
 }
 
 
 function bind(
   id,
-  handler
+  fn
 ) {
 
   const element =
@@ -1060,7 +1378,7 @@ function bind(
 
     element.addEventListener(
       "click",
-      handler
+      fn
     );
 
   }
@@ -1133,6 +1451,7 @@ function renderHome() {
         "<div class='lesson-number'>" +
 
         "L" +
+
         String(
           lesson.number
         ).padStart(
@@ -1146,7 +1465,9 @@ function renderHome() {
 
         "<div class='lesson-name'>" +
 
-        lesson.title +
+        escapeHtml(
+          lesson.title
+        ) +
 
         "</div>" +
 
@@ -1193,10 +1514,6 @@ function renderHome() {
 
 }
 
-
-/* =========================================================
-   PROGRESS
-========================================================= */
 
 function updateProgress() {
 
@@ -1296,6 +1613,14 @@ function openLesson(
     0;
 
 
+  testScore =
+    0;
+
+
+  testAnswered =
+    0;
+
+
   speechRate =
     CONFIG.NORMAL_RATE;
 
@@ -1308,10 +1633,6 @@ function openLesson(
 
 }
 
-
-/* =========================================================
-   LESSON HEADER
-========================================================= */
 
 function renderLessonHeader() {
 
@@ -1370,87 +1691,41 @@ function renderLessonStep() {
 
 
   if (
-    lesson.type ===
-    "noun"
-  ) {
-
-    renderNounLesson(
-      container,
-      lesson
-    );
-
-  }
-
-
-  if (
-    lesson.type ===
-    "cases"
-  ) {
-
-    renderCasesLesson(
-      container,
-      lesson
-    );
-
-  }
-
-
-  if (
-    lesson.type ===
-    "genitive"
-  ) {
-
-    renderGenitiveLesson(
-      container,
-      lesson
-    );
-
-  }
-
-
-  if (
-    lesson.type ===
-    "prepositions"
-  ) {
-
-    renderPrepositionLesson(
-      container,
-      lesson
-    );
-
-  }
-
-
-  const button =
-    $("lessonNextBtn");
-
-
-  if (
     currentStep <
-    lesson.sections.length -
-    1
+    lesson.sections.length
   ) {
 
-    button.textContent =
-      "下一步 →";
+    renderSection(
+      lesson,
+      currentStep,
+      container
+    );
 
-  } else {
 
-    button.textContent =
-      "进入测试 →";
+    $("lessonNextBtn")
+      .textContent =
+      currentStep ===
+      lesson.sections.length - 1
+
+        ? "进入课程测试 →"
+
+        : "下一步 →";
+
+
+    return;
 
   }
+
+
+  renderTest();
 
 }
 
 
-/* =========================================================
-   LESSON 05
-========================================================= */
-
-function renderNounLesson(
-  container,
-  lesson
+function renderSection(
+  lesson,
+  step,
+  container
 ) {
 
   const section =
@@ -1463,27 +1738,147 @@ function renderNounLesson(
     "lesson-section";
 
 
-  section.innerHTML =
+  const title =
+    document.createElement(
+      "h3"
+    );
 
-    "<h3>" +
 
+  title.textContent =
     lesson.sections[
-      currentStep
-    ].title +
+      step
+    ].title;
 
-    "</h3>" +
 
-    "<p class='muted'>" +
+  section.appendChild(
+    title
+  );
 
+
+  const intro =
+    document.createElement(
+      "p"
+    );
+
+
+  intro.className =
+    "muted";
+
+
+  intro.textContent =
     lesson.sections[
-      currentStep
-    ].intro +
+      step
+    ].intro;
 
-    "</p>";
+
+  section.appendChild(
+    intro
+  );
 
 
   if (
-    currentStep ===
+    lesson.type ===
+    "adjective"
+  ) {
+
+    renderAdjectiveSection(
+      lesson,
+      step,
+      section
+    );
+
+  }
+
+
+  if (
+    lesson.type ===
+    "third"
+  ) {
+
+    renderThirdSection(
+      lesson,
+      step,
+      section
+    );
+
+  }
+
+
+  if (
+    lesson.type ===
+    "pronoun"
+  ) {
+
+    renderPronounSection(
+      lesson,
+      step,
+      section
+    );
+
+  }
+
+
+  if (
+    lesson.type ===
+    "autos"
+  ) {
+
+    renderAutosSection(
+      lesson,
+      step,
+      section
+    );
+
+  }
+
+
+  if (
+    lesson.type ===
+    "demonstrative"
+  ) {
+
+    renderDemonstrativeSection(
+      lesson,
+      step,
+      section
+    );
+
+  }
+
+
+  if (
+    lesson.type ===
+    "relative"
+  ) {
+
+    renderRelativeSection(
+      lesson,
+      step,
+      section
+    );
+
+  }
+
+
+  container.appendChild(
+    section
+  );
+
+}
+
+
+/* =========================================================
+   L09
+========================================================= */
+
+function renderAdjectiveSection(
+  lesson,
+  step,
+  section
+) {
+
+  if (
+    step ===
     0
   ) {
 
@@ -1491,17 +1886,11 @@ function renderNounLesson(
 
       "<div class='grammar-box'>" +
 
-      "<strong>名词的三个核心观察</strong>" +
+      "<strong>形容词的两个主要问题</strong>" +
 
-      "<p>Gender · Number · Case</p>" +
+      "<p>它描述什么？它与哪个名词一致？</p>" +
 
-      "<div class='muted'>" +
-
-      "性 · 数 · 格"
-
-      +
-
-      "</div>" +
+      "<p class='muted'>Gender · Number · Case</p>" +
 
       "</div>";
 
@@ -1509,7 +1898,7 @@ function renderNounLesson(
 
 
   if (
-    currentStep ===
+    step ===
     1
   ) {
 
@@ -1517,13 +1906,13 @@ function renderNounLesson(
 
       "<table class='form-table'>" +
 
-      "<tr><th>项目</th><th>问题</th></tr>" +
+      "<tr><th>项目</th><th>观察</th></tr>" +
 
-      "<tr><td>Gender</td><td>它属于哪一种性？</td></tr>" +
+      "<tr><td>Gender</td><td>与名词性相应</td></tr>" +
 
-      "<tr><td>Number</td><td>单数还是复数？</td></tr>" +
+      "<tr><td>Number</td><td>单数 / 复数</td></tr>" +
 
-      "<tr><td>Case</td><td>它在句中扮演什么角色？</td></tr>" +
+      "<tr><td>Case</td><td>根据句中功能变化</td></tr>" +
 
       "</table>";
 
@@ -1531,7 +1920,7 @@ function renderNounLesson(
 
 
   if (
-    currentStep ===
+    step ===
     2
   ) {
 
@@ -1552,7 +1941,7 @@ function renderNounLesson(
 
 
   if (
-    currentStep ===
+    step ===
     3
   ) {
 
@@ -1562,75 +1951,30 @@ function renderNounLesson(
     );
 
 
-    const notice =
-      document.createElement(
-        "div"
-      );
+    addNotice(
+      section,
 
+      "ἀγαθὸν 与中性单数形式有关。观察它在句中不是简单地背一个中文词，而是结合上下文理解。"
 
-    notice.className =
-      "notice-box";
-
-
-    notice.textContent =
-
-      "观察：ὁ λόγος 是主格单数阳性形式，承担句子的重要名词角色。";
-
-
-    section.appendChild(
-      notice
     );
 
   }
-
-
-  container.appendChild(
-    section
-  );
 
 }
 
 
 /* =========================================================
-   LESSON 06
+   L10
 ========================================================= */
 
-function renderCasesLesson(
-  container,
-  lesson
+function renderThirdSection(
+  lesson,
+  step,
+  section
 ) {
 
-  const section =
-    document.createElement(
-      "div"
-    );
-
-
-  section.className =
-    "lesson-section";
-
-
-  section.innerHTML =
-
-    "<h3>" +
-
-    lesson.sections[
-      currentStep
-    ].title +
-
-    "</h3>" +
-
-    "<p class='muted'>" +
-
-    lesson.sections[
-      currentStep
-    ].intro +
-
-    "</p>";
-
-
   if (
-    currentStep ===
+    step ===
     0
   ) {
 
@@ -1638,11 +1982,11 @@ function renderCasesLesson(
 
       "<div class='grammar-box'>" +
 
-      "<strong>主格</strong>" +
+      "<strong>第三格变式</strong>" +
 
-      "<p>通常与主语有关。</p>" +
+      "<p>不要只看主格外形。</p>" +
 
-      "<div class='greek-large'>ὁ λόγος</div>" +
+      "<p class='muted'>先识别词干，再观察字尾。</p>" +
 
       "</div>";
 
@@ -1650,7 +1994,7 @@ function renderCasesLesson(
 
 
   if (
-    currentStep ===
+    step ===
     1
   ) {
 
@@ -1658,11 +2002,9 @@ function renderCasesLesson(
 
       "<div class='grammar-box'>" +
 
-      "<strong>直接受格</strong>" +
+      "<div class='greek-large'>φῶς → φωτός</div>" +
 
-      "<p>通常表示动词直接作用的对象。</p>" +
-
-      "<div class='greek-large'>τὸν λόγον</div>" +
+      "<p>主格与所有格的外形不同，词干识别非常重要。</p>" +
 
       "</div>";
 
@@ -1670,7 +2012,7 @@ function renderCasesLesson(
 
 
   if (
-    currentStep ===
+    step ===
     2
   ) {
 
@@ -1691,7 +2033,7 @@ function renderCasesLesson(
 
 
   if (
-    currentStep ===
+    step ===
     3
   ) {
 
@@ -1701,83 +2043,30 @@ function renderCasesLesson(
     );
 
 
-    const notice =
-      document.createElement(
-        "div"
-      );
+    addNotice(
+      section,
 
+      "τῶν ἀνθρώπων 中，ἀνθρώπων 的形式显示其与前面学习的格系统有关。"
 
-    notice.className =
-      "notice-box";
-
-
-    notice.innerHTML =
-
-      "观察：" +
-
-      "<strong>ὁ λόγος</strong>" +
-
-      " 与 " +
-
-      "<strong>τὸν θεόν</strong>" +
-
-      " 的形式不同。";
-
-    
-    section.appendChild(
-      notice
     );
 
   }
-
-
-  container.appendChild(
-    section
-  );
 
 }
 
 
 /* =========================================================
-   LESSON 07
+   L11
 ========================================================= */
 
-function renderGenitiveLesson(
-  container,
-  lesson
+function renderPronounSection(
+  lesson,
+  step,
+  section
 ) {
 
-  const section =
-    document.createElement(
-      "div"
-    );
-
-
-  section.className =
-    "lesson-section";
-
-
-  section.innerHTML =
-
-    "<h3>" +
-
-    lesson.sections[
-      currentStep
-    ].title +
-
-    "</h3>" +
-
-    "<p class='muted'>" +
-
-    lesson.sections[
-      currentStep
-    ].intro +
-
-    "</p>";
-
-
   if (
-    currentStep ===
+    step ===
     0
   ) {
 
@@ -1785,11 +2074,9 @@ function renderGenitiveLesson(
 
       "<div class='grammar-box'>" +
 
-      "<strong>Genitive</strong>" +
+      "<div class='greek-large'>ἐγώ</div>" +
 
-      "<p>常见功能：所属、关系、来源等。</p>" +
-
-      "<div class='greek-large'>τοῦ λόγου</div>" +
+      "<p>I · 第一人称单数</p>" +
 
       "</div>";
 
@@ -1797,7 +2084,7 @@ function renderGenitiveLesson(
 
 
   if (
-    currentStep ===
+    step ===
     1
   ) {
 
@@ -1805,11 +2092,9 @@ function renderGenitiveLesson(
 
       "<div class='grammar-box'>" +
 
-      "<strong>Dative</strong>" +
+      "<div class='greek-large'>σύ / ὑμεῖς</div>" +
 
-      "<p>常见功能：对象、接受者、利益对象等。</p>" +
-
-      "<div class='greek-large'>τῷ λόγῳ</div>" +
+      "<p>you singular / you plural</p>" +
 
       "</div>";
 
@@ -1817,7 +2102,7 @@ function renderGenitiveLesson(
 
 
   if (
-    currentStep ===
+    step ===
     2
   ) {
 
@@ -1838,7 +2123,7 @@ function renderGenitiveLesson(
 
 
   if (
-    currentStep ===
+    step ===
     3
   ) {
 
@@ -1848,171 +2133,40 @@ function renderGenitiveLesson(
     );
 
 
-    const notice =
-      document.createElement(
-        "div"
-      );
+    addNotice(
+      section,
 
+      "这里的 ἐγώ 明确指出说话者。希腊文代名词形式直接参与身份与句法观察。"
 
-    notice.className =
-      "notice-box";
-
-
-    notice.textContent =
-
-      "观察 παρὰ θεοῦ：θεοῦ 使用所有格，表达来源关系。";
-
-
-    section.appendChild(
-      notice
     );
 
   }
-
-
-  container.appendChild(
-    section
-  );
 
 }
 
 
 /* =========================================================
-   LESSON 08
+   L12
 ========================================================= */
 
-function renderPrepositionLesson(
-  container,
-  lesson
+function renderAutosSection(
+  lesson,
+  step,
+  section
 ) {
 
-  const section =
-    document.createElement(
-      "div"
-    );
-
-
-  section.className =
-    "lesson-section";
-
-
-  section.innerHTML =
-
-    "<h3>" +
-
-    lesson.sections[
-      currentStep
-    ].title +
-
-    "</h3>" +
-
-    "<p class='muted'>" +
-
-    lesson.sections[
-      currentStep
-    ].intro +
-
-    "</p>";
-
-
   if (
-    currentStep ===
+    step ===
     0
   ) {
 
-    const rows = [
-
-      [
-        "ἐν",
-        "in",
-        "通常与间接受格结合"
-      ],
-
-      [
-        "πρός",
-        "to / toward",
-        "常与受格结合"
-      ],
-
-      [
-        "παρά",
-        "from / beside",
-        "格不同会影响意义"
-      ],
-
-      [
-        "διά",
-        "through",
-        "搭配格可产生不同意义"
-      ]
-
-    ];
-
-
-    rows.forEach(
-      function(item) {
-
-        const row =
-          document.createElement(
-            "div"
-          );
-
-
-        row.className =
-          "word-card";
-
-
-        row.innerHTML =
-
-          "<div class='word-card-main'>" +
-
-          "<div>" +
-
-          "<div class='word-greek'>" +
-
-          item[0] +
-
-          "</div>" +
-
-          "<div class='word-gloss'>" +
-
-          item[1] +
-
-          "</div>" +
-
-          "</div>" +
-
-          "</div>" +
-
-          "<div class='word-detail'>" +
-
-          item[2] +
-
-          "</div>";
-
-
-        section.appendChild(
-          row
-        );
-
-      }
-    );
-
-  }
-
-
-  if (
-    currentStep ===
-    1
-  ) {
-
     section.innerHTML +=
 
       "<div class='grammar-box'>" +
 
-      "<div class='greek-large'>εἰμί</div>" +
+      "<div class='greek-large'>αὐτός</div>" +
 
-      "<p>to be · 是、存在</p>" +
+      "<p>这是新约极高频词，需要根据句法与上下文判断具体功能。</p>" +
 
       "</div>";
 
@@ -2020,7 +2174,31 @@ function renderPrepositionLesson(
 
 
   if (
-    currentStep ===
+    step ===
+    1
+  ) {
+
+    section.innerHTML +=
+
+      "<table class='form-table'>" +
+
+      "<tr><th>形式</th><th>基本功能</th></tr>" +
+
+      "<tr><td>αὐτός</td><td>he / himself</td></tr>" +
+
+      "<tr><td>αὐτόν</td><td>him</td></tr>" +
+
+      "<tr><td>αὐτοῦ</td><td>his / of him</td></tr>" +
+
+      "<tr><td>αὐτοί</td><td>they</td></tr>" +
+
+      "</table>";
+
+  }
+
+
+  if (
+    step ===
     2
   ) {
 
@@ -2041,7 +2219,7 @@ function renderPrepositionLesson(
 
 
   if (
-    currentStep ===
+    step ===
     3
   ) {
 
@@ -2051,43 +2229,200 @@ function renderPrepositionLesson(
     );
 
 
-    const notice =
-      document.createElement(
-        "div"
-      );
+    addNotice(
+      section,
 
+      "δι’ αὐτοῦ 中的 αὐτοῦ 是一个代名词形式。不要单独背 'his'，先问：它在句中承担什么功能？"
 
-    notice.className =
-      "notice-box";
-
-
-    notice.innerHTML =
-
-      "<strong>Ἐν ἀρχῇ</strong>" +
-
-      " = in the beginning" +
-
-      "<br><br>" +
-
-      "这一短语把介词、格与句子的时间背景连接起来。";
-
-
-    section.appendChild(
-      notice
     );
 
   }
-
-
-  container.appendChild(
-    section
-  );
 
 }
 
 
 /* =========================================================
-   WORD CARD
+   L13
+========================================================= */
+
+function renderDemonstrativeSection(
+  lesson,
+  step,
+  section
+) {
+
+  if (
+    step ===
+    0
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<div class='greek-large'>οὗτος</div>" +
+
+      "<p>this · 指向特定的人、事物或概念</p>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    step ===
+    1
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<div class='greek-large'>οὗτος · αὕτη · τοῦτο</div>" +
+
+      "<p>阳性 · 阴性 · 中性</p>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    step ===
+    2
+  ) {
+
+    lesson.forms.forEach(
+      function(item) {
+
+        addWordCard(
+          section,
+          item[0],
+          item[1],
+          item[2]
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    step ===
+    3
+  ) {
+
+    addBibleBox(
+      section,
+      lesson.bible
+    );
+
+
+    addNotice(
+      section,
+
+      "οὗτός ἐστιν 表达明确的指认：'这就是……'。观察指示代词如何把读者的注意力集中到一个特定对象。"
+
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   L14
+========================================================= */
+
+function renderRelativeSection(
+  lesson,
+  step,
+  section
+) {
+
+  if (
+    step ===
+    0
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<div class='greek-large'>ὅς · ἥ · ὅ</div>" +
+
+      "<p>who / which</p>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    step ===
+    1
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<p><strong>重要原则：</strong></p>" +
+
+      "<p>关系代名词通常在性、数上与先行词一致；但格由它在关系子句中的句法功能决定。</p>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    step ===
+    2
+  ) {
+
+    lesson.forms.forEach(
+      function(item) {
+
+        addWordCard(
+          section,
+          item[0],
+          item[1],
+          item[2]
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    step ===
+    3
+  ) {
+
+    addBibleBox(
+      section,
+      lesson.bible
+    );
+
+
+    addNotice(
+      section,
+
+      "οὗ ἐγὼ εἶπον 中，οὗ 把前面的对象与后面的关系子句连接起来。这就是从词形观察进入句法阅读的关键一步。"
+
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   COMPONENTS
 ========================================================= */
 
 function addWordCard(
@@ -2113,33 +2448,33 @@ function addWordCard(
 
     "<div>" +
 
-    "<div class='word-greek'>" +
+    "<div class='word-greek greek'>" +
 
-    greek +
+    escapeHtml(
+      greek
+    ) +
 
     "</div>" +
 
     "<div class='word-gloss'>" +
 
-    gloss +
+    escapeHtml(
+      gloss
+    ) +
 
     "</div>" +
 
     "</div>" +
 
-    "<button class='speak-btn' type='button'>" +
-
-    "🔊"
-
-    +
-
-    "</button>" +
+    "<button class='speak-btn' type='button'>🔊</button>" +
 
     "</div>" +
 
     "<div class='word-detail'>" +
 
-    detail +
+    escapeHtml(
+      detail
+    ) +
 
     "</div>";
 
@@ -2167,10 +2502,6 @@ function addWordCard(
 }
 
 
-/* =========================================================
-   BIBLE BOX
-========================================================= */
-
 function addBibleBox(
   parent,
   bible
@@ -2190,19 +2521,25 @@ function addBibleBox(
 
     "<div class='bible-reference'>" +
 
-    bible.reference +
+    escapeHtml(
+      bible.reference
+    ) +
 
     "</div>" +
 
     "<div class='bible-text greek'>" +
 
-    bible.greek +
+    escapeHtml(
+      bible.greek
+    ) +
 
     "</div>" +
 
     "<div class='muted'>" +
 
-    bible.chinese +
+    escapeHtml(
+      bible.chinese
+    ) +
 
     "</div>";
 
@@ -2217,6 +2554,32 @@ function addBibleBox(
 
     }
   );
+
+
+  parent.appendChild(
+    box
+  );
+
+}
+
+
+function addNotice(
+  parent,
+  text
+) {
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+
+  box.className =
+    "notice-box";
+
+
+  box.textContent =
+    text;
 
 
   parent.appendChild(
@@ -2246,6 +2609,14 @@ function renderTest() {
     "";
 
 
+  testScore =
+    0;
+
+
+  testAnswered =
+    0;
+
+
   const section =
     document.createElement(
       "div"
@@ -2256,25 +2627,57 @@ function renderTest() {
     "lesson-section";
 
 
-  section.innerHTML =
-
-    "<h3>课程测试</h3>" +
-
-    "<p class='muted'>" +
-
-    "根据刚才的训练回答。"
-
-    +
-
-    "</p>";
+  const title =
+    document.createElement(
+      "h3"
+    );
 
 
-  let answered =
-    0;
+  title.textContent =
+    "课程测试";
 
 
-  let correct =
-    0;
+  section.appendChild(
+    title
+  );
+
+
+  const intro =
+    document.createElement(
+      "p"
+    );
+
+
+  intro.className =
+    "muted";
+
+
+  intro.textContent =
+    "根据刚才的训练回答问题。";
+
+
+  section.appendChild(
+    intro
+  );
+
+
+  const scoreBox =
+    document.createElement(
+      "div"
+    );
+
+
+  scoreBox.className =
+    "exercise-score";
+
+
+  scoreBox.id =
+    "testLiveScore";
+
+
+  scoreBox.textContent =
+    "0 / " +
+    lesson.test.length;
 
 
   lesson.test.forEach(
@@ -2290,16 +2693,16 @@ function renderTest() {
 
 
       block.style.marginTop =
-        "16px";
+        "17px";
 
 
-      const title =
+      const heading =
         document.createElement(
           "strong"
         );
 
 
-      title.textContent =
+      heading.textContent =
 
         (
           index +
@@ -2312,7 +2715,7 @@ function renderTest() {
 
 
       block.appendChild(
-        title
+        heading
       );
 
 
@@ -2355,7 +2758,9 @@ function renderTest() {
                   "button"
                 )
                 .forEach(
-                  function(other) {
+                  function(
+                    other
+                  ) {
 
                     other.disabled =
                       true;
@@ -2364,7 +2769,7 @@ function renderTest() {
                 );
 
 
-              answered++;
+              testAnswered++;
 
 
               if (
@@ -2372,7 +2777,7 @@ function renderTest() {
                 question.answer
               ) {
 
-                correct++;
+                testScore++;
 
 
                 button.classList.add(
@@ -2392,8 +2797,10 @@ function renderTest() {
 
               scoreBox.textContent =
 
-                correct +
+                testScore +
+
                 " / " +
+
                 lesson.test.length;
 
             }
@@ -2421,50 +2828,35 @@ function renderTest() {
   );
 
 
-  const scoreBox =
-    document.createElement(
-      "div"
-    );
-
-
-  scoreBox.className =
-    "exercise-score";
-
-
-  scoreBox.textContent =
-    "0 / " +
-    lesson.test.length;
-
-
   section.appendChild(
     scoreBox
   );
 
 
-  const finish =
+  const complete =
     document.createElement(
       "button"
     );
 
 
-  finish.type =
+  complete.type =
     "button";
 
 
-  finish.className =
+  complete.className =
     "primary wide";
 
 
-  finish.textContent =
+  complete.textContent =
     "完成本课";
 
 
-  finish.addEventListener(
+  complete.addEventListener(
     "click",
     function() {
 
       if (
-        answered <
+        testAnswered <
         lesson.test.length
       ) {
 
@@ -2478,7 +2870,7 @@ function renderTest() {
 
 
       completeLesson(
-        correct,
+        testScore,
         lesson.test.length
       );
 
@@ -2487,7 +2879,7 @@ function renderTest() {
 
 
   section.appendChild(
-    finish
+    complete
   );
 
 
@@ -2496,24 +2888,26 @@ function renderTest() {
   );
 
 
-  $("lessonNextBtn")
-    .textContent =
+  const next =
+    $("lessonNextBtn");
+
+
+  next.textContent =
     "重新测试";
 
 
-  $("lessonNextBtn")
-    .onclick =
+  next.onclick =
     renderTest;
 
 }
 
 
 /* =========================================================
-   COMPLETE LESSON
+   COMPLETE
 ========================================================= */
 
 function completeLesson(
-  correct,
+  score,
   total
 ) {
 
@@ -2529,9 +2923,9 @@ function completeLesson(
     );
 
 
-  const score =
+  const percent =
     Math.round(
-      correct /
+      score /
       total *
       100
     );
@@ -2542,7 +2936,7 @@ function completeLesson(
 
 
   lessonState.score =
-    score;
+    percent;
 
 
   lessonState.completedAt =
@@ -2558,11 +2952,11 @@ function completeLesson(
   renderReview();
 
 
-  const content =
+  const container =
     $("lessonContent");
 
 
-  content.innerHTML =
+  container.innerHTML =
 
     "<div class='lesson-section'>" +
 
@@ -2578,18 +2972,18 @@ function completeLesson(
 
     "课程成绩：" +
 
-    score +
+    percent +
 
     "%" +
 
     "<br><br>" +
 
     (
-      score >= 80
+      percent >= 80
 
-        ? "基础掌握良好，可以继续。"
+        ? "掌握良好，可以继续进入下一课。"
 
-        : "建议再次复习后重新测试。"
+        : "建议重新训练后再测试。"
 
     ) +
 
@@ -2598,52 +2992,47 @@ function completeLesson(
     "</div>";
 
 
-  $("lessonNextBtn")
-    .textContent =
-    "返回课程";
-
-
-  $("lessonNextBtn")
-    .onclick =
-    function() {
-
-      go("home");
-
-      renderHome();
-
-    };
-
-}
-
-
-/* =========================================================
-   NEXT STEP
-========================================================= */
-
-function nextLessonStep() {
-
-  const lesson =
-    LESSONS[
-      currentLessonIndex
-    ];
+  const next =
+    $("lessonNextBtn");
 
 
   if (
-    currentStep <
-    lesson.sections.length -
-    1
+    currentLessonIndex <
+    LESSONS.length - 1
   ) {
 
-    currentStep++;
+    next.textContent =
+      "下一课 →";
 
-    renderLessonStep();
 
-    return;
+    next.onclick =
+      function() {
+
+        openLesson(
+          currentLessonIndex +
+          1
+        );
+
+      };
 
   }
 
+  else {
 
-  renderTest();
+    next.textContent =
+      "返回课程目录";
+
+
+    next.onclick =
+      function() {
+
+        go("home");
+
+        renderHome();
+
+      };
+
+  }
 
 }
 
@@ -2671,7 +3060,7 @@ function renderReview() {
     "";
 
 
-  let completed =
+  let has =
     false;
 
 
@@ -2696,7 +3085,7 @@ function renderReview() {
       }
 
 
-      completed =
+      has =
         true;
 
 
@@ -2722,7 +3111,9 @@ function renderReview() {
 
         "<div>" +
 
-        lesson.title +
+        escapeHtml(
+          lesson.title
+        ) +
 
         "</div>" +
 
@@ -2764,14 +3155,14 @@ function renderReview() {
 
 
   if (
-    !completed
+    !has
   ) {
 
     container.innerHTML =
 
       "<div class='muted'>" +
 
-      "还没有完成课程。"
+      "完成课程后，这里会显示学习记录。"
 
       +
 
@@ -2795,7 +3186,7 @@ function speakText(
   ) {
 
     alert(
-      "当前浏览器不支持语音。"
+      "当前浏览器不支持语音朗读。"
     );
 
     return;
@@ -2836,22 +3227,40 @@ function speakText(
 
 
 /* =========================================================
-   GLOBAL
+   HTML ESCAPE
 ========================================================= */
 
-window.go =
-  go;
+function escapeHtml(
+  value
+) {
 
-window.speakText =
-  speakText;
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
-window.openLesson =
-  openLesson;
-
-window.renderTest =
-  renderTest;
+}
 
 
 /* =========================================================
-   END GBRM V0.3
+   END
 ========================================================= */
