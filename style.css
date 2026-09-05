@@ -42,6 +42,14 @@
 }
 
 
+html {
+
+  scroll-behavior:
+    smooth;
+
+}
+
+
 body {
 
   margin:
@@ -127,6 +135,10 @@ button:disabled {
 }
 
 
+/* =====================================================
+TOPBAR
+===================================================== */
+
 .topbar {
 
   position:
@@ -198,6 +210,10 @@ button:disabled {
 }
 
 
+/* =====================================================
+APP
+===================================================== */
+
 .app {
 
   width:
@@ -232,13 +248,13 @@ button:disabled {
 
 
 /* =====================================================
-TYPOGRAPHY
+HERO
 ===================================================== */
 
 .hero {
 
   padding:
-    35px 4px 24px;
+    34px 4px 23px;
 
 }
 
@@ -292,7 +308,7 @@ TYPOGRAPHY
     serif;
 
   font-size:
-    21px;
+    20px;
 
 }
 
@@ -307,14 +323,6 @@ TYPOGRAPHY
 
   line-height:
     1.9;
-
-}
-
-
-.muted {
-
-  color:
-    var(--muted);
 
 }
 
@@ -394,22 +402,16 @@ CARDS
 }
 
 
-.status-text {
-
-  margin-top:
-    9px;
+.muted {
 
   color:
     var(--muted);
-
-  font-size:
-    10px;
 
 }
 
 
 /* =====================================================
-STAT
+STATS
 ===================================================== */
 
 .course-stat {
@@ -474,7 +476,7 @@ STAT
     7px;
 
   margin-top:
-    10px;
+    11px;
 
   background:
     #e8e4db;
@@ -500,7 +502,21 @@ STAT
     var(--accent);
 
   transition:
-    width .3s ease;
+    width .25s ease;
+
+}
+
+
+.status-text {
+
+  margin-top:
+    9px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
 
 }
 
@@ -536,6 +552,12 @@ CONTINUE
 
 .continue-card small {
 
+  display:
+    block;
+
+  margin-top:
+    4px;
+
   color:
     var(--muted);
 
@@ -563,7 +585,7 @@ LESSON LIST
 .lesson-group {
 
   margin-top:
-    13px;
+    12px;
 
   color:
     var(--muted);
@@ -586,7 +608,7 @@ LESSON LIST
     grid;
 
   grid-template-columns:
-    54px 1fr 30px;
+    53px 1fr 26px;
 
   align-items:
     center;
@@ -598,7 +620,7 @@ LESSON LIST
     100%;
 
   padding:
-    13px;
+    12px;
 
   text-align:
     left;
@@ -671,18 +693,18 @@ LESSON LIST
     var(--muted);
 
   font-size:
-    10px;
+    9px;
 
 }
 
 
 .lesson-mark {
 
-  text-align:
-    right;
-
   color:
     var(--accent);
+
+  text-align:
+    right;
 
   font-weight:
     800;
@@ -763,16 +785,16 @@ LESSON
 }
 
 
-.lesson-number-large {
+.lesson-number {
+
+  color:
+    var(--accent);
 
   font-size:
     30px;
 
   font-weight:
     800;
-
-  color:
-    var(--accent);
 
 }
 
@@ -842,45 +864,16 @@ LESSON
 }
 
 
-.lesson-text {
-
-  color:
-    var(--muted);
-
-}
-
-
-.grammar-example {
-
-  margin:
-    12px 0;
+.lesson-note {
 
   padding:
-    14px;
+    13px;
 
   background:
     #faf8f1;
 
   border-radius:
-    11px;
-
-}
-
-
-.greek {
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-}
-
-
-.greek-large {
-
-  font-size:
-    31px;
+    10px;
 
 }
 
@@ -888,10 +881,10 @@ LESSON
 .lesson-example {
 
   margin:
-    12px 0;
+    11px 0;
 
   padding:
-    15px;
+    13px;
 
   background:
     white;
@@ -900,36 +893,19 @@ LESSON
     1px solid var(--line);
 
   border-radius:
-    12px;
+    11px;
 
 }
 
 
-.lesson-example-text {
+.lesson-example .greek {
 
   font-family:
     Georgia,
     serif;
 
   font-size:
-    22px;
-
-  line-height:
-    1.8;
-
-}
-
-
-.lesson-example-meta {
-
-  margin-top:
-    6px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    10px;
+    23px;
 
 }
 
@@ -951,14 +927,6 @@ LESSON
 }
 
 
-.lesson-actions button {
-
-  width:
-    100%;
-
-}
-
-
 /* =====================================================
 VOCAB
 ===================================================== */
@@ -969,7 +937,7 @@ VOCAB
     grid;
 
   gap:
-    8px;
+    9px;
 
 }
 
@@ -996,11 +964,11 @@ VOCAB
   display:
     flex;
 
-  justify-content:
-    space-between;
-
   align-items:
     center;
+
+  justify-content:
+    space-between;
 
   gap:
     10px;
@@ -1023,7 +991,7 @@ VOCAB
 .vocab-gloss {
 
   margin-top:
-    3px;
+    4px;
 
   font-size:
     12px;
@@ -1064,11 +1032,11 @@ VOCAB
 
 .vocab-actions button {
 
-  font-size:
-    10px;
-
   padding:
     7px 10px;
+
+  font-size:
+    10px;
 
 }
 
@@ -1106,10 +1074,10 @@ TRAINING
 .training-card {
 
   margin:
-    13px 0;
+    12px 0;
 
   padding:
-    18px;
+    17px;
 
   background:
     white;
@@ -1118,15 +1086,12 @@ TRAINING
     1px solid var(--line);
 
   border-radius:
-    16px;
+    15px;
 
 }
 
 
 .training-question {
-
-  font-size:
-    16px;
 
   font-weight:
     700;
@@ -1188,7 +1153,7 @@ CORPUS
 .corpus-card {
 
   margin:
-    13px 0;
+    12px 0;
 
   padding:
     17px;
@@ -1222,17 +1187,18 @@ CORPUS
 .corpus-greek {
 
   margin:
-    10px 0;
+    11px 0;
 
   font-family:
     Georgia,
+    "Times New Roman",
     serif;
 
   font-size:
-    25px;
+    24px;
 
   line-height:
-    1.9;
+    1.95;
 
 }
 
@@ -1243,7 +1209,7 @@ CORPUS
     inline-block;
 
   margin:
-    2px;
+    1px;
 
   padding:
     2px 5px;
@@ -1314,7 +1280,7 @@ CORPUS
     space-between;
 
   gap:
-    10px;
+    12px;
 
   padding:
     7px 0;
@@ -1415,7 +1381,7 @@ LEMMA
     8px;
 
   margin-top:
-    13px;
+    14px;
 
 }
 
@@ -1462,7 +1428,7 @@ LEMMA
 .family-item {
 
   padding:
-    12px;
+    12px 0;
 
   border-top:
     1px solid var(--line);
@@ -1524,8 +1490,8 @@ VERSE
 
 .verse-text {
 
-  margin:
-    12px 0;
+  margin-top:
+    13px;
 
   font-family:
     Georgia,
@@ -1536,6 +1502,55 @@ VERSE
 
   line-height:
     2;
+
+}
+
+
+/* =====================================================
+RECORD
+===================================================== */
+
+.record-summary {
+
+  padding:
+    18px;
+
+  background:
+    var(--paper);
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    15px;
+
+}
+
+
+.record-row {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+  padding:
+    12px 0;
+
+  border-top:
+    1px solid var(--line);
+
+}
+
+
+.record-row:first-child {
+
+  border-top:
+    0;
 
 }
 
@@ -1573,38 +1588,6 @@ BUTTONS
 
   background:
     white;
-
-}
-
-
-/* =====================================================
-RECORD
-===================================================== */
-
-.record-row {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  gap:
-    10px;
-
-  padding:
-    13px 0;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.record-row:first-child {
-
-  border-top:
-    0;
 
 }
 
