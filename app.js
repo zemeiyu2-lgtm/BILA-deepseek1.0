@@ -39,6 +39,19 @@ const CONFIG = {
 
 
 /* =========================================================
+   TEXTBOOK IDENTITY
+========================================================= */
+
+const TEXTBOOK_META = {
+  title: "Basics of Biblical Greek: Grammar",
+  titleZh: "《圣经希腊文基础语法》",
+  author: "William D. Mounce",
+  edition: "第4版 · 2019",
+  publisher: "Zondervan Academic"
+};
+
+
+/* =========================================================
    BOOKS
 ========================================================= */
 
@@ -1293,116 +1306,36 @@ function getVocabState(
 ========================================================= */
 
 function renderHome(){
-
   renderCourseProgress();
-
   renderLessonList();
-
 }
-
 
 function renderCourseProgress(){
+  let completed=0;
+  TEXTBOOK_LESSONS.forEach(function(lesson,index){
+    if(getLessonState(index).completed) completed++;
+  });
 
-  let completed =
-    0;
+  const current=Math.min(currentLessonIndex+1,TEXTBOOK_LESSONS.length);
+  const percent=Math.round(completed/TEXTBOOK_LESSONS.length*100);
 
+  if($('completedCount')) $('completedCount').textContent=completed;
+  if($('currentLessonDisplay')) $('currentLessonDisplay').textContent='L'+String(current).padStart(2,'0');
+  if($('coursePercent')) $('coursePercent').textContent=percent+'%';
+  if($('courseProgress')) $('courseProgress').style.width=percent+'%';
 
-  TEXTBOOK_LESSONS.forEach(
-    function(
-      lesson,
-      index
-    ){
-
-      if(
-        getLessonState(
-          index
-        ).completed
-      ){
-
-        completed++;
-
-      }
-
-    }
-  );
-
-
-  const percent =
-    Math.round(
-      completed /
-      TEXTBOOK_LESSONS.length *
-      100
-    );
-
-
-  if(
-    $("completedCount")
-  ){
-
-    $("completedCount")
-      .textContent =
-      completed;
-
+  if($('homeStudyText')){
+    $('homeStudyText').textContent=completed
+      ? '已完成 '+completed+' / '+TEXTBOOK_LESSONS.length+' 课 · 正在学习 L'+String(current).padStart(2,'0')
+      : '从 L01 开始，按教材一步一步学习';
   }
-
-
-  if(
-    $("currentLessonDisplay")
-  ){
-
-    $("currentLessonDisplay")
-      .textContent =
-
-      "L" +
-      String(
-        currentLessonIndex + 1
-      ).padStart(
-        2,
-        "0"
-      );
-
-  }
-
-
-  if(
-    $("coursePercent")
-  ){
-
-    $("coursePercent")
-      .textContent =
-      percent +
-      "%";
-
-  }
-
-
-  if(
-    $("courseProgress")
-  ){
-
-    $("courseProgress")
-      .style.width =
-      percent +
-      "%";
-
-  }
-
+  if($('homeProgressLabel')) $('homeProgressLabel').textContent=completed+' / '+TEXTBOOK_LESSONS.length+' 课';
 }
-
 
 function renderContinue(){
-
-  const area =
-    $("continueArea");
-
-  if(area){
-
-    area.innerHTML = "";
-
-  }
-
+  const area=$('continueArea');
+  if(area) area.innerHTML='';
 }
-
 
 /* =========================================================
    COURSE LIST
@@ -1410,173 +1343,40 @@ function renderContinue(){
 ========================================================= */
 
 function renderLessonList(){
+  const box=$('lessonList');
+  if(!box) return;
+  box.innerHTML='';
+  let groupName='';
 
-  const box =
-    $("lessonList");
+  TEXTBOOK_LESSONS.forEach(function(lesson,index){
+    const st=getLessonState(index);
 
-
-  if(
-    !box
-  ){
-
-    return;
-
-  }
-
-
-  box.innerHTML =
-    "";
-
-
-  let groupName =
-    "";
-
-
-  TEXTBOOK_LESSONS.forEach(
-    function(
-      lesson,
-      index
-    ){
-
-      const st =
-        getLessonState(
-          index
-        );
-
-
-      if(
-        groupName !==
-        lesson.group
-      ){
-
-        const group =
-          document.createElement(
-            "div"
-          );
-
-
-        group.className =
-          "lesson-group";
-
-
-        group.textContent =
-          lesson.group.toUpperCase();
-
-
-        box.appendChild(
-          group
-        );
-
-
-        groupName =
-          lesson.group;
-
-      }
-
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.type =
-        "button";
-
-
-      button.className =
-        "lesson-item";
-
-
-      if(
-        index ===
-        currentLessonIndex
-      ){
-
-        button.classList.add(
-          "current"
-        );
-
-      }
-
-
-      if(
-        st.completed
-      ){
-
-        button.classList.add(
-          "completed"
-        );
-
-      }
-
-
-      button.innerHTML =
-
-        "<div class='lesson-index'>" +
-
-          "L" +
-          String(
-            lesson.n
-          ).padStart(
-            2,
-            "0"
-          ) +
-
-        "</div>" +
-
-        "<div>" +
-
-          "<div class='lesson-title'>" +
-
-            escapeHtml(
-              lesson.title
-            ) +
-
-          "</div>" +
-
-          "<small class='lesson-meta'>" +
-
-            (
-              st.completed
-                ? "✓ 已完成"
-                : "进入学习"
-            ) +
-
-          "</small>" +
-
-        "</div>" +
-
-        "<div class='lesson-mark'>" +
-
-          (
-            st.completed
-              ? "✓"
-              : "→"
-          ) +
-
-        "</div>";
-
-
-      button.onclick =
-        function(){
-
-          openLesson(
-            index
-          );
-
-        };
-
-
-      box.appendChild(
-        button
-      );
-
+    if(groupName!==lesson.group){
+      const group=document.createElement('div');
+      group.className='lesson-group';
+      group.textContent=lesson.group;
+      box.appendChild(group);
+      groupName=lesson.group;
     }
-  );
 
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='lesson-item'+(index===currentLessonIndex?' current':'')+(st.completed?' completed':'');
+
+    const status=st.completed?'已完成':index===currentLessonIndex?'正在学习':'开始学习';
+
+    button.innerHTML=
+      '<div class="lesson-index">L'+String(lesson.n).padStart(2,'0')+'</div>'+
+      '<div class="lesson-card-main">'+
+        '<div class="lesson-title">'+escapeHtml(lesson.title)+'</div>'+
+        '<div class="lesson-meta">'+status+'</div>'+
+      '</div>'+
+      '<div class="lesson-mark">'+(st.completed?'✓':'→')+'</div>';
+
+    button.onclick=function(){openLesson(index);};
+    box.appendChild(button);
+  });
 }
-
 
 /* =========================================================
    OPEN LESSON
@@ -1974,7 +1774,7 @@ function renderTextbookStep(
 
     "<div class='training-line'>" +
 
-      "<strong>今天：</strong>" +
+      "<strong>今天：</strong> " +
 
       escapeHtml(
         lesson.objective
@@ -2501,261 +2301,92 @@ function renderPracticeStep(
    VOCABULARY
 ========================================================= */
 
-function getLessonVocabulary(
-  lessonNumber
-){
-
-  return VOCABULARY.filter(
-    function(item){
-
-      return (
-        item.lesson ===
-        lessonNumber
-      );
-
-    }
-  );
-
+function getLessonVocabulary(lessonNumber){
+  return VOCABULARY.filter(function(item){
+    return item.lesson===lessonNumber;
+  });
 }
 
+function renderVocabularyStep(area,lesson,st){
+  const section=document.createElement('div');
+  section.className='lesson-section';
+  const list=getLessonVocabulary(lesson.n);
 
-function renderVocabularyStep(
-  area,
-  lesson,
-  st
-){
+  section.innerHTML=
+    '<div class="section-topline">'+
+      '<div><div class="eyebrow">LESSON VOCABULARY</div><h3>本课词汇</h3></div>'+
+      '<span class="section-count">'+list.length+' 个词</span>'+
+    '</div>'+
+    '<p class="muted">这些词属于本课教材内容。先认识，再主动回忆。</p>';
 
-  const section =
-    document.createElement(
-      "div"
-    );
+  const grid=document.createElement('div');
+  grid.className='vocab-grid';
 
-
-  section.className =
-    "lesson-section";
-
-
-  section.innerHTML =
-
-    "<h3>本课词汇</h3>" +
-
-    "<p class='muted'>" +
-
-      "这些词来自当前教材词库。先认识，再通过复习稳定记忆。"
-
-    +
-
-    "</p>";
-
-
-  const grid =
-    document.createElement(
-      "div"
-    );
-
-
-  grid.className =
-    "vocab-grid";
-
-
-  const list =
-    getLessonVocabulary(
-      lesson.n
-    );
-
-
-  if(
-    !list.length
-  ){
-
-    section.innerHTML +=
-
-      "<div class='notice-box'>" +
-
-        "当前课号暂未接入词库。仍可继续学习教材内容。"
-
-      +
-
-      "</div>";
-
-  }
-  else{
-
-    list.forEach(
-      function(item){
-
-        grid.appendChild(
-          createVocabularyCard(
-            item
-          )
-        );
-
-      }
-    );
-
-
-    section.appendChild(
-      grid
-    );
-
+  if(!list.length){
+    grid.innerHTML='<div class="notice-box">本课暂未接入词库。</div>';
+  }else{
+    list.forEach(function(item){
+      grid.appendChild(createVocabularyCard(item));
+    });
   }
 
+  section.appendChild(grid);
 
-  area.appendChild(
-    section
-  );
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='primary wide vocab-launch';
+  button.textContent=list.length?'开始本课词汇闪卡':'本课暂无词汇';
+  button.disabled=!list.length;
+  button.onclick=function(){startLessonVocabularyReview(lesson.n);};
+  section.appendChild(button);
 
-
-  st.vocabulary =
-    true;
-
-
+  area.appendChild(section);
+  st.vocabulary=true;
   saveState();
-
 }
 
+function createVocabularyCard(item){
+  const memory=getVocabState(item.word);
+  const card=document.createElement('div');
+  card.className='vocab-card';
+  card.innerHTML=
+    '<div class="vocab-header">'+
+      '<div class="vocab-word">'+escapeHtml(item.word)+'</div>'+
+      '<button class="vocab-speak" type="button">🔊</button>'+
+    '</div>'+
+    '<div class="vocab-gloss">'+escapeHtml(item.gloss)+'</div>'+
+    '<div class="vocab-actions"><button class="vocab-memory" type="button">记住了</button></div>'+
+    '<span class="vocab-status">'+vocabStatus(memory)+'</span>';
 
-function createVocabularyCard(
-  item
-){
-
-  const memory =
-    getVocabState(
-      item.word
-    );
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-  card.className =
-    "vocab-card";
-
-  card.innerHTML =
-
-    "<div class='vocab-header'>" +
-
-      "<div class='vocab-word'>" +
-
-        escapeHtml(
-          item.word
-        ) +
-
-      "</div>" +
-
-      "<button class='vocab-speak' type='button'>" +
-
-        "🔊"
-
-      +
-
-      "</button>" +
-
-    "</div>" +
-
-    "<div class='vocab-gloss'>" +
-
-      escapeHtml(
-        item.gloss
-      ) +
-
-    "</div>" +
-
-    "<div class='vocab-actions'>" +
-
-      "<button class='vocab-memory' type='button'>" +
-
-        "记住了"
-
-      +
-
-      "</button>" +
-
-    "</div>" +
-
-    "<span class='vocab-status'>" +
-
-      vocabStatus(
-        memory
-      ) +
-
-    "</span>";
-
-  card
-    .querySelector(
-      ".vocab-speak"
-    )
-    .onclick =
-    function(){
-
-      speakText(
-        item.word
-      );
-
-    };
-
-  card
-    .querySelector(
-      ".vocab-memory"
-    )
-    .onclick =
-    function(){
-
-      memory.seen++;
-
-      memory.remembered++;
-
-      memory.lastReviewed =
-        new Date()
-          .toISOString();
-
-      saveState();
-
-      card
-        .querySelector(
-          ".vocab-status"
-        )
-        .textContent =
-        vocabStatus(
-          memory
-        );
-
-    };
-
+  card.querySelector('.vocab-speak').onclick=function(){speakText(item.word);};
+  card.querySelector('.vocab-memory').onclick=function(){
+    memory.seen++;
+    memory.remembered++;
+    memory.lastReviewed=new Date().toISOString();
+    saveState();
+    card.querySelector('.vocab-status').textContent=vocabStatus(memory);
+  };
   return card;
-
 }
 
-
-function vocabStatus(
-  memory
-){
-
-  if(
-    memory.remembered >=
-    4
-  ){
-
-    return "比较稳定";
-
-  }
-
-
-  if(
-    memory.remembered >
-    0
-  ){
-
-    return "学习中";
-
-  }
-
-
-  return "第一次见";
-
+function vocabStatus(memory){
+  if(memory.remembered>=4) return '比较稳定';
+  if(memory.remembered>0) return '学习中';
+  return '第一次见';
 }
 
+function startLessonVocabularyReview(lessonNumber){
+  vocabularyReview=getLessonVocabulary(lessonNumber).slice().sort(function(a,b){
+    const aa=getVocabState(a.word),bb=getVocabState(b.word);
+    return (aa.remembered-aa.wrong)-(bb.remembered-bb.wrong);
+  });
+  if(!vocabularyReview.length) return;
+  vocabularyReviewIndex=0;
+  state.currentVocabularyLesson=lessonNumber;
+  saveState();
+  go('vocabReview');
+  renderVocabularyReview();
+}
 
 /* =========================================================
    CORPUS GATEWAY
@@ -2768,31 +2399,13 @@ function renderCorpusGateway(
 ){
 
   area.innerHTML =
-
     "<div class='lesson-section'>" +
-
       "<h3>真实新约</h3>" +
-
-      "<p class='muted'>" +
-
-        "把今天学的内容放进一小段真实经文。"
-
-      +
-
-      "</p>" +
-
-      "<button id='launchCorpus' class='primary wide' type='button'>" +
-
-        "进入原文 →"
-
-      +
-
-      "</button>" +
-
+      "<p>把今天学的内容放进一句短短的真实经文。</p>" +
+      "<button id='launchCorpus' class='primary wide' type='button'>进入原文 →</button>" +
     "</div>";
 
-  $("launchCorpus")
-    .onclick =
+  $("launchCorpus").onclick =
     startLessonCorpusTraining;
 
 }
@@ -3343,112 +2956,19 @@ function renderCorpusTraining(){
 
     "<strong>现在做</strong>" +
 
-    "<br>" +
+    "<br><br>" +
 
     escapeHtml(
       currentCorpusTask(
         lesson,
         seed
       )
-    ) +
-
-    "<button id='showCorpusHint' class='secondary wide' type='button'>" +
-
-      "需要提示"
-
-    +
-
-    "</button>" +
-
-    "<div id='corpusHint' class='training-line' style='display:none'>" +
-
-      escapeHtml(
-        currentCorpusHint(
-          lesson,
-          seed
-        )
-      ) +
-
-      "<button id='showCorpusExplanation' class='secondary wide' type='button'>" +
-
-        "还是不明白？"
-
-      +
-
-      "</button>" +
-
-    "</div>" +
-
-    "<div id='corpusExplanation' class='training-line' style='display:none'>" +
-
-      escapeHtml(
-        currentCorpusExplanation(
-          lesson,
-          seed
-        )
-      ) +
-
-      "<button id='showCorpusAnalysis' class='secondary wide' type='button'>" +
-
-        "看完整分析"
-
-      +
-
-      "</button>" +
-
-    "</div>" +
-
-    "<div id='corpusAnalysis' class='training-line' style='display:none'>" +
-
-      escapeHtml(
-        currentCorpusAnalysis(
-          lesson,
-          seed
-        )
-      ) +
-
-    "</div>";
+    );
 
 
   area.appendChild(
     note
   );
-
-
-  $("showCorpusHint")
-    .onclick =
-    function(){
-
-      $("corpusHint")
-        .style
-        .display =
-        "block";
-
-    };
-
-
-  $("showCorpusExplanation")
-    .onclick =
-    function(){
-
-      $("corpusExplanation")
-        .style
-        .display =
-        "block";
-
-    };
-
-
-  $("showCorpusAnalysis")
-    .onclick =
-    function(){
-
-      $("corpusAnalysis")
-        .style
-        .display =
-        "block";
-
-    };
 
 
   const button =
@@ -3519,18 +3039,13 @@ function currentCorpusTask(
       "noun",
       "case",
       "case2",
-      "third",
-      "adjective",
-      "pronoun",
-      "autos",
-      "demonstrative",
-      "relative"
+      "third"
     ].includes(
       lesson.kind
     )
   ){
 
-    return "先看词形，再想它在句中的功能。";
+    return "先看目标词的形式，再想它在句中的作用。";
 
   }
 
@@ -3542,97 +3057,18 @@ function currentCorpusTask(
       "imperfect",
       "aorist1",
       "aorist2",
-      "perfect",
-      "passive",
-      "contract",
-      "stems",
-      "mp"
+      "perfect"
     ].includes(
       lesson.kind
     )
   ){
 
-    return "先看词形，再按今天学过的顺序分析。";
+    return "先看词形，再问自己：我能认出今天学过的动词形式吗？";
 
   }
 
 
   return "先读一遍，再找出今天学习的词。";
-
-}
-
-function currentCorpusHint(
-  lesson,
-  seed
-){
-
-  if(
-    seed &&
-    seed.rawText
-  ){
-
-    return "目标词是「" +
-      seed.rawText +
-      "」。";
-
-  }
-
-  return "先找到目标词。";
-
-}
-
-function currentCorpusExplanation(
-  lesson,
-  seed
-){
-
-  const form =
-    seed && seed.morph
-      ? [
-          seed.morph.tense,
-          seed.morph.voice,
-          seed.morph.mood,
-          seed.morph.case,
-          seed.morph.number
-        ].filter(
-          Boolean
-        ).join(
-          " · "
-        )
-      : "";
-
-  if(
-    form
-  ){
-
-    return "这个词可以先从形式入手：" + form + "。";
-
-  }
-
-  return "先把词典形和经文中的实际词形联系起来。";
-
-}
-
-function currentCorpusAnalysis(
-  lesson,
-  seed
-){
-
-  if(
-    seed &&
-    seed.lemma
-  ){
-
-    return (
-      seed.rawText +
-      " ← 词典形 " +
-      seed.lemma +
-      "。本课先掌握形式与基本功能，不继续展开超纲内容。"
-    );
-
-  }
-
-  return "先完成当前课程要求即可，不需要做进阶分析。";
 
 }
 
@@ -4846,30 +4282,7 @@ function renderTokenDetail(
       buildMorphSummary(
         token
       )
-    ) +
-
-    "<button id='openTokenLemma' class='secondary wide' type='button'>" +
-
-      "进入这个词的词形网络 →"
-
-    +
-
-    "</button>";
-
-
-  $("openTokenLemma")
-    .onclick =
-    function(){
-
-      currentReturn =
-        "corpus";
-
-
-      openLemma(
-        token.lemma
-      );
-
-    };
+    );
 
 }
 
@@ -5856,442 +5269,86 @@ function previousStep(){
 ========================================================= */
 
 function startVocabularyReview(){
+  const currentLessonNumber=TEXTBOOK_LESSONS[currentLessonIndex].n;
+  vocabularyReview=VOCABULARY.filter(function(item){
+    return item.lesson<=currentLessonNumber;
+  });
 
-  const learned =
-    TEXTBOOK_LESSONS
-      .filter(
-        function(
-          lesson,
-          index
-        ){
+  vocabularyReview=vocabularyReview.slice().sort(function(a,b){
+    const aa=getVocabState(a.word),bb=getVocabState(b.word);
+    return (aa.remembered-aa.wrong)-(bb.remembered-bb.wrong);
+  }).slice(0,12);
 
-          return getLessonState(
-            index
-          ).completed;
-
-        }
-      )
-      .map(
-        function(
-          lesson
-        ){
-
-          return lesson.n;
-
-        }
-      );
-
-  const source =
-    learned.length
-
-      ? VOCABULARY.filter(
-          function(item){
-
-            return learned.includes(
-              item.lesson
-            );
-
-          }
-        )
-
-      : VOCABULARY.filter(
-          function(item){
-
-            return (
-              item.lesson ===
-              TEXTBOOK_LESSONS[
-                currentLessonIndex
-              ].n
-            );
-
-          }
-        );
-
-  vocabularyReview =
-    source
-      .slice()
-      .sort(
-        function(
-          a,
-          b
-        ){
-
-          const aState =
-            getVocabState(
-              a.word
-            );
-
-          const bState =
-            getVocabState(
-              b.word
-            );
-
-          return (
-
-            (
-              aState.remembered -
-              aState.wrong
-            )
-
-            -
-
-            (
-              bState.remembered -
-              bState.wrong
-            )
-
-          );
-
-        }
-      )
-      .slice(
-        0,
-        12
-      );
-
-  if(
-    !vocabularyReview.length
-  ){
-
-    alert(
-      "当前还没有可复习词汇。"
-    );
-
+  if(!vocabularyReview.length){
+    alert('当前还没有可复习词汇。');
     return;
-
   }
 
-  vocabularyReviewIndex =
-    0;
-
-  go(
-    "vocabReview"
-  );
-
+  vocabularyReviewIndex=0;
+  state.currentVocabularyLesson=currentLessonNumber;
+  saveState();
+  go('vocabReview');
   renderVocabularyReview();
-
 }
-
 
 function renderVocabularyReview(){
+  const counter=$('vocabReviewCounter');
+  const area=$('vocabReviewArea');
+  if(!counter||!area) return;
 
-  const counter =
-    $("vocabReviewCounter");
-
-  const area =
-    $("vocabReviewArea");
-
-  if(
-    !counter ||
-    !area
-  ){
-
+  if(vocabularyReviewIndex>=vocabularyReview.length){
+    counter.textContent='复习完成';
+    area.innerHTML=
+      '<div class="success"><strong>✓ 今天复习完成</strong><br><br>不熟的词会在以后再次出现。</div>';
     return;
-
   }
 
-  if(
-    vocabularyReviewIndex >=
-    vocabularyReview.length
-  ){
+  const item=vocabularyReview[vocabularyReviewIndex];
+  const range=state.currentVocabularyLesson||TEXTBOOK_LESSONS[currentLessonIndex].n;
+  counter.textContent=
+    '目前复习至 L'+String(range).padStart(2,'0')+
+    ' · 第 '+(vocabularyReviewIndex+1)+' / '+vocabularyReview.length;
 
-    counter.textContent =
-      "复习完成";
+  area.innerHTML=
+    '<div class="flashcard">'+
+      '<div class="flashcard-word">'+escapeHtml(item.word)+'</div>'+
+      '<div class="flashcard-hint">先自己想一想，再翻卡。</div>'+
+      '<button id="flashReveal" class="primary wide" type="button">显示答案</button>'+
+    '</div>';
 
-    area.innerHTML =
-
-      "<div class='success'>" +
-
-        "<strong>✓ 今天复习完成</strong>" +
-
-        "<br><br>" +
-
-        "不必一次全部记住；不熟的词会优先再次出现。"
-
-      +
-
-      "</div>";
-
-    return;
-
-  }
-
-  const item =
-    vocabularyReview[
-      vocabularyReviewIndex
-    ];
-
-  counter.textContent =
-
-    "第 " +
-    (
-      vocabularyReviewIndex + 1
-    ) +
-    " / " +
-    vocabularyReview.length;
-
-  area.innerHTML =
-    "";
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-  card.className =
-    "flashcard";
-
-  card.innerHTML =
-
-    "<div class='flashcard-word'>" +
-
-      escapeHtml(
-        item.word
-      ) +
-
-    "</div>" +
-
-    "<div class='flashcard-hint'>" +
-
-      "先想一想，再翻卡。"
-
-    +
-
-    "</div>" +
-
-    "<button id='flashReveal' class='primary wide' type='button'>" +
-
-      "显示答案"
-
-    +
-
-    "</button>";
-
-  area.appendChild(
-    card
-  );
-
-  $("flashReveal")
-    .onclick =
-    function(){
-
-      renderFlashcardAnswer(
-        item
-      );
-
-    };
-
+  $('flashReveal').onclick=function(){showFlashcardAnswer(item);};
 }
 
+function showFlashcardAnswer(item){
+  const area=$('vocabReviewArea');
+  if(!area) return;
 
+  area.innerHTML=
+    '<div class="flashcard flashcard-revealed">'+
+      '<div class="flashcard-word">'+escapeHtml(item.word)+'</div>'+
+      '<div class="flashcard-answer">'+escapeHtml(item.gloss)+'</div>'+
+      '<button id="flashSpeak" class="secondary wide" type="button">🔊 再听一次</button>'+
+      '<div class="flashcard-actions">'+
+        '<button id="flashNotSure" class="secondary" type="button">还不熟</button>'+
+        '<button id="flashKnow" class="primary" type="button">记住了</button>'+
+      '</div>'+
+    '</div>';
 
-function renderFlashcardAnswer(
-  item
-){
-
-  const area =
-    $("vocabReviewArea");
-
-  if(
-    !area
-  ){
-
-    return;
-
-  }
-
-  area.innerHTML =
-    "";
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-  card.className =
-    "flashcard flashcard-revealed";
-
-  card.innerHTML =
-
-    "<div class='flashcard-word'>" +
-
-      escapeHtml(
-        item.word
-      ) +
-
-    "</div>" +
-
-    "<div class='flashcard-answer'>" +
-
-      escapeHtml(
-        item.gloss
-      ) +
-
-    "</div>" +
-
-    "<button id='flashSpeak' class='secondary wide' type='button'>" +
-
-      "🔊 再听一次"
-
-    +
-
-    "</button>" +
-
-    "<div class='flashcard-actions'>" +
-
-      "<button id='flashNotSure' class='secondary' type='button'>" +
-
-        "还不熟"
-
-      +
-
-      "</button>" +
-
-      "<button id='flashKnow' class='primary' type='button'>" +
-
-        "记住了"
-
-      +
-
-      "</button>" +
-
-    "</div>";
-
-  area.appendChild(
-    card
-  );
-
-  $("flashSpeak").onclick =
-    function(){
-
-      speakText(
-        item.word
-      );
-
-    };
-
-  $("flashNotSure").onclick =
-    function(){
-
-      rateFlashcard(
-        item,
-        false
-      );
-
-    };
-
-  $("flashKnow").onclick =
-    function(){
-
-      rateFlashcard(
-        item,
-        true
-      );
-
-    };
-
+  $('flashSpeak').onclick=function(){speakText(item.word);};
+  $('flashNotSure').onclick=function(){rateFlashcard(item,false);};
+  $('flashKnow').onclick=function(){rateFlashcard(item,true);};
 }
 
-function rateFlashcard(
-  item,
-  remembered
-){
-
-  const memory =
-    getVocabState(
-      item.word
-    );
-
+function rateFlashcard(item,remembered){
+  const memory=getVocabState(item.word);
   memory.seen++;
-
-  if(
-    remembered
-  ){
-
-    memory.remembered++;
-
-  }
-  else{
-
-    memory.wrong++;
-
-  }
-
-  memory.lastReviewed =
-    new Date()
-      .toISOString();
-
+  if(remembered) memory.remembered++;
+  else memory.wrong++;
+  memory.lastReviewed=new Date().toISOString();
   saveState();
-
   vocabularyReviewIndex++;
-
   renderVocabularyReview();
-
 }
-
-function buildReviewOptions(
-  item
-){
-
-  const distractors =
-    VOCABULARY
-      .filter(
-        function(
-          other
-        ){
-
-          return (
-            other.word !==
-            item.word
-          );
-
-        }
-      )
-      .sort(
-        function(){
-
-          return (
-            Math.random() -
-            .5
-          );
-
-        }
-      )
-      .slice(
-        0,
-        3
-      )
-      .map(
-        function(
-          other
-        ){
-
-          return other.gloss;
-
-        }
-      );
-
-
-  return [
-
-    item.gloss,
-
-    ...distractors
-
-  ]
-  .sort(
-    function(){
-
-      return (
-        Math.random() -
-        .5
-      );
-
-    }
-  );
-
-}
-
 
 /* =========================================================
    SPEECH
