@@ -2,309 +2,180 @@
   box-sizing:border-box;
 }
 
-
 :root{
-
   --bg:#f5f1e7;
-
   --paper:#fffdf8;
-
-  --white:#ffffff;
-
+  --white:#fff;
   --ink:#29332d;
-
   --muted:#778078;
-
   --accent:#496b59;
-
   --accent-soft:#e6eee7;
-
   --gold:#9a7740;
-
   --gold-soft:#f3ead8;
-
   --line:#e4ded2;
-
   --danger:#965f55;
-
 }
-
 
 html{
   scroll-behavior:smooth;
 }
 
-
 body{
-
   margin:0;
-
   background:var(--bg);
-
   color:var(--ink);
-
   font-family:
     Arial,
     "Microsoft YaHei",
     sans-serif;
-
   line-height:1.65;
-
 }
 
+button,
+input,
+select{
+  font:inherit;
+}
 
 button{
-
-  font:inherit;
-
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:10px;
-
   background:var(--white);
-
   color:var(--ink);
-
   padding:10px 13px;
-
   cursor:pointer;
-
   transition:.15s ease;
-
 }
-
 
 button:hover{
   border-color:#b8ae9c;
 }
 
-
 button:active{
   transform:scale(.98);
 }
 
-
 button:disabled{
-
   opacity:.55;
-
   cursor:default;
-
 }
-
-
-.hidden{
-  display:none !important;
-}
-
-
-.muted{
-  color:var(--muted);
-}
-
-
-/* =====================================================
-TOPBAR
-===================================================== */
 
 .topbar{
-
   position:sticky;
-
   top:0;
-
   z-index:30;
 
   display:flex;
-
   justify-content:space-between;
-
   align-items:center;
 
   padding:13px 18px;
 
-  background:
-    rgba(245,241,231,.97);
+  background:rgba(
+    245,
+    241,
+    231,
+    .97
+  );
 
-  border-bottom:
-    1px solid var(--line);
+  border-bottom:1px solid var(--line);
 
-  backdrop-filter:
-    blur(10px);
-
+  backdrop-filter:blur(10px);
 }
-
 
 .brand{
-
   font-weight:800;
-
   letter-spacing:.12em;
-
 }
-
 
 .subtitle{
-
   color:var(--muted);
-
   font-size:10px;
-
 }
-
 
 .version{
-
   color:var(--accent);
-
   font-size:10px;
-
   font-weight:800;
-
 }
-
-
-/* =====================================================
-APP
-===================================================== */
 
 .app{
-
   width:100%;
-
-  max-width:900px;
-
+  max-width:980px;
   margin:0 auto;
-
-  padding:
-    18px 16px 65px;
-
+  padding:18px 16px 80px;
 }
-
 
 .screen{
   display:none;
 }
 
-
 .screen.active{
   display:block;
 }
 
+.hero{
+  padding:34px 4px 23px;
+}
 
-/* =====================================================
-COMMON
-===================================================== */
+.compact-hero{
+  padding-bottom:12px;
+}
+
+.compact-hero .hero-subtitle{
+  margin-bottom:0;
+}
 
 .eyebrow{
-
   color:var(--accent);
-
   font-size:10px;
-
   font-weight:800;
-
   letter-spacing:.14em;
-
 }
 
+.hero h1{
+  margin:5px 0;
 
-.card{
-
-  margin-top:13px;
-
-  padding:18px;
-
-  background:var(--paper);
-
-  border:
-    1px solid var(--line);
-
-  border-radius:17px;
-
-}
-
-
-.wide{
-
-  width:100%;
-
-  margin-top:10px;
-
-}
-
-
-.primary{
-
-  background:
-    var(--accent);
-
-  color:#fff;
-
-  border-color:
-    var(--accent);
-
-}
-
-
-.secondary{
-
-  background:#fff;
-
-}
-
-
-/* =====================================================
-PORTAL
-===================================================== */
-
-.portal-head{
-
-  padding:
-    30px 3px 22px;
-
-}
-
-
-.portal-head h1{
-
-  margin:
-    7px 0 12px;
-
-  font-family:
-    Georgia,
-    serif;
+  font-family:Georgia,serif;
 
   font-size:
     clamp(
-      34px,
-      9vw,
-      58px
+      44px,
+      12vw,
+      76px
     );
 
-  line-height:1.12;
-
-  font-weight:600;
-
+  line-height:1;
 }
 
+.hero-subtitle{
+  margin:10px 0;
+  font-family:Georgia,serif;
+  font-size:20px;
+}
 
-.portal-head p{
-
-  margin:0;
-
+.hero-description{
   color:var(--muted);
-
-  font-size:14px;
-
+  font-size:13px;
+  line-height:1.9;
 }
 
+.muted{
+  color:var(--muted);
+}
 
-.today-card{
+.card,
+.course-card{
+  margin:13px 0;
+  padding:19px;
 
-  padding:21px;
+  background:var(--paper);
 
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+
+.course-card{
   background:
     linear-gradient(
       145deg,
@@ -312,307 +183,164 @@ PORTAL
       #f4ead5
     );
 
-  border:
-    1px solid #d6c29c;
-
-  border-radius:19px;
-
+  border-color:#d6c29c;
 }
 
-
-.today-label{
-
-  color:var(--gold);
-
-  font-size:10px;
-
-  font-weight:800;
-
-  letter-spacing:.11em;
-
-}
-
-
-.today-number{
-
-  margin-top:7px;
-
-  color:var(--accent);
-
-  font-size:12px;
-
-  font-weight:800;
-
-}
-
-
-.today-title{
-
-  margin-top:2px;
-
+.course-card h2{
+  margin:5px 0;
   font-family:Georgia,serif;
-
-  font-size:25px;
-
 }
 
+.course-gateway h3{
+  margin-bottom:2px;
+}
 
-.today-objective{
+.course-gateway .lesson-list{
+  max-height:none;
+  overflow:visible;
+}
 
-  margin-top:7px;
+.notice-box{
+  margin:13px 0;
+  padding:14px;
+
+  background:#faf8f1;
+
+  border-radius:12px;
 
   color:var(--muted);
 
-  font-size:12px;
-
+  font-size:11px;
 }
 
+.status-text{
+  margin-top:9px;
+  color:var(--muted);
+  font-size:10px;
+}
 
-/* =====================================================
-PROGRESS
-===================================================== */
+.course-stat{
+  display:grid;
 
-.progress-card{
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
 
-  margin-top:13px;
+  gap:8px;
 
-  padding:
-    15px 17px;
+  margin-top:14px;
+}
+
+.course-stat div{
+  padding:12px 6px;
+
+  text-align:center;
 
   background:
-    var(--paper);
+    rgba(
+      255,
+      255,
+      255,
+      .6
+    );
 
-  border:
-    1px solid var(--line);
-
-  border-radius:15px;
-
+  border-radius:12px;
 }
 
-
-.progress-head{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  font-size:11px;
-
+.course-stat strong{
+  display:block;
+  font-size:21px;
 }
 
-
-.progress-head strong{
-
-  color:var(--accent);
-
+.course-stat span{
+  color:var(--muted);
+  font-size:10px;
 }
-
 
 .progress-track{
-
   height:7px;
-
-  margin-top:8px;
+  margin-top:10px;
 
   background:#e8e4db;
 
   border-radius:20px;
 
   overflow:hidden;
-
 }
 
-
 .progress-fill{
-
   width:0;
-
   height:100%;
 
   background:var(--accent);
 
   transition:
-    width .25s ease;
-
+    width
+    .25s
+    ease;
 }
 
+.continue-card{
+  margin:13px 0;
+  padding:17px;
 
-.progress-text{
+  background:var(--accent-soft);
 
-  margin-top:7px;
+  border:1px solid #bfd1c4;
+
+  border-radius:15px;
+
+  box-shadow:
+    0
+    4px
+    14px
+    rgba(
+      40,
+      55,
+      48,
+      .06
+    );
+}
+
+.continue-card strong{
+  display:block;
+  margin-top:4px;
+  font-size:17px;
+}
+
+.continue-card small{
+  display:block;
+  margin-top:5px;
+  color:var(--muted);
+}
+
+.lesson-list{
+  display:grid;
+  gap:8px;
+  margin-top:13px;
+}
+
+.lesson-group{
+  margin-top:12px;
 
   color:var(--muted);
 
   font-size:9px;
 
-}
-
-
-/* =====================================================
-PORTAL GRID
-===================================================== */
-
-.portal-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:10px;
-
-  margin-top:13px;
-
-}
-
-
-.portal-item{
-
-  padding:
-    17px 14px;
-
-  text-align:left;
-
-  background:
-    var(--paper);
-
-  border:
-    1px solid var(--line);
-
-  border-radius:16px;
-
-}
-
-
-.portal-item:hover{
-
-  background:
-    var(--white);
-
-}
-
-
-.portal-icon{
-
-  display:block;
-
-  width:max-content;
-
-  margin-bottom:9px;
-
-  padding:
-    4px 8px;
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  border-radius:7px;
-
-  font-size:9px;
-
-}
-
-
-.portal-item strong{
-
-  display:block;
-
-  font-size:14px;
-
-}
-
-
-.portal-item small{
-
-  display:block;
-
-  margin-top:4px;
-
-  color:
-    var(--muted);
-
-  font-size:10px;
-
-}
-
-
-/* =====================================================
-LESSON PANEL
-===================================================== */
-
-.panel-head{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:flex-start;
-
-  gap:10px;
-
-}
-
-
-.panel-head h3{
-
-  margin:
-    4px 0 0;
-
-}
-
-
-.small-button{
-
-  padding:
-    7px 10px;
-
-  font-size:10px;
-
-}
-
-
-/* =====================================================
-LESSON LIST
-===================================================== */
-
-.lesson-list{
-
-  display:grid;
-
-  gap:7px;
-
-  margin-top:13px;
-
-}
-
-
-.lesson-group{
-
-  margin-top:10px;
-
-  color:
-    var(--muted);
-
-  font-size:9px;
-
   font-weight:800;
 
-  letter-spacing:.1em;
-
+  letter-spacing:.13em;
 }
 
-
 .lesson-item{
-
   display:grid;
 
   grid-template-columns:
-    45px 1fr 18px;
+    52px
+    1fr
+    25px;
 
   align-items:center;
 
@@ -620,863 +348,506 @@ LESSON LIST
 
   width:100%;
 
-  padding:11px;
+  padding:12px;
 
   text-align:left;
 
   background:#fff;
 
-  border:
-    1px solid var(--line);
+  border:1px solid var(--line);
 
-  border-radius:12px;
-
+  border-radius:13px;
 }
-
 
 .lesson-item.current{
-
-  background:
-    var(--gold-soft);
-
-  border-color:
-    #d6c29c;
-
+  background:var(--gold-soft);
+  border-color:#d6c29c;
 }
-
 
 .lesson-item.completed{
-
-  background:
-    var(--accent-soft);
-
-  border-color:
-    #bfd1c4;
-
+  background:var(--accent-soft);
+  border-color:#bfd1c4;
 }
 
-
 .lesson-index{
+  color:var(--accent);
+  font-size:10px;
+  font-weight:800;
+}
 
-  color:
-    var(--accent);
+.lesson-title{
+  font-weight:700;
+}
+
+.lesson-meta{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.lesson-mark{
+  color:var(--accent);
+  text-align:right;
+  font-weight:800;
+}
+
+.screen-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:8px 0 17px;
+}
+
+.screen-head h2{
+  margin:3px 0;
+}
+
+.back{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+}
+
+.lesson-identity{
+  margin:13px 0;
+  padding:18px;
+
+  background:var(--paper);
+
+  border:1px solid var(--line);
+
+  border-radius:17px;
+}
+
+.lesson-number{
+  color:var(--accent);
+
+  font-size:29px;
+
+  font-weight:800;
+}
+
+.lesson-name{
+  margin-top:3px;
+
+  font-family:Georgia,serif;
+
+  font-size:22px;
+}
+
+.lesson-page{
+  margin-top:2px;
+
+  color:var(--gold);
 
   font-size:10px;
 
-  font-weight:800;
-
-}
-
-
-.lesson-title{
-
   font-weight:700;
-
-  font-size:12px;
-
 }
 
-
-.lesson-meta{
-
-  display:block;
-
-  margin-top:2px;
+.lesson-objective{
+  margin-top:7px;
 
   color:var(--muted);
 
-  font-size:9px;
-
-}
-
-
-.lesson-mark{
-
-  color:
-    var(--accent);
-
-  text-align:right;
-
-}
-
-
-/* =====================================================
-HEADER
-===================================================== */
-
-.screen-head{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  margin:
-    7px 0 16px;
-
-}
-
-
-.screen-head h2{
-
-  margin:
-    3px 0;
-
-  font-size:22px;
-
-}
-
-
-.back{
-
-  width:40px;
-
-  height:40px;
-
-  border-radius:50%;
-
-}
-
-
-/* =====================================================
-LESSON
-===================================================== */
-
-.lesson-identity{
-
-  padding:18px;
-
-  background:
-    var(--paper);
-
-  border:
-    1px solid var(--line);
-
-  border-radius:17px;
-
-}
-
-
-.lesson-number{
-
-  color:
-    var(--accent);
-
-  font-size:28px;
-
-  font-weight:800;
-
-}
-
-
-.lesson-name{
-
-  margin-top:3px;
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:23px;
-
-}
-
-
-.lesson-objective{
-
-  margin-top:7px;
-
-  color:
-    var(--muted);
-
   font-size:12px;
-
 }
-
 
 .lesson-progress{
-
-  margin:
-    10px 0 15px;
-
+  margin:10px 0 15px;
 }
-
 
 .lesson-step-text{
-
   margin-bottom:5px;
 
-  color:
-    var(--muted);
+  color:var(--muted);
 
-  font-size:9px;
-
+  font-size:10px;
 }
-
 
 .lesson-section{
-
-  margin-top:13px;
-
+  margin:13px 0;
   padding:18px;
 
-  background:
-    var(--paper);
+  background:var(--paper);
 
-  border:
-    1px solid var(--line);
+  border:1px solid var(--line);
 
   border-radius:16px;
-
 }
-
 
 .lesson-section h3{
-
   margin-top:0;
-
 }
-
 
 .lesson-content{
-
   font-size:13px;
-
   line-height:1.9;
-
 }
 
-
-.training-explanation{
-
-  margin-top:13px;
-
-  padding:13px;
+.lesson-target{
+  margin-top:14px;
+  padding:14px;
 
   background:#faf8f1;
 
   border-radius:11px;
-
 }
 
-
-.training-explanation-title{
-
-  color:
-    var(--accent);
-
-  font-size:9px;
-
-  font-weight:800;
-
-  letter-spacing:.1em;
-
-}
-
-
-.training-explanation-text{
-
-  margin-top:5px;
-
-  font-size:12px;
-
-  line-height:1.9;
-
-}
-
-
-/* =====================================================
-PRACTICE
-===================================================== */
-
-.practice-card{
-
+.source-structure{
+  display:grid;
+  gap:7px;
   margin-top:12px;
+}
 
-  padding:15px;
+.source-row{
+  padding:10px 12px;
 
   background:#fff;
 
-  border:
-    1px solid var(--line);
+  border:1px solid var(--line);
 
-  border-radius:12px;
-
+  border-radius:10px;
 }
 
-
-.practice-question{
-
-  font-weight:700;
-
-  font-size:13px;
-
-}
-
-
-.practice-options{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:8px;
-
-  margin-top:12px;
-
-}
-
-
-.practice-options button{
-
-  min-height:45px;
-
+.source-row strong{
+  display:block;
   font-size:12px;
-
 }
 
-
-.correct{
-
-  background:
-    var(--accent-soft) !important;
-
-  border-color:
-    var(--accent) !important;
-
+.source-row small{
+  color:var(--muted);
+  font-size:10px;
 }
 
-
-.wrong{
-
-  background:#f6e8e5 !important;
-
-  border-color:
-    var(--danger) !important;
-
-}
-
-
-/* =====================================================
-VOCAB
-===================================================== */
-
-.vocab-grid{
-
-  display:grid;
-
-  gap:8px;
-
-}
-
-
-.vocab-card{
-
+.grammar-card{
+  margin:10px 0;
   padding:13px;
 
   background:#fff;
 
-  border:
-    1px solid var(--line);
+  border:1px solid var(--line);
 
-  border-radius:12px;
-
+  border-radius:11px;
 }
 
-
-.vocab-header{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
+.grammar-term{
+  color:var(--accent);
+  font-weight:800;
 }
 
-
-.vocab-word{
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:27px;
-
+.grammar-description{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-
-.vocab-gloss{
-
-  margin-top:4px;
-
-  font-size:12px;
-
-}
-
-
-.vocab-actions{
-
-  display:flex;
-
-  gap:7px;
-
-  margin-top:9px;
-
-  flex-wrap:wrap;
-
-}
-
-
-.vocab-actions button{
-
-  padding:
-    7px 9px;
-
-  font-size:9px;
-
-}
-
-
-.vocab-status{
-
-  display:inline-block;
-
+.example-greek{
   margin-top:8px;
 
-  padding:
-    4px 7px;
+  font-family:Georgia,serif;
 
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  border-radius:7px;
-
-  font-size:9px;
-
+  font-size:23px;
 }
 
+.practice-card{
+  margin-top:13px;
+  padding:16px;
 
-/* =====================================================
-CORPUS
-===================================================== */
+  background:#fff;
 
-.corpus-card{
+  border:1px solid var(--line);
+
+  border-radius:13px;
+}
+
+.practice-question{
+  font-weight:700;
+}
+
+.practice-options{
+  display:grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap:8px;
 
   margin-top:13px;
+}
 
+.practice-options button{
+  min-height:46px;
+}
+
+.correct{
+  background:var(--accent-soft)!important;
+  border-color:var(--accent)!important;
+}
+
+.wrong{
+  background:#f6e8e5!important;
+  border-color:var(--danger)!important;
+}
+
+.vocab-grid{
+  display:grid;
+  gap:9px;
+}
+
+.vocab-card{
+  padding:14px;
+
+  background:#fff;
+
+  border:1px solid var(--line);
+
+  border-radius:13px;
+}
+
+.vocab-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.vocab-word{
+  font-family:Georgia,serif;
+  font-size:29px;
+}
+
+.vocab-gloss{
+  margin-top:4px;
+  font-size:12px;
+}
+
+.vocab-frequency{
+  margin-top:3px;
+
+  color:var(--accent);
+
+  font-size:9px;
+}
+
+.vocab-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+
+.vocab-actions button{
+  padding:7px 10px;
+  font-size:10px;
+}
+
+.vocab-status{
+  display:inline-block;
+
+  margin-top:9px;
+  padding:4px 8px;
+
+  background:var(--accent-soft);
+
+  color:var(--accent);
+
+  border-radius:8px;
+
+  font-size:9px;
+}
+
+.corpus-card{
+  margin:13px 0;
   padding:17px;
 
   background:#fff;
 
-  border:
-    1px solid var(--line);
+  border:1px solid var(--line);
 
-  border-radius:16px;
-
+  border-radius:15px;
 }
 
-
 .corpus-reference{
-
-  color:
-    var(--accent);
+  color:var(--accent);
 
   font-size:10px;
 
   font-weight:800;
-
 }
 
-
 .corpus-greek{
-
-  margin:14px 0;
+  margin:12px 0;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
 
-  font-size:
-    clamp(
-      22px,
-      5vw,
-      30px
-    );
+  font-size:24px;
 
-  line-height:2.1;
-
+  line-height:2;
 }
 
+.corpus-context-note{
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:10px;
+}
 
 .corpus-token{
-
   display:inline-block;
 
   margin:2px;
-
-  padding:
-    2px 5px;
+  padding:2px 5px;
 
   border-radius:6px;
 
   cursor:pointer;
-
 }
-
 
 .corpus-token:hover{
-
-  background:
-    var(--accent-soft);
-
+  background:var(--accent-soft);
 }
-
 
 .corpus-token.active{
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
+  background:var(--accent-soft);
+  color:var(--accent);
 }
-
-
-/* =====================================================
-CURATED NOTE
-===================================================== */
-
-.curated-note{
-
-  margin-top:11px;
-
-  padding:12px;
-
-  background:
-    #faf8f1;
-
-  border-radius:11px;
-
-}
-
-
-.curated-note-title{
-
-  color:
-    var(--accent);
-
-  font-size:9px;
-
-  font-weight:800;
-
-  letter-spacing:.1em;
-
-}
-
-
-.curated-note-text{
-
-  margin-top:5px;
-
-  font-size:12px;
-
-  line-height:1.85;
-
-}
-
-
-/* =====================================================
-HELP
-===================================================== */
-
-.help-panel{
-
-  margin-top:11px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:11px;
-
-  overflow:hidden;
-
-}
-
-
-.help-button{
-
-  width:100%;
-
-  text-align:left;
-
-  border:0;
-
-  border-radius:0;
-
-}
-
-
-.help-level{
-
-  padding:13px;
-
-  background:#fff;
-
-  border-top:
-    1px solid var(--line);
-
-}
-
-
-.help-level-title{
-
-  color:
-    var(--accent);
-
-  font-size:10px;
-
-  font-weight:800;
-
-}
-
-
-.help-level-text{
-
-  margin-top:5px;
-
-  font-size:12px;
-
-  line-height:1.9;
-
-}
-
-
-/* =====================================================
-TASK
-===================================================== */
-
-.training-task{
-
-  margin-top:11px;
-
-  padding:13px;
-
-  background:
-    var(--accent-soft);
-
-  border-radius:11px;
-
-  font-size:12px;
-
-}
-
-
-.training-task strong{
-
-  display:block;
-
-  margin-bottom:5px;
-
-}
-
-
-/* =====================================================
-TOKEN DETAIL
-===================================================== */
 
 .token-detail{
+  margin-top:14px;
+  padding:14px;
 
-  margin-top:13px;
+  background:#faf8f1;
 
-  padding:13px;
-
-  background:
-    #faf8f1;
-
-  border-radius:11px;
-
+  border-radius:12px;
 }
-
 
 .token-detail-word{
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:29px;
-
+  font-family:Georgia,serif;
+  font-size:31px;
 }
 
-
 .token-line{
-
   display:flex;
 
   justify-content:space-between;
 
-  gap:10px;
+  gap:12px;
 
-  padding:
-    6px 0;
+  padding:7px 0;
 
-  border-top:
-    1px solid var(--line);
-
+  border-top:1px solid var(--line);
 }
-
 
 .token-line:first-child{
-
   border-top:0;
-
 }
-
 
 .token-label{
-
-  color:
-    var(--muted);
-
-  font-size:9px;
-
+  color:var(--muted);
+  font-size:10px;
 }
-
 
 .token-value{
-
   text-align:right;
-
   font-weight:700;
-
-  font-size:11px;
-
 }
 
-
-/* =====================================================
-LEMMA
-===================================================== */
-
 .lemma-hero{
-
   padding:20px;
 
   text-align:center;
 
-  background:
-    var(--paper);
+  background:var(--paper);
 
-  border:
-    1px solid var(--line);
+  border:1px solid var(--line);
 
   border-radius:17px;
-
 }
 
-
 .lemma-word{
-
-  font-family:
-    Georgia,
-    serif;
+  font-family:Georgia,serif;
 
   font-size:
     clamp(
-      42px,
+      43px,
       10vw,
-      65px
+      68px
     );
-
 }
-
 
 .lemma-gloss{
-
   margin-top:5px;
-
 }
 
+.lemma-stat-grid{
+  display:grid;
 
-.lemma-help{
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
 
-  margin-top:11px;
+  gap:8px;
 
-  color:
-    var(--muted);
-
-  font-size:10px;
-
+  margin-top:14px;
 }
 
+.lemma-stat{
+  padding:11px 5px;
+
+  text-align:center;
+
+  background:#faf9f4;
+
+  border-radius:10px;
+}
+
+.lemma-stat strong{
+  display:block;
+  font-size:20px;
+}
+
+.lemma-stat span{
+  color:var(--muted);
+  font-size:9px;
+}
 
 .form-row{
+  padding:12px 0;
 
-  padding:
-    11px 0;
-
-  border-top:
-    1px solid var(--line);
+  border-top:1px solid var(--line);
 
   cursor:pointer;
-
 }
-
 
 .form-row:first-child{
-
   border-top:0;
-
 }
-
 
 .form-word{
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size:21px;
-
+  font-family:Georgia,serif;
+  font-size:23px;
 }
-
 
 .form-meta{
-
-  color:
-    var(--muted);
-
-  font-size:9px;
-
+  color:var(--muted);
+  font-size:10px;
 }
-
-
-/* =====================================================
-VERSE
-===================================================== */
 
 .verse-reference{
-
-  color:
-    var(--accent);
-
-  font-size:10px;
-
+  color:var(--accent);
+  font-size:11px;
   font-weight:800;
-
 }
 
-
 .verse-text{
-
   margin-top:12px;
 
   font-family:
@@ -1484,114 +855,88 @@ VERSE
     "Times New Roman",
     serif;
 
-  font-size:23px;
+  font-size:24px;
 
   line-height:2;
-
 }
 
+.success{
+  padding:14px;
 
-/* =====================================================
-LESSON BUTTONS
-===================================================== */
+  background:var(--accent-soft);
+
+  color:var(--accent);
+
+  border-radius:11px;
+}
+
+.wide{
+  width:100%;
+  margin-top:10px;
+}
+
+.primary{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
+.secondary{
+  background:#fff;
+}
 
 .lesson-actions{
-
   display:grid;
 
   grid-template-columns:
-    1fr 1fr;
+    1fr
+    1fr;
 
-  gap:9px;
+  gap:10px;
 
-  margin-top:13px;
-
+  margin-top:15px;
 }
-
-
-/* =====================================================
-SUCCESS
-===================================================== */
-
-.success{
-
-  padding:13px;
-
-  background:
-    var(--accent-soft);
-
-  color:
-    var(--accent);
-
-  border-radius:10px;
-
-}
-
-
-/* =====================================================
-NOTICE
-===================================================== */
-
-.notice-box{
-
-  margin-top:10px;
-
-  padding:13px;
-
-  background:#faf8f1;
-
-  border-radius:10px;
-
-  font-size:12px;
-
-}
-
-
-/* =====================================================
-FOOTER
-===================================================== */
 
 footer{
-
-  padding:20px;
+  padding:22px;
 
   text-align:center;
 
-  color:
-    var(--muted);
+  color:var(--muted);
 
-  font-size:9px;
-
+  font-size:10px;
 }
-
-
-/* =====================================================
-MOBILE
-===================================================== */
 
 @media(max-width:700px){
 
-  .portal-grid{
-
+  .course-stat{
     grid-template-columns:
-      1fr 1fr;
-
-  }
-
-
-  .practice-options{
-
-    grid-template-columns:
+      1fr
       1fr;
-
   }
 
+  .course-stat div:last-child{
+    grid-column:1/-1;
+  }
 
   .lesson-actions{
-
     grid-template-columns:
       1fr;
+  }
 
+  .practice-options{
+    grid-template-columns:
+      1fr;
+  }
+
+  .lemma-stat-grid{
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+  .lemma-stat:last-child{
+    grid-column:1/-1;
   }
 
 }
