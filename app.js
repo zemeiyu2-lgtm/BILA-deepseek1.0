@@ -5706,11 +5706,133 @@ function goHome(){
 }
 
 
+
+/* =========================================================
+   STAGE TESTS
+========================================================= */
+
+const STAGE_TESTS = [
+  {
+    id:"T1", name:"第一阶段测试", range:"L04–L10", min:7,
+    note:"名词、格、介词、形容词与第三格变式基础",
+    questions:[
+      {type:"mc",q:"希腊文的问号使用什么符号？",opts:["?",";",":"],a:1,tag:"L04 标点"},
+      {type:"mc",q:"ὁ λόγος 中 λόγος 的功能是？",opts:["主格主词","所有格修饰语","直接受词"],a:0,tag:"L06 主格"},
+      {type:"mc",q:"τὸν θεόν 最适合判断为？",opts:["主格单数","受格单数","所有格单数"],a:1,tag:"L06 受格"},
+      {type:"mc",q:"τοῦ θεοῦ 中 τοῦ θεοῦ 的主要作用是？",opts:["所有格修饰 λόγος","主格主词","介词受词"],a:0,tag:"L07 所有格"},
+      {type:"mc",q:"形容词与名词通常在哪些方面一致？",opts:["性、数、格","时态、语态、语气","人称、数、时态"],a:0,tag:"L09 一致"},
+      {type:"mc",q:"ἐν τῇ οἰκίᾳ 最自然的理解是？",opts:["在屋子里","从屋子出来","为了屋子"],a:0,tag:"L08 介词"},
+      {type:"mc",q:"σάρξ 属于哪一类名词？",opts:["第一格变式","第二格变式","第三格变式"],a:2,tag:"L10 第三格变式"},
+      {type:"mc",q:"‘这人是好的’对应哪种结构最合适？",opts:["ὁ ἄνθρωπος ἀγαθός","τοῦ ἀνθρώπου ἀγαθός","ὁ ἀγαθός ἀνθρώπου"],a:0,tag:"L09 形容词"}
+    ]
+  },
+  {
+    id:"T2", name:"第二阶段测试", range:"L11–L16", min:6,
+    note:"代名词、αὐτός、指示/关系代名词、动词基础与现在式",
+    questions:[
+      {type:"mc",q:"ἐγώ 的人称是？",opts:["第一人称","第二人称","第三人称"],a:0,tag:"L11 人称"},
+      {type:"mc",q:"第一、第二人称代名词有没有性？",opts:["没有","只有第一人称有","只有第二人称有"],a:0,tag:"L11 代名词"},
+      {type:"mc",q:"αὐτὸς Δαυίδ 中 αὐτός 表达什么？",opts:["自己/强调","从那里","谁"],a:0,tag:"L12 αὐτός"},
+      {type:"mc",q:"οὗτος ὁ ἄνθρωπος 中 οὗτος 是？",opts:["指示词","关系代词","介词"],a:0,tag:"L13 指示词"},
+      {type:"mc",q:"关系代名词的格主要由什么决定？",opts:["先行词的格","它在关系子句中的功能","它的中文翻译"],a:1,tag:"L14 关系代词"},
+      {type:"mc",q:"动词的人称与数从哪里获得重要线索？",opts:["人称字尾","冠词","介词"],a:0,tag:"L15 动词"},
+      {type:"mc",q:"ἀγαπῶ 的人称数是？",opts:["第一人称单数","第二人称单数","第三人称复数"],a:0,tag:"L16 现在式"},
+      {type:"mc",q:"现在式不能简单机械等同于什么？",opts:["‘正在’","‘我’","‘说’"],a:0,tag:"L16 观点"}
+    ]
+  },
+  {
+    id:"T3", name:"第三阶段测试", range:"L17–L20", min:6,
+    note:"缩略动词、关身/被动形、未来式与字根",
+    questions:[
+      {type:"mc",q:"缩略动词学习的一个重要目的是什么？",opts:["帮助辨认词典形","替代所有词汇记忆","学习全部古典希腊文"],a:0,tag:"L17 缩略"},
+      {type:"mc",q:"ἀγαπᾷς 与 ἀγαπάω 的关系是？",opts:["缩略后的实际词形与词典形","两个完全不同的词","两个名词"],a:0,tag:"L17 词典形"},
+      {type:"mc",q:"ἔρχεται 在教材当前阶段应怎样理解？",opts:["关身/被动形主动意","纯被动","命令语气"],a:0,tag:"L18 语态"},
+      {type:"mc",q:"πορεύσομαι 的形式首先提示什么？",opts:["未来式","现在完成式","未完成式"],a:0,tag:"L19 未来式"},
+      {type:"mc",q:"πορεύσομαι 在教材当前语境下可译为？",opts:["我将去","我被去","我已经去"],a:0,tag:"L19 翻译"},
+      {type:"mc",q:"λέγω → ἐρῶ 的学习重点是什么？",opts:["字根/未来式形式变化","第三格变式","形容词一致"],a:0,tag:"L20 字根"},
+      {type:"mc",q:"学习字根最大的实际价值之一是？",opts:["帮助认出不同词形","使词不再变化","取代句法分析"],a:0,tag:"L20 字根"},
+      {type:"mc",q:"本阶段最应避免的学习方式是？",opts:["只靠死记词形而不理解规则","联系词典形","按形式寻找线索"],a:0,tag:"L17–20 方法"}
+    ]
+  },
+  {
+    id:"T4", name:"第四阶段实操", range:"L21–L25", min:5,
+    note:"未完成式、不定过去式、被动语态与完成式；L21目前不计分",
+    questions:[
+      {type:"mc",q:"未完成式最重要的观察角度是什么？",opts:["过去中的持续或重复","只有未来时间","只有被动意义"],a:0,tag:"L21 观点"},
+      {type:"mc",q:"第二不定过去式与第一不定过去式最先要注意什么？",opts:["形式来源可能不同，但基本观点都属未界定","一个是现在式，一个是未来式","一个是名词，一个是代词"],a:0,tag:"L22–23 不定过去式"},
+      {type:"mc",q:"μετανοήσατε 在徒2:38中属于什么语气？",opts:["命令语气","直说语气","愿望语气"],a:0,tag:"L23 边界"},
+      {type:"mc",q:"因此 L23 最合理的基础训练方式是？",opts:["只借词形认识第一不定过去式","完整学习命令语气","跳过词形"],a:0,tag:"L23 范围"},
+      {type:"mc",q:"ἐβαπτίσθημεν 的被动意义提示什么？",opts:["主词接受动作","主词主动施行动作","没有主词"],a:0,tag:"L24 被动"},
+      {type:"mc",q:"ἤδη κέκριται 中 ἤδη 的作用是什么？",opts:["强调‘已经’","表示‘如果’","表示‘为了’"],a:0,tag:"L25 完成式"},
+      {type:"mc",q:"完成式学习最应注意什么？",opts:["过去动作与现在结果的联系","只等于简单过去式","只表示未来"],a:0,tag:"L25 结果"},
+      {type:"mc",q:"面对一个新句子，最好的实操顺序是什么？",opts:["先看词形→判断结构→再翻译","先猜中文→再找证据","先查所有词频"],a:0,tag:"综合实操"}
+    ]
+  }
+];
+
+let activeTest=null, activeTestIndex=0, testAnswers=[];
+
+function getCompletedLessons(){
+  let n=0;
+  TEXTBOOK_LESSONS.forEach((_,i)=>{if(getLessonState(i).completed)n++;});
+  return n;
+}
+function testUnlocked(test){
+  const end=parseInt(test.range.split("–")[1],10);
+  return getCompletedLessons()>=end;
+}
+function renderTests(){
+  const list=$("testList");
+  if(!list)return;
+  list.innerHTML="";
+  STAGE_TESTS.forEach(test=>{
+    const unlocked=testUnlocked(test);
+    const old=state.tests?.[test.id];
+    const card=document.createElement("div");
+    card.className="test-card"+(unlocked?"":" locked");
+    card.innerHTML=`<div class="test-card-head"><div><div class="test-name">${escapeHtml(test.name)}</div><div class="test-range">${escapeHtml(test.range)} · ${escapeHtml(test.note)}</div></div><div class="test-status">${unlocked?(old?`上次 ${old.score}/${old.total}`:"可开始"):`学完 ${escapeHtml(test.range.split("–")[1])} 课后开放`}</div></div><p>${unlocked?"自己完成，不提供提示；完成后查看薄弱点。":"按教材继续学习，完成该阶段后即可测试。"}</p><div class="test-actions"><button class="${unlocked?"primary":"secondary"}" data-test="${test.id}" ${unlocked?"":"disabled"}>${old?"再次测试":"开始测试"}</button></div>`;
+    list.appendChild(card);
+  });
+  list.querySelectorAll("button[data-test]").forEach(b=>b.onclick=()=>startTest(b.dataset.test));
+}
+function openTests(){renderTests();go("tests");}
+function startTest(id){
+  activeTest=STAGE_TESTS.find(t=>t.id===id);
+  activeTestIndex=0;
+  testAnswers=new Array(activeTest.questions.length).fill(null);
+  renderTestQuestion();
+}
+function renderTestQuestion(){
+  const area=$("testArea");
+  if(!area||!activeTest)return;
+  const q=activeTest.questions[activeTestIndex];
+  area.innerHTML=`<div class="test-question"><div class="test-q-index">${activeTest.name} · ${activeTestIndex+1} / ${activeTest.questions.length}</div><div class="test-q-text">${escapeHtml(q.q)}</div><div id="testOptions" class="test-options"></div><div class="test-actions-row"><button id="testPrev" class="secondary" ${activeTestIndex===0?"disabled":""}>上一题</button><button id="testNext" class="primary">${activeTestIndex===activeTest.questions.length-1?"提交测试":"下一题"}</button></div></div>`;
+  q.opts.forEach((opt,i)=>{
+    const b=document.createElement("button");b.type="button";b.textContent=opt;b.className=testAnswers[activeTestIndex]===i?"selected":"";b.onclick=()=>{testAnswers[activeTestIndex]=i;renderTestQuestion();};$("testOptions").appendChild(b);
+  });
+  $("testPrev").onclick=()=>{activeTestIndex--;renderTestQuestion();};
+  $("testNext").onclick=()=>{if(testAnswers[activeTestIndex]===null){alert("请先回答这一题。");return;} if(activeTestIndex<activeTest.questions.length-1){activeTestIndex++;renderTestQuestion();}else{finishTest();}};
+}
+function finishTest(){
+  let score=0; const weak={};
+  activeTest.questions.forEach((q,i)=>{if(testAnswers[i]===q.a)score++;else weak[q.tag]=(weak[q.tag]||0)+1;});
+  if(!state.tests)state.tests={};
+  state.tests[activeTest.id]={score,total:activeTest.questions.length,at:new Date().toISOString(),weak:Object.keys(weak)};
+  saveState();
+  const band=score>=activeTest.min?"可以继续，也建议复习薄弱处。":"建议回到教材重点复习后再测一次。";
+  const area=$("testArea");
+  area.innerHTML=`<div class="test-result"><div class="eyebrow">${escapeHtml(activeTest.name)}</div><div class="test-score">${score}/${activeTest.questions.length}</div><div class="test-band">${band}</div><div class="weak-list"><strong>建议再练：</strong>${Object.keys(weak).length?Object.keys(weak).map(escapeHtml).join("、"):"本次没有明显薄弱项。"}</div><div class="test-feedback-list">${activeTest.questions.map((q,i)=>{const ok=testAnswers[i]===q.a;return `<div class="test-feedback ${ok?"ok":"no"}"><strong>${i+1}. ${ok?"✓":"再看一次"}</strong> · ${escapeHtml(q.tag)}</div>`;}).join("")}</div><button id="retryTest" class="primary wide">再测一次</button><button id="backTestList" class="secondary wide test-back-link">返回阶段测试</button></div>`;
+  $("retryTest").onclick=()=>startTest(activeTest.id);$("backTestList").onclick=()=>{renderTests();$("testArea").innerHTML="";};
+}
+
 /* =========================================================
    EVENTS
 ========================================================= */
 
 function bindEvents(){
+
+  if($("openTests")) $("openTests").onclick=openTests;
+  if($("testsBack")) $("testsBack").onclick=goHome;
 
   if(
     $("lessonBack")

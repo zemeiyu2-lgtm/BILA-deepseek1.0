@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#f4efe4">
 <title>GBRM｜圣经希腊文基础</title>
-<link rel="stylesheet" href="style.css?v=252">
+<link rel="stylesheet" href="style.css?v=260">
 </head>
 <body>
 <header class="topbar">
@@ -61,6 +61,16 @@
   </section>
 </section>
 
+<section class="test-entry">
+  <div class="entry-icon">✓</div>
+  <div class="entry-content">
+    <div class="eyebrow">CHECK</div>
+    <h3>阶段测试</h3>
+    <p>检查已经学过的内容，并把薄弱处再练一次。</p>
+  </div>
+  <button id="openTests" class="secondary compact-button" type="button">进入</button>
+</section>
+
 <section id="lesson" class="screen">
   <div class="screen-head">
     <button id="lessonBack" class="back" type="button">←</button>
@@ -76,6 +86,19 @@
     <button id="lessonPrevious" class="secondary" type="button">← 上一步</button>
     <button id="lessonNext" class="primary" type="button">下一步 →</button>
   </div>
+</section>
+
+<section id="tests" class="screen">
+  <div class="screen-head">
+    <button id="testsBack" class="back" type="button">←</button>
+    <div><div class="eyebrow">CHECK & PRACTICE</div><h2>阶段测试</h2></div>
+  </div>
+  <div class="test-intro">
+    <div class="test-intro-title">学过，再测一次</div>
+    <p>测试不是为了排名，而是帮助你发现哪里还不稳。完成后可以马上针对薄弱点再练。</p>
+  </div>
+  <div id="testList"></div>
+  <div id="testArea"></div>
 </section>
 
 <section id="vocabReview" class="screen">
@@ -128,6 +151,6 @@
 </section>
 </main>
 <footer>GBRM · 圣经希腊文基础</footer>
-<script src="app.js?v=252" defer></script>
+<script src="app.js?v=260" defer></script>
 </body>
 </html>
