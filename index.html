@@ -16,12 +16,12 @@
   >
 
   <title>
-    GBRM V1.1｜Greek Bible Reading Model
+    GBRM V1.2｜Greek Bible Reading Model
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=110"
+    href="style.css?v=120"
   >
 
 </head>
@@ -45,7 +45,7 @@
   </div>
 
   <div class="version">
-    V1.1
+    V1.2
   </div>
 
 </header>
@@ -81,17 +81,19 @@ HOME
 
     <p class="hero-description">
 
-      语法学习与词汇记忆同步进行。
+      从基础希腊文，
 
       <br>
 
-      从：
+      进入：
 
       <strong>
-        Form → Function → Text → Meaning
+        词形 → 语法 → 原文 → 释经
       </strong>
 
-      逐步进入新约原文。
+      <br>
+
+      同时建立长期的新约词汇记忆系统。
 
     </p>
 
@@ -123,7 +125,7 @@ HOME
         </strong>
 
         <span>
-          已完成课程
+          已完成
         </span>
 
       </div>
@@ -171,7 +173,7 @@ HOME
 
 
   <!-- ===================================================
-       VOCABULARY SUMMARY
+       VOCABULARY DASHBOARD
   ==================================================== -->
 
   <div class="card">
@@ -181,7 +183,7 @@ HOME
     </div>
 
     <h3>
-      单字记忆
+      新约词汇记忆
     </h3>
 
     <div class="vocab-summary">
@@ -193,7 +195,7 @@ HOME
         </strong>
 
         <span>
-          已进入词库
+          总词数
         </span>
 
       </div>
@@ -242,7 +244,7 @@ HOME
 
     <button
       id="openVocabReview"
-      class="secondary wide"
+      class="primary wide"
       type="button"
     >
       🔁 开始今日单字复习
@@ -253,7 +255,7 @@ HOME
 
 
   <!-- ===================================================
-       LESSON LIST
+       COURSE MAP
   ==================================================== -->
 
   <div class="card">
@@ -266,12 +268,23 @@ HOME
       初阶课程
     </h3>
 
+
     <div
       id="lessonList"
       class="lesson-list"
     ></div>
 
   </div>
+
+
+
+  <button
+    id="openCourseReview"
+    class="secondary wide"
+    type="button"
+  >
+    📊 查看课程记录
+  </button>
 
 
 </section>
@@ -327,6 +340,7 @@ LESSON
       id="lessonReference"
       class="lesson-reference"
     ></div>
+
 
     <div
       id="lessonObjective"
@@ -412,6 +426,7 @@ VOCAB REVIEW
   </div>
 
 
+
   <div class="card">
 
     <div
@@ -437,14 +452,15 @@ COURSE REVIEW
 ====================================================== -->
 
 <section
-  id="review"
+  id="courseReview"
   class="screen"
 >
+
 
   <div class="screen-head">
 
     <button
-      id="reviewBackBtn"
+      id="courseReviewBack"
       class="back"
       type="button"
     >
@@ -467,6 +483,7 @@ COURSE REVIEW
   </div>
 
 
+
   <div class="card">
 
     <div
@@ -484,14 +501,14 @@ COURSE REVIEW
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V1.1
+  GBRM · Greek Bible Reading Model · V1.2
 
 </footer>
 
 
 
 <script
-  src="app.js?v=110"
+  src="app.js?v=120"
   defer
 ></script>
 
