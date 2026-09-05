@@ -1,11 +1,16 @@
 /* =========================================================
-   GBRM V0.2
+   GBRM V0.3
    Greek Bible Reading Model
 
    Course Engine
    ---------------------------------------------------------
-   Lesson 03 : Alphabet & Pronunciation
-   Lesson 04 : Punctuation & Syllables
+   L05  Nouns
+   L06  Nominative / Accusative / Article
+   L07  Genitive / Dative
+   L08  Prepositions / εἰμί
+
+   Purpose:
+   从基础希腊文进入真实新约原文观察。
 ========================================================= */
 
 
@@ -16,7 +21,7 @@
 const CONFIG = {
 
   STATE_KEY:
-    "GBRM_V02_STATE",
+    "GBRM_V03_STATE",
 
   LANGUAGE:
     "en-US",
@@ -31,159 +36,134 @@ const CONFIG = {
 
 
 /* =========================================================
-   ALPHABET
-========================================================= */
-
-const ALPHABET = [
-
-  ["Α","α","Alpha","a"],
-
-  ["Β","β","Beta","b"],
-
-  ["Γ","γ","Gamma","g"],
-
-  ["Δ","δ","Delta","d"],
-
-  ["Ε","ε","Epsilon","e"],
-
-  ["Ζ","ζ","Zeta","z"],
-
-  ["Η","η","Eta","ē"],
-
-  ["Θ","θ","Theta","th"],
-
-  ["Ι","ι","Iota","i"],
-
-  ["Κ","κ","Kappa","k"],
-
-  ["Λ","λ","Lambda","l"],
-
-  ["Μ","μ","Mu","m"],
-
-  ["Ν","ν","Nu","n"],
-
-  ["Ξ","ξ","Xi","x"],
-
-  ["Ο","ο","Omicron","o"],
-
-  ["Π","π","Pi","p"],
-
-  ["Ρ","ρ","Rho","r"],
-
-  ["Σ","σ","Sigma","s"],
-
-  ["Τ","τ","Tau","t"],
-
-  ["Υ","υ","Upsilon","u"],
-
-  ["Φ","φ","Phi","ph"],
-
-  ["Χ","χ","Chi","ch"],
-
-  ["Ψ","ψ","Psi","ps"],
-
-  ["Ω","ω","Omega","ō"]
-
-];
-
-
-/* =========================================================
-   LESSON DATA
+   COURSE DATA
 ========================================================= */
 
 const LESSONS = [
 
+
   /* =======================================================
-     LESSON 03
+     LESSON 05
   ======================================================= */
 
   {
 
     id:
-      "L03",
+      "L05",
 
     number:
-      3,
+      5,
 
     title:
-      "Alphabet & Pronunciation",
+      "Nouns · 名词",
 
     reference:
-      "Lesson 03",
+      "Lesson 05",
 
     objective:
-      "掌握 24 个希腊字母、基本名称与发音，并能够开始辨认希腊文。",
+      "理解希腊文名词的基本概念，并开始观察性、数、格如何影响词形与句中功能。",
 
     type:
-      "alphabet",
+      "noun",
 
     sections: [
 
       {
 
         title:
-          "24 个希腊字母",
+          "什么是名词",
 
         intro:
-          "先认识字母形状、名称和基本声音。点击字母听发音。"
+          "名词可以表示人、事物、地点或概念。希腊文中名词的词尾会携带重要语法信息。"
 
       },
 
       {
 
         title:
-          "元音",
+          "三个基本观察维度",
 
         intro:
-          "希腊文有七个基本元音。"
+          "先建立三个概念：性、数、格。"
 
       },
 
       {
 
         title:
-          "双母音",
+          "真实新约词汇",
 
         intro:
-          "两个元音组合在一起形成一个声音单位。"
+          "观察 λόγος、θεός、ζωή、φῶς。"
 
       },
 
       {
 
         title:
-          "气号",
+          "原文观察",
 
         intro:
-          "以元音或双母音开头的词需要观察气号。"
-
-      },
-
-      {
-
-        title:
-          "真实阅读",
-
-        intro:
-          "开始把字母组合成真实希腊文。"
+          "比较不同形式如何改变句中功能。"
 
       }
 
     ],
+
+    forms: [
+
+      [
+        "ὁ λόγος",
+        "阳性 · 单数 · 主格",
+        "the Word"
+      ],
+
+      [
+        "τοῦ λόγου",
+        "阳性 · 单数 · 所有格",
+        "of the Word"
+      ],
+
+      [
+        "τὸν λόγον",
+        "阳性 · 单数 · 受格",
+        "the Word"
+      ],
+
+      [
+        "τῷ λόγῳ",
+        "阳性 · 单数 · 间接受格",
+        "to/for the Word"
+      ]
+
+    ],
+
+    bible: {
+
+      reference:
+        "John 1:1",
+
+      greek:
+        "Ἐν ἀρχῇ ἦν ὁ λόγος.",
+
+      chinese:
+        "太初有道。"
+
+    },
 
     test: [
 
       {
 
         question:
-          "How many letters are in the Greek alphabet?",
+          "Which form is nominative singular?",
 
         options:
           [
-            "24",
-            "26",
-            "20",
-            "22"
+            "ὁ λόγος",
+            "τοῦ λόγου",
+            "τὸν λόγον",
+            "τῷ λόγῳ"
           ],
 
         answer:
@@ -194,14 +174,14 @@ const LESSONS = [
       {
 
         question:
-          "Which one is a Greek vowel?",
+          "What does τοῦ λόγου normally express?",
 
         options:
           [
-            "η",
-            "θ",
-            "ψ",
-            "χ"
+            "Possession / relation",
+            "Direct object",
+            "Subject",
+            "Command"
           ],
 
         answer:
@@ -212,14 +192,14 @@ const LESSONS = [
       {
 
         question:
-          "Which letter is Omega?",
+          "Which dimension tells us singular or plural?",
 
         options:
           [
-            "ω",
-            "ο",
-            "η",
-            "ε"
+            "Number",
+            "Gender",
+            "Case",
+            "Accent"
           ],
 
         answer:
@@ -230,14 +210,14 @@ const LESSONS = [
       {
 
         question:
-          "Which one begins the word λόγος?",
+          "What does λόγος mean in John 1:1?",
 
         options:
           [
-            "λ",
-            "δ",
-            "γ",
-            "μ"
+            "Word",
+            "Light",
+            "Life",
+            "Law"
           ],
 
         answer:
@@ -251,102 +231,127 @@ const LESSONS = [
 
 
   /* =======================================================
-     LESSON 04
+     LESSON 06
   ======================================================= */
 
   {
 
     id:
-      "L04",
+      "L06",
 
     number:
-      4,
+      6,
 
     title:
-      "Punctuation & Syllables",
+      "Nominative · Accusative · Article",
 
     reference:
-      "Lesson 04",
+      "Lesson 06",
 
     objective:
-      "认识希腊文标点、基本音节结构，并开始按照词的组成阅读。",
+      "认识主格、直接受格与定冠词，并开始通过词尾判断句中角色。",
 
     type:
-      "syllables",
+      "cases",
 
     sections: [
 
       {
 
         title:
-          "希腊文标点",
+          "主格",
 
         intro:
-          "先认识最常见的句子标记。"
+          "主格通常与句子的主语有关。"
 
       },
 
       {
 
         title:
-          "音节",
+          "直接受格",
 
         intro:
-          "把较长的词分成可读的音节。"
+          "直接受格常用于表示动词直接作用的对象。"
 
       },
 
       {
 
         title:
-          "阅读练习",
+          "定冠词",
 
         intro:
-          "观察一个词是怎样组合起来的。"
+          "ὁ、ἡ、τό 等定冠词必须和名词的性、数、格相配。"
+
+      },
+
+      {
+
+        title:
+          "John 1 原文",
+
+        intro:
+          "现在把主格、受格和冠词带回约翰福音。"
 
       }
 
     ],
 
-    punctuation: [
+    forms: [
 
-      [";", "Greek question mark", "希腊文问号"],
+      [
+        "ὁ λόγος",
+        "主格 · 阳性 · 单数",
+        "the Word"
+      ],
 
-      [".", "Period", "句号"],
+      [
+        "τὸν λόγον",
+        "受格 · 阳性 · 单数",
+        "the Word"
+      ],
 
-      [",", "Comma", "逗号"],
+      [
+        "ὁ θεός",
+        "主格 · 阳性 · 单数",
+        "God"
+      ],
 
-      [":", "Colon", "冒号/上点"] 
+      [
+        "τὸν θεόν",
+        "受格 · 阳性 · 单数",
+        "God"
+      ]
 
     ],
 
-    syllables: [
+    bible: {
 
-      ["λόγος", "λό-γος"],
+      reference:
+        "John 1:1–3",
 
-      ["θεός", "θε-ός"],
+      greek:
+        "καὶ ὁ λόγος ἦν πρὸς τὸν θεόν. πάντα δι’ αὐτοῦ ἐγένετο.",
 
-      ["ζωή", "ζω-ή"],
+      chinese:
+        "道与神同在。万物都是借着他造的。"
 
-      ["φῶς", "φῶς"],
-
-      ["ἄνθρωπος", "ἄν-θρω-πος"]
-
-    ],
+    },
 
     test: [
 
       {
 
         question:
-          "What symbol is used as a Greek question mark?",
+          "Which form is direct object?",
 
         options:
           [
-            ";",
-            "?",
-            ":",
-            ","
+            "τὸν θεόν",
+            "ὁ θεός",
+            "ὁ λόγος",
+            "τοῦ θεοῦ"
           ],
 
         answer:
@@ -357,14 +362,14 @@ const LESSONS = [
       {
 
         question:
-          "How many syllables does λόγος have?",
+          "Which article matches masculine nominative singular?",
 
         options:
           [
-            "2",
-            "3",
-            "1",
-            "4"
+            "ὁ",
+            "ἡ",
+            "τό",
+            "τῷ"
           ],
 
         answer:
@@ -375,14 +380,396 @@ const LESSONS = [
       {
 
         question:
-          "Which is a correct division of ἄνθρωπος?",
+          "Which form is nominative singular masculine?",
 
         options:
           [
-            "ἄν-θρω-πος",
-            "ἄ-νθρωπος",
-            "ἄνθρω-πος",
-            "ἄν-θρ-ω-πος"
+            "ὁ θεός",
+            "τὸν θεόν",
+            "τοῦ θεοῦ",
+            "τῷ θεῷ"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "In ὁ λόγος ἦν πρὸς τὸν θεόν, which phrase is the direct object of πρὸς?",
+
+        options:
+          [
+            "τὸν θεόν",
+            "ὁ λόγος",
+            "ἦν",
+            "πρὸς"
+          ],
+
+        answer:
+          0
+
+      }
+
+    ]
+
+  },
+
+
+  /* =======================================================
+     LESSON 07
+  ======================================================= */
+
+  {
+
+    id:
+      "L07",
+
+    number:
+      7,
+
+    title:
+      "Genitive · Dative",
+
+    reference:
+      "Lesson 07",
+
+    objective:
+      "开始理解所有格与间接受格的基本功能，并在新约原文中辨认这些形式。",
+
+    type:
+      "genitive",
+
+    sections: [
+
+      {
+
+        title:
+          "所有格",
+
+        intro:
+          "所有格常用于所属、关系、来源等表达。具体意义由上下文决定。"
+
+      },
+
+      {
+
+        title:
+          "间接受格",
+
+        intro:
+          "间接受格常表达对象、接受者、利益对象等功能。"
+
+      },
+
+      {
+
+        title:
+          "形态观察",
+
+        intro:
+          "比较 λόγος 的几个形式。"
+
+      },
+
+      {
+
+        title:
+          "新约观察",
+
+        intro:
+          "将词形分析带回 John 1。"
+
+      }
+
+    ],
+
+    forms: [
+
+      [
+        "ὁ λόγος",
+        "主格",
+        "the Word"
+      ],
+
+      [
+        "τοῦ λόγου",
+        "所有格",
+        "of the Word"
+      ],
+
+      [
+        "τῷ λόγῳ",
+        "间接受格",
+        "to/for the Word"
+      ],
+
+      [
+        "τοῦ θεοῦ",
+        "所有格",
+        "of God"
+      ],
+
+      [
+        "τῷ θεῷ",
+        "间接受格",
+        "to/for God"
+      ]
+
+    ],
+
+    bible: {
+
+      reference:
+        "John 1:6",
+
+      greek:
+        "Ἐγένετο ἄνθρωπος, ἀπεσταλμένος παρὰ θεοῦ, ὄνομα αὐτῷ Ἰωάννης.",
+
+      chinese:
+        "有一个人，是从神那里差来的，名叫约翰。"
+
+    },
+
+    test: [
+
+      {
+
+        question:
+          "Which form means 'of God'?",
+
+        options:
+          [
+            "τοῦ θεοῦ",
+            "τῷ θεῷ",
+            "ὁ θεός",
+            "τὸν θεόν"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "Which form is dative singular?",
+
+        options:
+          [
+            "τῷ θεῷ",
+            "τοῦ θεοῦ",
+            "ὁ θεός",
+            "τὸν θεόν"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "The genitive often expresses what idea?",
+
+        options:
+          [
+            "Possession or relationship",
+            "Only subject",
+            "Only command",
+            "Only question"
+          ],
+
+        answer:
+          0
+
+      }
+
+    ]
+
+  },
+
+
+  /* =======================================================
+     LESSON 08
+  ======================================================= */
+
+  {
+
+    id:
+      "L08",
+
+    number:
+      8,
+
+    title:
+      "Prepositions · εἰμί",
+
+    reference:
+      "Lesson 08",
+
+    objective:
+      "学习常见介词，并认识 εἰμί 的基本现在时形式，然后进入 John 1 的真实句子。",
+
+    type:
+      "prepositions",
+
+    sections: [
+
+      {
+
+        title:
+          "介词",
+
+        intro:
+          "介词与格结合，形成有关系意义的短语。"
+
+      },
+
+      {
+
+        title:
+          "εἰμί",
+
+        intro:
+          "εἰμί 是希腊文最重要的系动词之一，基本意义为 'to be'。"
+
+      },
+
+      {
+
+        title:
+          "基本形式",
+
+        intro:
+          "注意 εἰμί 的现在时基本形式。"
+
+      },
+
+      {
+
+        title:
+          "John 1 原文阅读",
+
+        intro:
+          "现在把前面几课的内容组合起来。"
+
+      }
+
+    ],
+
+    forms: [
+
+      [
+        "εἰμί",
+        "第一人称单数",
+        "I am"
+      ],
+
+      [
+        "εἶ",
+        "第二人称单数",
+        "you are"
+      ],
+
+      [
+        "ἐστίν",
+        "第三人称单数",
+        "he/she/it is"
+      ],
+
+      [
+        "ἐσμέν",
+        "第一人称复数",
+        "we are"
+      ]
+
+    ],
+
+    bible: {
+
+      reference:
+        "John 1:1–4",
+
+      greek:
+        "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.",
+
+      chinese:
+        "太初有道，道与神同在。"
+
+    },
+
+    test: [
+
+      {
+
+        question:
+          "What does εἰμί mean?",
+
+        options:
+          [
+            "to be",
+            "to see",
+            "to make",
+            "to hear"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "Which form means 'I am'?",
+
+        options:
+          [
+            "εἰμί",
+            "εἶ",
+            "ἐστίν",
+            "ἐσμέν"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "What does ἐστίν mean?",
+
+        options:
+          [
+            "he/she/it is",
+            "I am",
+            "you are",
+            "we are"
+          ],
+
+        answer:
+          0
+
+      },
+
+      {
+
+        question:
+          "What does ἐν normally mean?",
+
+        options:
+          [
+            "in",
+            "from",
+            "through",
+            "against"
           ],
 
         answer:
@@ -418,7 +805,7 @@ let speechRate =
 
 
 /* =========================================================
-   LOAD / SAVE
+   STATE FUNCTIONS
 ========================================================= */
 
 function loadState() {
@@ -446,7 +833,7 @@ function loadState() {
   ) {
 
     console.warn(
-      "GBRM state error",
+      "GBRM state error:",
       error
     );
 
@@ -528,7 +915,7 @@ function getLessonState(
 
 
 /* =========================================================
-   HELPER
+   HELPERS
 ========================================================= */
 
 function $(
@@ -541,6 +928,10 @@ function $(
 
 }
 
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 function go(
   id
@@ -611,7 +1002,7 @@ function init() {
 
 
 /* =========================================================
-   STATIC EVENTS
+   EVENTS
 ========================================================= */
 
 function bindStaticEvents() {
@@ -637,12 +1028,6 @@ function bindStaticEvents() {
 
 
   bind(
-    "lessonNextBtn",
-    nextLessonStep
-  );
-
-
-  bind(
     "reviewHomeBtn",
     function() {
 
@@ -651,12 +1036,14 @@ function bindStaticEvents() {
     }
   );
 
+
+  bind(
+    "lessonNextBtn",
+    nextLessonStep
+  );
+
 }
 
-
-/* =========================================================
-   BIND
-========================================================= */
 
 function bind(
   id,
@@ -716,17 +1103,17 @@ function renderHome() {
         );
 
 
-      const row =
+      const button =
         document.createElement(
           "button"
         );
 
 
-      row.type =
+      button.type =
         "button";
 
 
-      row.className =
+      button.className =
         "lesson-item";
 
 
@@ -734,14 +1121,14 @@ function renderHome() {
         lessonState.completed
       ) {
 
-        row.classList.add(
+        button.classList.add(
           "done"
         );
 
       }
 
 
-      row.innerHTML =
+      button.innerHTML =
 
         "<div class='lesson-number'>" +
 
@@ -782,7 +1169,7 @@ function renderHome() {
         "</div>";
 
 
-      row.addEventListener(
+      button.addEventListener(
         "click",
         function() {
 
@@ -795,12 +1182,23 @@ function renderHome() {
 
 
       list.appendChild(
-        row
+        button
       );
 
     }
   );
 
+
+  updateProgress();
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function updateProgress() {
 
   const completed =
     LESSONS.filter(
@@ -952,7 +1350,7 @@ function renderLessonHeader() {
 
 
 /* =========================================================
-   LESSON STEP
+   STEP ENGINE
 ========================================================= */
 
 function renderLessonStep() {
@@ -973,10 +1371,10 @@ function renderLessonStep() {
 
   if (
     lesson.type ===
-    "alphabet"
+    "noun"
   ) {
 
-    renderAlphabetLesson(
+    renderNounLesson(
       container,
       lesson
     );
@@ -986,10 +1384,36 @@ function renderLessonStep() {
 
   if (
     lesson.type ===
-    "syllables"
+    "cases"
   ) {
 
-    renderSyllableLesson(
+    renderCasesLesson(
+      container,
+      lesson
+    );
+
+  }
+
+
+  if (
+    lesson.type ===
+    "genitive"
+  ) {
+
+    renderGenitiveLesson(
+      container,
+      lesson
+    );
+
+  }
+
+
+  if (
+    lesson.type ===
+    "prepositions"
+  ) {
+
+    renderPrepositionLesson(
       container,
       lesson
     );
@@ -1010,12 +1434,10 @@ function renderLessonStep() {
     button.textContent =
       "下一步 →";
 
-  }
-
-  else {
+  } else {
 
     button.textContent =
-      "进入课程测试 →";
+      "进入测试 →";
 
   }
 
@@ -1023,726 +1445,12 @@ function renderLessonStep() {
 
 
 /* =========================================================
-   ALPHABET LESSON
+   LESSON 05
 ========================================================= */
 
-function renderAlphabetLesson(
+function renderNounLesson(
   container,
   lesson
-) {
-
-  if (
-    currentStep ===
-    0
-  ) {
-
-    const section =
-      createSection(
-        lesson.sections[0].title,
-        lesson.sections[0].intro
-      );
-
-
-    const grid =
-      document.createElement(
-        "div"
-      );
-
-
-    grid.className =
-      "alphabet-grid";
-
-
-    ALPHABET.forEach(
-      function(item) {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-
-        button.type =
-          "button";
-
-
-        button.className =
-          "letter-card";
-
-
-        button.innerHTML =
-
-          "<div class='letter'>" +
-
-          item[1] +
-
-          "</div>" +
-
-          "<div class='letter-name'>" +
-
-          item[0] +
-
-          " · " +
-
-          item[2] +
-
-          "</div>";
-
-
-        button.addEventListener(
-          "click",
-          function() {
-
-            speakText(
-              item[2]
-            );
-
-          }
-        );
-
-
-        grid.appendChild(
-          button
-        );
-
-      }
-    );
-
-
-    section.appendChild(
-      grid
-    );
-
-
-    container.appendChild(
-      section
-    );
-
-
-    return;
-
-  }
-
-
-  if (
-    currentStep ===
-    1
-  ) {
-
-    const section =
-      createSection(
-        lesson.sections[1].title,
-        lesson.sections[1].intro
-      );
-
-
-    const grid =
-      document.createElement(
-        "div"
-      );
-
-
-    grid.className =
-      "alphabet-grid";
-
-
-    [
-
-      ["α","a"],
-
-      ["ε","e"],
-
-      ["η","ē"],
-
-      ["ι","i"],
-
-      ["ο","o"],
-
-      ["υ","u"],
-
-      ["ω","ō"]
-
-    ]
-      .forEach(
-        function(item) {
-
-          const button =
-            document.createElement(
-              "button"
-            );
-
-
-          button.type =
-            "button";
-
-
-          button.className =
-            "letter-card";
-
-
-          button.innerHTML =
-
-            "<div class='letter'>" +
-
-            item[0] +
-
-            "</div>" +
-
-            "<div class='letter-name'>" +
-
-            item[1] +
-
-            "</div>";
-
-
-          button.addEventListener(
-            "click",
-            function() {
-
-              speakText(
-                item[1]
-              );
-
-            }
-          );
-
-
-          grid.appendChild(
-            button
-          );
-
-        }
-      );
-
-
-    section.appendChild(
-      grid
-    );
-
-
-    container.appendChild(
-      section
-    );
-
-
-    return;
-
-  }
-
-
-  if (
-    currentStep ===
-    2
-  ) {
-
-    const section =
-      createSection(
-        lesson.sections[2].title,
-        lesson.sections[2].intro
-      );
-
-
-    const examples = [
-
-      ["αι","ai"],
-
-      ["ει","ei"],
-
-      ["οι","oi"],
-
-      ["ου","ou"],
-
-      ["αυ","au"],
-
-      ["ευ","eu"]
-
-    ];
-
-
-    examples.forEach(
-      function(item) {
-
-        const row =
-          document.createElement(
-            "div"
-          );
-
-
-        row.className =
-          "word-example";
-
-
-        row.innerHTML =
-
-          "<div class='greek'>" +
-
-          item[0] +
-
-          "</div>" +
-
-          "<div class='muted'>" +
-
-          item[1] +
-
-          "</div>";
-
-
-        row.addEventListener(
-          "click",
-          function() {
-
-            speakText(
-              item[1]
-            );
-
-          }
-        );
-
-
-        section.appendChild(
-          row
-        );
-
-      }
-    );
-
-
-    container.appendChild(
-      section
-    );
-
-
-    return;
-
-  }
-
-
-  if (
-    currentStep ===
-    3
-  ) {
-
-    const section =
-      createSection(
-        lesson.sections[3].title,
-        lesson.sections[3].intro
-      );
-
-
-    section.innerHTML +=
-
-      "<div class='word-example'>" +
-
-      "<div class='greek'>ἀπόστολος</div>" +
-
-      "<div class='muted'>" +
-
-      "Observe the opening breathing mark."
-
-      +
-
-      "</div>" +
-
-      "</div>";
-
-
-    const button =
-      document.createElement(
-        "button"
-      );
-
-
-    button.type =
-      "button";
-
-
-    button.textContent =
-      "🔊 听示例";
-
-
-    button.style.marginTop =
-      "10px";
-
-
-    button.addEventListener(
-      "click",
-      function() {
-
-        speakText(
-          "apostolos"
-        );
-
-      }
-    );
-
-
-    section.appendChild(
-      button
-    );
-
-
-    container.appendChild(
-      section
-    );
-
-
-    return;
-
-  }
-
-
-  renderRealReading(
-    container
-  );
-
-}
-
-
-/* =========================================================
-   REAL READING
-========================================================= */
-
-function renderRealReading(
-  container
-) {
-
-  const section =
-    createSection(
-      "真实希腊文阅读",
-      "开始把字母组合成真实的新约词汇。"
-    );
-
-
-  [
-
-    ["λόγος","logos","道 / Word"],
-
-    ["θεός","theos","神 / God"],
-
-    ["ζωή","zōē","生命 / life"],
-
-    ["φῶς","phōs","光 / light"]
-
-  ]
-    .forEach(
-      function(item) {
-
-        const row =
-          document.createElement(
-            "div"
-          );
-
-
-        row.className =
-          "word-example";
-
-
-        row.innerHTML =
-
-          "<div class='greek'>" +
-
-          item[0] +
-
-          "</div>" +
-
-          "<div class='muted'>" +
-
-          item[1] +
-
-          " · " +
-
-          item[2] +
-
-          "</div>";
-
-
-        row.addEventListener(
-          "click",
-          function() {
-
-            speakText(
-              item[1]
-            );
-
-          }
-        );
-
-
-        section.appendChild(
-          row
-        );
-
-      }
-    );
-
-
-  container.appendChild(
-    section
-  );
-
-}
-
-
-/* =========================================================
-   SYLLABLE LESSON
-========================================================= */
-
-function renderSyllableLesson(
-  container,
-  lesson
-) {
-
-  if (
-    currentStep ===
-    0
-  ) {
-
-    const section =
-      createSection(
-        lesson.sections[0].title,
-        lesson.sections[0].intro
-      );
-
-
-    lesson.punctuation
-      .forEach(
-        function(item) {
-
-          const row =
-            document.createElement(
-              "div"
-            );
-
-
-          row.className =
-            "review-row";
-
-
-          row.innerHTML =
-
-            "<div>" +
-
-            "<strong>" +
-
-            item[0] +
-
-            "</strong>" +
-
-            "<div class='muted'>" +
-
-            item[1] +
-
-            "</div>" +
-
-            "</div>" +
-
-            "<small>" +
-
-            item[2] +
-
-            "</small>";
-
-
-          section.appendChild(
-            row
-          );
-
-        }
-      );
-
-
-    container.appendChild(
-      section
-    );
-
-
-    return;
-
-  }
-
-
-  if (
-    currentStep ===
-    1
-  ) {
-
-    const section =
-      createSection(
-        lesson.sections[1].title,
-        lesson.sections[1].intro
-      );
-
-
-    lesson.syllables
-      .forEach(
-        function(item) {
-
-          const row =
-            document.createElement(
-              "div"
-            );
-
-
-          row.className =
-            "word-example";
-
-
-          row.innerHTML =
-
-            "<div class='greek'>" +
-
-            item[0] +
-
-            "</div>" +
-
-            "<div class='muted'>" +
-
-            item[1] +
-
-            "</div>";
-
-
-          row.addEventListener(
-            "click",
-            function() {
-
-              speakText(
-                item[0]
-              );
-
-            }
-          );
-
-
-          section.appendChild(
-            row
-          );
-
-        }
-      );
-
-
-    container.appendChild(
-      section
-    );
-
-
-    return;
-
-  }
-
-
-  renderReadingExercise(
-    container
-  );
-
-}
-
-
-/* =========================================================
-   READING EXERCISE
-========================================================= */
-
-function renderReadingExercise(
-  container
-) {
-
-  const section =
-    createSection(
-      "阅读练习",
-      "点击词语听示范，并观察它是怎样组成的。"
-    );
-
-
-  [
-
-    "λόγος",
-
-    "θεός",
-
-    "ζωή",
-
-    "φῶς",
-
-    "ἄνθρωπος"
-
-  ]
-    .forEach(
-      function(word) {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-
-        button.type =
-          "button";
-
-
-        button.className =
-          "word-example";
-
-
-        button.style.width =
-          "100%";
-
-
-        button.style.marginTop =
-          "8px";
-
-
-        button.innerHTML =
-
-          "<div class='greek'>" +
-
-          word +
-
-          "</div>" +
-
-          "<div class='muted'>" +
-
-          "点击听读"
-
-          +
-
-          "</div>";
-
-
-        button.addEventListener(
-          "click",
-          function() {
-
-            speakText(
-              word
-            );
-
-          }
-        );
-
-
-        section.appendChild(
-          button
-        );
-
-      }
-    );
-
-
-  container.appendChild(
-    section
-  );
-
-}
-
-
-/* =========================================================
-   CREATE SECTION
-========================================================= */
-
-function createSection(
-  title,
-  intro
 ) {
 
   const section =
@@ -1755,73 +1463,765 @@ function createSection(
     "lesson-section";
 
 
-  const heading =
-    document.createElement(
-      "h3"
+  section.innerHTML =
+
+    "<h3>" +
+
+    lesson.sections[
+      currentStep
+    ].title +
+
+    "</h3>" +
+
+    "<p class='muted'>" +
+
+    lesson.sections[
+      currentStep
+    ].intro +
+
+    "</p>";
+
+
+  if (
+    currentStep ===
+    0
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<strong>名词的三个核心观察</strong>" +
+
+      "<p>Gender · Number · Case</p>" +
+
+      "<div class='muted'>" +
+
+      "性 · 数 · 格"
+
+      +
+
+      "</div>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    currentStep ===
+    1
+  ) {
+
+    section.innerHTML +=
+
+      "<table class='form-table'>" +
+
+      "<tr><th>项目</th><th>问题</th></tr>" +
+
+      "<tr><td>Gender</td><td>它属于哪一种性？</td></tr>" +
+
+      "<tr><td>Number</td><td>单数还是复数？</td></tr>" +
+
+      "<tr><td>Case</td><td>它在句中扮演什么角色？</td></tr>" +
+
+      "</table>";
+
+  }
+
+
+  if (
+    currentStep ===
+    2
+  ) {
+
+    lesson.forms.forEach(
+      function(item) {
+
+        addWordCard(
+          section,
+          item[0],
+          item[1],
+          item[2]
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    currentStep ===
+    3
+  ) {
+
+    addBibleBox(
+      section,
+      lesson.bible
     );
 
 
-  heading.textContent =
-    title;
+    const notice =
+      document.createElement(
+        "div"
+      );
 
 
-  section.appendChild(
-    heading
-  );
+    notice.className =
+      "notice-box";
 
 
-  const text =
-    document.createElement(
-      "p"
+    notice.textContent =
+
+      "观察：ὁ λόγος 是主格单数阳性形式，承担句子的重要名词角色。";
+
+
+    section.appendChild(
+      notice
     );
 
-
-  text.className =
-    "muted";
+  }
 
 
-  text.textContent =
-    intro;
-
-
-  section.appendChild(
-    text
+  container.appendChild(
+    section
   );
-
-
-  return section;
 
 }
 
 
 /* =========================================================
-   NEXT STEP
+   LESSON 06
 ========================================================= */
 
-function nextLessonStep() {
+function renderCasesLesson(
+  container,
+  lesson
+) {
 
-  const lesson =
-    LESSONS[
-      currentLessonIndex
-    ];
+  const section =
+    document.createElement(
+      "div"
+    );
+
+
+  section.className =
+    "lesson-section";
+
+
+  section.innerHTML =
+
+    "<h3>" +
+
+    lesson.sections[
+      currentStep
+    ].title +
+
+    "</h3>" +
+
+    "<p class='muted'>" +
+
+    lesson.sections[
+      currentStep
+    ].intro +
+
+    "</p>";
 
 
   if (
-    currentStep <
-    lesson.sections.length -
-    1
+    currentStep ===
+    0
   ) {
 
-    currentStep++;
+    section.innerHTML +=
 
-    renderLessonStep();
+      "<div class='grammar-box'>" +
 
-    return;
+      "<strong>主格</strong>" +
+
+      "<p>通常与主语有关。</p>" +
+
+      "<div class='greek-large'>ὁ λόγος</div>" +
+
+      "</div>";
 
   }
 
 
-  renderLessonTest();
+  if (
+    currentStep ===
+    1
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<strong>直接受格</strong>" +
+
+      "<p>通常表示动词直接作用的对象。</p>" +
+
+      "<div class='greek-large'>τὸν λόγον</div>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    currentStep ===
+    2
+  ) {
+
+    lesson.forms.forEach(
+      function(item) {
+
+        addWordCard(
+          section,
+          item[0],
+          item[1],
+          item[2]
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    currentStep ===
+    3
+  ) {
+
+    addBibleBox(
+      section,
+      lesson.bible
+    );
+
+
+    const notice =
+      document.createElement(
+        "div"
+      );
+
+
+    notice.className =
+      "notice-box";
+
+
+    notice.innerHTML =
+
+      "观察：" +
+
+      "<strong>ὁ λόγος</strong>" +
+
+      " 与 " +
+
+      "<strong>τὸν θεόν</strong>" +
+
+      " 的形式不同。";
+
+    
+    section.appendChild(
+      notice
+    );
+
+  }
+
+
+  container.appendChild(
+    section
+  );
+
+}
+
+
+/* =========================================================
+   LESSON 07
+========================================================= */
+
+function renderGenitiveLesson(
+  container,
+  lesson
+) {
+
+  const section =
+    document.createElement(
+      "div"
+    );
+
+
+  section.className =
+    "lesson-section";
+
+
+  section.innerHTML =
+
+    "<h3>" +
+
+    lesson.sections[
+      currentStep
+    ].title +
+
+    "</h3>" +
+
+    "<p class='muted'>" +
+
+    lesson.sections[
+      currentStep
+    ].intro +
+
+    "</p>";
+
+
+  if (
+    currentStep ===
+    0
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<strong>Genitive</strong>" +
+
+      "<p>常见功能：所属、关系、来源等。</p>" +
+
+      "<div class='greek-large'>τοῦ λόγου</div>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    currentStep ===
+    1
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<strong>Dative</strong>" +
+
+      "<p>常见功能：对象、接受者、利益对象等。</p>" +
+
+      "<div class='greek-large'>τῷ λόγῳ</div>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    currentStep ===
+    2
+  ) {
+
+    lesson.forms.forEach(
+      function(item) {
+
+        addWordCard(
+          section,
+          item[0],
+          item[1],
+          item[2]
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    currentStep ===
+    3
+  ) {
+
+    addBibleBox(
+      section,
+      lesson.bible
+    );
+
+
+    const notice =
+      document.createElement(
+        "div"
+      );
+
+
+    notice.className =
+      "notice-box";
+
+
+    notice.textContent =
+
+      "观察 παρὰ θεοῦ：θεοῦ 使用所有格，表达来源关系。";
+
+
+    section.appendChild(
+      notice
+    );
+
+  }
+
+
+  container.appendChild(
+    section
+  );
+
+}
+
+
+/* =========================================================
+   LESSON 08
+========================================================= */
+
+function renderPrepositionLesson(
+  container,
+  lesson
+) {
+
+  const section =
+    document.createElement(
+      "div"
+    );
+
+
+  section.className =
+    "lesson-section";
+
+
+  section.innerHTML =
+
+    "<h3>" +
+
+    lesson.sections[
+      currentStep
+    ].title +
+
+    "</h3>" +
+
+    "<p class='muted'>" +
+
+    lesson.sections[
+      currentStep
+    ].intro +
+
+    "</p>";
+
+
+  if (
+    currentStep ===
+    0
+  ) {
+
+    const rows = [
+
+      [
+        "ἐν",
+        "in",
+        "通常与间接受格结合"
+      ],
+
+      [
+        "πρός",
+        "to / toward",
+        "常与受格结合"
+      ],
+
+      [
+        "παρά",
+        "from / beside",
+        "格不同会影响意义"
+      ],
+
+      [
+        "διά",
+        "through",
+        "搭配格可产生不同意义"
+      ]
+
+    ];
+
+
+    rows.forEach(
+      function(item) {
+
+        const row =
+          document.createElement(
+            "div"
+          );
+
+
+        row.className =
+          "word-card";
+
+
+        row.innerHTML =
+
+          "<div class='word-card-main'>" +
+
+          "<div>" +
+
+          "<div class='word-greek'>" +
+
+          item[0] +
+
+          "</div>" +
+
+          "<div class='word-gloss'>" +
+
+          item[1] +
+
+          "</div>" +
+
+          "</div>" +
+
+          "</div>" +
+
+          "<div class='word-detail'>" +
+
+          item[2] +
+
+          "</div>";
+
+
+        section.appendChild(
+          row
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    currentStep ===
+    1
+  ) {
+
+    section.innerHTML +=
+
+      "<div class='grammar-box'>" +
+
+      "<div class='greek-large'>εἰμί</div>" +
+
+      "<p>to be · 是、存在</p>" +
+
+      "</div>";
+
+  }
+
+
+  if (
+    currentStep ===
+    2
+  ) {
+
+    lesson.forms.forEach(
+      function(item) {
+
+        addWordCard(
+          section,
+          item[0],
+          item[1],
+          item[2]
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    currentStep ===
+    3
+  ) {
+
+    addBibleBox(
+      section,
+      lesson.bible
+    );
+
+
+    const notice =
+      document.createElement(
+        "div"
+      );
+
+
+    notice.className =
+      "notice-box";
+
+
+    notice.innerHTML =
+
+      "<strong>Ἐν ἀρχῇ</strong>" +
+
+      " = in the beginning" +
+
+      "<br><br>" +
+
+      "这一短语把介词、格与句子的时间背景连接起来。";
+
+
+    section.appendChild(
+      notice
+    );
+
+  }
+
+
+  container.appendChild(
+    section
+  );
+
+}
+
+
+/* =========================================================
+   WORD CARD
+========================================================= */
+
+function addWordCard(
+  parent,
+  greek,
+  detail,
+  gloss
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "word-card";
+
+
+  card.innerHTML =
+
+    "<div class='word-card-main'>" +
+
+    "<div>" +
+
+    "<div class='word-greek'>" +
+
+    greek +
+
+    "</div>" +
+
+    "<div class='word-gloss'>" +
+
+    gloss +
+
+    "</div>" +
+
+    "</div>" +
+
+    "<button class='speak-btn' type='button'>" +
+
+    "🔊"
+
+    +
+
+    "</button>" +
+
+    "</div>" +
+
+    "<div class='word-detail'>" +
+
+    detail +
+
+    "</div>";
+
+
+  card
+    .querySelector(
+      ".speak-btn"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        speakText(
+          greek
+        );
+
+      }
+    );
+
+
+  parent.appendChild(
+    card
+  );
+
+}
+
+
+/* =========================================================
+   BIBLE BOX
+========================================================= */
+
+function addBibleBox(
+  parent,
+  bible
+) {
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+
+  box.className =
+    "bible-box";
+
+
+  box.innerHTML =
+
+    "<div class='bible-reference'>" +
+
+    bible.reference +
+
+    "</div>" +
+
+    "<div class='bible-text greek'>" +
+
+    bible.greek +
+
+    "</div>" +
+
+    "<div class='muted'>" +
+
+    bible.chinese +
+
+    "</div>";
+
+
+  box.addEventListener(
+    "click",
+    function() {
+
+      speakText(
+        bible.greek
+      );
+
+    }
+  );
+
+
+  parent.appendChild(
+    box
+  );
 
 }
 
@@ -1830,7 +2230,7 @@ function nextLessonStep() {
    TEST
 ========================================================= */
 
-function renderLessonTest() {
+function renderTest() {
 
   const lesson =
     LESSONS[
@@ -1847,17 +2247,33 @@ function renderLessonTest() {
 
 
   const section =
-    createSection(
-      "课程测试",
-      "根据刚才的训练回答问题。"
+    document.createElement(
+      "div"
     );
 
 
-  let score =
-    0;
+  section.className =
+    "lesson-section";
+
+
+  section.innerHTML =
+
+    "<h3>课程测试</h3>" +
+
+    "<p class='muted'>" +
+
+    "根据刚才的训练回答。"
+
+    +
+
+    "</p>";
 
 
   let answered =
+    0;
+
+
+  let correct =
     0;
 
 
@@ -1874,7 +2290,7 @@ function renderLessonTest() {
 
 
       block.style.marginTop =
-        "15px";
+        "16px";
 
 
       const title =
@@ -1884,11 +2300,14 @@ function renderLessonTest() {
 
 
       title.textContent =
+
         (
           index +
           1
         ) +
+
         ". " +
+
         question.question;
 
 
@@ -1936,9 +2355,9 @@ function renderLessonTest() {
                   "button"
                 )
                 .forEach(
-                  function(item) {
+                  function(other) {
 
-                    item.disabled =
+                    other.disabled =
                       true;
 
                   }
@@ -1953,13 +2372,16 @@ function renderLessonTest() {
                 question.answer
               ) {
 
-                score++;
+                correct++;
+
 
                 button.classList.add(
                   "choice-correct"
                 );
 
-              } else {
+              }
+
+              else {
 
                 button.classList.add(
                   "choice-wrong"
@@ -1970,7 +2392,7 @@ function renderLessonTest() {
 
               scoreBox.textContent =
 
-                score +
+                correct +
                 " / " +
                 lesson.test.length;
 
@@ -2034,7 +2456,7 @@ function renderLessonTest() {
 
 
   finish.textContent =
-    "完成课程";
+    "完成本课";
 
 
   finish.addEventListener(
@@ -2056,7 +2478,7 @@ function renderLessonTest() {
 
 
       completeLesson(
-        score,
+        correct,
         lesson.test.length
       );
 
@@ -2081,11 +2503,7 @@ function renderLessonTest() {
 
   $("lessonNextBtn")
     .onclick =
-    function() {
-
-      renderLessonTest();
-
-    };
+    renderTest;
 
 }
 
@@ -2095,7 +2513,7 @@ function renderLessonTest() {
 ========================================================= */
 
 function completeLesson(
-  score,
+  correct,
   total
 ) {
 
@@ -2111,9 +2529,9 @@ function completeLesson(
     );
 
 
-  const finalScore =
+  const score =
     Math.round(
-      score /
+      correct /
       total *
       100
     );
@@ -2124,7 +2542,7 @@ function completeLesson(
 
 
   lessonState.score =
-    finalScore;
+    score;
 
 
   lessonState.completedAt =
@@ -2140,8 +2558,11 @@ function completeLesson(
   renderReview();
 
 
-  $("lessonContent")
-    .innerHTML =
+  const content =
+    $("lessonContent");
+
+
+  content.innerHTML =
 
     "<div class='lesson-section'>" +
 
@@ -2155,18 +2576,18 @@ function completeLesson(
 
     "<br><br>" +
 
-    "课程完成：" +
+    "课程成绩：" +
 
-    finalScore +
+    score +
 
     "%" +
 
     "<br><br>" +
 
     (
-      finalScore >= 80
+      score >= 80
 
-        ? "基础掌握良好。"
+        ? "基础掌握良好，可以继续。"
 
         : "建议再次复习后重新测试。"
 
@@ -2179,7 +2600,7 @@ function completeLesson(
 
   $("lessonNextBtn")
     .textContent =
-    "返回课程目录";
+    "返回课程";
 
 
   $("lessonNextBtn")
@@ -2191,6 +2612,38 @@ function completeLesson(
       renderHome();
 
     };
+
+}
+
+
+/* =========================================================
+   NEXT STEP
+========================================================= */
+
+function nextLessonStep() {
+
+  const lesson =
+    LESSONS[
+      currentLessonIndex
+    ];
+
+
+  if (
+    currentStep <
+    lesson.sections.length -
+    1
+  ) {
+
+    currentStep++;
+
+    renderLessonStep();
+
+    return;
+
+  }
+
+
+  renderTest();
 
 }
 
@@ -2218,7 +2671,7 @@ function renderReview() {
     "";
 
 
-  let has =
+  let completed =
     false;
 
 
@@ -2243,7 +2696,7 @@ function renderReview() {
       }
 
 
-      has =
+      completed =
         true;
 
 
@@ -2279,7 +2732,7 @@ function renderReview() {
 
         lessonState.score +
 
-        "% · 已完成"
+        "%"
 
         +
 
@@ -2311,14 +2764,14 @@ function renderReview() {
 
 
   if (
-    !has
+    !completed
   ) {
 
     container.innerHTML =
 
       "<div class='muted'>" +
 
-      "完成课程后，这里会出现复习记录。"
+      "还没有完成课程。"
 
       +
 
@@ -2383,5 +2836,22 @@ function speakText(
 
 
 /* =========================================================
-   END
+   GLOBAL
+========================================================= */
+
+window.go =
+  go;
+
+window.speakText =
+  speakText;
+
+window.openLesson =
+  openLesson;
+
+window.renderTest =
+  renderTest;
+
+
+/* =========================================================
+   END GBRM V0.3
 ========================================================= */
