@@ -3,26 +3,26 @@
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0,viewport-fit=cover"
->
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0,viewport-fit=cover"
+  >
 
-<meta
-  name="theme-color"
-  content="#f5f1e7"
->
+  <meta
+    name="theme-color"
+    content="#f5f1e7"
+  >
 
-<title>
-GBRM V0.4｜Greek Bible Reading Model
-</title>
+  <title>
+    GBRM｜圣经希腊文初阶课程
+  </title>
 
-<link
-  rel="stylesheet"
-  href="style.css?v=040"
->
+  <link
+    rel="stylesheet"
+    href="style.css?v=050"
+  >
 
 </head>
 
@@ -45,7 +45,7 @@ GBRM V0.4｜Greek Bible Reading Model
   </div>
 
   <div class="version">
-    V0.4
+    FOUNDATION
   </div>
 
 </header>
@@ -60,9 +60,10 @@ HOME
 ====================================================== -->
 
 <section
-id="home"
-class="screen active"
+  id="home"
+  class="screen active"
 >
+
 
   <div class="hero">
 
@@ -75,18 +76,24 @@ class="screen active"
     </h1>
 
     <p class="hero-subtitle">
-      Grammar → Form → Syntax → Text
+      Greek Bible Reading Model
     </p>
 
     <p class="hero-description">
 
-      从基本名词系统进入：
+      从字母、名词、格、代词，
+
+      <br>
+
+      一直到基本动词系统。
+
+      <br>
+
+      最终目标：
 
       <strong>
-        形容词、第三格变式、代名词、关系代名词
+        能够进入新约原文阅读。
       </strong>
-
-      并逐步把文法带回真实新约经文。
 
     </p>
 
@@ -97,15 +104,15 @@ class="screen active"
   <div class="course-card">
 
     <div class="eyebrow">
-      FOUNDATION · PART 2
+      FOUNDATION COURSE
     </div>
 
     <h2>
-      名词系统进阶
+      圣经希腊文初阶
     </h2>
 
     <p class="muted">
-      Lesson 09–14
+      Lesson 03–25
     </p>
 
 
@@ -127,11 +134,11 @@ class="screen active"
       <div>
 
         <strong id="totalLessons">
-          6
+          23
         </strong>
 
         <span>
-          当前阶段
+          总课程
         </span>
 
       </div>
@@ -144,7 +151,7 @@ class="screen active"
         </strong>
 
         <span>
-          阶段进度
+          完成度
         </span>
 
       </div>
@@ -155,8 +162,8 @@ class="screen active"
     <div class="progress-track">
 
       <div
-      id="homeProgressBar"
-      class="progress-fill"
+        id="homeProgressBar"
+        class="progress-fill"
       ></div>
 
     </div>
@@ -172,8 +179,9 @@ class="screen active"
     </div>
 
     <h3>
-      Lesson 09–14
+      初阶课程
     </h3>
+
 
     <div
       id="lessonList"
@@ -191,25 +199,25 @@ class="screen active"
     </div>
 
     <h3>
-      原文研究训练
+      GBRM 原文训练循环
     </h3>
+
 
     <div class="training-flow">
 
-      <span>FORM</span>
-
+      <span>LEARN</span>
       <b>→</b>
 
-      <span>FUNCTION</span>
+      <span>NOTICE</span>
+      <b>→</b>
 
+      <span>FORM</span>
       <b>→</b>
 
       <span>TEXT</span>
-
       <b>→</b>
 
-      <span>MEANING</span>
-
+      <span>TEST</span>
       <b>→</b>
 
       <span>REVIEW</span>
@@ -219,12 +227,13 @@ class="screen active"
   </div>
 
 
+
   <button
-  id="reviewHomeBtn"
-  class="secondary wide"
-  type="button"
+    id="reviewHomeBtn"
+    class="secondary wide"
+    type="button"
   >
-    🔁 查看学习记录
+    🔁 学习记录
   </button>
 
 
@@ -237,31 +246,34 @@ LESSON
 ====================================================== -->
 
 <section
-id="lesson"
-class="screen"
+  id="lesson"
+  class="screen"
 >
+
 
   <div class="screen-head">
 
     <button
-    id="lessonBackBtn"
-    class="back"
-    type="button"
+      id="lessonBackBtn"
+      class="back"
+      type="button"
     >
       ←
     </button>
 
+
     <div>
 
       <div
-      id="lessonEyebrow"
-      class="eyebrow"
+        id="lessonEyebrow"
+        class="eyebrow"
       >
         LESSON
       </div>
 
+
       <h2
-      id="lessonTitle"
+        id="lessonTitle"
       >
         Lesson
       </h2>
@@ -275,13 +287,14 @@ class="screen"
   <div class="lesson-head-card">
 
     <div
-    id="lessonReference"
-    class="lesson-reference"
+      id="lessonReference"
+      class="lesson-reference"
     ></div>
 
+
     <div
-    id="lessonObjective"
-    class="muted"
+      id="lessonObjective"
+      class="muted"
     ></div>
 
   </div>
@@ -289,18 +302,31 @@ class="screen"
 
 
   <div
-  id="lessonContent"
+    id="lessonContent"
   ></div>
 
 
 
-  <button
-  id="lessonNextBtn"
-  class="primary wide"
-  type="button"
-  >
-    下一步 →
-  </button>
+  <div class="lesson-nav">
+
+    <button
+      id="lessonPrevBtn"
+      class="secondary"
+      type="button"
+    >
+      ← 上一课
+    </button>
+
+
+    <button
+      id="lessonNextBtn"
+      class="primary"
+      type="button"
+    >
+      下一步 →
+    </button>
+
+  </div>
 
 
 </section>
@@ -312,19 +338,21 @@ REVIEW
 ====================================================== -->
 
 <section
-id="review"
-class="screen"
+  id="review"
+  class="screen"
 >
+
 
   <div class="screen-head">
 
     <button
-    id="reviewBackBtn"
-    class="back"
-    type="button"
+      id="reviewBackBtn"
+      class="back"
+      type="button"
     >
       ←
     </button>
+
 
     <div>
 
@@ -341,7 +369,6 @@ class="screen"
   </div>
 
 
-
   <div class="card">
 
     <div class="eyebrow">
@@ -349,14 +376,16 @@ class="screen"
     </div>
 
     <h3>
-      Lesson 09–14
+      初阶课程
     </h3>
 
+
     <div
-    id="reviewList"
+      id="reviewList"
     ></div>
 
   </div>
+
 
 </section>
 
@@ -367,15 +396,15 @@ class="screen"
 
 <footer>
 
-GBRM · Greek Bible Reading Model · V0.4
+  GBRM · Greek Bible Reading Model · Foundation
 
 </footer>
 
 
 
 <script
-src="app.js?v=040"
-defer
+  src="app.js?v=050"
+  defer
 ></script>
 
 
