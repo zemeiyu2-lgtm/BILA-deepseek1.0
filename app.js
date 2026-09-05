@@ -1,35 +1,20 @@
 /* =========================================================
-GBRM V2.9.2
+GBRM V2.9.3
 Greek Bible Reading Model
 圣经古希腊文基础学习引擎
 
-核心结构：
+V2.9.3 修订重点：
 
-首页
- ↓
-教材课程
- ↓
-教材内容
- ↓
-练习
- ↓
-词汇
- ↓
-真实新约原文
- ↓
-提示 / 解释 / 完整分析
- ↓
-课程完成
-
-设计原则：
-
-1. 教材是主轴
-2. 原文训练是真实新约
-3. 原文短而精
-4. 中文帮助为主
-5. 不要求学生分析尚未学习的语法
-6. MorphGNT 只负责原文与形态数据
-7. 网络异常不影响课程进入
+1. 首页“教材课程” → 打开课程选择列表
+2. “继续学习” → 直接进入当前课程
+3. L01–L25 可以自由选择
+4. 课程入口不依赖 MorphGNT
+5. MorphGNT 只在进入原文训练后加载
+6. 正确解析 MorphGNT 位置码：
+   040101 = Book 04 / Chapter 01 / Verse 01
+7. targetForm + targetLemma 双重定位
+8. 原文加载失败不会阻塞课程
+9. localStorage 异常不会阻塞课程
 ========================================================= */
 
 
@@ -39,9 +24,9 @@ CONFIG
 
 const CONFIG = {
 
-  VERSION: "2.9.2",
+  VERSION: "2.9.3",
 
-  STATE_KEY: "GBRM_V292_STATE",
+  STATE_KEY: "GBRM_V293_STATE",
 
   RAW_BASE:
     "https://raw.githubusercontent.com/morphgnt/sblgnt/master/",
@@ -482,11 +467,11 @@ const VOCABULARY = [
 
   return {
 
-    lesson:item[0],
+    lesson: item[0],
 
-    word:item[1],
+    word: item[1],
 
-    gloss:item[2]
+    gloss: item[2]
 
   };
 
@@ -494,7 +479,7 @@ const VOCABULARY = [
 
 
 /* =========================================================
-CURATED NEW TESTAMENT EXAMPLES
+CURATED CORPUS
 ========================================================= */
 
 const CURATED_EXAMPLES = {
@@ -796,12 +781,9 @@ let currentReturn =
   "lesson";
 
 
-let vocabularyReview =
-  [];
+let vocabularyReview = [];
 
-
-let vocabularyReviewIndex =
-  0;
+let vocabularyReviewIndex = 0;
 
 
 /* =========================================================
@@ -810,21 +792,21 @@ CORPUS MEMORY
 
 const corpus = {
 
-  books: {},
+  books:{},
 
-  tokens: [],
+  tokens:[],
 
-  verses: {},
+  verses:{},
 
-  lemmas: {},
+  lemmas:{},
 
-  loading: {}
+  loading:{}
 
 };
 
 
 /* =========================================================
-BASIC HELPERS
+DOM HELPER
 ========================================================= */
 
 function $(id){
@@ -836,27 +818,56 @@ function $(id){
 }
 
 
-function escapeHtml(value){
+/* =========================================================
+HTML SAFETY
+========================================================= */
+
+function escapeHtml(
+  value
+){
 
   return String(
     value ?? ""
   )
-  .replace(/&/g, "&amp;")
-  .replace(/</g, "&lt;")
-  .replace(/>/g, "&gt;")
-  .replace(/"/g, "&quot;")
-  .replace(/'/g, "&#039;");
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
 
-function normalize(value){
+/* =========================================================
+GREEK NORMALIZATION
+========================================================= */
+
+function normalize(
+  value
+){
 
   return String(
     value ?? ""
   )
   .trim()
-  .normalize("NFD")
+  .normalize(
+    "NFD"
+  )
   .replace(
     /[\u0300-\u036f]/g,
     ""
@@ -870,7 +881,13 @@ function normalize(value){
 }
 
 
-function normalizeLessonIndex(value){
+/* =========================================================
+LESSON INDEX
+========================================================= */
+
+function normalizeLessonIndex(
+  value
+){
 
   const number =
     Number(
@@ -916,18 +933,18 @@ function normalizeLessonIndex(value){
 
 
 /* =========================================================
-STATE
+STATE LOAD
 ========================================================= */
 
 function loadState(){
 
   const fallback = {
 
-    currentLesson: 0,
+    currentLesson:0,
 
-    lessons: {},
+    lessons:{},
 
-    vocab: {}
+    vocab:{}
 
   };
 
@@ -999,7 +1016,7 @@ function loadState(){
   ){
 
     console.warn(
-      "GBRM state error:",
+      "GBRM state load:",
       error
     );
 
@@ -1010,6 +1027,10 @@ function loadState(){
 
 }
 
+
+/* =========================================================
+STATE SAVE
+========================================================= */
 
 function saveState(){
 
@@ -1028,7 +1049,7 @@ function saveState(){
   ){
 
     console.warn(
-      "GBRM save state:",
+      "GBRM state save:",
       error
     );
 
@@ -1046,28 +1067,16 @@ function getLessonState(
 ){
 
   const lesson =
-    LESSONS[index];
+    LESSONS[
+      index
+    ];
 
 
   if(
     !lesson
   ){
 
-    return {
-
-      completed: false,
-
-      content: false,
-
-      practice: false,
-
-      vocabulary: false,
-
-      corpus: false,
-
-      review: false
-
-    };
+    return {};
 
   }
 
@@ -1078,32 +1087,30 @@ function getLessonState(
 
 
   if(
-    !state.lessons[key] ||
-    typeof state.lessons[key] !==
-    "object"
+    !state.lessons[key]
   ){
 
     state.lessons[key] = {
 
-      completed: false,
+      completed:false,
 
-      content: false,
+      content:false,
 
-      practice: false,
+      practice:false,
 
-      vocabulary: false,
+      vocabulary:false,
 
-      corpus: false,
+      corpus:false,
 
-      review: false,
+      review:false,
 
-      attempts: 0,
+      attempts:0,
 
-      correct: 0,
+      correct:0,
 
-      corpusReviewed: 0,
+      corpusReviewed:0,
 
-      updatedAt: null
+      updatedAt:null
 
     };
 
@@ -1181,21 +1188,21 @@ function go(
   screenId
 ){
 
-  const screens =
-    document.querySelectorAll(
+  document
+    .querySelectorAll(
       ".screen"
+    )
+    .forEach(
+      function(
+        screen
+      ){
+
+        screen.classList.remove(
+          "active"
+        );
+
+      }
     );
-
-
-  screens.forEach(
-    function(screen){
-
-      screen.classList.remove(
-        "active"
-      );
-
-    }
-  );
 
 
   const target =
@@ -1209,9 +1216,10 @@ function go(
   ){
 
     console.error(
-      "GBRM screen missing:",
+      "GBRM screen not found:",
       screenId
     );
+
 
     return false;
 
@@ -1305,6 +1313,10 @@ function renderToday(){
 }
 
 
+/* =========================================================
+COURSE PROGRESS
+========================================================= */
+
 function renderCourseProgress(){
 
   let completed =
@@ -1333,10 +1345,8 @@ function renderCourseProgress(){
 
   const percent =
     Math.round(
-      (
-        completed /
-        LESSONS.length
-      ) *
+      completed /
+      LESSONS.length *
       100
     );
 
@@ -1384,13 +1394,9 @@ function renderCourseProgress(){
 
 
 /* =========================================================
-LESSON LIST
+COURSE LIST
 
-这里最重要：
-
-首页“教材课程”点击时直接调用 openLesson()。
-
-lessonPanel 只是备用课程列表。
+首页教材课程点击后显示这里。
 ========================================================= */
 
 function renderLessonList(){
@@ -1567,9 +1573,90 @@ function renderLessonList(){
 
 
 /* =========================================================
+LESSON PANEL
+========================================================= */
+
+function openLessonPanel(){
+
+  const panel =
+    $("lessonPanel");
+
+
+  if(
+    !panel
+  ){
+
+    openLesson(
+      currentLessonIndex
+    );
+
+
+    return;
+
+  }
+
+
+  panel.classList.remove(
+    "hidden"
+  );
+
+
+  renderLessonList();
+
+
+  const current =
+    panel.querySelector(
+      ".lesson-item.current"
+    );
+
+
+  if(
+    current
+  ){
+
+    setTimeout(
+      function(){
+
+        current.scrollIntoView({
+          behavior:"smooth",
+          block:"nearest"
+        });
+
+      },
+      50
+    );
+
+  }
+
+}
+
+
+function closeLessonPanel(){
+
+  const panel =
+    $("lessonPanel");
+
+
+  if(
+    panel
+  ){
+
+    panel.classList.add(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
 OPEN LESSON
 
-完全不读取 MorphGNT。
+注意：
+
+这里只进入课程，
+绝不访问 MorphGNT。
 ========================================================= */
 
 function openLesson(
@@ -1578,14 +1665,10 @@ function openLesson(
 
   try{
 
-    index =
+    currentLessonIndex =
       normalizeLessonIndex(
         index
       );
-
-
-    currentLessonIndex =
-      index;
 
 
     currentStep =
@@ -1597,32 +1680,27 @@ function openLesson(
 
 
     state.currentLesson =
-      index;
+      currentLessonIndex;
 
 
     getLessonState(
-      index
+      currentLessonIndex
     );
 
 
     saveState();
 
 
+    closeLessonPanel();
+
+
     renderLesson();
 
 
-    /*
-      先进入课程页面。
-    */
-
-    const success =
-      go(
-        "lesson"
-      );
-
-
     if(
-      !success
+      !go(
+        "lesson"
+      )
     ){
 
       alert(
@@ -1637,13 +1715,13 @@ function openLesson(
   ){
 
     console.error(
-      "GBRM openLesson:",
+      "GBRM openLesson error:",
       error
     );
 
 
     alert(
-      "课程打开失败，请按 Ctrl + F5 刷新页面。"
+      "课程打开失败，请按 Ctrl + F5 刷新。"
     );
 
   }
@@ -1652,7 +1730,7 @@ function openLesson(
 
 
 /* =========================================================
-LESSON
+RENDER LESSON
 ========================================================= */
 
 function renderLesson(){
@@ -1781,77 +1859,60 @@ function renderLessonStep(){
 
   try{
 
-    switch(
-      currentStep
+    if(
+      currentStep ===
+      0
     ){
 
-      case 0:
+      renderTextbook(
+        area,
+        lesson,
+        st
+      );
 
-        renderTextbook(
-          area,
-          lesson,
-          st
-        );
+    }
+    else if(
+      currentStep ===
+      1
+    ){
 
-        break;
+      renderPractice(
+        area,
+        lesson,
+        st
+      );
 
+    }
+    else if(
+      currentStep ===
+      2
+    ){
 
-      case 1:
+      renderVocabulary(
+        area,
+        lesson,
+        st
+      );
 
-        renderPractice(
-          area,
-          lesson,
-          st
-        );
+    }
+    else if(
+      currentStep ===
+      3
+    ){
 
-        break;
+      renderCorpusGateway(
+        area,
+        lesson
+      );
 
+    }
+    else{
 
-      case 2:
-
-        renderVocabulary(
-          area,
-          lesson,
-          st
-        );
-
-        break;
-
-
-      case 3:
-
-        renderCorpusGateway(
-          area,
-          lesson
-        );
-
-        break;
-
-
-      case 4:
-
-        renderReview(
-          area,
-          lesson,
-          st
-        );
-
-        break;
-
-
-      default:
-
-        currentStep =
-          0;
-
-
-        renderTextbook(
-          area,
-          lesson,
-          st
-        );
-
-        break;
+      renderReview(
+        area,
+        lesson,
+        st
+      );
 
     }
 
@@ -1861,7 +1922,7 @@ function renderLessonStep(){
   ){
 
     console.error(
-      "GBRM lesson step:",
+      "GBRM lesson step error:",
       error
     );
 
@@ -1872,13 +1933,7 @@ function renderLessonStep(){
 
         "<strong>这一学习步骤出现问题。</strong>" +
 
-        "<br><br>" +
-
-        "可以重新加载这一课。"
-
-        +
-
-        "<button class='secondary wide' onclick='renderLessonStep()'>" +
+        "<button class='secondary wide' id='reloadLessonStep'>" +
 
           "重新加载"
 
@@ -1887,6 +1942,24 @@ function renderLessonStep(){
         "</button>" +
 
       "</div>";
+
+
+    const reload =
+      $("reloadLessonStep");
+
+
+    if(
+      reload
+    ){
+
+      reload.onclick =
+        function(){
+
+          renderLessonStep();
+
+        };
+
+    }
 
   }
 
@@ -1900,7 +1973,8 @@ function renderLessonStep(){
 
       "第 " +
       (
-        currentStep + 1
+        currentStep +
+        1
       ) +
       " 步 / 5";
 
@@ -1911,21 +1985,20 @@ function renderLessonStep(){
     $("lessonStepProgress")
   ){
 
-    const width =
-      currentStep === 4
+    const percent =
+      currentStep ===
+      4
 
         ? 100
 
-        : (
-            currentStep /
-            4
-          ) *
+        : currentStep /
+          4 *
           100;
 
 
     $("lessonStepProgress")
       .style.width =
-      width +
+      percent +
       "%";
 
   }
@@ -1937,7 +2010,8 @@ function renderLessonStep(){
 
     $("lessonPrevious")
       .disabled =
-      currentStep === 0;
+      currentStep ===
+      0;
 
   }
 
@@ -1950,19 +2024,15 @@ function renderLessonStep(){
       .textContent =
 
       currentStep === 0
-
         ? "进入练习 →"
 
         : currentStep === 1
-
           ? "进入词汇 →"
 
           : currentStep === 2
-
             ? "进入原文 →"
 
             : currentStep === 3
-
               ? "开始原文训练"
 
               : "完成本课 →";
@@ -2034,7 +2104,7 @@ function getGuide(
   kind
 ){
 
-  const map = {
+  const guides = {
 
     history:
       "先知道为什么学习新约希腊文。",
@@ -2116,7 +2186,7 @@ function getGuide(
 
   return (
 
-    map[kind] ||
+    guides[kind] ||
 
     "先掌握今天最重要的一点。"
 
@@ -2368,10 +2438,7 @@ function renderPractice(
       button.onclick =
         function(){
 
-          st.attempts =
-            Number(
-              st.attempts
-            ) + 1;
+          st.attempts++;
 
 
           if(
@@ -2379,11 +2446,7 @@ function renderPractice(
             data.answer
           ){
 
-            st.correct =
-              Number(
-                st.correct
-              ) + 1;
-
+            st.correct++;
 
             st.practice =
               true;
@@ -2480,7 +2543,9 @@ function getLessonVocabulary(
 ){
 
   return VOCABULARY.filter(
-    function(item){
+    function(
+      item
+    ){
 
       return (
         item.lesson ===
@@ -2572,7 +2637,9 @@ function renderVocabulary(
 
 
   list.forEach(
-    function(item){
+    function(
+      item
+    ){
 
       const memory =
         getVocabState(
@@ -2642,7 +2709,7 @@ function renderVocabulary(
 
         "<span class='vocab-status'>" +
 
-          vocabStatus(
+          vocabularyStatus(
             memory
           ) +
 
@@ -2670,16 +2737,9 @@ function renderVocabulary(
         .onclick =
         function(){
 
-          memory.remembered =
-            Number(
-              memory.remembered
-            ) + 1;
+          memory.remembered++;
 
-
-          memory.seen =
-            Number(
-              memory.seen
-            ) + 1;
+          memory.seen++;
 
 
           card
@@ -2687,7 +2747,7 @@ function renderVocabulary(
               ".vocab-status"
             )
             .textContent =
-            vocabStatus(
+            vocabularyStatus(
               memory
             );
 
@@ -2732,14 +2792,12 @@ function renderVocabulary(
 }
 
 
-function vocabStatus(
+function vocabularyStatus(
   memory
 ){
 
   if(
-    Number(
-      memory.remembered
-    ) >=
+    memory.remembered >=
     4
   ){
 
@@ -2749,9 +2807,8 @@ function vocabStatus(
 
 
   if(
-    Number(
-      memory.remembered
-    ) > 0
+    memory.remembered >
+    0
   ){
 
     return "学习中";
@@ -2870,10 +2927,6 @@ async function startCorpusForLesson(
   }
 
 
-  /*
-    原文系统从这里开始。
-  */
-
   go(
     "corpus"
   );
@@ -2904,11 +2957,11 @@ async function startCorpusForLesson(
 
       "</div>" +
 
-      "<h3>正在准备经文</h3>" +
+      "<h3>正在读取原文</h3>" +
 
       "<p class='muted'>" +
 
-        "正在读取这一处新约原文……"
+        "请稍候……"
 
       +
 
@@ -2940,7 +2993,7 @@ async function startCorpusForLesson(
 
 
 /* =========================================================
-CORPUS LOAD ERROR
+CORPUS ERROR
 ========================================================= */
 
 function renderCorpusLoadError(){
@@ -2986,7 +3039,7 @@ function renderCorpusLoadError(){
 
       "</button>" +
 
-      "<button id='backToLessonFromCorpus' class='secondary wide' type='button'>" +
+      "<button id='backCorpus' class='secondary wide' type='button'>" +
 
         "返回本课"
 
@@ -3010,7 +3063,7 @@ function renderCorpusLoadError(){
     };
 
 
-  $("backToLessonFromCorpus")
+  $("backCorpus")
     .onclick =
     returnFromCorpus;
 
@@ -3018,7 +3071,7 @@ function renderCorpusLoadError(){
 
 
 /* =========================================================
-CURRENT CORPUS EXAMPLE
+CURRENT CORPUS
 ========================================================= */
 
 function renderCurrentCorpusExample(){
@@ -3063,17 +3116,17 @@ function renderCurrentCorpusExample(){
 
       "<div class='card'>" +
 
-        "<h3>这一节暂时没有读取到</h3>" +
+        "<h3>没有找到这一节</h3>" +
 
         "<p class='muted'>" +
 
-          "经文文件已经读取，但没有找到指定经节。"
+          "原文文件已经读取，但这一节暂时没有找到。"
 
         +
 
         "</p>" +
 
-        "<button id='retryVerse' class='primary wide' type='button'>" +
+        "<button id='retryVerse' class='secondary wide' type='button'>" +
 
           "重新读取"
 
@@ -3210,7 +3263,7 @@ function renderCurrentCorpusExample(){
 
 
 /* =========================================================
-REFERENCE
+VERSE KEY
 ========================================================= */
 
 function makeVerseKey(
@@ -3235,6 +3288,10 @@ function makeVerseKey(
 
 }
 
+
+/* =========================================================
+REFERENCE
+========================================================= */
 
 function formatReference(
   example
@@ -3277,7 +3334,7 @@ function formatReference(
 
 
 /* =========================================================
-RENDER CURATED PASSAGE
+PASSAGE
 ========================================================= */
 
 function renderCuratedPassage(
@@ -3307,8 +3364,8 @@ function renderCuratedPassage(
 
 
   /*
-    1.
-    优先实际词形
+    第一优先：
+    实际词形
   */
 
   if(
@@ -3348,8 +3405,8 @@ function renderCuratedPassage(
 
 
   /*
-    2.
-    找不到再使用 Lemma
+    第二优先：
+    Lemma
   */
 
   if(
@@ -3380,6 +3437,11 @@ function renderCuratedPassage(
   }
 
 
+  /*
+    短而精：
+    目标词前后最多三个词
+  */
+
   const center =
     target
       ? tokens.indexOf(
@@ -3391,14 +3453,16 @@ function renderCuratedPassage(
   const start =
     Math.max(
       0,
-      center - 3
+      center -
+      3
     );
 
 
   const end =
     Math.min(
       tokens.length,
-      center + 4
+      center +
+      4
     );
 
 
@@ -3480,8 +3544,7 @@ function renderCuratedPassage(
         box.appendChild(
           document.createTextNode(
             " "
-          )
-        );
+          );
 
       }
     );
@@ -3532,7 +3595,13 @@ function renderHelp(
 
     "<div id='help1' class='help-level hidden'>" +
 
-      "<div class='help-level-title'>提示</div>" +
+      "<div class='help-level-title'>" +
+
+        "提示"
+
+      +
+
+      "</div>" +
 
       "<div class='help-level-text'>" +
 
@@ -3554,7 +3623,13 @@ function renderHelp(
 
     "<div id='help2' class='help-level hidden'>" +
 
-      "<div class='help-level-title'>解释</div>" +
+      "<div class='help-level-title'>" +
+
+        "解释"
+
+      +
+
+      "</div>" +
 
       "<div class='help-level-text'>" +
 
@@ -3576,7 +3651,13 @@ function renderHelp(
 
     "<div id='help3' class='help-level hidden'>" +
 
-      "<div class='help-level-title'>完整分析</div>" +
+      "<div class='help-level-title'>" +
+
+        "完整分析"
+
+      +
+
+      "</div>" +
 
       "<div class='help-level-text'>" +
 
@@ -3686,12 +3767,6 @@ async function loadBook(
     !book
   ){
 
-    console.error(
-      "GBRM book missing:",
-      bookId
-    );
-
-
     return false;
 
   }
@@ -3706,7 +3781,7 @@ async function loadBook(
   corpus.loading[
     bookId
   ] =
-    promise;
+  promise;
 
 
   const result =
@@ -3798,10 +3873,9 @@ async function fetchBook(
 
 
     console.log(
-      "GBRM loaded:",
+      "GBRM MorphGNT loaded:",
       book.id,
-      tokens.length,
-      "tokens"
+      tokens.length
     );
 
 
@@ -3813,7 +3887,7 @@ async function fetchBook(
   ){
 
     console.error(
-      "GBRM MorphGNT load failed:",
+      "GBRM MorphGNT error:",
       book.id,
       error
     );
@@ -3829,17 +3903,19 @@ async function fetchBook(
 /* =========================================================
 MORPHGNT PARSER
 
-正确结构：
+正确：
 
 040101
+││││││
+││││└┴ verse
+││└┴ chapter
+└┴ book
 
-04 = Book
-01 = Chapter
-01 = Verse
-
-Word index 不从 location 读取，
-而是在同一 verse 内自行计算。
-
+实际：
+040101
+= Book 04
+= Chapter 01
+= Verse 01
 ========================================================= */
 
 function parseMorphGNT(
@@ -3857,7 +3933,8 @@ function parseMorphGNT(
 
   const lines =
     String(
-      text || ""
+      text ||
+      ""
     )
     .split(
       /\r?\n/
@@ -3969,7 +4046,7 @@ function parseMorphGNT(
       ]++;
 
 
-      result.push({
+      const token = {
 
         bookId:
           book.id,
@@ -4027,14 +4104,20 @@ function parseMorphGNT(
               .join(
                 " "
               )
-          ),
-
-        morph:
-          decodeParsing(
-            parts[2]
           )
 
-      });
+      };
+
+
+      token.morph =
+        decodeParsing(
+          token.parsing
+        );
+
+
+      result.push(
+        token
+      );
 
     }
   );
@@ -4135,7 +4218,7 @@ function addToken(
 
 
 /* =========================================================
-MORPHOLOGY DECODER
+MORPHOLOGY
 ========================================================= */
 
 function decodeParsing(
@@ -4144,7 +4227,8 @@ function decodeParsing(
 
   const c =
     String(
-      code || ""
+      code ||
+      ""
     )
     .padEnd(
       8,
@@ -4420,21 +4504,13 @@ function decodePOS(
   const map = {
 
     A:"形容词",
-
     C:"连接词",
-
     D:"副词",
-
     I:"感叹词",
-
     N:"名词",
-
     P:"介词",
-
     R:"代词",
-
     V:"动词",
-
     X:"语助词"
 
   };
@@ -4442,7 +4518,8 @@ function decodePOS(
 
   const value =
     String(
-      code || ""
+      code ||
+      ""
     );
 
 
@@ -4512,15 +4589,11 @@ function openLemma(
   }
 
 
-  const key =
-    normalize(
-      lemma
-    );
-
-
   const entries =
     corpus.lemmas[
-      key
+      normalize(
+        lemma
+      )
     ] || [];
 
 
@@ -4880,6 +4953,84 @@ function renderVerse(
 
 
 /* =========================================================
+CORPUS COMPLETE
+========================================================= */
+
+function markCorpusComplete(){
+
+  const st =
+    getLessonState(
+      currentLessonIndex
+    );
+
+
+  st.corpus =
+    true;
+
+
+  saveState();
+
+}
+
+
+function finishCorpus(){
+
+  markCorpusComplete();
+
+
+  const area =
+    $("corpusArea");
+
+
+  if(
+    !area
+  ){
+
+    return;
+
+  }
+
+
+  area.innerHTML =
+
+    "<div class='success'>" +
+
+      "<strong>✓ 原文训练完成</strong>" +
+
+      "<br><br>" +
+
+      "<button id='returnLessonFromCorpus' class='primary wide' type='button'>" +
+
+        "回到本课"
+
+      +
+
+      "</button>" +
+
+    "</div>";
+
+
+  $("returnLessonFromCorpus")
+    .onclick =
+    function(){
+
+      currentStep =
+        4;
+
+
+      renderLesson();
+
+
+      go(
+        "lesson"
+      );
+
+    };
+
+}
+
+
+/* =========================================================
 REVIEW
 ========================================================= */
 
@@ -4939,11 +5090,6 @@ function renderReview(
 
     "</div>";
 
-
-  /*
-    这里只表示学生进入了回顾步骤，
-    并不直接代表课程完成。
-  */
 
   st.review =
     true;
@@ -5046,84 +5192,6 @@ function reviewQuestion(
 
 
 /* =========================================================
-COMPLETE CORPUS
-========================================================= */
-
-function markCorpusComplete(){
-
-  const st =
-    getLessonState(
-      currentLessonIndex
-    );
-
-
-  st.corpus =
-    true;
-
-
-  saveState();
-
-}
-
-
-function finishCorpus(){
-
-  markCorpusComplete();
-
-
-  const area =
-    $("corpusArea");
-
-
-  if(
-    !area
-  ){
-
-    return;
-
-  }
-
-
-  area.innerHTML =
-
-    "<div class='success'>" +
-
-      "<strong>✓ 原文训练完成</strong>" +
-
-      "<br><br>" +
-
-      "<button id='returnLessonFromCorpus' class='primary wide' type='button'>" +
-
-        "回到本课"
-
-      +
-
-      "</button>" +
-
-    "</div>";
-
-
-  $("returnLessonFromCorpus")
-    .onclick =
-    function(){
-
-      currentStep =
-        4;
-
-
-      renderLesson();
-
-
-      go(
-        "lesson"
-      );
-
-    };
-
-}
-
-
-/* =========================================================
 COMPLETE LESSON
 ========================================================= */
 
@@ -5134,13 +5202,6 @@ function completeLesson(){
       currentLessonIndex
     );
 
-
-  /*
-    课程的完成条件。
-
-    这里不要求一定要成功读取网络，
-    但必须至少进入原文步骤。
-  */
 
   if(
     !st.content ||
@@ -5228,11 +5289,8 @@ function showLessonComplete(){
         (
           currentLessonIndex <
           LESSONS.length - 1
-
             ? "下一课 →"
-
             : "返回首页"
-
         ) +
 
       "</button>" +
@@ -5258,7 +5316,8 @@ function showLessonComplete(){
       ){
 
         openLesson(
-          currentLessonIndex + 1
+          currentLessonIndex +
+          1
         );
 
       }
@@ -5338,6 +5397,7 @@ function nextStep(){
 
     renderLessonStep();
 
+
     return;
 
   }
@@ -5349,7 +5409,7 @@ function nextStep(){
 
 
 /* =========================================================
-PREVIOUS STEP
+PREVIOUS
 ========================================================= */
 
 function previousStep(){
@@ -5360,7 +5420,6 @@ function previousStep(){
   ){
 
     currentStep--;
-
 
     renderLessonStep();
 
@@ -5485,8 +5544,8 @@ function renderVocabularyReview(){
 
 
   if(
-    !area ||
-    !counter
+    !counter ||
+    !area
   ){
 
     return;
@@ -5599,121 +5658,112 @@ function renderVocabularyReview(){
 
 
       button.onclick =
-      function(){
+        function(){
 
-        const memory =
-          getVocabState(
-            item.word
-          );
-
-
-        document
-          .querySelectorAll(
-            "#reviewOptions button"
-          )
-          .forEach(
-            function(
-              btn
-            ){
-
-              btn.disabled =
-                true;
-
-            }
-          );
+          const memory =
+            getVocabState(
+              item.word
+            );
 
 
-        if(
-          option ===
-          item.gloss
-        ){
+          document
+            .querySelectorAll(
+              "#reviewOptions button"
+            )
+            .forEach(
+              function(
+                btn
+              ){
 
-          button.classList.add(
-            "correct"
-          );
+                btn.disabled =
+                  true;
 
-
-          memory.remembered =
-            Number(
-              memory.remembered
-            ) + 1;
-
-
-          $("reviewFeedback")
-            .innerHTML =
-
-            "<div class='success'>" +
-
-              "✓ 很好" +
-
-              "<button id='nextVocab' class='primary wide' type='button'>" +
-
-                "下一词 →"
-
-              +
-
-              "</button>" +
-
-            "</div>";
-
-        }
-        else{
-
-          button.classList.add(
-            "wrong"
-          );
+              }
+            );
 
 
-          memory.wrong =
-            Number(
-              memory.wrong
-            ) + 1;
+          if(
+            option ===
+            item.gloss
+          ){
+
+            button.classList.add(
+              "correct"
+            );
 
 
-          $("reviewFeedback")
-            .innerHTML =
-
-            "<div class='notice-box'>" +
-
-              "正确答案：" +
-
-              escapeHtml(
-                item.gloss
-              ) +
-
-              "<button id='nextVocab' class='primary wide' type='button'>" +
-
-                "下一词 →"
-
-              +
-
-              "</button>" +
-
-            "</div>";
-
-        }
+            memory.remembered++;
 
 
-        memory.seen =
-          Number(
-            memory.seen
-          ) + 1;
+            $("reviewFeedback")
+              .innerHTML =
+
+              "<div class='success'>" +
+
+                "✓ 很好" +
+
+                "<button id='nextVocab' class='primary wide' type='button'>" +
+
+                  "下一词 →"
+
+                +
+
+                "</button>" +
+
+              "</div>";
+
+          }
+          else{
+
+            button.classList.add(
+              "wrong"
+            );
 
 
-        saveState();
+            memory.wrong++;
 
 
-        $("nextVocab")
-          .onclick =
-          function(){
+            $("reviewFeedback")
+              .innerHTML =
 
-            vocabularyReviewIndex++;
+              "<div class='notice-box'>" +
 
-            renderVocabularyReview();
+                "正确答案：" +
 
-          };
+                escapeHtml(
+                  item.gloss
+                ) +
 
-      };
+                "<button id='nextVocab' class='primary wide' type='button'>" +
+
+                  "下一词 →"
+
+                +
+
+                "</button>" +
+
+              "</div>";
+
+          }
+
+
+          memory.seen++;
+
+
+          saveState();
+
+
+          $("nextVocab")
+            .onclick =
+            function(){
+
+              vocabularyReviewIndex++;
+
+              renderVocabularyReview();
+
+            };
+
+        };
 
 
       $("reviewOptions")
@@ -5748,10 +5798,8 @@ function buildReviewOptions(
       .sort(
         function(){
 
-          return (
-            Math.random() -
-            0.5
-          );
+          return Math.random() -
+            0.5;
 
         }
       )
@@ -5779,10 +5827,8 @@ function buildReviewOptions(
   .sort(
     function(){
 
-      return (
-        Math.random() -
-        0.5
-      );
+      return Math.random() -
+        0.5;
 
     }
   );
@@ -5850,7 +5896,6 @@ RETURN
 function returnFromCorpus(){
 
   renderLesson();
-
 
   go(
     "lesson"
@@ -5953,31 +5998,39 @@ function goHome(){
 /* =========================================================
 EVENTS
 
-关键修复：
+正确逻辑：
 
-“教材课程” = 直接进入当前课程
+继续学习
+→ 当前课程
 
-不是展开列表。
+教材课程
+→ 打开课程列表
+→ 任意选择 L01–L25
+
+词汇复习
+→ 进入复习
 ========================================================= */
 
 function bindEvents(){
 
-  const continueLesson =
+  const continueButton =
     $("continueLesson");
 
 
   if(
-    continueLesson
+    continueButton
   ){
 
-    continueLesson.onclick =
+    continueButton.addEventListener(
+      "click",
       function(){
 
         openLesson(
           currentLessonIndex
         );
 
-      };
+      }
+    );
 
   }
 
@@ -5990,18 +6043,14 @@ function bindEvents(){
     openLessons
   ){
 
-    openLessons.onclick =
+    openLessons.addEventListener(
+      "click",
       function(){
 
-        /*
-          直接进入当前课程。
-        */
+        openLessonPanel();
 
-        openLesson(
-          currentLessonIndex
-        );
-
-      };
+      }
+    );
 
   }
 
@@ -6014,24 +6063,14 @@ function bindEvents(){
     closeLessons
   ){
 
-    closeLessons.onclick =
+    closeLessons.addEventListener(
+      "click",
       function(){
 
-        const panel =
-          $("lessonPanel");
+        closeLessonPanel();
 
-
-        if(
-          panel
-        ){
-
-          panel.classList.add(
-            "hidden"
-          );
-
-        }
-
-      };
+      }
+    );
 
   }
 
@@ -6044,8 +6083,14 @@ function bindEvents(){
     lessonBack
   ){
 
-    lessonBack.onclick =
-      goHome;
+    lessonBack.addEventListener(
+      "click",
+      function(){
+
+        goHome();
+
+      }
+    );
 
   }
 
@@ -6058,8 +6103,14 @@ function bindEvents(){
     lessonPrevious
   ){
 
-    lessonPrevious.onclick =
-      previousStep;
+    lessonPrevious.addEventListener(
+      "click",
+      function(){
+
+        previousStep();
+
+      }
+    );
 
   }
 
@@ -6072,36 +6123,54 @@ function bindEvents(){
     lessonNext
   ){
 
-    lessonNext.onclick =
-      nextStep;
+    lessonNext.addEventListener(
+      "click",
+      function(){
+
+        nextStep();
+
+      }
+    );
 
   }
 
 
-  const vocabReview =
+  const vocabulary =
     $("startVocabularyReview");
 
 
   if(
-    vocabReview
+    vocabulary
   ){
 
-    vocabReview.onclick =
-      startVocabularyReview;
+    vocabulary.addEventListener(
+      "click",
+      function(){
+
+        startVocabularyReview();
+
+      }
+    );
 
   }
 
 
-  const vocabReviewBack =
+  const vocabularyBack =
     $("vocabReviewBack");
 
 
   if(
-    vocabReviewBack
+    vocabularyBack
   ){
 
-    vocabReviewBack.onclick =
-      goHome;
+    vocabularyBack.addEventListener(
+      "click",
+      function(){
+
+        goHome();
+
+      }
+    );
 
   }
 
@@ -6114,8 +6183,14 @@ function bindEvents(){
     corpusBack
   ){
 
-    corpusBack.onclick =
-      returnFromCorpus;
+    corpusBack.addEventListener(
+      "click",
+      function(){
+
+        returnFromCorpus();
+
+      }
+    );
 
   }
 
@@ -6128,8 +6203,14 @@ function bindEvents(){
     lemmaBack
   ){
 
-    lemmaBack.onclick =
-      returnFromLemma;
+    lemmaBack.addEventListener(
+      "click",
+      function(){
+
+        returnFromLemma();
+
+      }
+    );
 
   }
 
@@ -6142,8 +6223,14 @@ function bindEvents(){
     verseBack
   ){
 
-    verseBack.onclick =
-      returnFromVerse;
+    verseBack.addEventListener(
+      "click",
+      function(){
+
+        returnFromVerse();
+
+      }
+    );
 
   }
 
@@ -6156,8 +6243,14 @@ function bindEvents(){
     verseBackButton
   ){
 
-    verseBackButton.onclick =
-      returnFromVerse;
+    verseBackButton.addEventListener(
+      "click",
+      function(){
+
+        returnFromVerse();
+
+      }
+    );
 
   }
 
@@ -6167,8 +6260,7 @@ function bindEvents(){
 /* =========================================================
 INIT
 
-注意：
-初始化时不访问 MorphGNT。
+这里绝对不加载 MorphGNT。
 ========================================================= */
 
 function init(){
@@ -6185,7 +6277,7 @@ function init(){
   ){
 
     console.error(
-      "GBRM init error:",
+      "GBRM initialization error:",
       error
     );
 
