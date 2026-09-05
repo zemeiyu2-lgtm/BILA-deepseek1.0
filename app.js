@@ -1,36 +1,34 @@
 /* =========================================================
-   GBRM V1.5
-   NT CORPUS ENGINE
+   GBRM V1.6
+   REAL GREEK TEXT + SYNTAX OBSERVATION ENGINE
 
-   Source:
    MorphGNT / SBLGNT
 
-   Engine:
+   Architecture:
 
-   Remote Corpus
-        ↓
-   Book Loader
-        ↓
-   Token Parser
-        ↓
-   Verse Index
-        ↓
-   Lemma Index
-        ↓
+   Corpus
+      ↓
+   Book
+      ↓
+   Verse
+      ↓
+   Token
+      ↓
+   Lemma
+      ↓
    Morphology
-        ↓
-   Real Text Training
+      ↓
+   Syntax Observation
+      ↓
+   Exegesis Preparation
 ========================================================= */
 
 
 /* =========================================================
-   CONFIG
+CONFIG
 ========================================================= */
 
 const CONFIG = {
-
-  STATE_KEY:
-    "GBRM_V15_STATE",
 
   RAW_BASE:
     "https://raw.githubusercontent.com/morphgnt/sblgnt/master/",
@@ -41,320 +39,92 @@ const CONFIG = {
   NORMAL_RATE:
     0.88,
 
-  SLOW_RATE:
-    0.65
+  STATE_KEY:
+    "GBRM_V16_STATE"
 
 };
 
 
 /* =========================================================
-   BOOK MAP
+BOOKS
 ========================================================= */
 
 const BOOKS = [
 
-  {
+  ["Mt","Matthew","61-Mt-morphgnt.txt"],
+
+  ["Mk","Mark","62-Mk-morphgnt.txt"],
+
+  ["Lk","Luke","63-Lk-morphgnt.txt"],
+
+  ["Jn","John","64-Jn-morphgnt.txt"],
+
+  ["Ac","Acts","65-Ac-morphgnt.txt"],
+
+  ["Ro","Romans","66-Ro-morphgnt.txt"],
+
+  ["1Co","1 Corinthians","67-1Co-morphgnt.txt"],
+
+  ["2Co","2 Corinthians","68-2Co-morphgnt.txt"],
+
+  ["Ga","Galatians","69-Ga-morphgnt.txt"],
+
+  ["Eph","Ephesians","70-Eph-morphgnt.txt"],
+
+  ["Php","Philippians","71-Php-morphgnt.txt"],
+
+  ["Col","Colossians","72-Col-morphgnt.txt"],
+
+  ["1Th","1 Thessalonians","73-1Th-morphgnt.txt"],
+
+  ["2Th","2 Thessalonians","74-2Th-morphgnt.txt"],
+
+  ["1Ti","1 Timothy","75-1Ti-morphgnt.txt"],
+
+  ["2Ti","2 Timothy","76-2Ti-morphgnt.txt"],
+
+  ["Tit","Titus","77-Tit-morphgnt.txt"],
+
+  ["Phm","Philemon","78-Phm-morphgnt.txt"],
+
+  ["Heb","Hebrews","79-Heb-morphgnt.txt"],
+
+  ["Jas","James","80-Jas-morphgnt.txt"],
+
+  ["1Pe","1 Peter","81-1Pe-morphgnt.txt"],
+
+  ["2Pe","2 Peter","82-2Pe-morphgnt.txt"],
+
+  ["1Jn","1 John","83-1Jn-morphgnt.txt"],
+
+  ["2Jn","2 John","84-2Jn-morphgnt.txt"],
+
+  ["3Jn","3 John","85-3Jn-morphgnt.txt"],
+
+  ["Jud","Jude","86-Jud-morphgnt.txt"],
+
+  ["Re","Revelation","87-Re-morphgnt.txt"]
+
+].map(function(item) {
+
+  return {
+
     id:
-      "Mt",
+      item[0],
 
     name:
-      "Matthew",
+      item[1],
 
     file:
-      "61-Mt-morphgnt.txt"
-  },
+      item[2]
 
-  {
-    id:
-      "Mk",
+  };
 
-    name:
-      "Mark",
-
-    file:
-      "62-Mk-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Lk",
-
-    name:
-      "Luke",
-
-    file:
-      "63-Lk-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Jn",
-
-    name:
-      "John",
-
-    file:
-      "64-Jn-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Ac",
-
-    name:
-      "Acts",
-
-    file:
-      "65-Ac-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Ro",
-
-    name:
-      "Romans",
-
-    file:
-      "66-Ro-morphgnt.txt"
-  },
-
-  {
-    id:
-      "1Co",
-
-    name:
-      "1 Corinthians",
-
-    file:
-      "67-1Co-morphgnt.txt"
-  },
-
-  {
-    id:
-      "2Co",
-
-    name:
-      "2 Corinthians",
-
-    file:
-      "68-2Co-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Ga",
-
-    name:
-      "Galatians",
-
-    file:
-      "69-Ga-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Eph",
-
-    name:
-      "Ephesians",
-
-    file:
-      "70-Eph-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Php",
-
-    name:
-      "Philippians",
-
-    file:
-      "71-Php-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Col",
-
-    name:
-      "Colossians",
-
-    file:
-      "72-Col-morphgnt.txt"
-  },
-
-  {
-    id:
-      "1Th",
-
-    name:
-      "1 Thessalonians",
-
-    file:
-      "73-1Th-morphgnt.txt"
-  },
-
-  {
-    id:
-      "2Th",
-
-    name:
-      "2 Thessalonians",
-
-    file:
-      "74-2Th-morphgnt.txt"
-  },
-
-  {
-    id:
-      "1Ti",
-
-    name:
-      "1 Timothy",
-
-    file:
-      "75-1Ti-morphgnt.txt"
-  },
-
-  {
-    id:
-      "2Ti",
-
-    name:
-      "2 Timothy",
-
-    file:
-      "76-2Ti-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Tit",
-
-    name:
-      "Titus",
-
-    file:
-      "77-Tit-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Phm",
-
-    name:
-      "Philemon",
-
-    file:
-      "78-Phm-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Heb",
-
-    name:
-      "Hebrews",
-
-    file:
-      "79-Heb-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Jas",
-
-    name:
-      "James",
-
-    file:
-      "80-Jas-morphgnt.txt"
-  },
-
-  {
-    id:
-      "1Pe",
-
-    name:
-      "1 Peter",
-
-    file:
-      "81-1Pe-morphgnt.txt"
-  },
-
-  {
-    id:
-      "2Pe",
-
-    name:
-      "2 Peter",
-
-    file:
-      "82-2Pe-morphgnt.txt"
-  },
-
-  {
-    id:
-      "1Jn",
-
-    name:
-      "1 John",
-
-    file:
-      "83-1Jn-morphgnt.txt"
-  },
-
-  {
-    id:
-      "2Jn",
-
-    name:
-      "2 John",
-
-    file:
-      "84-2Jn-morphgnt.txt"
-  },
-
-  {
-    id:
-      "3Jn",
-
-    name:
-      "3 John",
-
-    file:
-      "85-3Jn-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Jud",
-
-    name:
-      "Jude",
-
-    file:
-      "86-Jud-morphgnt.txt"
-  },
-
-  {
-    id:
-      "Re",
-
-    name:
-      "Revelation",
-
-    file:
-      "87-Re-morphgnt.txt"
-  }
-
-];
+});
 
 
 /* =========================================================
-   STATE
+STATE
 ========================================================= */
 
 let state =
@@ -366,35 +136,46 @@ let corpus = {
   books:
     {},
 
-  tokens:
-    [],
-
   verses:
     {},
 
-  lemmaIndex:
+  tokens:
+    [],
+
+  lemmas:
     {},
 
-  loadedBooks:
+  loading:
+    {},
+
+  loaded:
     0
 
 };
+
+
+let currentVerse =
+  null;
+
+
+let currentMorphQueue =
+  [];
 
 
 let currentMorphIndex =
   0;
 
 
-let morphologyQueue =
-  [];
-
-
-let morphologyScore =
+let currentMorphScore =
   0;
 
 
-let currentVerseTokens =
+let currentSyntaxQueue =
   [];
+
+
+let currentSyntaxIndex =
+  0;
 
 
 let speechRate =
@@ -402,97 +183,103 @@ let speechRate =
 
 
 /* =========================================================
-   STORAGE
+INIT
 ========================================================= */
 
-function loadState() {
-
-  try {
-
-    const raw =
-      localStorage.getItem(
-        CONFIG.STATE_KEY
-      );
+document.addEventListener(
+  "DOMContentLoaded",
+  init
+);
 
 
-    if (
-      raw
-    ) {
+function init() {
 
-      const parsed =
-        JSON.parse(
-          raw
-        );
+  bindEvents();
 
+  renderBookGrid();
 
-      return parsed;
+  renderBookSelect();
 
-    }
-
-  }
-
-  catch (
-    error
-  ) {
-
-    console.warn(
-      "GBRM state error",
-      error
-    );
-
-  }
-
-
-  return {
-
-    morphology:
-      {
-
-        attempted:
-          0,
-
-        correct:
-          0
-
-      }
-
-  };
-
-}
-
-
-function saveState() {
-
-  try {
-
-    localStorage.setItem(
-
-      CONFIG.STATE_KEY,
-
-      JSON.stringify(
-        state
-      )
-
-    );
-
-  }
-
-  catch (
-    error
-  ) {
-
-    console.warn(
-      "GBRM save error",
-      error
-    );
-
-  }
+  renderStatus();
 
 }
 
 
 /* =========================================================
-   HELPERS
+EVENTS
+========================================================= */
+
+function bindEvents() {
+
+  $("loadAllCorpus").onclick =
+    loadAllCorpus;
+
+
+  $("searchBtn").onclick =
+    performSearch;
+
+
+  $("corpusSearch").addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key ===
+        "Enter"
+      ) {
+
+        performSearch();
+
+      }
+
+    }
+  );
+
+
+  $("startMorphology").onclick =
+    startMorphology;
+
+
+  $("startVerse").onclick =
+    startVerseTraining;
+
+
+  $("startSyntax").onclick =
+    startSyntaxTraining;
+
+
+  $("verseBack").onclick =
+    function() {
+
+      go("home");
+
+    };
+
+
+  $("morphBack").onclick =
+    function() {
+
+      go("home");
+
+    };
+
+
+  $("syntaxBack").onclick =
+    function() {
+
+      go("home");
+
+    };
+
+
+  $("nextVerse").onclick =
+    nextVerse;
+
+}
+
+
+/* =========================================================
+BASIC
 ========================================================= */
 
 function $(
@@ -502,6 +289,53 @@ function $(
   return document.getElementById(
     id
   );
+
+}
+
+
+function go(
+  id
+) {
+
+  document
+    .querySelectorAll(
+      ".screen"
+    )
+    .forEach(
+      function(screen) {
+
+        screen.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const target =
+    $(id);
+
+
+  if (
+    target
+  ) {
+
+    target.classList.add(
+      "active"
+    );
+
+  }
+
+
+  window.scrollTo({
+
+    top:
+      0,
+
+    behavior:
+      "smooth"
+
+  });
 
 }
 
@@ -561,130 +395,197 @@ function normalize(
 }
 
 
-function go(
-  id
-) {
+/* =========================================================
+STORAGE
+========================================================= */
 
-  document
-    .querySelectorAll(
-      ".screen"
-    )
-    .forEach(
-      function(screen) {
+function loadState() {
 
-        screen.classList.remove(
-          "active"
-        );
+  try {
 
-      }
-    );
+    const raw =
+      localStorage.getItem(
+        CONFIG.STATE_KEY
+      );
 
 
-  const target =
-    $(id);
+    if (
+      raw
+    ) {
 
+      return JSON.parse(
+        raw
+      );
 
-  if (
-    target
+    }
+
+  }
+
+  catch (
+    error
   ) {
 
-    target.classList.add(
-      "active"
+    console.warn(
+      error
     );
 
   }
 
 
-  window.scrollTo({
+  return {
 
-    top:
-      0,
+    morphology:
+      {
 
-    behavior:
-      "smooth"
+        attempted:
+          0,
 
-  });
+        correct:
+          0
 
-}
+      },
 
+    syntax:
+      {
 
-/* =========================================================
-   INIT
-========================================================= */
+        attempted:
+          0,
 
-document.addEventListener(
-  "DOMContentLoaded",
-  init
-);
-
-
-async function init() {
-
-  bindEvents();
-
-  renderBookSelect();
-
-  renderCorpusStatus();
-
-  await loadInitialCorpus();
-
-}
-
-
-/* =========================================================
-   EVENTS
-========================================================= */
-
-function bindEvents() {
-
-  $("morphBack").onclick =
-    function() {
-
-      go("home");
-
-    };
-
-
-  $("verseBack").onclick =
-    function() {
-
-      go("home");
-
-    };
-
-
-  $("searchBack").onclick =
-    function() {
-
-      go("home");
-
-    };
-
-
-  $("startMorphology").onclick =
-    startMorphology;
-
-
-  $("startVerseTraining").onclick =
-    startVerseTraining;
-
-
-  $("searchCorpusBtn").onclick =
-    performSearch;
-
-
-  $("corpusSearch").addEventListener(
-    "keydown",
-    function(event) {
-
-      if (
-        event.key ===
-        "Enter"
-      ) {
-
-        performSearch();
+        correct:
+          0
 
       }
+
+  };
+
+}
+
+
+function saveState() {
+
+  try {
+
+    localStorage.setItem(
+
+      CONFIG.STATE_KEY,
+
+      JSON.stringify(
+        state
+      )
+
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.warn(
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+BOOK UI
+========================================================= */
+
+function renderBookGrid() {
+
+  const box =
+    $("bookGrid");
+
+
+  box.innerHTML =
+    "";
+
+
+  BOOKS.forEach(
+    function(book) {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "book-button";
+
+
+      if (
+        corpus.books[
+          book.id
+        ]
+      ) {
+
+        button.classList.add(
+          "loaded"
+        );
+
+      }
+
+
+      button.innerHTML =
+
+        "<div class='book-id'>" +
+
+        escapeHtml(
+          book.id
+        ) +
+
+        "</div>" +
+
+        "<div class='book-name'>" +
+
+        escapeHtml(
+          book.name
+        ) +
+
+        "</div>" +
+
+        "<div class='book-status'>" +
+
+        (
+          corpus.books[
+            book.id
+          ]
+
+            ? "✓ 已载入"
+
+            : "点击载入"
+
+        ) +
+
+        "</div>";
+
+
+      button.onclick =
+        async function() {
+
+          await loadBook(
+            book.id
+          );
+
+
+          renderBookGrid();
+
+          renderBookSelect();
+
+        };
+
+
+      box.appendChild(
+        button
+      );
 
     }
   );
@@ -692,18 +593,40 @@ function bindEvents() {
 }
 
 
-/* =========================================================
-   BOOK SELECT
-========================================================= */
-
 function renderBookSelect() {
 
   const select =
     $("bookSelect");
 
 
+  const selected =
+    select.value;
+
+
+  select.innerHTML =
+
+    "<option value=''>" +
+
+    "全部已载入书卷"
+
+    +
+
+    "</option>";
+
+
   BOOKS.forEach(
     function(book) {
+
+      if (
+        !corpus.books[
+          book.id
+        ]
+      ) {
+
+        return;
+
+      }
+
 
       const option =
         document.createElement(
@@ -726,67 +649,181 @@ function renderBookSelect() {
     }
   );
 
+
+  if (
+    Array.from(
+      select.options
+    ).some(
+      function(option) {
+
+        return (
+          option.value ===
+          selected
+        );
+
+      }
+    )
+  ) {
+
+    select.value =
+      selected;
+
+  }
+
 }
 
 
 /* =========================================================
-   CORPUS LOADER
+CORPUS STATUS
 ========================================================= */
 
-async function loadInitialCorpus() {
+function renderStatus(
+  message
+) {
 
-  /*
-   * 第一阶段为了保证 GitHub Pages
-   * 体验稳定，不一次下载整个新约。
-   *
-   * 初始加载：
-   * John
-   * Romans
-   * Luke
-   * Matthew
-   *
-   * 使用时可以继续加载其余书卷。
-   */
+  const percent =
+    Math.round(
+      corpus.loaded /
+      BOOKS.length *
+      100
+    );
 
-  const priority = [
 
-    "Jn",
-    "Ro",
-    "Lk",
-    "Mt"
+  $("booksLoaded")
+    .textContent =
+    corpus.loaded;
 
-  ];
+
+  $("tokensLoaded")
+    .textContent =
+    corpus.tokens.length
+      .toLocaleString();
+
+
+  $("corpusPercent")
+    .textContent =
+    percent +
+    "%";
+
+
+  $("corpusProgress")
+    .style.width =
+    percent +
+    "%";
+
+
+  if (
+    message
+  ) {
+
+    $("corpusStatusText")
+      .textContent =
+      message;
+
+  }
+
+  else {
+
+    $("corpusStatusText")
+      .textContent =
+
+      corpus.loaded ===
+      0
+
+        ? "尚未载入"
+
+        :
+
+        corpus.loaded ===
+        BOOKS.length
+
+          ? "全新约已载入"
+
+          :
+
+          corpus.loaded +
+          " / " +
+          BOOKS.length +
+          " 书卷已载入";
+
+  }
+
+}
+
+
+/* =========================================================
+LOAD ALL
+========================================================= */
+
+async function loadAllCorpus() {
+
+  const button =
+    $("loadAllCorpus");
+
+
+  button.disabled =
+    true;
 
 
   for (
-    const id of priority
+    const book of BOOKS
   ) {
 
-    await loadBook(
-      id
-    );
+    if (
+      !corpus.books[
+        book.id
+      ]
+    ) {
+
+      await loadBook(
+        book.id
+      );
+
+    }
 
   }
 
 
-  renderCorpusStatus();
+  button.disabled =
+    false;
+
+
+  renderBookGrid();
+
+  renderBookSelect();
+
+
+  renderStatus(
+    "整个新约已经载入"
+  );
 
 }
 
-
-/* =========================================================
-   LOAD BOOK
-========================================================= */
 
 async function loadBook(
   bookId
 ) {
 
   if (
-    corpus.books[bookId]
+    corpus.books[
+      bookId
+    ]
   ) {
 
-    return;
+    return true;
+
+  }
+
+
+  if (
+    corpus.loading[
+      bookId
+    ]
+  ) {
+
+    return corpus.loading[
+      bookId
+    ];
 
   }
 
@@ -808,14 +845,44 @@ async function loadBook(
     !book
   ) {
 
-    return;
+    return false;
 
   }
 
 
+  const promise =
+    fetchBook(
+      book
+    );
+
+
+  corpus.loading[
+    bookId
+  ] =
+    promise;
+
+
+  const success =
+    await promise;
+
+
+  delete corpus.loading[
+    bookId
+  ];
+
+
+  return success;
+
+}
+
+
+async function fetchBook(
+  book
+) {
+
   try {
 
-    updateStatusText(
+    renderStatus(
       "正在载入 " +
       book.name +
       "……"
@@ -824,12 +891,15 @@ async function loadBook(
 
     const response =
       await fetch(
+
         CONFIG.RAW_BASE +
         book.file,
+
         {
           cache:
             "force-cache"
         }
+
       );
 
 
@@ -866,7 +936,7 @@ async function loadBook(
     };
 
 
-    corpus.loadedBooks++;
+    corpus.loaded++;
 
 
     tokens.forEach(
@@ -904,19 +974,19 @@ async function loadBook(
 
 
         if (
-          !corpus.lemmaIndex[
+          !corpus.lemmas[
             lemmaKey
           ]
         ) {
 
-          corpus.lemmaIndex[
+          corpus.lemmas[
             lemmaKey
           ] = [];
 
         }
 
 
-        corpus.lemmaIndex[
+        corpus.lemmas[
           lemmaKey
         ].push(
           token
@@ -926,7 +996,9 @@ async function loadBook(
     );
 
 
-    renderCorpusStatus();
+    renderStatus();
+
+    return true;
 
   }
 
@@ -935,14 +1007,18 @@ async function loadBook(
   ) {
 
     console.error(
+      book.name,
       error
     );
 
 
-    updateStatusText(
+    renderStatus(
       book.name +
       " 载入失败"
     );
+
+
+    return false;
 
   }
 
@@ -950,13 +1026,17 @@ async function loadBook(
 
 
 /* =========================================================
-   PARSE MORPHGNT
+MORPHGNT PARSER
 ========================================================= */
 
 function parseMorphGNT(
   text,
   book
 ) {
+
+  const tokens =
+    [];
+
 
   const lines =
     text
@@ -973,9 +1053,6 @@ function parseMorphGNT(
 
         }
       );
-
-
-  const tokens = [];
 
 
   lines.forEach(
@@ -1022,9 +1099,9 @@ function parseMorphGNT(
 
 
       const lemma =
-        parts.slice(
-          6
-        ).join(" ");
+        parts
+          .slice(6)
+          .join(" ");
 
 
       const chapter =
@@ -1057,7 +1134,7 @@ function parseMorphGNT(
         );
 
 
-      const token = {
+      tokens.push({
 
         bookId:
           book.id,
@@ -1071,18 +1148,18 @@ function parseMorphGNT(
 
         wordIndex,
 
-        verseKey:
-          book.id +
-          "-" +
-          chapter +
-          "-" +
-          verse,
-
         reference:
           book.name +
           " " +
           chapter +
           ":" +
+          verse,
+
+        verseKey:
+          book.id +
+          "-" +
+          chapter +
+          "-" +
           verse,
 
         pos,
@@ -1099,16 +1176,10 @@ function parseMorphGNT(
 
         morph:
           decodeParsing(
-            pos,
             parsing
           )
 
-      };
-
-
-      tokens.push(
-        token
-      );
+      });
 
     }
   );
@@ -1120,11 +1191,10 @@ function parseMorphGNT(
 
 
 /* =========================================================
-   PARSING DECODER
+PARSING
 ========================================================= */
 
 function decodeParsing(
-  pos,
   code
 ) {
 
@@ -1134,7 +1204,7 @@ function decodeParsing(
       ""
     )
       .padEnd(
-        9,
+        8,
         "-"
       );
 
@@ -1179,10 +1249,7 @@ function decodeParsing(
     degree:
       decodeDegree(
         safe[7]
-      ),
-
-    raw:
-      safe
+      )
 
   };
 
@@ -1190,7 +1257,7 @@ function decodeParsing(
 
 
 function decodePerson(
-  value
+  c
 ) {
 
   return {
@@ -1204,13 +1271,13 @@ function decodePerson(
     "3":
       "第三人称"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 function decodeTense(
-  value
+  c
 ) {
 
   return {
@@ -1233,13 +1300,13 @@ function decodeTense(
     "Y":
       "过去完成式"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 function decodeVoice(
-  value
+  c
 ) {
 
   return {
@@ -1253,28 +1320,28 @@ function decodeVoice(
     "P":
       "被动"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 function decodeMood(
-  value
+  c
 ) {
 
   return {
 
     "I":
-      "直说语气",
+      "直说",
 
     "D":
-      "命令语气",
+      "命令",
 
     "S":
-      "虚拟语气",
+      "虚拟",
 
     "O":
-      "愿望语气",
+      "愿望",
 
     "N":
       "不定词",
@@ -1282,13 +1349,13 @@ function decodeMood(
     "P":
       "分词"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 function decodeCase(
-  value
+  c
 ) {
 
   return {
@@ -1305,13 +1372,13 @@ function decodeCase(
     "A":
       "受格"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 function decodeNumber(
-  value
+  c
 ) {
 
   return {
@@ -1322,13 +1389,13 @@ function decodeNumber(
     "P":
       "复数"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 function decodeGender(
-  value
+  c
 ) {
 
   return {
@@ -1342,13 +1409,13 @@ function decodeGender(
     "N":
       "中性"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 function decodeDegree(
-  value
+  c
 ) {
 
   return {
@@ -1359,760 +1426,20 @@ function decodeDegree(
     "S":
       "最高级"
 
-  }[value] || "";
+  }[c] || "";
 
 }
 
 
 /* =========================================================
-   STATUS
-========================================================= */
-
-function renderCorpusStatus() {
-
-  const loaded =
-    corpus.loadedBooks;
-
-
-  const total =
-    BOOKS.length;
-
-
-  const percent =
-    Math.round(
-      loaded /
-      total *
-      100
-    );
-
-
-  $("booksLoaded")
-    .textContent =
-    loaded;
-
-
-  $("tokensLoaded")
-    .textContent =
-    corpus.tokens.length
-      .toLocaleString();
-
-
-  $("corpusStatus")
-    .textContent =
-    percent +
-    "%";
-
-
-  $("corpusProgress")
-    .style.width =
-    percent +
-    "%";
-
-
-  updateStatusText(
-    loaded +
-    " / " +
-    total +
-    " 书卷已载入"
-  );
-
-}
-
-
-function updateStatusText(
-  text
-) {
-
-  /*
-   * 不改变主要状态显示，
-   * 仅用于控制台调试。
-   */
-
-  console.log(
-    "GBRM:",
-    text
-  );
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-async function performSearch() {
-
-  const query =
-    $("corpusSearch")
-      .value
-      .trim();
-
-
-  const bookId =
-    $("bookSelect")
-      .value;
-
-
-  if (
-    !query
-  ) {
-
-    alert(
-      "请输入搜索内容。"
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * 如果指定书卷但尚未载入，
-   * 先自动加载。
-   */
-
-  if (
-    bookId &&
-    !corpus.books[
-      bookId
-    ]
-  ) {
-
-    await loadBook(
-      bookId
-    );
-
-  }
-
-
-  /*
-   * 如果没有指定书卷，
-   * 优先搜索已经载入的书卷。
-   */
-
-  let list =
-    corpus.tokens;
-
-
-  if (
-    bookId
-  ) {
-
-    list =
-      corpus.books[
-        bookId
-      ]
-        ? corpus.books[
-            bookId
-          ].tokens
-
-        : [];
-
-  }
-
-
-  const q =
-    normalize(
-      query
-    );
-
-
-  const results =
-    list
-      .filter(
-        function(token) {
-
-          return (
-
-            normalize(
-              token.word
-            ).includes(q)
-
-            ||
-
-            normalize(
-              token.lemma
-            ).includes(q)
-
-            ||
-
-            normalize(
-              token.reference
-            ).includes(q)
-
-            ||
-
-            token.chapter +
-              ":" +
-              token.verse ===
-              query
-
-          );
-
-        }
-      )
-      .slice(
-        0,
-        100
-      );
-
-
-  renderSearchResults(
-    results
-  );
-
-}
-
-
-function renderSearchResults(
-  results
-) {
-
-  const box =
-    $("searchResult");
-
-
-  box.innerHTML =
-    "";
-
-
-  if (
-    !results.length
-  ) {
-
-    box.innerHTML =
-
-      "<div class='muted'>" +
-
-      "当前已载入语料中没有找到结果。"
-
-      +
-
-      "<br><br>" +
-
-      "可以选择另一卷书，系统会自动载入。"
-
-      +
-
-      "</div>";
-
-    return;
-
-  }
-
-
-  results.forEach(
-    function(token) {
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "result-row";
-
-
-      row.innerHTML =
-
-        "<div class='result-greek'>" +
-
-        escapeHtml(
-          token.word
-        ) +
-
-        "</div>" +
-
-        "<div>" +
-
-        "Lemma: " +
-
-        escapeHtml(
-          token.lemma
-        ) +
-
-        "</div>" +
-
-        "<div class='result-reference'>" +
-
-        escapeHtml(
-          token.reference
-        ) +
-
-        "</div>" +
-
-        "<div class='result-meta'>" +
-
-        escapeHtml(
-          morphologySummary(
-            token
-          )
-        ) +
-
-        "</div>";
-
-
-      row.onclick =
-        function() {
-
-          openVerse(
-            token
-          );
-
-        };
-
-
-      box.appendChild(
-        row
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   MORPHOLOGY TRAINING
-========================================================= */
-
-async function startMorphology() {
-
-  if (
-    !corpus.tokens.length
-  ) {
-
-    alert(
-      "语料尚未载入完成。"
-    );
-
-    return;
-
-  }
-
-
-  morphologyQueue =
-    selectMorphologyTokens();
-
-
-  currentMorphIndex =
-    0;
-
-
-  morphologyScore =
-    0;
-
-
-  go(
-    "morphology"
-  );
-
-
-  renderMorphology();
-
-}
-
-
-function selectMorphologyTokens() {
-
-  const interesting =
-    corpus.tokens.filter(
-      function(token) {
-
-        return (
-          token.word &&
-          token.lemma &&
-          (
-            token.pos ===
-            "V-"
-
-            ||
-
-            token.pos ===
-            "N-"
-
-            ||
-
-            token.pos ===
-            "A-"
-
-            ||
-
-            token.pos ===
-            "RP"
-
-            ||
-
-            token.pos ===
-            "RR"
-
-            ||
-
-            token.pos ===
-            "RA"
-
-            ||
-
-            token.pos ===
-            "RD"
-
-          )
-
-        );
-
-      }
-    );
-
-
-  return interesting
-    .slice()
-    .sort(
-      function() {
-
-        return Math.random() -
-          0.5;
-
-      }
-    )
-    .slice(
-      0,
-      10
-    );
-
-}
-
-
-function renderMorphology() {
-
-  const area =
-    $("morphologyArea");
-
-
-  const counter =
-    $("morphologyCounter");
-
-
-  if (
-    currentMorphIndex >=
-    morphologyQueue.length
-  ) {
-
-    counter.textContent =
-      "训练完成";
-
-
-    area.innerHTML =
-
-      "<div class='success'>" +
-
-      "<strong>" +
-
-      "🔬 真实词形训练完成"
-
-      +
-
-      "</strong>" +
-
-      "<br><br>" +
-
-      "得分：" +
-
-      morphologyScore +
-
-      " / " +
-
-      morphologyQueue.length +
-
-      "<br><br>" +
-
-      "这些词形全部来自真实新约文本。"
-
-      +
-
-      "</div>";
-
-
-    saveMorphologyStats();
-
-    return;
-
-  }
-
-
-  const token =
-    morphologyQueue[
-      currentMorphIndex
-    ];
-
-
-  counter.textContent =
-
-    "第 " +
-
-    (
-      currentMorphIndex +
-      1
-    ) +
-
-    " / " +
-
-    morphologyQueue.length;
-
-
-  area.innerHTML =
-    "";
-
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-
-  card.className =
-    "morphology-card";
-
-
-  card.innerHTML =
-
-    "<div class='morphology-reference'>" +
-
-    escapeHtml(
-      token.reference
-    ) +
-
-    "</div>" +
-
-    "<div class='morphology-word'>" +
-
-    escapeHtml(
-      token.word
-    ) +
-
-    "</div>" +
-
-    "<button id='morphSpeak' type='button'>" +
-
-    "🔊 听发音"
-
-    +
-
-    "</button>" +
-
-    "<div class='morph-actions'>" +
-
-    "<button id='showMorph' type='button'>" +
-
-    "显示完整分析"
-
-    +
-
-    "</button>" +
-
-    "<button id='openVerseFromMorph' type='button'>" +
-
-    "回到经文"
-
-    +
-
-    "</button>" +
-
-    "</div>" +
-
-    "<div id='morphDetail'></div>";
-
-
-  area.appendChild(
-    card
-  );
-
-
-  $("morphSpeak").onclick =
-    function() {
-
-      speakText(
-        token.word
-      );
-
-    };
-
-
-  $("showMorph").onclick =
-    function() {
-
-      renderMorphDetail(
-        token
-      );
-
-    };
-
-
-  $("openVerseFromMorph").onclick =
-    function() {
-
-      openVerse(
-        token
-      );
-
-    };
-
-}
-
-
-function renderMorphDetail(
-  token
-) {
-
-  const box =
-    $("morphDetail");
-
-
-  box.className =
-    "token-detail";
-
-
-  box.innerHTML =
-
-    "<div class='token-detail-word'>" +
-
-    escapeHtml(
-      token.word
-    ) +
-
-    "</div>" +
-
-    createMorphLine(
-      "词典形",
-      token.lemma
-    ) +
-
-    createMorphLine(
-      "词性",
-      decodePOS(
-        token.pos
-      )
-    ) +
-
-    createMorphLine(
-      "时态",
-      token.morph.tense
-    ) +
-
-    createMorphLine(
-      "语态",
-      token.morph.voice
-    ) +
-
-    createMorphLine(
-      "语气",
-      token.morph.mood
-    ) +
-
-    createMorphLine(
-      "人称",
-      token.morph.person
-    ) +
-
-    createMorphLine(
-      "数",
-      token.morph.number
-    ) +
-
-    createMorphLine(
-      "格",
-      token.morph.case
-    ) +
-
-    createMorphLine(
-      "性",
-      token.morph.gender
-    ) +
-
-    "<button id='morphNext' class='primary wide' type='button'>" +
-
-    "下一个词形 →"
-
-    +
-
-    "</button>";
-
-
-  $("morphNext").onclick =
-    function() {
-
-      currentMorphIndex++;
-
-      renderMorphology();
-
-    };
-
-
-  state.morphology.attempted++;
-
-
-  saveState();
-
-}
-
-
-function createMorphLine(
-  label,
-  value
-) {
-
-  if (
-    !value
-  ) {
-
-    return "";
-
-  }
-
-
-  return (
-
-    "<div class='token-detail-line'>" +
-
-    "<span class='token-detail-label'>" +
-
-    escapeHtml(
-      label
-    ) +
-
-    "</span>" +
-
-    "<span class='token-detail-value'>" +
-
-    escapeHtml(
-      value
-    ) +
-
-    "</span>" +
-
-    "</div>"
-
-  );
-
-}
-
-
-function saveMorphologyStats() {
-
-  saveState();
-
-}
-
-
-/* =========================================================
-   PART OF SPEECH
+POS
 ========================================================= */
 
 function decodePOS(
   code
 ) {
 
-  const first =
+  const c =
     String(
       code ||
       ""
@@ -2151,95 +1478,297 @@ function decodePOS(
     "T":
       "小品词"
 
-  }[first] || code || "";
+  }[c] || code;
 
 }
 
 
 /* =========================================================
-   MORPH SUMMARY
+SEARCH
 ========================================================= */
 
-function morphologySummary(
+async function performSearch() {
+
+  const query =
+    $("corpusSearch")
+      .value
+      .trim();
+
+
+  const bookId =
+    $("bookSelect")
+      .value;
+
+
+  if (
+    !query
+  ) {
+
+    alert(
+      "请输入搜索内容。"
+    );
+
+    return;
+
+  }
+
+
+  const list =
+    await getSearchPool(
+      bookId
+    );
+
+
+  if (
+    !list.length
+  ) {
+
+    alert(
+      "当前没有已载入语料。"
+    );
+
+    return;
+
+  }
+
+
+  const q =
+    normalize(
+      query
+    );
+
+
+  const results =
+    list
+      .filter(
+        function(token) {
+
+          return (
+
+            normalize(
+              token.word
+            ).includes(q)
+
+            ||
+
+            normalize(
+              token.lemma
+            ).includes(q)
+
+            ||
+
+            normalize(
+              token.reference
+            ).includes(q)
+
+            ||
+
+            (
+              token.chapter +
+              ":" +
+              token.verse
+            ) ===
+            query
+
+          );
+
+        }
+      )
+      .slice(
+        0,
+        100
+      );
+
+
+  renderSearchResults(
+    results
+  );
+
+}
+
+
+async function getSearchPool(
+  bookId
+) {
+
+  if (
+    bookId
+  ) {
+
+    if (
+      !corpus.books[
+        bookId
+      ]
+    ) {
+
+      await loadBook(
+        bookId
+      );
+
+    }
+
+
+    return corpus.books[
+      bookId
+    ]
+      ? corpus.books[
+          bookId
+        ].tokens
+
+      : [];
+
+  }
+
+
+  return corpus.tokens;
+
+}
+
+
+function renderSearchResults(
+  results
+) {
+
+  const box =
+    $("searchResults");
+
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    !results.length
+  ) {
+
+    box.innerHTML =
+
+      "<div class='muted'>" +
+
+      "没有找到结果。"
+
+      +
+
+      "</div>";
+
+    return;
+
+  }
+
+
+  results.forEach(
+    function(token) {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "result-row";
+
+
+      row.innerHTML =
+
+        "<div class='result-word'>" +
+
+        escapeHtml(
+          token.word
+        ) +
+
+        "</div>" +
+
+        "<div>" +
+
+        "Lemma: " +
+
+        escapeHtml(
+          token.lemma
+        ) +
+
+        "</div>" +
+
+        "<div class='result-reference'>" +
+
+        escapeHtml(
+          token.reference
+        ) +
+
+        "</div>" +
+
+        "<div class='result-meta'>" +
+
+        morphologySummary(
+          token
+        ) +
+
+        "</div>";
+
+
+      row.onclick =
+        function() {
+
+          openTokenVerse(
+            token
+          );
+
+        };
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   OPEN TOKEN VERSE
+========================================================= */
+
+function openTokenVerse(
   token
 ) {
 
-  const bits =
-    [];
-
-
-  const morph =
-    token.morph;
+  const verse =
+    corpus.verses[
+      token.verseKey
+    ];
 
 
   if (
-    morph.tense
+    !verse
   ) {
 
-    bits.push(
-      morph.tense
-    );
+    return;
 
   }
 
 
-  if (
-    morph.voice
-  ) {
+  currentVerse =
+    {
 
-    bits.push(
-      morph.voice
-    );
+      tokens:
+        verse,
 
-  }
+      selected:
+        token
 
-
-  if (
-    morph.mood
-  ) {
-
-    bits.push(
-      morph.mood
-    );
-
-  }
+    };
 
 
-  if (
-    morph.person
-  ) {
-
-    bits.push(
-      morph.person
-    );
-
-  }
+  renderVerse(
+    verse,
+    token
+  );
 
 
-  if (
-    morph.number
-  ) {
-
-    bits.push(
-      morph.number
-    );
-
-  }
-
-
-  if (
-    morph.case
-  ) {
-
-    bits.push(
-      morph.case
-    );
-
-  }
-
-
-  return bits.join(
-    " · "
+  go(
+    "verse"
   );
 
 }
@@ -2252,11 +1781,12 @@ function morphologySummary(
 async function startVerseTraining() {
 
   if (
-    !corpus.tokens.length
+    corpus.loaded ===
+    0
   ) {
 
     alert(
-      "语料尚未载入。"
+      "请先载入至少一卷书。"
     );
 
     return;
@@ -2264,7 +1794,7 @@ async function startVerseTraining() {
   }
 
 
-  const candidates =
+  const pool =
     corpus.tokens
       .filter(
         function(token) {
@@ -2291,47 +1821,24 @@ async function startVerseTraining() {
       );
 
 
-  currentVerseTokens =
-    candidates;
+  currentSyntaxQueue =
+    pool;
 
 
-  go(
-    "verseTraining"
-  );
+  currentSyntaxIndex =
+    0;
 
 
-  renderVerseTraining();
+  showRandomVerse();
 
 }
 
 
-function renderVerseTraining() {
-
-  const box =
-    $("verseArea");
-
-
-  const counter =
-    $("verseCounter");
-
-
-  box.innerHTML =
-    "";
-
+function showRandomVerse() {
 
   if (
-    !currentVerseTokens.length
+    !currentSyntaxQueue.length
   ) {
-
-    box.innerHTML =
-
-      "<div class='muted'>" +
-
-      "没有可用经文。"
-
-      +
-
-      "</div>";
 
     return;
 
@@ -2339,139 +1846,76 @@ function renderVerseTraining() {
 
 
   const token =
-    currentVerseTokens[0];
-
-
-  const verse =
-    corpus.verses[
-      token.verseKey
+    currentSyntaxQueue[
+      currentSyntaxIndex
     ];
 
 
-  counter.textContent =
-    token.reference;
-
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-
-  card.className =
-    "verse-card";
-
-
-  card.innerHTML =
-
-    "<div class='verse-reference'>" +
-
-    escapeHtml(
-      token.reference
-    ) +
-
-    "</div>" +
-
-    "<div id='verseText' class='verse-text'></div>" +
-
-    "<div id='tokenDetail'></div>" +
-
-    "<div class='notice-box'>" +
-
-    "点击任何希腊文词形，查看真实 Morphology 数据。"
-
-    +
-
-    "</div>";
-
-
-  box.appendChild(
-    card
+  openTokenVerse(
+    token
   );
 
 
-  renderVerseTokens(
-    verse
-  );
-
-
-  const next =
-    document.createElement(
-      "button"
-    );
-
-
-  next.className =
-    "primary wide";
-
-
-  next.textContent =
-    "下一节训练 →";
-
-
-  next.onclick =
-    function() {
-
-      currentVerseTokens.shift();
-
-
-      if (
-        currentVerseTokens.length
-      ) {
-
-        renderVerseTraining();
-
-      }
-
-      else {
-
-        box.innerHTML =
-
-          "<div class='success'>" +
-
-          "<strong>📖 经文训练完成</strong>" +
-
-          "<br><br>" +
-
-          "下一阶段可以继续加入："
-
-          +
-
-          "<br><br>" +
-
-          "句法关系、词汇意义、上下文观察。"
-
-          +
-
-          "</div>";
-
-      }
-
-    };
-
-
-  box.appendChild(
-    next
-  );
+  $("nextVerse")
+    .textContent =
+    "下一节 →";
 
 }
 
 
-function renderVerseTokens(
-  tokens
-) {
+function nextVerse() {
 
-  const box =
-    $("verseText");
+  currentSyntaxIndex++;
 
 
   if (
-    !box
+    currentSyntaxIndex >=
+    currentSyntaxQueue.length
   ) {
+
+    $("verseText")
+      .innerHTML =
+
+      "<div class='success'>" +
+
+      "<strong>📖 经文训练完成</strong>" +
+
+      "<br><br>" +
+
+      "下一步可以继续进入句法观察。"
+
+      +
+
+      "</div>";
+
+    $("verseTokenDetail")
+      .innerHTML =
+      "";
 
     return;
 
   }
+
+
+  showRandomVerse();
+
+}
+
+
+function renderVerse(
+  tokens,
+  selectedToken
+) {
+
+  $("verseReference")
+    .textContent =
+    tokens[0]
+      ? tokens[0].reference
+      : "";
+
+
+  const box =
+    $("verseText");
 
 
   box.innerHTML =
@@ -2545,31 +1989,43 @@ function renderVerseTokens(
         )
       );
 
+
+      if (
+        selectedToken &&
+        token.wordIndex ===
+        selectedToken.wordIndex
+      ) {
+
+        setTimeout(
+          function() {
+
+            span.classList.add(
+              "active"
+            );
+
+
+            showTokenDetail(
+              token
+            );
+
+          },
+          50
+        );
+
+      }
+
     }
   );
 
 }
 
 
-/* =========================================================
-   TOKEN DETAIL
-========================================================= */
-
 function showTokenDetail(
   token
 ) {
 
   const box =
-    $("tokenDetail");
-
-
-  if (
-    !box
-  ) {
-
-    return;
-
-  }
+    $("verseTokenDetail");
 
 
   box.className =
@@ -2586,64 +2042,64 @@ function showTokenDetail(
 
     "</div>" +
 
-    createMorphLine(
-      "Reference",
-      token.reference
-    ) +
-
-    createMorphLine(
+    tokenLine(
       "Lemma",
       token.lemma
     ) +
 
-    createMorphLine(
+    tokenLine(
       "词性",
       decodePOS(
         token.pos
       )
     ) +
 
-    createMorphLine(
+    tokenLine(
       "时态",
       token.morph.tense
     ) +
 
-    createMorphLine(
+    tokenLine(
       "语态",
       token.morph.voice
     ) +
 
-    createMorphLine(
+    tokenLine(
       "语气",
       token.morph.mood
     ) +
 
-    createMorphLine(
+    tokenLine(
       "人称",
       token.morph.person
     ) +
 
-    createMorphLine(
+    tokenLine(
       "数",
       token.morph.number
     ) +
 
-    createMorphLine(
+    tokenLine(
       "格",
       token.morph.case
     ) +
 
-    createMorphLine(
+    tokenLine(
       "性",
       token.morph.gender
     ) +
 
-    createMorphLine(
-      "原始Parsing",
+    tokenLine(
+      "Parsing",
       token.parsing
     ) +
 
-    "<button id='tokenSpeak' class='token-speak' type='button'>" +
+    tokenLine(
+      "Normalized",
+      token.normalizedWord
+    ) +
+
+    "<button id='speakToken' class='primary wide' type='button'>" +
 
     "🔊 听这个词"
 
@@ -2652,7 +2108,7 @@ function showTokenDetail(
     "</button>";
 
 
-  $("tokenSpeak").onclick =
+  $("speakToken").onclick =
     function() {
 
       speakText(
@@ -2664,26 +2120,60 @@ function showTokenDetail(
 }
 
 
-/* =========================================================
-   OPEN VERSE
-========================================================= */
-
-function openVerse(
-  token
+function tokenLine(
+  label,
+  value
 ) {
 
-  const verse =
-    corpus.verses[
-      token.verseKey
-    ];
+  if (
+    !value
+  ) {
 
+    return "";
+
+  }
+
+
+  return (
+
+    "<div class='token-line'>" +
+
+    "<span class='token-label'>" +
+
+    escapeHtml(
+      label
+    ) +
+
+    "</span>" +
+
+    "<span class='token-value'>" +
+
+    escapeHtml(
+      value
+    ) +
+
+    "</span>" +
+
+    "</div>"
+
+  );
+
+}
+
+
+/* =========================================================
+   MORPHOLOGY TRAINING
+========================================================= */
+
+async function startMorphology() {
 
   if (
-    !verse
+    corpus.loaded ===
+    0
   ) {
 
     alert(
-      "当前词形没有找到对应经文。"
+      "请先载入语料。"
     );
 
     return;
@@ -2691,103 +2181,1292 @@ function openVerse(
   }
 
 
-  currentVerseTokens = [
+  currentMorphQueue =
+    corpus.tokens
+      .filter(
+        function(token) {
 
-    token
+          return (
+            token.word &&
+            token.lemma &&
+            (
+              token.pos.startsWith(
+                "V-"
+              )
 
-  ];
+              ||
+
+              token.pos.startsWith(
+                "N-"
+              )
+
+              ||
+
+              token.pos.startsWith(
+                "A-"
+              )
+
+              ||
+
+              token.pos ===
+              "RA"
+
+              ||
+
+              token.pos ===
+              "RP"
+
+              ||
+
+              token.pos ===
+              "RR"
+
+              ||
+
+              token.pos ===
+              "RD"
+
+              ||
+
+              token.pos ===
+              "RI"
+
+            )
+
+          );
+
+        }
+      )
+      .slice()
+      .sort(
+        function() {
+
+          return Math.random() -
+            0.5;
+
+        }
+      )
+      .slice(
+        0,
+        10
+      );
+
+
+  currentMorphIndex =
+    0;
+
+
+  currentMorphScore =
+    0;
 
 
   go(
-    "verseTraining"
+    "morphology"
   );
 
 
-  renderSpecificVerse(
-    verse,
+  renderMorphology();
+
+}
+
+
+function renderMorphology() {
+
+  const counter =
+    $("morphCounter");
+
+
+  const area =
+    $("morphArea");
+
+
+  if (
+    currentMorphIndex >=
+    currentMorphQueue.length
+  ) {
+
+    counter.textContent =
+      "训练完成";
+
+
+    area.innerHTML =
+
+      "<div class='success'>" +
+
+      "<strong>🔬 真实词形训练完成</strong>" +
+
+      "<br><br>" +
+
+      "成绩：" +
+
+      currentMorphScore +
+
+      " / " +
+
+      currentMorphQueue.length +
+
+      "</div>";
+
+
+    return;
+
+  }
+
+
+  const token =
+    currentMorphQueue[
+      currentMorphIndex
+    ];
+
+
+  counter.textContent =
+
+    "第 " +
+
+    (
+      currentMorphIndex +
+      1
+    ) +
+
+    " / " +
+
+    currentMorphQueue.length;
+
+
+  area.innerHTML =
+
+    "<div class='morph-reference'>" +
+
+    escapeHtml(
+      token.reference
+    ) +
+
+    "</div>" +
+
+    "<div class='morph-word'>" +
+
+    escapeHtml(
+      token.word
+    ) +
+
+    "</div>" +
+
+    "<button id='morphSpeak' type='button'>" +
+
+    "🔊 听词"
+
+    +
+
+    "</button>" +
+
+    "<div id='morphQuestions'></div>";
+
+
+  $("morphSpeak").onclick =
+    function() {
+
+      speakText(
+        token.word
+      );
+
+    };
+
+
+  buildMorphQuestions(
     token
   );
 
 }
 
 
-function renderSpecificVerse(
-  tokens,
-  selectedToken
+function buildMorphQuestions(
+  token
 ) {
 
   const box =
-    $("verseArea");
+    $("morphQuestions");
 
 
-  const counter =
-    $("verseCounter");
+  const questions = [
+
+    {
+      label:
+        "词典形",
+
+      answer:
+        token.lemma
+
+    },
+
+    {
+      label:
+        "词性",
+
+      answer:
+        decodePOS(
+          token.pos
+        )
+
+    },
+
+    {
+      label:
+        "时态",
+
+      answer:
+        token.morph.tense
+
+    },
+
+    {
+      label:
+        "语态",
+
+      answer:
+        token.morph.voice
+
+    },
+
+    {
+      label:
+        "语气",
+
+      answer:
+        token.morph.mood
+
+    },
+
+    {
+      label:
+        "人称",
+
+      answer:
+        token.morph.person
+
+    },
+
+    {
+      label:
+        "数",
+
+      answer:
+        token.morph.number
+
+    },
+
+    {
+      label:
+        "格",
+
+      answer:
+        token.morph.case
+
+    }
+
+  ];
 
 
-  counter.textContent =
-    selectedToken.reference;
+  let answered =
+    0;
 
 
-  box.innerHTML =
+  questions.forEach(
+    function(
+      question,
+      index
+    ) {
 
-    "<div class='verse-card'>" +
+      if (
+        !question.answer
+      ) {
 
-    "<div class='verse-reference'>" +
+        return;
 
-    escapeHtml(
-      selectedToken.reference
-    ) +
-
-    "</div>" +
-
-    "<div id='verseText' class='verse-text'></div>" +
-
-    "<div id='tokenDetail'></div>" +
-
-    "</div>";
+      }
 
 
-  renderVerseTokens(
-    tokens
-  );
-
-
-  /*
-   * 自动展开所点击词形
-   */
-
-  setTimeout(
-    function() {
-
-      const spans =
-        document.querySelectorAll(
-          ".token"
+      const block =
+        document.createElement(
+          "div"
         );
 
 
-      const target =
-        tokens.findIndex(
-          function(item) {
+      block.className =
+        "morph-question";
 
-            return (
-              item.wordIndex ===
-              selectedToken.wordIndex
+
+      block.innerHTML =
+
+        "<div class='morph-question-title'>" +
+
+        (
+          index +
+          1
+        ) +
+
+        ". " +
+
+        escapeHtml(
+          question.label
+        ) +
+
+        "</div>" +
+
+        "<div class='morph-options'></div>";
+
+
+      const grid =
+        block.querySelector(
+          ".morph-options"
+        );
+
+
+      getMorphOptions(
+        question.answer
+      )
+        .forEach(
+          function(option) {
+
+            const button =
+              document.createElement(
+                "button"
+              );
+
+
+            button.type =
+              "button";
+
+
+            button.textContent =
+              option;
+
+
+            button.onclick =
+              function() {
+
+                grid
+                  .querySelectorAll(
+                    "button"
+                  )
+                  .forEach(
+                    function(b) {
+
+                      b.disabled =
+                        true;
+
+                    }
+                  );
+
+
+                answered++;
+
+
+                state.morphology =
+                  state.morphology ||
+                  {
+
+                    attempted:
+                      0,
+
+                    correct:
+                      0
+
+                  };
+
+
+                state.morphology.attempted++;
+
+
+                const correct =
+                  normalize(
+                    option
+                  ) ===
+                  normalize(
+                    question.answer
+                  );
+
+
+                if (
+                  correct
+                ) {
+
+                  button.classList.add(
+                    "correct"
+                  );
+
+                  currentMorphScore++;
+
+                  state.morphology.correct++;
+
+                }
+
+                else {
+
+                  button.classList.add(
+                    "wrong"
+                  );
+
+                }
+
+
+                saveState();
+
+
+                if (
+                  answered ===
+                  questions.filter(
+                    function(q) {
+
+                      return !!q.answer;
+
+                    }
+                  ).length
+                ) {
+
+                  const next =
+                    document.createElement(
+                      "button"
+                    );
+
+
+                  next.className =
+                    "primary wide";
+
+
+                  next.textContent =
+                    "下一个词形 →";
+
+
+                  next.onclick =
+                    function() {
+
+                      currentMorphIndex++;
+
+                      renderMorphology();
+
+                    };
+
+
+                  box.appendChild(
+                    next
+                  );
+
+                }
+
+              };
+
+
+            grid.appendChild(
+              button
             );
 
           }
         );
 
 
-      if (
-        spans[target]
-      ) {
+      box.appendChild(
+        block
+      );
 
-        spans[target].click();
+    }
+  );
+
+}
+
+
+function getMorphOptions(
+  correct
+) {
+
+  const base = [
+
+    "主格",
+    "所有格",
+    "间接受格",
+    "受格",
+
+    "现在式",
+    "未完成式",
+    "未来式",
+    "不定过去式",
+    "完成式",
+
+    "主动",
+    "关身",
+    "被动",
+
+    "直说",
+    "命令",
+    "虚拟",
+    "不定词",
+    "分词",
+
+    "第一人称",
+    "第二人称",
+    "第三人称",
+
+    "单数",
+    "复数",
+
+    "阳性",
+    "阴性",
+    "中性"
+
+  ];
+
+
+  if (
+    base.indexOf(
+      correct
+    ) < 0
+  ) {
+
+    base.push(
+      correct
+    );
+
+  }
+
+
+  return base
+    .slice()
+    .sort(
+      function() {
+
+        return Math.random() -
+          0.5;
 
       }
+    )
+    .slice(
+      0,
+      4
+    )
+    .includes(
+      correct
+    )
 
-    },
-    50
+    ?
+
+    base
+      .slice()
+      .sort(
+        function() {
+
+          return Math.random() -
+            0.5;
+
+        }
+      )
+      .slice(
+        0,
+        4
+      )
+
+    :
+
+    [
+      correct,
+      base[0],
+      base[1],
+      base[2]
+    ]
+      .sort(
+        function() {
+
+          return Math.random() -
+            0.5;
+
+        }
+      );
+
+}
+
+
+/* =========================================================
+   SYNTAX OBSERVATION
+========================================================= */
+
+async function startSyntaxTraining() {
+
+  if (
+    corpus.loaded ===
+    0
+  ) {
+
+    alert(
+      "请先载入语料。"
+    );
+
+    return;
+
+  }
+
+
+  currentSyntaxQueue =
+    corpus.tokens
+      .filter(
+        function(token) {
+
+          return (
+            corpus.verses[
+              token.verseKey
+            ] &&
+            corpus.verses[
+              token.verseKey
+            ].length >=
+            5
+          );
+
+        }
+      )
+      .slice()
+      .sort(
+        function() {
+
+          return Math.random() -
+            0.5;
+
+        }
+      )
+      .slice(
+        0,
+        8
+      );
+
+
+  currentSyntaxIndex =
+    0;
+
+
+  go(
+    "syntax"
+  );
+
+
+  renderSyntax();
+
+}
+
+
+function renderSyntax() {
+
+  const counter =
+    $("syntaxCounter");
+
+
+  const area =
+    $("syntaxArea");
+
+
+  if (
+    currentSyntaxIndex >=
+    currentSyntaxQueue.length
+  ) {
+
+    counter.textContent =
+      "训练完成";
+
+
+    area.innerHTML =
+
+      "<div class='success'>" +
+
+      "<strong>🧩 Syntax Observation 完成</strong>" +
+
+      "<br><br>" +
+
+      "这里训练的是观察能力，"
+
+      +
+
+      "不是让系统替你完成释经。"
+
+      +
+
+      "</div>";
+
+    return;
+
+  }
+
+
+  const seed =
+    currentSyntaxQueue[
+      currentSyntaxIndex
+    ];
+
+
+  const verse =
+    corpus.verses[
+      seed.verseKey
+    ];
+
+
+  counter.textContent =
+
+    "第 " +
+
+    (
+      currentSyntaxIndex +
+      1
+    ) +
+
+    " / " +
+
+    currentSyntaxQueue.length +
+
+    " · " +
+
+    seed.reference;
+
+
+  area.innerHTML =
+    "";
+
+
+  const intro =
+    document.createElement(
+      "div"
+    );
+
+
+  intro.className =
+    "syntax-intro";
+
+
+  intro.innerHTML =
+
+    "<strong>观察这句话</strong>" +
+
+    "<br><br>" +
+
+    "先不要翻译。" +
+
+    "请寻找：" +
+
+    "<br>" +
+
+    "① 动词" +
+
+    "<br>" +
+
+    "② 主语可能在哪里" +
+
+    "<br>" +
+
+    "③ 名词 / 代词之间的关系" +
+
+    "<br>" +
+
+    "④ 介词结构" +
+
+    "<br>" +
+
+    "⑤ 连接词";
+
+  
+  area.appendChild(
+    intro
+  );
+
+
+  const verseBox =
+    document.createElement(
+      "div"
+    );
+
+
+  verseBox.className =
+    "syntax-verse";
+
+
+  verse.forEach(
+    function(token) {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "syntax-word";
+
+
+      button.innerHTML =
+
+        escapeHtml(
+          token.rawText
+        );
+
+
+      button.onclick =
+        function() {
+
+          showSyntaxToken(
+            token
+          );
+
+        };
+
+
+      verseBox.appendChild(
+        button
+      );
+
+    }
+  );
+
+
+  area.appendChild(
+    verseBox
+  );
+
+
+  const questions =
+    createSyntaxQuestions(
+      verse
+    );
+
+
+  questions.forEach(
+    function(question) {
+
+      const box =
+        document.createElement(
+          "div"
+        );
+
+
+      box.className =
+        "syntax-question";
+
+
+      box.innerHTML =
+
+        "<div class='syntax-question-title'>" +
+
+        escapeHtml(
+          question.question
+        ) +
+
+        "</div>" +
+
+        "<div class='morph-options'></div>";
+
+
+      const grid =
+        box.querySelector(
+          ".morph-options"
+        );
+
+
+      question.options.forEach(
+        function(option) {
+
+          const button =
+            document.createElement(
+              "button"
+            );
+
+
+          button.type =
+            "button";
+
+
+          button.textContent =
+            option;
+
+
+          button.onclick =
+            function() {
+
+              grid
+                .querySelectorAll(
+                  "button"
+                )
+                .forEach(
+                  function(
+                    b
+                  ) {
+
+                    b.disabled =
+                      true;
+
+                  }
+                );
+
+
+              state.syntax =
+                state.syntax ||
+                {
+
+                  attempted:
+                    0,
+
+                  correct:
+                    0
+
+                };
+
+
+              state.syntax.attempted++;
+
+
+              if (
+                option ===
+                question.answer
+              ) {
+
+                button.classList.add(
+                  "correct"
+                );
+
+                state.syntax.correct++;
+
+              }
+
+              else {
+
+                button.classList.add(
+                  "wrong"
+                );
+
+              }
+
+
+              saveState();
+
+            };
+
+
+          grid.appendChild(
+            button
+          );
+
+        }
+      );
+
+
+      area.appendChild(
+        box
+      );
+
+    }
+  );
+
+
+  const next =
+    document.createElement(
+      "button"
+    );
+
+
+  next.className =
+    "primary wide";
+
+
+  next.textContent =
+    "下一节 →";
+
+
+  next.onclick =
+    function() {
+
+      currentSyntaxIndex++;
+
+      renderSyntax();
+
+    };
+
+
+  area.appendChild(
+    next
+  );
+
+}
+
+
+function createSyntaxQuestions(
+  verse
+) {
+
+  const verbs =
+    verse.filter(
+      function(token) {
+
+        return token.pos.startsWith(
+          "V-"
+        );
+
+      }
+    );
+
+
+  const nouns =
+    verse.filter(
+      function(token) {
+
+        return (
+          token.pos.startsWith(
+            "N-"
+          )
+
+          ||
+
+          token.pos ===
+          "RP"
+
+          ||
+
+          token.pos ===
+          "RR"
+
+        );
+
+      }
+    );
+
+
+  const conjunctions =
+    verse.filter(
+      function(token) {
+
+        return (
+          token.pos.startsWith(
+            "C-"
+          )
+        );
+
+      }
+    );
+
+
+  const questions = [];
+
+
+  if (
+    verbs.length
+  ) {
+
+    questions.push({
+
+      question:
+        "这句话中是否出现动词？",
+
+      options:
+        [
+          "有",
+          "没有"
+        ],
+
+      answer:
+        "有"
+
+    });
+
+  }
+
+
+  if (
+    nouns.length
+  ) {
+
+    const plural =
+      nouns.some(
+        function(token) {
+
+          return (
+            token.morph.number ===
+            "复数"
+          );
+
+        }
+      );
+
+
+    questions.push({
+
+      question:
+        "这个句子中的名词/代词是否出现复数形式？",
+
+      options:
+        [
+          "有",
+          "没有"
+        ],
+
+      answer:
+        plural
+          ? "有"
+          : "没有"
+
+    });
+
+  }
+
+
+  questions.push({
+
+    question:
+      "阅读时应该首先做什么？",
+
+    options:
+      [
+        "观察形式与关系",
+        "立即查中文",
+        "直接下神学结论"
+      ],
+
+    answer:
+      "观察形式与关系"
+
+  });
+
+
+  if (
+    conjunctions.length
+  ) {
+
+    questions.push({
+
+      question:
+        "句中是否有连接词？",
+
+      options:
+        [
+          "有",
+          "没有"
+        ],
+
+      answer:
+        "有"
+
+    });
+
+  }
+
+
+  return questions;
+
+}
+
+
+function showSyntaxToken(
+  token
+) {
+
+  const area =
+    $("syntaxArea");
+
+
+  const old =
+    area.querySelector(
+      ".token-detail"
+    );
+
+
+  if (
+    old
+  ) {
+
+    old.remove();
+
+  }
+
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+
+  box.className =
+    "token-detail";
+
+
+  box.innerHTML =
+
+    "<div class='token-detail-word'>" +
+
+    escapeHtml(
+      token.word
+    ) +
+
+    "</div>" +
+
+    tokenLine(
+      "Lemma",
+      token.lemma
+    ) +
+
+    tokenLine(
+      "词性",
+      decodePOS(
+        token.pos
+      )
+    ) +
+
+    tokenLine(
+      "形态",
+      morphologySummary(
+        token
+      )
+    );
+
+
+  area.appendChild(
+    box
+  );
+
+}
+
+
+/* =========================================================
+   MORPH SUMMARY
+========================================================= */
+
+function morphologySummary(
+  token
+) {
+
+  const parts =
+    [];
+
+
+  [
+    token.morph.tense,
+    token.morph.voice,
+    token.morph.mood,
+    token.morph.person,
+    token.morph.number,
+    token.morph.case,
+    token.morph.gender
+  ]
+    .forEach(
+      function(value) {
+
+        if (
+          value
+        ) {
+
+          parts.push(
+            value
+          );
+
+        }
+
+      }
+    );
+
+
+  return parts.join(
+    " · "
   );
 
 }
@@ -2856,8 +3535,11 @@ window.go =
 window.speakText =
   speakText;
 
-window.openVerse =
-  openVerse;
+window.loadBook =
+  loadBook;
+
+window.loadAllCorpus =
+  loadAllCorpus;
 
 window.startMorphology =
   startMorphology;
@@ -2865,7 +3547,10 @@ window.startMorphology =
 window.startVerseTraining =
   startVerseTraining;
 
+window.startSyntaxTraining =
+  startSyntaxTraining;
+
 
 /* =========================================================
-   END
+   END GBRM V1.6
 ========================================================= */
