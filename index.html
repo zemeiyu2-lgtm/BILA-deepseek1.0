@@ -1,73 +1,501 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="theme-color" content="#f5f1e7">
-<title>GBRM V1.0｜圣经希腊文初阶</title>
-<link rel="stylesheet" href="style.css?v=100">
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0,viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#f5f1e7"
+  >
+
+  <title>
+    GBRM V1.1｜Greek Bible Reading Model
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="style.css?v=110"
+  >
+
 </head>
+
+
 <body>
+
+
 <header class="topbar">
-  <div><div class="brand">GBRM</div><div class="subtitle">Greek Bible Reading Model</div></div>
-  <div class="version">V1.0</div>
+
+  <div>
+
+    <div class="brand">
+      GBRM
+    </div>
+
+    <div class="subtitle">
+      Greek Bible Reading Model
+    </div>
+
+  </div>
+
+  <div class="version">
+    V1.1
+  </div>
+
 </header>
+
+
+
 <main class="app">
-<section id="home" class="screen active">
+
+
+<!-- =====================================================
+HOME
+====================================================== -->
+
+<section
+  id="home"
+  class="screen active"
+>
+
+
   <div class="hero">
-    <div class="eyebrow">NEW TESTAMENT GREEK · FOUNDATION</div>
-    <h1>GBRM</h1>
-    <p class="hero-subtitle">从文法进入新约原文</p>
-    <p class="hero-description">学习目标不是只记规则，而是逐步建立 <strong>识别词形 → 理解功能 → 阅读经文 → 服务释经</strong> 的能力。</p>
+
+    <div class="eyebrow">
+      NEW TESTAMENT GREEK
+    </div>
+
+    <h1>
+      GBRM
+    </h1>
+
+    <p class="hero-subtitle">
+      Greek Bible Reading Model
+    </p>
+
+    <p class="hero-description">
+
+      语法学习与词汇记忆同步进行。
+
+      <br>
+
+      从：
+
+      <strong>
+        Form → Function → Text → Meaning
+      </strong>
+
+      逐步进入新约原文。
+
+    </p>
+
   </div>
+
+
+
   <div class="course-card">
-    <div class="eyebrow">FOUNDATION COURSE</div>
-    <h2>圣经希腊文初阶 L01–L25</h2>
-    <p class="muted">以《圣经希腊文基础》的课程顺序为骨架。</p>
+
+    <div class="eyebrow">
+      FOUNDATION COURSE
+    </div>
+
+    <h2>
+      圣经希腊文初阶
+    </h2>
+
+    <p class="muted">
+      Lesson 01–25
+    </p>
+
+
     <div class="course-stat">
-      <div><strong id="completedLessons">0</strong><span>已完成</span></div>
-      <div><strong id="totalLessons">25</strong><span>总课程</span></div>
-      <div><strong id="courseProgress">0%</strong><span>完成度</span></div>
+
+      <div>
+
+        <strong id="completedLessons">
+          0
+        </strong>
+
+        <span>
+          已完成课程
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong id="totalLessons">
+          25
+        </strong>
+
+        <span>
+          总课程
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong id="courseProgress">
+          0%
+        </strong>
+
+        <span>
+          课程进度
+        </span>
+
+      </div>
+
     </div>
-    <div class="progress-track"><div id="homeProgressBar" class="progress-fill"></div></div>
-  </div>
-  <div class="card">
-    <div class="eyebrow">COURSE MAP</div>
-    <h3>完整初阶课程</h3>
-    <div id="lessonList" class="lesson-list"></div>
-  </div>
-  <div class="card">
-    <div class="eyebrow">LEARNING LOOP</div>
-    <div class="training-flow">
-      <span>WHY</span><b>→</b><span>GRAMMAR</span><b>→</b><span>FORM</span><b>→</b><span>TEXT</span><b>→</b><span>TEST</span><b>→</b><span>REVIEW</span>
+
+
+    <div class="progress-track">
+
+      <div
+        id="homeProgressBar"
+        class="progress-fill"
+      ></div>
+
     </div>
+
   </div>
-  <button id="reviewHomeBtn" class="secondary wide" type="button">🔁 学习记录</button>
+
+
+
+  <!-- ===================================================
+       VOCABULARY SUMMARY
+  ==================================================== -->
+
+  <div class="card">
+
+    <div class="eyebrow">
+      VOCABULARY MEMORY
+    </div>
+
+    <h3>
+      单字记忆
+    </h3>
+
+    <div class="vocab-summary">
+
+      <div>
+
+        <strong id="vocabTotal">
+          0
+        </strong>
+
+        <span>
+          已进入词库
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong id="vocabLearning">
+          0
+        </strong>
+
+        <span>
+          学习中
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong id="vocabMastered">
+          0
+        </strong>
+
+        <span>
+          已掌握
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong id="vocabDue">
+          0
+        </strong>
+
+        <span>
+          今日复习
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <button
+      id="openVocabReview"
+      class="secondary wide"
+      type="button"
+    >
+      🔁 开始今日单字复习
+    </button>
+
+  </div>
+
+
+
+  <!-- ===================================================
+       LESSON LIST
+  ==================================================== -->
+
+  <div class="card">
+
+    <div class="eyebrow">
+      COURSE MAP
+    </div>
+
+    <h3>
+      初阶课程
+    </h3>
+
+    <div
+      id="lessonList"
+      class="lesson-list"
+    ></div>
+
+  </div>
+
+
 </section>
 
-<section id="lesson" class="screen">
+
+
+<!-- =====================================================
+LESSON
+====================================================== -->
+
+<section
+  id="lesson"
+  class="screen"
+>
+
+
   <div class="screen-head">
-    <button id="lessonBackBtn" class="back" type="button">←</button>
-    <div><div id="lessonEyebrow" class="eyebrow">LESSON</div><h2 id="lessonTitle">Lesson</h2></div>
+
+    <button
+      id="lessonBackBtn"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div
+        id="lessonEyebrow"
+        class="eyebrow"
+      >
+        LESSON
+      </div>
+
+
+      <h2
+        id="lessonTitle"
+      >
+        Lesson
+      </h2>
+
+    </div>
+
   </div>
+
+
+
   <div class="lesson-head-card">
-    <div id="lessonReference" class="lesson-reference"></div>
-    <div id="lessonObjective" class="muted"></div>
-    <div class="lesson-progress-track"><div id="lessonProgress" class="progress-fill"></div></div>
+
+    <div
+      id="lessonReference"
+      class="lesson-reference"
+    ></div>
+
+    <div
+      id="lessonObjective"
+      class="muted"
+    ></div>
+
   </div>
-  <div id="lessonContent"></div>
+
+
+
+  <div
+    id="lessonContent"
+  ></div>
+
+
+
+  <div
+    id="lessonVocabulary"
+    class="vocabulary-panel"
+  ></div>
+
+
+
   <div class="lesson-nav">
-    <button id="lessonPrevBtn" class="secondary" type="button">← 上一课</button>
-    <button id="lessonNextBtn" class="primary" type="button">下一步 →</button>
+
+    <button
+      id="lessonPrevBtn"
+      class="secondary"
+      type="button"
+    >
+      ← 上一课
+    </button>
+
+
+    <button
+      id="lessonNextBtn"
+      class="primary"
+      type="button"
+    >
+      下一步 →
+    </button>
+
   </div>
+
+
 </section>
 
-<section id="review" class="screen">
-  <div class="screen-head"><button id="reviewBackBtn" class="back" type="button">←</button><div><div class="eyebrow">REVIEW</div><h2>学习记录</h2></div></div>
-  <div class="card"><div id="reviewList"></div></div>
+
+
+<!-- =====================================================
+VOCAB REVIEW
+====================================================== -->
+
+<section
+  id="vocabReview"
+  class="screen"
+>
+
+
+  <div class="screen-head">
+
+    <button
+      id="vocabReviewBack"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        VOCABULARY REVIEW
+      </div>
+
+      <h2>
+        单字复习
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div
+      id="reviewCounter"
+      class="muted"
+    >
+      今日复习
+    </div>
+
+
+    <div
+      id="vocabReviewArea"
+    ></div>
+
+  </div>
+
 </section>
+
+
+
+<!-- =====================================================
+COURSE REVIEW
+====================================================== -->
+
+<section
+  id="review"
+  class="screen"
+>
+
+  <div class="screen-head">
+
+    <button
+      id="reviewBackBtn"
+      class="back"
+      type="button"
+    >
+      ←
+    </button>
+
+
+    <div>
+
+      <div class="eyebrow">
+        COURSE REVIEW
+      </div>
+
+      <h2>
+        学习记录
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div
+      id="reviewList"
+    ></div>
+
+  </div>
+
+</section>
+
+
 </main>
-<footer>GBRM · Greek Bible Reading Model · Foundation</footer>
-<script src="app.js?v=100" defer></script>
+
+
+
+<footer>
+
+  GBRM · Greek Bible Reading Model · V1.1
+
+</footer>
+
+
+
+<script
+  src="app.js?v=110"
+  defer
+></script>
+
+
 </body>
+
 </html>
