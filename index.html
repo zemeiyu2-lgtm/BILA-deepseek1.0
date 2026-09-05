@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
 
   <meta charset="UTF-8">
@@ -16,12 +15,12 @@
   >
 
   <title>
-    GBRM V2.0｜Textbook Digital Engine
+    GBRM V2.1｜Textbook Lesson Engine
   </title>
 
   <link
     rel="stylesheet"
-    href="style.css?v=200"
+    href="style.css?v=210"
   >
 
 </head>
@@ -46,7 +45,7 @@
 
 
   <div class="version">
-    V2.0
+    V2.1
   </div>
 
 </header>
@@ -65,11 +64,10 @@ HOME
   class="screen active"
 >
 
-
   <div class="hero">
 
     <div class="eyebrow">
-      TEXTBOOK DIGITAL ENGINE
+      TEXTBOOK LESSON ENGINE
     </div>
 
     <h1>
@@ -77,7 +75,7 @@ HOME
     </h1>
 
     <p class="hero-subtitle">
-      Greek Bible Reading Model
+      教材数字化学习引擎
     </p>
 
     <p class="hero-description">
@@ -86,12 +84,14 @@ HOME
 
       <br>
 
-      原文负责把教材知识带进真实新约。
+      每一课都从教材出发，
 
-      <br>
+      再进入真实新约原文。
+
+      <br><br>
 
       <strong>
-        Learn → Practice → Read → Observe → Return
+        教材是主轴，原文是训练场。
       </strong>
 
     </p>
@@ -113,11 +113,6 @@ COURSE DASHBOARD
     <h2>
       圣经希腊文初阶
     </h2>
-
-    <p class="muted">
-      Textbook-driven learning
-    </p>
-
 
     <div class="course-stat">
 
@@ -196,13 +191,11 @@ LESSON MAP
     </div>
 
     <h3>
-      教材主线
+      教材课程主线
     </h3>
 
     <p class="muted">
-
-      所有原文训练都从这里进入。
-
+      课程顺序由教材决定。
     </p>
 
 
@@ -216,7 +209,7 @@ LESSON MAP
 
 
 <!-- =====================================================
-MEMORY
+REVIEW
 ====================================================== -->
 
   <div class="card">
@@ -230,9 +223,7 @@ MEMORY
     </h3>
 
     <p class="muted">
-
-      复习已经学过的教材词汇。
-
+      复习已经进入学习路径的教材词汇。
     </p>
 
 
@@ -241,7 +232,7 @@ MEMORY
       class="primary wide"
       type="button"
     >
-      📚 开始复习
+      📚 开始词汇复习
     </button>
 
   </div>
@@ -259,7 +250,7 @@ CORPUS
     </div>
 
     <h3>
-      真实新约训练资料
+      原文训练数据
     </h3>
 
 
@@ -311,7 +302,7 @@ CORPUS
       class="secondary wide"
       type="button"
     >
-      ⬇ 手动加载全新约
+      ⬇ 加载整个新约
     </button>
 
 
@@ -319,36 +310,32 @@ CORPUS
       id="corpusStatus"
       class="status-text"
     >
-      按课程需要自动加载
+      按当前课程自动加载
     </div>
 
   </div>
 
 
 
-<!-- =====================================================
-PRINCIPLE
-====================================================== -->
-
   <div class="notice-box">
 
     <strong>
-      GBRM V2.0
+      V2.1 核心
     </strong>
 
     <br><br>
 
-    教材不是资料之一。
+    Lesson 是最小教学单位。
 
     <br>
 
-    <strong>
-      教材就是系统的课程核心。
-    </strong>
+    所有词汇、语法、原文和复习都绑定到 Lesson。
 
     <br><br>
 
-    Corpus、Lemma、Morphology 都服务于当前教材课程。
+    <strong>
+      不允许原文工具脱离教材独立成为第二套课程。
+    </strong>
 
   </div>
 
@@ -450,7 +437,6 @@ LESSON
 
   </div>
 
-
 </section>
 
 
@@ -463,7 +449,6 @@ VOCAB REVIEW
   id="vocabReview"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -491,7 +476,6 @@ VOCAB REVIEW
   </div>
 
 
-
   <div class="card">
 
     <div
@@ -506,7 +490,6 @@ VOCAB REVIEW
 
   </div>
 
-
 </section>
 
 
@@ -519,7 +502,6 @@ CORPUS
   id="corpus"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -540,13 +522,12 @@ CORPUS
       ></div>
 
       <h2>
-        本课真实新约
+        本课原文训练
       </h2>
 
     </div>
 
   </div>
-
 
 
   <div class="card">
@@ -557,7 +538,6 @@ CORPUS
     ></div>
 
   </div>
-
 
 
   <div
@@ -577,7 +557,6 @@ LEMMA
   id="lemma"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -605,11 +584,9 @@ LEMMA
   </div>
 
 
-
   <div
     id="lemmaArea"
   ></div>
-
 
 </section>
 
@@ -623,7 +600,6 @@ VERSE
   id="verse"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -649,7 +625,6 @@ VERSE
     </div>
 
   </div>
-
 
 
   <div class="card">
@@ -678,9 +653,8 @@ VERSE
     class="secondary wide"
     type="button"
   >
-    ← 回到 Lemma
+    ← 返回上一级
   </button>
-
 
 </section>
 
@@ -692,18 +666,17 @@ VERSE
 
 <footer>
 
-  GBRM · Greek Bible Reading Model · V2.0
+  GBRM · Greek Bible Reading Model · V2.1
 
 </footer>
 
 
 
 <script
-  src="app.js?v=200"
+  src="app.js?v=210"
   defer
 ></script>
 
 
 </body>
-
 </html>
