@@ -1,34 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1.0,viewport-fit=cover"
-  >
-
-  <meta
-    name="theme-color"
-    content="#f5f1e7"
-  >
-
-  <title>
-    GBRM｜圣经古希腊文入门
-  </title>
-
-  <link
-    rel="stylesheet"
-    href="style.css?v=290"
-  >
-
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f1e7">
+  <title>GBRM V2.3.2｜圣经希腊文初阶</title>
+  <link rel="stylesheet" href="style.css?v=232">
 </head>
 
-
 <body>
-
 
 <header class="topbar">
 
@@ -45,11 +25,10 @@
   </div>
 
   <div class="version">
-    V2.9
+    V2.3.2
   </div>
 
 </header>
-
 
 
 <main class="app">
@@ -57,187 +36,109 @@
 
 <!-- =====================================================
 HOME
-====================================================== -->
+===================================================== -->
 
 <section
   id="home"
   class="screen active"
 >
 
-
-  <div class="portal-head">
+  <div class="hero compact-hero">
 
     <div class="eyebrow">
-      圣经古希腊文
+      NEW TESTAMENT GREEK · FOUNDATION
     </div>
 
     <h1>
-      每天进步一点点
+      GBRM
     </h1>
 
-    <p>
-      按教材学习。
+    <p class="hero-subtitle">
+      从教材进入新约原文
     </p>
 
   </div>
 
 
+  <div class="course-card">
 
-  <div class="today-card">
-
-    <div class="today-label">
-      今天继续
+    <div class="eyebrow">
+      FOUNDATION · MOUNCE
     </div>
 
-    <div
-      id="todayLessonNumber"
-      class="today-number"
-    >
-      L01
-    </div>
+    <h2>
+      圣经希腊文初阶
+    </h2>
 
-    <div
-      id="todayLessonTitle"
-      class="today-title"
-    >
-      希腊语
-    </div>
-
-    <div
-      id="todayLessonObjective"
-      class="today-objective"
-    >
-      今天要学习的内容。
-    </div>
+    <p class="muted">
+      第 1–25 课 · 第一阶段
+    </p>
 
 
-    <button
-      id="continueLesson"
-      class="primary wide"
-      type="button"
-    >
-      继续学习 →
-    </button>
+    <div class="course-stat">
 
-  </div>
+      <div>
+        <strong id="completedCount">
+          0
+        </strong>
+        <span>
+          已完成
+        </span>
+      </div>
 
+      <div>
+        <strong id="currentLessonDisplay">
+          L01
+        </strong>
+        <span>
+          当前课程
+        </span>
+      </div>
 
-
-  <div class="progress-card">
-
-    <div class="progress-head">
-
-      <span>
-        课程进度
-      </span>
-
-      <strong
-        id="coursePercent"
-      >
-        0%
-      </strong>
+      <div>
+        <strong id="coursePercent">
+          0%
+        </strong>
+        <span>
+          课程进度
+        </span>
+      </div>
 
     </div>
 
 
     <div class="progress-track">
-
       <div
         id="courseProgress"
         class="progress-fill"
       ></div>
-
-    </div>
-
-
-    <div
-      id="courseProgressText"
-      class="progress-text"
-    >
-      已完成 0 / 25 课
     </div>
 
   </div>
 
 
+  <!-- 当前课程快捷入口 -->
 
-  <div class="portal-grid">
-
-    <button
-      id="openLessons"
-      class="portal-item"
-      type="button"
-    >
-
-      <span class="portal-icon">
-        课程
-      </span>
-
-      <strong>
-        教材课程
-      </strong>
-
-      <small>
-        按教材顺序学习
-      </small>
-
-    </button>
+  <div id="continueArea"></div>
 
 
-    <button
-      id="startVocabularyReview"
-      class="portal-item"
-      type="button"
-    >
+  <!-- ===================================================
+       第一界面直接显示课程选择
+  ==================================================== -->
 
-      <span class="portal-icon">
-        词汇
-      </span>
+  <div class="card course-gateway">
 
-      <strong>
-        词汇复习
-      </strong>
-
-      <small>
-        复习已经学过的词
-      </small>
-
-    </button>
-
-  </div>
-
-
-
-  <div
-    id="lessonPanel"
-    class="card lesson-panel hidden"
-  >
-
-    <div class="panel-head">
-
-      <div>
-
-        <div class="eyebrow">
-          课程
-        </div>
-
-        <h3>
-          教材课程
-        </h3>
-
-      </div>
-
-
-      <button
-        id="closeLessons"
-        class="small-button"
-        type="button"
-      >
-        收起
-      </button>
-
+    <div class="eyebrow">
+      教材课程
     </div>
 
+    <h3>
+      选择课程
+    </h3>
+
+    <p class="muted">
+      按教材顺序学习，也可以直接进入任意一课。
+    </p>
 
     <div
       id="lessonList"
@@ -247,6 +148,32 @@ HOME
   </div>
 
 
+  <!-- 词汇复习 -->
+
+  <div class="card">
+
+    <div class="eyebrow">
+      MEMORY
+    </div>
+
+    <h3>
+      教材词汇复习
+    </h3>
+
+    <p class="muted">
+      复习已经学习过的教材词汇。
+    </p>
+
+    <button
+      id="startVocabularyReview"
+      class="primary wide"
+      type="button"
+    >
+      开始词汇复习
+    </button>
+
+  </div>
+
 
 </section>
 
@@ -254,13 +181,12 @@ HOME
 
 <!-- =====================================================
 LESSON
-====================================================== -->
+===================================================== -->
 
 <section
   id="lesson"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -272,7 +198,6 @@ LESSON
       ←
     </button>
 
-
     <div>
 
       <div
@@ -280,14 +205,11 @@ LESSON
         class="eyebrow"
       ></div>
 
-      <h2
-        id="lessonTitle"
-      ></h2>
+      <h2 id="lessonTitle"></h2>
 
     </div>
 
   </div>
-
 
 
   <div
@@ -296,14 +218,12 @@ LESSON
   ></div>
 
 
-
   <div class="lesson-progress">
 
     <div
       id="lessonStepText"
       class="lesson-step-text"
     ></div>
-
 
     <div class="progress-track">
 
@@ -317,11 +237,7 @@ LESSON
   </div>
 
 
-
-  <div
-    id="lessonArea"
-  ></div>
-
+  <div id="lessonArea"></div>
 
 
   <div class="lesson-actions">
@@ -334,7 +250,6 @@ LESSON
       ← 上一步
     </button>
 
-
     <button
       id="lessonNext"
       class="primary"
@@ -345,20 +260,18 @@ LESSON
 
   </div>
 
-
 </section>
 
 
 
 <!-- =====================================================
 VOCAB REVIEW
-====================================================== -->
+===================================================== -->
 
 <section
   id="vocabReview"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -370,21 +283,19 @@ VOCAB REVIEW
       ←
     </button>
 
-
     <div>
 
       <div class="eyebrow">
-        词汇复习
+        TEXTBOOK MEMORY
       </div>
 
       <h2>
-        再见一次
+        词汇复习
       </h2>
 
     </div>
 
   </div>
-
 
 
   <div class="card">
@@ -394,13 +305,11 @@ VOCAB REVIEW
       class="muted"
     ></div>
 
-
     <div
       id="vocabReviewArea"
     ></div>
 
   </div>
-
 
 </section>
 
@@ -408,13 +317,12 @@ VOCAB REVIEW
 
 <!-- =====================================================
 CORPUS
-====================================================== -->
+===================================================== -->
 
 <section
   id="corpus"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -426,7 +334,6 @@ CORPUS
       ←
     </button>
 
-
     <div>
 
       <div
@@ -435,7 +342,7 @@ CORPUS
       ></div>
 
       <h2>
-        原文训练
+        真实新约训练
       </h2>
 
     </div>
@@ -443,11 +350,17 @@ CORPUS
   </div>
 
 
+  <div class="card">
 
-  <div
-    id="corpusArea"
-  ></div>
+    <div
+      id="corpusLessonObjective"
+      class="muted"
+    ></div>
 
+  </div>
+
+
+  <div id="corpusArea"></div>
 
 </section>
 
@@ -455,13 +368,12 @@ CORPUS
 
 <!-- =====================================================
 LEMMA
-====================================================== -->
+===================================================== -->
 
 <section
   id="lemma"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -473,15 +385,14 @@ LEMMA
       ←
     </button>
 
-
     <div>
 
       <div class="eyebrow">
-        词形
+        LESSON EXTENSION
       </div>
 
       <h2>
-        这个词
+        Lemma
       </h2>
 
     </div>
@@ -489,11 +400,7 @@ LEMMA
   </div>
 
 
-
-  <div
-    id="lemmaArea"
-  ></div>
-
+  <div id="lemmaArea"></div>
 
 </section>
 
@@ -501,13 +408,12 @@ LEMMA
 
 <!-- =====================================================
 VERSE
-====================================================== -->
+===================================================== -->
 
 <section
   id="verse"
   class="screen"
 >
-
 
   <div class="screen-head">
 
@@ -519,21 +425,19 @@ VERSE
       ←
     </button>
 
-
     <div>
 
       <div class="eyebrow">
-        真实新约
+        REAL NEW TESTAMENT
       </div>
 
       <h2>
-        经文
+        真实经文
       </h2>
 
     </div>
 
   </div>
-
 
 
   <div class="card">
@@ -543,28 +447,23 @@ VERSE
       class="verse-reference"
     ></div>
 
-
     <div
       id="verseText"
       class="verse-text"
     ></div>
 
-
-    <div
-      id="verseDetail"
-    ></div>
+    <div id="verseDetail"></div>
 
   </div>
 
 
   <button
-    id="verseBackButton"
+    id="verseLemmaButton"
     class="secondary wide"
     type="button"
   >
-    ← 返回
+    ← 返回上一级
   </button>
-
 
 </section>
 
@@ -574,18 +473,14 @@ VERSE
 
 
 <footer>
-
-  GBRM · Greek Bible Reading Model
-
+  GBRM · Greek Bible Reading Model · V2.3.2
 </footer>
 
 
-
 <script
-  src="app.js?v=290"
+  src="app.js?v=232"
   defer
 ></script>
-
 
 </body>
 </html>
